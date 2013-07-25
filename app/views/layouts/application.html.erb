@@ -15,13 +15,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#">Punto Ticket</a>
+        <%= link_to "Punto Ticket", root_path, :class => 'brand' %>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><%= link_to "Browse Products" %></li>
-            <li><%= link_to "Price List" %></li>
-            <li><%= link_to "Contact Us" %></li>
-            <li><%= link_to "Cart" %></li>
+            <li><%= link_to "Nuestros servicios", features_path %></li>
+            <li><%= link_to "¿Como funciona?", how_works_path %></li>
+            <li><%= link_to "Crear evento", new_event_path %></li>
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
             <li><%= link_to "Browse Products" %></li>
