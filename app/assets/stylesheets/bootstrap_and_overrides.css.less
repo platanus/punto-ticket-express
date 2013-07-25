@@ -1,0 +1,28 @@
+@import 'twitter/bootstrap';
+// this is a test of modifiying bootstrap.less
+body {
+  padding-top: 60px;
+}
+// Custom colors:
+@black:   #200;
+@redDark: darken(@red, 5);
+@linkColor: @redDark;
+@titleColor: lighten(@red, 10);
+// Copied from vendor/frameworks/twitter/bootstrap/patterns.less in less-rails-bootstrap
+.btn {
+  // Primary Button Type
+  &.primary {
+    color: @white;
+    .gradientBar(@red, @redDark)
+  }
+}
+.topbar {
+
+  a {
+    color: @titleColor;
+  }
+  // Website name
+  .brand {
+    color: @titleColor;
+  }
+}
