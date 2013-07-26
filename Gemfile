@@ -21,7 +21,7 @@ group :assets do
 end
 
 group :production do
-  gem 'unicron'
+  gem 'unicorn'
 end
 
 gem 'jquery-rails'
