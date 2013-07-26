@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name
   attr_accessible :ticket_types_attributes, :is_published
 
+  validates :user_id, :address, :description, :name, :organizer_name, :organizer_description, presence: true
+
   belongs_to :user
   has_many :ticket_types
 
