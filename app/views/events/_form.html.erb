@@ -1,41 +1,55 @@
-<%= form_for(@event) do |f| %>
-  <% if @event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
-      <ul>
-      <% @event.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @event, html: {class: "form-horizontal well"} do |f| %>
+  <fieldset>
+    <legend>Event details</legend>
+    <% if @event.errors.any? %>
+      <div id="error_explanation" class="alert alert-error">
+        <h4 class="alert-heading"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h4>
+        <br />
+        <ul>
+        <% @event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label :name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'input-xlarge' %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :organizer_name %><br />
-    <%= f.text_field :organizer_name %>
-  </div>
-  <div class="field">
-    <%= f.label :organizer_description %><br />
-    <%= f.text_area :organizer_description %>
-  </div>
-  <div class="field">
-    <%= f.label :custom_url %><br />
-    <%= f.text_field :custom_url %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="control-group">
+      <%= f.label :address, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :address, :class => 'input-xlarge' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :description, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, :rows => '3', :class => 'input-xlarge' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :organizer_name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :organizer_name, :class => 'input-xlarge' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :organizer_description, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :organizer_description, :rows => '3', :class => 'input-xlarge' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :custom_url, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :custom_url, :class => 'input-xlarge' %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit 'Create event', :class => 'btn btn-primary'  %>
+    </div>
+  </fieldset>
 <% end %>
