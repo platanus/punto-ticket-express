@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :address, :custom_url, :description, :name, :organizer_name
   # relationship
   belongs_to :user
-  has_many :ticket_types
+  has_many :ticket_types, :dependent => :destroy
 
   accepts_nested_attributes_for :ticket_types
 end

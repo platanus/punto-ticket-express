@@ -1,5 +1,8 @@
 class TicketType < ActiveRecord::Base
-  attr_accessible :event_id, :name, :price, :quantity
-
+  # attrs
+  attr_accessible :event_id, :name, :price, :quantity, :event_id
+  # validations
+  validates_presence_of :name, :price, :quantity
+  # relationship
   belongs_to :event
 end
