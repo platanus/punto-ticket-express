@@ -51,6 +51,32 @@
 
   </fieldset>
 
+  <fieldset>
+    <legend>Create tickets</legend>
+    <div class="control-group text-center">
+      <button ng-click="addTicket()" type="button" class="btn btn-success">Add ticket</button>
+    </div>
+    <br />
+    <table class="table table-bordered" ng-show="tickets.length" ng-animate="{show: 'event-show', hide: 'event-hide'}">
+      <thead>
+        <tr>
+          <th >Name</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th></th>
+        </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="ticket in tickets">
+          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{ticket.id}}][name]"></td>
+          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{ticket.id}}][price]"></td>
+          <td><input class="input-small" type="text" ng-model="ticket.quantity" value="{{ticket.quantity}}"></td>
+          <td><a class="close" ng-click="deleteTicket(ticket)">×</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
 
   <div class="form-actions">
     <%= f.submit 'Create event', :class => 'btn btn-success'  %>
