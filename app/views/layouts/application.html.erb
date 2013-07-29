@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="puntoTicketApp">
 <head>
   <title>PuntoTicketExpress</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -23,8 +23,12 @@
             <li><%= link_to "Crear evento", new_event_path %></li>
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
+            <% if user_signed_in? %>
+            <li><%= link_to current_user.email %></li>
+            <% else %>
             <li><%= link_to "Log in", new_user_session_path %></li>
             <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -33,12 +37,11 @@
 
   <div class="container"> <%= yield %> </div>
 
-  <footer class="well navbar-fixed-bottom">
-    <div class="container">
-      <div class="row">
-        <div class="span12"></div>
+  <footer class="footer well navbar-fixed-bottom">
+      <div class="container">
+        <p>Diseñado y construido por <a href="platan.us" target="_blank">Platanus SpA</a>, 2013 </p>
       </div>
-    </div>
   </footer>
+
 </body>
 </html>
