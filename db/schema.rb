@@ -53,14 +53,12 @@ ActiveRecord::Schema.define(:version => 20130730021036) do
     t.string   "organizer_name"
     t.text     "organizer_description"
     t.string   "custom_url"
-    t.datetime "start"
-    t.datetime "end"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
     t.integer  "user_id"
     t.boolean  "is_published",          :default => false
-    t.datetime "start_data_time"
-    t.datetime "end_data_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
   end
 
   create_table "ticket_types", :force => true do |t|
