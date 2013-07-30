@@ -52,20 +52,20 @@
       <%= f.label 'Date & time', :class => 'control-label' %>
       <div class="controls">
         <div class="control-group input-append">
-          <input name="event[start_date]" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+          <input name="start_date" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker>
           <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
         </div>
         <div class="control-group input-append">
-          <input name="event[start_time]" class="input-mini" type="text" ng-model="timepicker.startTime" bs-timepicker>
+          <input name="start_time" class="input-mini" type="text" ng-model="timepicker.startTime" bs-timepicker>
           <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
         </div>
         -
         <div class="control-group input-append">
-          <input name="event[end_date]" class="input-small" type="text" ng-model="datepicker.endDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+          <input name="end_date" class="input-small" type="text" ng-model="datepicker.endDate" data-date-format="dd/mm/yyyy" bs-datepicker>
           <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
         </div>
         <div class="control-group input-append">
-          <input name="event[end_time]" class="input-mini" type="text" ng-model="timepicker.endTime" bs-timepicker>
+          <input name="end_time" class="input-mini" type="text" ng-model="timepicker.endTime" bs-timepicker>
           <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
         </div>
       </div>
