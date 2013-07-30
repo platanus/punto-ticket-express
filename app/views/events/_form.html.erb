@@ -90,10 +90,10 @@
       </thead>
       <tbody>
         <tr ng-repeat="ticket in tickets">
-          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{ticket.id}}][name]"></td>
-          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{ticket.id}}][price]"></td>
-          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{ticket.id}}][quantity]"></td>
-          <td><a class="close" ng-click="deleteTicket(ticket)">×</a></td>
+          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{$index}}][name]"></td>
+          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{$index}}][price]"></td>
+          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{$index}}][quantity]"></td>
+          <td><a class="close" ng-click="deleteTicket($index)">×</a></td>
         </tr>
       </tbody>
     </table>
