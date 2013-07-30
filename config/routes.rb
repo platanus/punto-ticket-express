@@ -1,10 +1,14 @@
 PuntoTicketExpress::Application.routes.draw do
 
+
+
   # ROOT
   root :to => "home#index"
 
   # DEVISE
   devise_for :users
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
   #RESOURCES
   resources :events
