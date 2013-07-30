@@ -7,11 +7,10 @@ angular.module('puntoTicketApp.controllers').controller('EventCtrl', function ($
   $scope.timepicker = {startTime: nowTime, endTime: nowTime};
 
   $scope.addTicket = function() {
-    $scope.tickets.push({id:_.size($scope.tickets), name:"", price:"", qty:0});
+    $scope.tickets.push({name:"", price:"", qty:0});
   };
 
-  $scope.deleteTicket = function(ticket) {
-    var index = $scope.tickets.indexOf(ticket);
-    $scope.tickets.splice(index,1);
+  $scope.deleteTicket = function(index) {
+    $scope.tickets.splice(index, 1);
   };
 });
