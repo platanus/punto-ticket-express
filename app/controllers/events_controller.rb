@@ -1,3 +1,5 @@
+require 'chronic'
+
 class EventsController < ApplicationController
   # Devise authentication
   before_filter :authenticate_user!
@@ -45,6 +47,10 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(params[:event])
+
+    # parsing dates and times from Javascript to Rails
+    @event.start = Chronic::parse("#{params[:event][:start_date]} #{params[:event][:start_time]}")
+    @event.end = Chronic::parse("#{params[:event][:end_date]} #{params[:event][:end_time]}")
 
     respond_to do |format|
       if @event.save

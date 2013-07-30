@@ -7,6 +7,8 @@ class CreateEvents < ActiveRecord::Migration
       t.string :organizer_name
       t.text :organizer_description
       t.string :custom_url
+      t.datetime :start
+      t.datetime :end
 
       t.timestamps
     end

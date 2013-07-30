@@ -48,7 +48,28 @@
         <%= f.text_field :custom_url, :class => 'input-xlarge' %>
       </div>
     </div>
-
+    <div class="control-group">
+      <%= f.label 'Date & time', :class => 'control-label' %>
+      <div class="controls">
+        <div class="control-group input-append">
+          <input name="event[start_date]" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+          <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+        </div>
+        <div class="control-group input-append">
+          <input name="event[start_time]" class="input-mini" type="text" ng-model="timepicker.startTime" bs-timepicker>
+          <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
+        </div>
+        -
+        <div class="control-group input-append">
+          <input name="event[end_date]" class="input-small" type="text" ng-model="datepicker.endDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+          <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+        </div>
+        <div class="control-group input-append">
+          <input name="event[end_time]" class="input-mini" type="text" ng-model="timepicker.endTime" bs-timepicker>
+          <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
+        </div>
+      </div>
+    </div>
   </fieldset>
 
   <fieldset>
@@ -71,7 +92,7 @@
         <tr ng-repeat="ticket in tickets">
           <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{ticket.id}}][name]"></td>
           <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{ticket.id}}][price]"></td>
-          <td><input class="input-small" type="text" ng-model="ticket.quantity" value="{{ticket.quantity}}"></td>
+          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{ticket.id}}][quantity]"></td>
           <td><a class="close" ng-click="deleteTicket(ticket)">×</a></td>
         </tr>
       </tbody>

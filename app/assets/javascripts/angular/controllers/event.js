@@ -1,8 +1,13 @@
-App.controller('EventCtrl', function ($scope) {
+angular.module('puntoTicketApp.controllers').controller('EventCtrl', function ($scope, $filter) {
   $scope.tickets = [];
 
+  var nowDate = new Date();
+  var nowTime = $filter('date')(nowDate, 'h:mm a');
+  $scope.datepicker = {startDate: nowDate, endDate: nowDate};
+  $scope.timepicker = {startTime: nowTime, endTime: nowTime};
+
   $scope.addTicket = function() {
-    $scope.tickets.push({id:_.size($scope.tickets), name:"", price:"", quantity:0});
+    $scope.tickets.push({id:_.size($scope.tickets), name:"", price:"", qty:0});
   };
 
   $scope.deleteTicket = function(ticket) {
