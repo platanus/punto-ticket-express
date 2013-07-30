@@ -4,7 +4,6 @@
   "dependencies": {
     "angular": "1.0",
     "underscore": "1.5.1",
-    "bootstrap-datepicker" : "1.0",
-    "bootstrap-timepicker" : "0.2.3"
+    "bootstrap-datepicker" : "1.0.0"
   }
 }
