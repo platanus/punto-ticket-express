@@ -11,6 +11,6 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require bootstrap-datepicker/css/datepicker
- *= require ./lib/bootstrap-timepicker.min
+ *= require bootstrap-timepicker/css/bootstrap-timepicker
  * require_tree .
  */

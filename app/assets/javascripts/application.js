@@ -14,8 +14,10 @@
 //= require jquery_ujs
 //= require underscore/underscore
 //= require angular/angular
+//= require angular-bootstrap/ui-bootstrap-tpls
+//= require angular-strap/dist/angular-strap
 //= require bootstrap-datepicker/js/bootstrap-datepicker
-//= require ./lib/bootstrap-timepicker.min
+//= require bootstrap-timepicker/js/bootstrap-timepicker
 //= require app.js
 //= require_tree ./angular
 // require_tree .
