@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time
 
   # validations
-  validates_presence_of :address, :custom_url, :description, :name, :organizer_name
+  validates_presence_of :address, :description, :name, :organizer_name
 
   # relationship
   belongs_to :user
