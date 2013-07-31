@@ -1,0 +1,17 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+es:
+  activerecord:
+    models:
+      event:
+        one: Evento
+        other: Eventos
+    attributes:
+      event:
+        name: Nombre
+        address: Dirección
+        description: Descripción
+        organizer_name: Nombre del Organizador
+        organizer_description: Descripción del Organizador
+        custom_url: Dirección Web Personalizada
