@@ -1,6 +1,6 @@
 <%= form_for @event, html: {class: "well"} do |f| %>
   <fieldset class="form-horizontal">
-    <legend>Event details</legend>
+    <legend>Detalles del Evento</legend>
     <% if @event.errors.any? %>
       <div id="error_explanation" class="alert alert-error">
         <h4 class="alert-heading"><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h4>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <div class="control-group">
-      <%= f.label 'Date & time', :class => 'control-label' %>
+      <%= f.label 'Fecha y Horario', :class => 'control-label' %>
       <div class="controls">
         <div class="control-group input-append">
           <input name="start_date" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker>
@@ -73,17 +73,17 @@
   </fieldset>
 
   <fieldset>
-    <legend>Create tickets</legend>
+    <legend>Crea los Tickets</legend>
     <div class="control-group text-center">
-      <button ng-click="addTicket()" type="button" class="btn btn-success">Add ticket</button>
+      <button ng-click="addTicket()" type="button" class="btn btn-success">Agrega un ticket</button>
     </div>
     <br />
     <table class="table table-bordered" ng-show="tickets.length" ng-animate="{show: 'event-show', hide: 'event-hide'}">
       <thead>
         <tr>
-          <th >Name</th>
-          <th>Price</th>
-          <th>Qty</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
           <th></th>
         </th>
         </tr>
@@ -100,7 +100,7 @@
   </fieldset>
 
   <div class="form-actions">
-    <%= f.submit 'Create event', :class => 'btn btn-success'  %>
+    <%= f.submit 'Publicar', :class => 'btn btn-success'  %>
   </div>
 
 <% end %>
