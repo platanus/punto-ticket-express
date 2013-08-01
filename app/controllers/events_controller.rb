@@ -4,10 +4,13 @@ class EventsController < ApplicationController
   # Devise authentication
   before_filter :authenticate_user!
 
+  # Limit at current user to see own objects
+  before_filter :find_post, :only => [:show, :edit, :update, :destroy]
+
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = current_user.events
 
     respond_to do |format|
       format.html # index.html.erb
@@ -30,7 +33,6 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-    3.times { @event.ticket_types.build }
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,17 +49,16 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
 
-    #
+    # publishing or saving
     params[:event][:is_published] = params[:publish] ? true : false
+
     # prepare event params
+    # parsing dates and times from Javascript to Rails
     params[:event][:start_time] = Chronic.parse "#{params[:start_date]} #{params[:start_time]}"
     params[:event][:end_time] = Chronic.parse "#{params[:end_date]} #{params[:end_time]}"
 
-    @event = Event.new(params[:event])
-
-    # parsing dates and times from Javascript to Rails
-    #@event.start = Chronic::parse("#{params[:event][:start_date]} #{params[:event][:start_time]}")
-    #@event.end = Chronic::parse("#{params[:event][:end_date]} #{params[:event][:end_time]}")
+    # creates the object and reference the current user
+    @event = current_user.events.build(params[:event])
 
     respond_to do |format|
       if @event.save
@@ -97,4 +98,10 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  protected
+    def find_post
+      @post = current_user.events.find(params[:id])
+    end
+
 end
