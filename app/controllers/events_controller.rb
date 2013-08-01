@@ -46,6 +46,9 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
+
+    #
+    params[:event][:is_published] = params[:publish] ? true : false
     # prepare event params
     params[:event][:start_time] = Chronic.parse "#{params[:start_date]} #{params[:start_time]}"
     params[:event][:end_time] = Chronic.parse "#{params[:end_date]} #{params[:end_time]}"
