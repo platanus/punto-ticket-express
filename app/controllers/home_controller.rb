@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @events = Event.where :is_published => true
+    @events = Event.published?
   end
 end
