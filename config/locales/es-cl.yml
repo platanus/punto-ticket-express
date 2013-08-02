@@ -4,10 +4,16 @@
 es:
   activerecord:
     models:
+      admin_user:
+        one: Administrador
+        other: Administradores
       event:
         one: Evento
         other: Eventos
     attributes:
+      admin_user:
+        email: email
+        password: password
       event:
         name: Nombre
         address: Dirección

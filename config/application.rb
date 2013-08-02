@@ -63,7 +63,12 @@ module PuntoTicketExpress
     config.assets.version = '1.0'
 
     # Default location
-    config.i18n.default_locale = :es
+    config.i18n.available_locales = ['es-CL']
+    config.i18n.default_locale = 'es-CL'
     I18n.locale = config.i18n.locale = config.i18n.default_locale
+
+    # fallback location
+    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [:es]
   end
 end
