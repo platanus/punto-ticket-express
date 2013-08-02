@@ -21,3 +21,4 @@ es:
         organizer_name: Nombre del Organizador
         organizer_description: Descripción del Organizador
         custom_url: Dirección Web Personalizada
+        is_published: ¿Publicado?
