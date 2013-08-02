@@ -22,3 +22,5 @@ es:
         organizer_description: Descripción del Organizador
         custom_url: Dirección Web Personalizada
         is_published: ¿Publicado?
+        start_time: Inicio
+        end_time: Fin

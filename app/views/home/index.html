@@ -1,14 +1,14 @@
 <div class="page-header">
-  <h1>Listing events</h1>
+  <h1>Últimos Eventos</h1>
 </div>
 
 <table class="table table-striped">
   <tr>
-    <th>Name</th>
-    <th>Address</th>
-    <th>Description</th>
-    <th>Start time</th>
-    <th>End time</th>
+    <th><%=t 'activerecord.attributes.event.name' %></th>
+    <th><%=t 'activerecord.attributes.event.address' %></th>
+    <th><%=t 'activerecord.attributes.event.description' %></th>
+    <th><%=t 'activerecord.attributes.event.start_time' %></th>
+    <th><%=t 'activerecord.attributes.event.end_time' %></th>
     <th></th>
   </tr>
 
@@ -17,8 +17,8 @@
     <td><%= event.name %></td>
     <td><%= event.address %></td>
     <td><%= event.description %></td>
-    <td><%= event.start_time %></td>
-    <td><%= event.end_time %></td>
+    <td><%= l event.start_time, format: :short %></td>
+    <td><%= l event.end_time, format: :short %></td>
     <td><%= link_to 'Show', event, :class => 'btn btn-mini' %></td>
   </tr>
 <% end %>

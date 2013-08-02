@@ -1,5 +1,5 @@
 <div class="page-header span7">
-  <h2>Sign up</h2>
+  <h2>Crea una cuenta</h2>
 </div>
 
 <div class="row">
@@ -27,16 +27,15 @@
       </div>
 
       <div class="control-group">
-        <%= f.label :password_confirmation, :class => 'control-label' %>
+        <%= f.label "Confirmación Password", :class => 'control-label' %>
         <div class="controls">
           <%= f.text_field :password_confirmation, :class => 'input-xlarge', :type => 'password' %>
         </div>
       </div>
 
       <div class="form-actions">
-        <%= f.submit 'Sign up', :class => 'btn btn-success'  %>
-        <%= link_to 'Sign in', new_user_session_path %>
-        <%= link_to 'Forgot your password?', new_user_password_path %>
+        <%= f.submit 'Crear', :class => 'btn btn-success'  %>
+        <%= link_to 'Ya tengo una cuenta', new_user_session_path %>
       </div>
 
       </fieldset>
