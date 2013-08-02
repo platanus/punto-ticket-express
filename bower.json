@@ -2,7 +2,7 @@
   "name": "PuntoTicketExpress",
   "version": "1.0.0",
   "dependencies": {
-    "angular": "1.0",
+    "unstable-angular-complete": "1.1.5",
     "underscore": "1.5.1",
     "angular-bootstrap": "0.4",
     "angular-strap": "~0.7.5"
