@@ -13,5 +13,5 @@ class Event < ActiveRecord::Base
   has_many :ticket_types, :dependent => :destroy
   accepts_nested_attributes_for :ticket_types
 
-  # CALLBACKS
+  scope :published?, -> { where is_published: true }
 end
