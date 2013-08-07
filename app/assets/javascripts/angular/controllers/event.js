@@ -14,5 +14,9 @@ angular.module('puntoTicketApp.controllers')
     $scope.deleteTicket = function(index) {
       $scope.tickets.splice(index, 1);
     };
+
+    $scope.allowValidation = function () {
+      $scope.$broadcast('kickOffValidations');
+    };
   }
 ]);

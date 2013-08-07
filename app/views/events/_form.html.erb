@@ -1,4 +1,4 @@
-<%= form_for @event, html: {class: "well"} do |f| %>
+<%= form_for @event, html: {name: 'form', class: 'well', novalidate: true} do |f| %>
   <fieldset class="form-horizontal">
     <legend>Detalles del Evento</legend>
     <% if @event.errors.any? %>
@@ -15,13 +15,33 @@
     <div class="control-group">
       <%= f.label :name, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name, :class => 'input-xlarge' %>
+        <%= f.text_field :name,
+          :class => 'input-xlarge',
+          'ng-model' => 'events.name',
+          'validate-type' => 'requireds',
+          'form-validate' => '',
+          'required' => ''
+        %>
+        <!-- custom validation -->
+        <div ng-show="form['event[name]'].$error.requireds" class="input-help">
+          <h4>Debe rellenar el nombre</h4>
+        </div>
       </div>
     </div>
     <div class="control-group">
       <%= f.label :address, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :address, :class => 'input-xlarge' %>
+        <%= f.text_field :address,
+          :class => 'input-xlarge',
+          'ng-model' => 'events.name',
+          'validate-type' => 'requireds',
+          'form-validate' => '',
+          'required' => ''
+        %>
+        <!-- custom validation -->
+        <div ng-show="form['event[address]'].$error.requireds" class="input-help">
+          <h4>Debe rellenar la dirección</h4>
+        </div>
       </div>
     </div>
     <div class="control-group">
@@ -48,11 +68,16 @@
         <%= f.text_field :custom_url, :class => 'input-xlarge' %>
       </div>
     </div>
+
     <div class="control-group">
       <%= f.label 'Fecha y Horario', :class => 'control-label' %>
       <div class="controls">
         <div class="control-group input-append">
-          <input name="start_date" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+          <input name="start_date" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker required>
+          <!-- you must define a filter to accept more than one validation -->
+          <div ng-show="form.start_date.$error.date" class="input-help">
+            <h4>El formato de fecha no es valido</h4>
+          </div>
           <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
         </div>
         <div class="control-group input-append">
@@ -70,10 +95,17 @@
         </div>
       </div>
     </div>
+
   </fieldset>
 
   <fieldset>
     <legend>Crea los Tickets</legend>
+
+    <form-validate name="events" ng-model="tickets" validate-type="minRepeat" required>
+    <div ng-show="form.events.$error.minRepeat" class="alert alert-error">
+      <h4>Debe crear al menos un tipo de ticket para publicar este evento.</h4>
+    </div>
+
     <div class="control-group text-center">
       <button ng-click="addTicket()" type="button" class="btn btn-success">Agrega un ticket</button>
     </div>
@@ -90,9 +122,9 @@
       </thead>
       <tbody>
         <tr ng-repeat="ticket in tickets">
-          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{$index}}][name]"></td>
-          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{$index}}][price]"></td>
-          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{$index}}][quantity]"></td>
+          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{$index}}][name]" required></td>
+          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{$index}}][price]" required></td>
+          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{$index}}][quantity]" required></td>
           <td><a class="close" ng-click="deleteTicket($index)">×</a></td>
         </tr>
       </tbody>
@@ -101,7 +133,8 @@
 
   <div class="form-actions">
     <%= f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'  %>
-    <%= f.submit "Guardar evento", :class => 'btn btn-large' %>
+    <input class="btn btn-large" name="commit" type="submit" value="Guardar evento" ng-show="form.$valid">
+    <input value="Guardar evento" type="button" class="btn btn-large" ng-click="allowValidation()" ng-show="form.$invalid">
   </div>
 
 <% end %>
