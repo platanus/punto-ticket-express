@@ -8,6 +8,7 @@
     <th><%=t 'activerecord.attributes.event.address' %></th>
     <th><%=t 'activerecord.attributes.event.description' %></th>
     <th><%=t 'activerecord.attributes.event.start_time' %></th>
+    <th><%=t 'activerecord.attributes.event.is_published' %></th>
     <th></th>
     <th></th>
   </tr>
@@ -18,6 +19,7 @@
     <td><%= event.address %></td>
     <td><%= event.description %></td>
     <td><%= l event.start_time, format: :short %></td>
+    <td><%= boolean_to_words(event.is_published) %></td>
     <td><%= link_to 'Ver', event, :class => 'btn btn-mini' %></td>
     <td><%= link_to 'Editar', edit_event_path(event), :class => 'btn btn-mini' %></td>
   </tr>
