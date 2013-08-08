@@ -23,6 +23,7 @@
             <li><%= link_to "Nuestros servicios", features_path %></li>
             <li><%= link_to "¿Como funciona?", how_works_path %></li>
             <li><%= link_to "Crear evento", new_event_path %></li>
+            <li><%= link_to("mis eventos", events_path)  if user_signed_in? %></li>
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
             <% if user_signed_in? %>
@@ -43,6 +44,7 @@
 
               <li><%= link_to "Iniciar Sesión", new_user_session_path %></li>
               <li><%= link_to "Crear Cuenta", new_user_registration_path %></li>
+
             <% end %>
           </ul>
         </div>
