@@ -1,24 +1,17 @@
 PuntoTicketExpress::Application.routes.draw do
-  require 'domains'
 
-  constraints(Subdomain) do
-    match '/' => 'events#show'
-  end
+  # ROOT
+  root :to => "home#index"
 
-  constraints(RootDomain) do
-    # ROOT
-    root :to => "home#index"
+  # DEVISE
+  devise_for :users
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
-    # DEVISE
-    devise_for :users
-    devise_for :admin_users, ActiveAdmin::Devise.config
-    ActiveAdmin.routes(self)
+  #RESOURCES
+  resources :events
 
-    #RESOURCES
-    resources :events
-
-    # CUSTOM PAGES
-    get '/features', to: 'features#index'
-    get '/how_works', to: 'how_works#index'
-  end
+  # CUSTOM PAGES
+  get '/features', to: 'features#index'
+  get '/how_works', to: 'how_works#index'
 end
