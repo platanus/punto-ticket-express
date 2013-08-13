@@ -13,5 +13,9 @@ module PTE
         end
       end
     end
+
+    def self.is_valid? status_name
+      PTE::PaymentStatus::STATUSES.include? status_name.to_sym
+    end
   end
 end

@@ -100,6 +100,11 @@ es:
       year: Año
   errors: &errors
     format: ! '%{attribute} %{message}'
+    models:
+      ticket:
+        invalid_payment_type: debe ser un estado de pago válido
+        invalid_ticket_type_given: el tipo de ticket no existe
+        invalid_user_given: el usuario no existe
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco
