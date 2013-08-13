@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730021036) do
+ActiveRecord::Schema.define(:version => 20130813213317) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(:version => 20130730021036) do
     t.datetime "end_time"
   end
 
+  create_table "payment_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "ticket_types", :force => true do |t|
     t.integer  "event_id"
     t.string   "name"
@@ -68,6 +74,15 @@ ActiveRecord::Schema.define(:version => 20130730021036) do
     t.integer  "quantity"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "tickets", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "ticket_type_id"
+    t.string   "payment_type"
+    t.integer  "quantity"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|
