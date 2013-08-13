@@ -3,11 +3,11 @@
 one:
   user_id: 1
   ticket_type_id: 1
-  payment_type: MyString
+  payment_status: MyString
   quantity: 1
 
 two:
   user_id: 1
   ticket_type_id: 1
-  payment_type: MyString
+  payment_status: MyString
   quantity: 1

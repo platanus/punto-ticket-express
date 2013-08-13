@@ -1,8 +1,4 @@
 PuntoTicketExpress::Application.routes.draw do
-
-  resources :tickets
-
-
   # ROOT
   root :to => "home#index"
 
@@ -13,6 +9,7 @@ PuntoTicketExpress::Application.routes.draw do
 
   #RESOURCES
   resources :events
+  resources :tickets
 
   # CUSTOM PAGES
   get '/features', to: 'features#index'

@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20130813213317) do
   create_table "tickets", :force => true do |t|
     t.integer  "user_id"
     t.integer  "ticket_type_id"
-    t.string   "payment_type"
+    t.string   "payment_status"
     t.integer  "quantity"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
