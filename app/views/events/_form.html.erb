@@ -18,13 +18,18 @@
         <%= f.text_field :name,
           :class => 'input-xlarge',
           'ng-model' => 'events.name',
-          'validate-type' => 'requireds',
+          'ng-minlength' => '3',
           'form-validate' => '',
           'required' => ''
         %>
-        <!-- custom validation -->
-        <div ng-show="form['event[name]'].$error.requireds" class="input-help">
-          <h4>Debe rellenar el nombre</h4>
+        <!-- validation -->
+        <div ng-show="(form['event[name]'].$dirty && form['event[name]'].$invalid)" class="input-error">
+          <label ng-show="form['event[name]'].$error.required">
+            El nombre del evento no puede estar en blanco
+          </label>
+          <label ng-show="form['event[name]'].$error.minlength">
+            El nombre del evento debe tener al menos 3 caracteres
+          </label>
         </div>
       </div>
     </div>
@@ -33,15 +38,21 @@
       <div class="controls">
         <%= f.text_field :address,
           :class => 'input-xlarge',
-          'ng-model' => 'events.name',
-          'validate-type' => 'requireds',
+          'ng-model' => 'events.address',
+          'ng-minlength' => '3',
           'form-validate' => '',
           'required' => ''
         %>
-        <!-- custom validation -->
-        <div ng-show="form['event[address]'].$error.requireds" class="input-help">
-          <h4>Debe rellenar la dirección</h4>
+        <!-- validation -->
+        <div ng-show="(form['event[address]'].$dirty && form['event[address]'].$invalid)" class="input-error">
+          <label ng-show="form['event[address]'].$error.required">
+            La dirección del evento no puede estar en blanco
+          </label>
+          <label ng-show="form['event[address]'].$error.minlength">
+            La dirección del evento debe tener al menos 3 caracteres
+          </label>
         </div>
+
       </div>
     </div>
     <div class="control-group">
@@ -72,28 +83,61 @@
     <div class="control-group">
       <%= f.label 'Fecha y Horario', :class => 'control-label' %>
       <div class="controls">
-        <div class="control-group input-append">
-          <input name="start_date" class="input-small" type="text" ng-model="datepicker.startDate" data-date-format="dd/mm/yyyy" bs-datepicker required>
-          <!-- you must define a filter to accept more than one validation -->
-          <div ng-show="form.start_date.$error.date" class="input-help">
-            <h4>El formato de fecha no es valido</h4>
-          </div>
+
+        <div class="input-append">
+          <input name="start_date"
+            class="input-small"
+            type="text"
+            ng-model="time.dates.startDate"
+            data-date-format="dd/mm/yyyy"
+            data-model-ref="time"
+            form-validate bs-datepicker required />
           <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
         </div>
-        <div class="control-group input-append">
-          <input name="start_time" class="input-mini" type="text" ng-model="timepicker.startTime" bs-timepicker>
+
+        <div class="input-append">
+          <input name="start_time" class="input-mini" type="text" ng-model="time.times.startTime" bs-timepicker>
           <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
         </div>
         -
-        <div class="control-group input-append">
-          <input name="end_date" class="input-small" type="text" ng-model="datepicker.endDate" data-date-format="dd/mm/yyyy" bs-datepicker>
+        <div class="input-append">
+          <input name="end_date" class="input-small" type="text" ng-model="time.dates.endDate" data-date-format="dd/mm/yyyy" bs-datepicker>
           <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
         </div>
-        <div class="control-group input-append">
-          <input name="end_time" class="input-mini" type="text" ng-model="timepicker.endTime" bs-timepicker>
+        <div class="input-append">
+          <input name="end_time" class="input-mini" type="text" ng-model="time.times.endTime" bs-timepicker>
           <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button>
         </div>
+
+        <!-- you must define a filter to accept more than one validation -->
+        <!-- customvalidation -->
+        <div ng-show="form.start_date.$dirty && form.start_date.$invalid" class="input-error">
+          <label ng-show="form.start_date.$error.required">
+            La fecha de inicio no puede estar en blanco
+          </label>
+          <label ng-show="form.start_date.$error.date">
+            El formto de fecha es incorrecto
+          </label>
+        </div>
+
+        <form-validate name="timesStart" ng-model="time" validate-type="starttime" required>
+        <form-validate name="timesEnd" ng-model="time" validate-type="startgreaterend" required>
+        <div class="row-fluid">
+          <div ng-show="form.timesStart.$error.starttime" class="input-error span6 no-space">
+            <label>
+              El comienzo del evento no puede ser menor que la fecha actual
+            </label>
+          </div>
+          <div ng-show="form.timesEnd.$error.startgreaterend" class="input-error span6 no-space">
+            <label>
+              El comienzo del evento no puede ser mayor que el final
+            </label>
+          </div>
+        </div>
+
       </div>
+
+
     </div>
 
   </fieldset>
@@ -101,9 +145,9 @@
   <fieldset>
     <legend>Crea los Tickets</legend>
 
-    <form-validate name="events" ng-model="tickets" validate-type="minRepeat" required>
-    <div ng-show="form.events.$error.minRepeat" class="alert alert-error">
-      <h4>Debe crear al menos un tipo de ticket para publicar este evento.</h4>
+    <form-validate name="events" ng-model="tickets" validate-type="minrepeat" required>
+    <div ng-show="form.events.$error.minrepeat" class="alert alert-error">
+      <span>Debe crear al menos un tipo de ticket para guardar o publicar este evento.</span>
     </div>
 
     <div class="control-group text-center">
@@ -122,10 +166,43 @@
       </thead>
       <tbody>
         <tr ng-repeat="ticket in tickets">
-          <td><input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{$index}}][name]" required></td>
-          <td><input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{$index}}][price]" required></td>
-          <td><input class="input-small" type="text" ng-model="ticket.qty" name="event[ticket_types_attributes][{{$index}}][quantity]" required></td>
-          <td><a class="close" ng-click="deleteTicket($index)">×</a></td>
+          <!-- do not use only ng-for because not only need a dynamic name for validations,
+          also need a specific structure for rails -->
+            <td>
+              <ng-form name="formInName">
+                <input class="input-xlarge" type="text" ng-model="ticket.name" name="event[ticket_types_attributes][{{$index}}][name]" form-validate required>
+                <div ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$dirty && formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$invalid" class="input-error">
+                  <label ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$error.required">
+                    El nombre del ticket no puede estar en blanco
+                  </label>
+                </div>
+              </ng-form>
+            </td>
+            <td>
+              <ng-form name="formInPrice">
+                <input class="input-small" type="text" ng-model="ticket.price" name="event[ticket_types_attributes][{{$index}}][price]" form-validate required>
+                <div ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid" class="input-error">
+                  <label ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$error.required">
+                    El precio del ticket no puede estar en blanco
+                  </label>
+                </div>
+              </ng-form>
+            </td>
+            <td>
+              <ng-form name="formInQuantity">
+                <input class="input-small" type="number" ng-model="ticket.qty" name="event[ticket_types_attributes][{{$index}}][quantity]" form-validate required>
+                <div ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$invalid" class="input-error">
+                  <label ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$error.required">
+                    La cantidad de tickets no puede estar en blanco
+                  </label>
+                  <label ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$error.number">
+                    Formato no valido
+                  </label>
+                </div>
+              </ng-form>
+              </td>
+            <td><a class="close" ng-click="deleteTicket($index)">×</a></td>
+
         </tr>
       </tbody>
     </table>

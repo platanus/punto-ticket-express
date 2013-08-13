@@ -2,30 +2,50 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
   return {
     restrict: 'EA',
     require: '?ngModel',
-    scope: true,
     link: function(scope, elm, attrs, ctrl) {
 
-      ctrl.$parsers.unshift(function(viewValue) {
-        resolveValidation(viewValue);
-        validateForm();
-      });
+      // ctrl.$parsers.unshift(function(viewValue) {
+      //   // rememeber add condition if attrs.modelRef
+      //   alert(JSON.stringify(scope[attrs.modelRef]));
+      //   alert(JSON.stringify(viewValue));
+      //   resolveValidation(viewValue);
+      //   validateForm();
+      //   return viewValue;
+      // });
+
+      scope.$watch(attrs.ngModel, function(before, after) {
+        if(before !== after){
+          resolveValidation(after);
+          validateForm();
+        }
+      }, true);
 
       function resolveValidation(viewValue) {
         switch (attrs.validateType) {
-        case "requireds":
-          scope.isValid = (viewValue && viewValue !== " " ? 'valid' : undefined);
-          break;
-        case "minRepeat":
-          scope.isValid = (_.size(viewValue) > 0 ? 'valid' : undefined);
-          break;
-        }
+          case "minrepeat":
+            scope.isValid = _.size(viewValue) > 0 ? 'valid' : undefined;
+            break;
+          case "starttime":
+            var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
+            var currentTime = new Date();
+            scope.isValid = startTime > currentTime ? 'valid' : undefined;
+            break;
+          case "startgreaterend":
+            var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
+            var endTime = new Date (viewValue.dates.endDate.toDateString() + ' ' + viewValue.times.endTime);
+            scope.isValid = startTime - endTime < 0 ? 'valid' : undefined;
+          }
       }
 
       scope.$on('kickOffValidations', validateForm);
       function validateForm() {
 
         resolveValidation(ctrl.$viewValue);
-        console.log(ctrl.$viewValue);
+        ctrl.$dirty = true;
+        scope.$dirty = true;
+
+        if(!attrs.validateType)
+          return;
 
         if(scope.isValid) {
           ctrl.$setValidity(attrs.validateType, true);

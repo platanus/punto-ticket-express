@@ -4,8 +4,12 @@ angular.module('puntoTicketApp.controllers')
 
     var nowDate = new Date();
     var nowTime = $filter('date')(nowDate, 'h:mm a');
-    $scope.datepicker = {startDate: nowDate, endDate: nowDate};
-    $scope.timepicker = {startTime: nowTime, endTime: nowTime};
+    //$scope.datepicker = {startDate: nowDate, endDate: nowDate};
+    //$scope.timepicker = {startTime: nowTime, endTime: nowTime};
+    $scope.time = {
+      dates: {startDate: nowDate, endDate: nowDate},
+      times: {startTime: nowTime, endTime: nowTime}
+    };
 
     $scope.addTicket = function() {
       $scope.tickets.push({name:"", price:"", qty:0});
