@@ -5,4 +5,5 @@ class TicketType < ActiveRecord::Base
   validates_presence_of :name, :price, :quantity
   # relationship
   belongs_to :event
+  has_many :tickets
 end
