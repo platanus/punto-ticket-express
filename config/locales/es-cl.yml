@@ -227,3 +227,10 @@ es:
         end_time: Fin  
     errors:
       <<: *errors
+  pte:
+    payment_status:
+      processing: Procesando
+      completed: Completo
+      inactive: Inactivo
+
+
