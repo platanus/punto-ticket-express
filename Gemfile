@@ -30,6 +30,7 @@ group :development, :test do
   gem 'haml-rails'
   gem 'hpricot'
   gem 'html2haml'
+  gem 'faker'
 end
 
 # To use ActiveModel has_secure_password

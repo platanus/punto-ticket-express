@@ -5,6 +5,7 @@ class Ticket < ActiveRecord::Base
   # relationship
   belongs_to :ticket_type
   belongs_to :user
+  has_one :event, through: :ticket_type
 
   # validations
   validates :payment_status, presence: true
@@ -16,11 +17,17 @@ class Ticket < ActiveRecord::Base
   validate :is_user_id_valid?
   validate :can_sell_tickets?
 
+  scope :processing, where(payment_status: PTE::PaymentStatus.processing)
+  scope :completed, where(payment_status: PTE::PaymentStatus.completed)
+  scope :inactives, where(payment_status: PTE::PaymentStatus.inactive)
+  scope :by_type, lambda {|ticket_type_id| where(ticket_type_id: ticket_type_id)}
+
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
 
-  def initialize params = nil
-    super params
-    self.payment_status = self.payment_status || PTE::PaymentStatus.processing        
+  def self.unavailable
+    processing_tickets = processing.where_values.reduce(:and)
+    completed_processing_tickets = completed.where_values.reduce(:and)
+    where(processing_tickets.or(completed_processing_tickets))
   end
 
   def can_sell_tickets?

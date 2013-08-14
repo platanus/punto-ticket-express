@@ -10,7 +10,9 @@ class Event < ActiveRecord::Base
 
   # relationship
   belongs_to :user
-  has_many :ticket_types, :dependent => :destroy
+  has_many :ticket_types, dependent: :destroy
+  has_many :tickets, through: :ticket_types
+  
   accepts_nested_attributes_for :ticket_types
 
   scope :published?, -> { where is_published: true }
