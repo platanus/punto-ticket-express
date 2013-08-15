@@ -16,6 +16,7 @@ class Ticket < ActiveRecord::Base
   validate :is_payment_status_valid?
   validate :is_user_id_valid?
   validate :can_sell_tickets?
+  validate :check_payment_status
 
   scope :processing, where(payment_status: PTE::PaymentStatus.processing)
   scope :completed, where(payment_status: PTE::PaymentStatus.completed)
@@ -23,6 +24,7 @@ class Ticket < ActiveRecord::Base
   scope :by_type, lambda {|ticket_type_id| where(ticket_type_id: ticket_type_id)}
 
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
+  delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
 
   def self.unavailable
     processing_tickets = processing.where_values.reduce(:and)
@@ -31,7 +33,27 @@ class Ticket < ActiveRecord::Base
   end
 
   def can_sell_tickets?
-    # TODO: validar que la cantidad sea menor o igual a la suma de tickets del tipo elegido que este en estado processing y completed
+    return false unless self.ticket_type
+
+    if self.new_record? and (self.quantity > self.available_tickets_count)
+      self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+      return false
+
+    elsif (self.payment_status == PTE::PaymentStatus.processing or
+      self.payment_status == PTE::PaymentStatus.completed) and
+      self.quantity > (self.available_tickets_count + self.quantity_was)
+      self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+      return false
+    end
+  end
+
+  def check_payment_status
+    if self.payment_status_was != self.payment_status and
+      (self.payment_status_was == PTE::PaymentStatus.inactive or 
+       self.payment_status_was == PTE::PaymentStatus.completed)
+      self.errors.add(:payment_status, :inactive_or_completed_cant_change)
+      return false
+    end
   end
 
   def is_user_id_valid?

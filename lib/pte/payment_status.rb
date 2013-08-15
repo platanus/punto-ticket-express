@@ -5,7 +5,7 @@ module PTE
     PTE::PaymentStatus::STATUSES.each do |status_name|
       self.class.class_eval do
         define_method(status_name) do 
-          status_name
+          status_name.to_s
         end
 
         define_method("human_#{status_name}".to_sym) do 

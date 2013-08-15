@@ -35,6 +35,19 @@ es:
         is_published: ¿Publicado?
         start_time: Inicio
         end_time: Fin
+    errors:
+      models:
+        ticket:
+          attributes:
+            payment_status:
+              invalid_payment_type: debe ser un estado de pago válido
+              inactive_or_completed_cant_change: no se puede pasar de Inactivo o Completo a otro estado
+            ticket_type_id:
+              invalid_ticket_type_given: el tipo de ticket no existe
+            user_id:
+              invalid_user_given: el usuario no existe
+            quanityt:
+              ticket_quantity_greater_than_type_quantity: no puede ser mayor a la disponibilidad del Tipo de Ticket
   pte:
     payment_status:
       processing: Procesando
