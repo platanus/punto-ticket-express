@@ -42,7 +42,8 @@ class Ticket < ActiveRecord::Base
     where(processing_tickets.or(completed_processing_tickets))
   end
 
-  def total_price    
+  def total_price
+    return 0 if self.quantity.nil? or self.ticket_type_price.nil?
     self.quantity * self.ticket_type_price
   end
 

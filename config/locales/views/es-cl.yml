@@ -1,0 +1,4 @@
+es:
+  tickets:
+    show:
+      total_price_label: "%{ticket_type} (%{quantity} x $%{price} = $%{total_price})"

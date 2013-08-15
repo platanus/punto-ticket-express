@@ -23,8 +23,8 @@ es:
       ticket:
         payment_status: Estado de Pago
         quantity: Cantidad
-        user_id: Usuario
-        ticket_type_id: Tipo de Ticket
+        user_id: Participante
+        ticket_type_id: Ticket
       event:
         name: Nombre
         address: Dirección

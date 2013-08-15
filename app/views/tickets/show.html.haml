@@ -1,19 +1,21 @@
 %p#notice= notice
 
-.row
-  .span8
-    = @ticket.event_name
-.row
-  .span4
-    = @ticket.event_start_time
-  .span4
-    = @ticket.event_address
-.row
-  .span8
-    = @ticket.event_end_time
-.row
-  .span8
-    = @ticket.user_email
-.row
-  .span8
-    = ticket_type_label @ticket
+.row#printable-ticket
+  .span8.well
+    .row
+      .span8.hrule.title
+        %h2= @ticket.event_name
+    .row
+      .span4
+        - printable_ticket_label(Event.human_attribute_name(:start_time), l(@ticket.event_start_time, format: :long))
+      .span4
+        - printable_ticket_label(Event.human_attribute_name(:address), @ticket.event_address)
+    .row
+      .span8.hrule
+        - printable_ticket_label(Event.human_attribute_name(:end_time), l(@ticket.event_end_time, format: :long))
+    .row
+      .span8.hrule
+        - printable_ticket_label(Ticket.human_attribute_name(:user_id), @ticket.user_email)
+    .row
+      .span8
+        - ticket_type_label @ticket

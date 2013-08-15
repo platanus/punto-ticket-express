@@ -14,5 +14,6 @@
  *= require bootstrap-datepicker/css/datepicker
  *= require bootstrap-timepicker/css/bootstrap-timepicker
  *= require home
+ *= require tickets
  * require_tree .
  */

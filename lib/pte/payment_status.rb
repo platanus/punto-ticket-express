@@ -15,6 +15,7 @@ module PTE
     end
 
     def self.is_valid? status_name
+      return false if status_name.nil? or status_name.empty?
       PTE::PaymentStatus::STATUSES.include? status_name.to_sym
     end
   end
