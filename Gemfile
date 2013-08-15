@@ -32,6 +32,7 @@ group :development, :test do
   gem 'hpricot'
   gem 'html2haml'
   gem 'faker'
+  gem 'debugger'
 end
 
 # To use ActiveModel has_secure_password
@@ -44,4 +45,4 @@ end
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+

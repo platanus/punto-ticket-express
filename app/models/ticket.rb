@@ -32,7 +32,7 @@ class Ticket < ActiveRecord::Base
   delegate :email, to: :user, prefix: true, allow_nil: true
 
   delegate :user_id, to: :event, prefix: true, allow_nil: true
-  delegate :user_name, to: :event, prefix: true, allow_nil: true
+  delegate :name, to: :event, prefix: true, allow_nil: true
   delegate :start_time, to: :event, prefix: true, allow_nil: true
   delegate :end_time, to: :event, prefix: true, allow_nil: true
   delegate :address, to: :event, prefix: true, allow_nil: true

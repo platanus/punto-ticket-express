@@ -2,8 +2,6 @@ require 'chronic'
 
 class EventsController < ApplicationController
   load_and_authorize_resource
-  # Limit at current user to see own objects
-  before_filter :find_post, :only => [:show, :edit, :update, :destroy]
 
   # GET /events
   # GET /events.json
@@ -91,10 +89,4 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  protected
-    def find_post
-      @post = current_user.events.find(params[:id])
-    end
-
 end

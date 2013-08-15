@@ -19,10 +19,12 @@ module PTE
       end
 
       def self.create_users
-        @user_ids = [
-          create_user("user@example.com", 12345678).id,
-          create_user("one@organizer.com", 12345678).id,
-          create_user("two@organizer.com", 12345678).id
+        create_user("user@example.com", 12345678, PTE::Role.admin)
+
+        @user_ids = [          
+          create_user("one@organizer.com", 12345678, PTE::Role.organizer).id,
+          create_user("two@organizer.com", 12345678, PTE::Role.organizer).id,
+          create_user("three@organizer.com", 12345678, PTE::Role.organizer).id
         ]
         puts "#{@user_ids.size} Users loaded..."
       end
@@ -30,13 +32,13 @@ module PTE
       def self.create_ticket_buyers
         @buyer_ids = []
         [*5..15].sample.times do
-          @buyer_ids << create_user(::Faker::Internet.email, 12345678).id
+          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.participant).id
         end
         puts "#{@buyer_ids.size} Buyers loaded..."
       end
 
-      def self.create_user email, password
-        User.find_or_create_by_email(email, password: password)
+      def self.create_user email, password, role
+        User.find_or_create_by_email(email, password: password, role: role)
       end
 
       def self.create_events
