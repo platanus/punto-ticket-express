@@ -2,6 +2,40 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    user ||= User.new # guest user (not logged in)
+    
+    if user.admin?
+      can :manage, :all
+
+    elsif user.organizer?
+      #EVENTS
+      can :create, Event
+      can :read, Event
+      #organizer can update his events only
+      can :update, Event do |event|
+        event.user_id == user.id
+      end
+      can :destroy, Event do |event|
+        event.user_id == user.id
+      end
+      #TICKETS
+      can :create, Ticket
+      #organizer can see sold tickets for his events
+      can :read, Ticket do |ticket|
+        ticket.event_user_id == user.id
+      end
+
+    elsif user.participant?
+      #EVENTS
+      can :read, Event
+      #TICKETS
+      can :create, Ticket
+      #participant can see his purchased tickets
+      can :read, Ticket do |ticket|
+        ticket.user_id == user.id
+      end
+    end    
+    
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

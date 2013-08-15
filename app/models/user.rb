@@ -13,8 +13,10 @@ class User < ActiveRecord::Base
   has_many :tickets
   has_many :ticket_types, through: :events
 
-  def is? role
-    PTE::Role.same? self.role, role
+  PTE::Role::TYPES.each do |type_name|
+    define_method("#{type_name}?") do 
+      PTE::Role.same? self.role, type_name
+    end
   end
 
   def human_role
