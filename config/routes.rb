@@ -4,7 +4,6 @@ PuntoTicketExpress::Application.routes.draw do
 
   # DEVISE
   devise_for :users
-  devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
   #RESOURCES
