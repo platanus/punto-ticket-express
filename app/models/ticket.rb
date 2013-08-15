@@ -18,18 +18,32 @@ class Ticket < ActiveRecord::Base
   validate :can_sell_tickets?
   validate :check_payment_status
 
+  #scopes
   scope :processing, where(payment_status: PTE::PaymentStatus.processing)
   scope :completed, where(payment_status: PTE::PaymentStatus.completed)
   scope :inactives, where(payment_status: PTE::PaymentStatus.inactive)
   scope :by_type, lambda {|ticket_type_id| where(ticket_type_id: ticket_type_id)}
 
+  delegate :name, to: :ticket_type, prefix: true, allow_nil: true
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
+  delegate :price, to: :ticket_type, prefix: true, allow_nil: true
   delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
+
+  delegate :email, to: :user, prefix: true, allow_nil: true
+
+  delegate :name, to: :event, prefix: true, allow_nil: true
+  delegate :start_time, to: :event, prefix: true, allow_nil: true
+  delegate :end_time, to: :event, prefix: true, allow_nil: true
+  delegate :address, to: :event, prefix: true, allow_nil: true
 
   def self.unavailable
     processing_tickets = processing.where_values.reduce(:and)
     completed_processing_tickets = completed.where_values.reduce(:and)
     where(processing_tickets.or(completed_processing_tickets))
+  end
+
+  def total_price    
+    self.quantity * self.ticket_type_price
   end
 
   def can_sell_tickets?

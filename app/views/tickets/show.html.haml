@@ -1,18 +1,19 @@
 %p#notice= notice
 
-%p
-  %b User:
-  = @ticket.user_id
-%p
-  %b Ticket type:
-  = @ticket.ticket_type_id
-%p
-  %b Payment type:
-  = @ticket.payment_status
-%p
-  %b Quantity:
-  = @ticket.quantity
-
-= link_to 'Edit', edit_ticket_path(@ticket)
-\|
-= link_to 'Back', tickets_path
+.row
+  .span8
+    = @ticket.event_name
+.row
+  .span4
+    = @ticket.event_start_time
+  .span4
+    = @ticket.event_address
+.row
+  .span8
+    = @ticket.event_end_time
+.row
+  .span8
+    = @ticket.user_email
+.row
+  .span8
+    = ticket_type_label @ticket

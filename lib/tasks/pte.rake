@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 namespace :pte do
   namespace :util do 
-    desc "Loads development fake data for users, tickets, events, tycket types, etc."
+    desc "Loads development fake data for users, tickets, events, ticket types, etc."
     task :load_fake_data => :environment do
       require 'tasks/pte/util/faker.rb'
       if Rails.env == "production"
