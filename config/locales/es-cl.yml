@@ -53,3 +53,8 @@ es:
       processing: Procesando
       completed: Completo
       inactive: Inactivo
+    role:
+      types:
+        participant: Participante
+        organizer: Organizador
+        admin: Administrador

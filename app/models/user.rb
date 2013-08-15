@@ -12,4 +12,12 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :tickets
   has_many :ticket_types, through: :events
+
+  def is? role
+    PTE::Role.same? self.role, role
+  end
+
+  def human_role
+    PTE::Role.human_name self.role
+  end
 end
