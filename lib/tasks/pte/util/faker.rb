@@ -99,12 +99,16 @@ module PTE
       def self.create_ticket_type event_id
         ticket_type = TicketType.create(
           event_id: event_id,
-          name: ::Faker::Name.name,
+          name: random_ticket_type_name,
           price: [*200..800].sample,
           quantity: [*50..400].sample
         )
 
         create_tickets ticket_type
+      end
+
+      def self.random_ticket_type_name
+        ["Platea", "Palco", "Tribuna", "Campo", "Vip", "Popular"].sample
       end
 
       def self.create_tickets ticket_type
