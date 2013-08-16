@@ -9,6 +9,7 @@ class Ability
 
     elsif user.organizer?
       #EVENTS
+      can :have, :events
       can :create, Event
       can :read, Event
       #organizer can update his events only
@@ -23,9 +24,7 @@ class Ability
       #organizer can see sold tickets for his events
       can :read, Ticket do |ticket|
         ticket.event_user_id == user.id
-      end
-
-      can :have, :events
+      end      
 
     elsif user.participant?
       #EVENTS

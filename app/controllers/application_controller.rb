@@ -9,6 +9,18 @@ class ApplicationController < ActionController::Base
 
   # redirect after sign-in
   def after_sign_in_path_for(resource)
-    events_path
+
+    if current_user.nil? or current_user.participant?
+      root_path
+
+    elsif current_user.organizer?
+      events_path
+
+    elsif current_user.admin?
+      admin_root_path
+      
+    else
+      root_path
+    end
   end
 end
