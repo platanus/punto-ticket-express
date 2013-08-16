@@ -22,8 +22,12 @@
           <ul class="nav">
             <li><%= link_to "Nuestros servicios", features_path %></li>
             <li><%= link_to "¿Como funciona?", how_works_path %></li>
-            <li><%= link_to "Crear evento", new_event_path %></li>
-            <li><%= link_to("mis eventos", events_path)  if user_signed_in? %></li>
+            <% if can? :create, Event %>
+              <li><%= link_to "Crear evento", new_event_path %></li>
+            <% end %>
+            <% if can? :have, :events %>
+              <li><%= link_to("mis eventos", events_path) if user_signed_in? %></li>
+            <% end %>  
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
             <% if user_signed_in? %>

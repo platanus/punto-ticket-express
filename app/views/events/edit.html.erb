@@ -2,5 +2,7 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @event %> |
+<% if can? :read, @event %>
+  <%= link_to 'Show', @event %> |
+<% end %>
 <%= link_to 'Back', events_path %>

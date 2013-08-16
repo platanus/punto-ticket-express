@@ -32,4 +32,6 @@
 
 <br />
 
-<%= link_to 'Crear Evento', new_event_path, :class => 'btn btn-success' %>
+<% if can? :create, Event %>
+  <%= link_to 'Crear Evento', new_event_path, :class => 'btn btn-success' %>
+<% end %>

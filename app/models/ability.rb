@@ -25,6 +25,8 @@ class Ability
         ticket.event_user_id == user.id
       end
 
+      can :have, :events
+
     elsif user.participant?
       #EVENTS
       can :read, Event

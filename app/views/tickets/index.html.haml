@@ -16,10 +16,14 @@
       %td= ticket.ticket_type_id
       %td= ticket.payment_status
       %td= ticket.quantity
-      %td= link_to 'Show', ticket
-      %td= link_to 'Edit', edit_ticket_path(ticket)
-      %td= link_to 'Destroy', ticket, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - if can? :read, ticket
+        %td= link_to 'Show', ticket
+      - if can? :update, ticket
+        %td= link_to 'Edit', edit_ticket_path(ticket)
+      - if can? :destroy, ticket
+        %td= link_to 'Destroy', ticket, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Ticket', new_ticket_path
+- if can? :create, Ticket
+  = link_to 'New Ticket', new_ticket_path
