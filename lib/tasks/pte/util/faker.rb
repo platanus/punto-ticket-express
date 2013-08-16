@@ -20,11 +20,12 @@ module PTE
 
       def self.create_users
         create_user("user@example.com", 12345678, PTE::Role.admin)
+        create_user("super@admin.com", 12345678, PTE::Role.admin)
 
         @user_ids = [          
-          create_user("one@organizer.com", 12345678, PTE::Role.organizer).id,
-          create_user("two@organizer.com", 12345678, PTE::Role.organizer).id,
-          create_user("three@organizer.com", 12345678, PTE::Role.organizer).id
+          create_user("one@user.com", 12345678, PTE::Role.user).id,
+          create_user("two@user.com", 12345678, PTE::Role.user).id,
+          create_user("three@user.com", 12345678, PTE::Role.user).id
         ]
         puts "#{@user_ids.size} Users loaded..."
       end
@@ -32,7 +33,7 @@ module PTE
       def self.create_ticket_buyers
         @buyer_ids = []
         [*5..15].sample.times do
-          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.participant).id
+          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.user).id
         end
         puts "#{@buyer_ids.size} Buyers loaded..."
       end

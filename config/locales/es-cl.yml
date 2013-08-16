@@ -61,6 +61,5 @@ es:
       inactive: Inactivo
     role:
       types:
-        participant: Participante
-        organizer: Organizador
+        user: Usuario
         admin: Administrador

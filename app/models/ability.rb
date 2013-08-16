@@ -7,12 +7,12 @@ class Ability
     if user.admin?
       can :manage, :all
 
-    elsif user.organizer?
+    elsif user.user?
       #EVENTS
       can :have, :events
       can :create, Event
       can :read, Event
-      #organizer can update his events only
+      #user can update his events only
       can :update, Event do |event|
         event.user_id == user.id
       end
@@ -21,19 +21,9 @@ class Ability
       end
       #TICKETS
       can :create, Ticket
-      #organizer can see sold tickets for his events
+      #user can see his own tickets or sold tickets for his events
       can :read, Ticket do |ticket|
-        ticket.event_user_id == user.id
-      end
-
-    elsif user.participant?
-      #EVENTS
-      can :read, Event
-      #TICKETS
-      can :create, Ticket
-      #participant can see his purchased tickets
-      can :read, Ticket do |ticket|
-        ticket.user_id == user.id
+        (ticket.user_id == user.id) or (ticket.event_user_id == user.id)
       end
     end    
     

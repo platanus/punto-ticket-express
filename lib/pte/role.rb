@@ -1,6 +1,6 @@
 module PTE
   class Role
-    TYPES = [:participant, :organizer, :admin]
+    TYPES = [:user, :admin]
 
     PTE::Role::TYPES.each do |type_name|
       self.class.class_eval do

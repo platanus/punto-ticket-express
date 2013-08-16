@@ -51,15 +51,19 @@ class Ticket < ActiveRecord::Base
   def can_sell_tickets?
     return false unless self.ticket_type
 
-    if self.new_record? and (self.quantity > self.available_tickets_count)
-      self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
-      return false
+    if self.new_record?
+      if self.quantity > self.available_tickets_count
+        self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+        return false
+      end
 
-    elsif (self.payment_status == PTE::PaymentStatus.processing or
-      self.payment_status == PTE::PaymentStatus.completed) and
-      self.quantity > (self.available_tickets_count + self.quantity_was)
-      self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
-      return false
+    else
+      if self.payment_status == PTE::PaymentStatus.processing or
+        self.payment_status == PTE::PaymentStatus.completed and
+        self.quantity > (self.available_tickets_count + self.quantity_was.to_i)
+        self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+        return false
+      end
     end
   end
 
