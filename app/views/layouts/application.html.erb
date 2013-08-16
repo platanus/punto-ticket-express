@@ -21,10 +21,10 @@
         <%= link_to image_tag("punto-ticket-logo.png", :border => 0), root_path, :class => 'brand' %>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><%= link_to "Nuestros servicios", features_path %></li>
-            <li><%= link_to "¿Como funciona?", how_works_path %></li>
-            <li><%= link_to "Crear evento", new_event_path %></li>
-            <li><%= link_to("mis eventos", events_path)  if user_signed_in? %></li>
+            <%= nav_link 'Nuestros servicios', features_path %>
+            <%= nav_link '¿Como funciona?', how_works_path %>
+            <%= nav_link 'Crear evento', new_event_path %>
+            <li><%= nav_link 'Mis eventos', events_path if user_signed_in? %></li>
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
             <% if user_signed_in? %>
