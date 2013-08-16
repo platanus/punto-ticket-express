@@ -1,3 +1,35 @@
+/* # NAVBAR STYLES
+================================================== */
+@orange: #f1ad4b;
+@darkOrange: #d58512;
+@white: #ffffff;
+@red: #b94a48;
+@lightGray: #f5f5f5;
+
+/* # NAVBAR STYLES
+================================================== */
+
+.navbar .dropdown .btn{
+	color: @white;
+	font-weight: bold;
+	font-size: 11px;
+	background-color: @orange;
+	background-image: none;
+	border: none;
+	margin-top: 19.5px;
+	padding: 8px 12px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.navbar .dropdown-menu {
+	min-width: 156px;
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+}
+
 /* # FORM STYLES
 ================================================== */
 
@@ -26,13 +58,14 @@ form .no-space {
 
 /* Show red border when stuff has been typed in, but its invalid */
 form .ng-dirty.ng-invalid {
-  border-color:#b94a48;
+  border-color: @red;
 }
 
 form .input-error {
-  color:#b94a48;
+  color: @red;
 }
 
 form .input-error label {
   margin-bottom: 0;
 }
+
