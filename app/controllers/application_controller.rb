@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   # Devise authentication
   before_filter :authenticate_user!
+  before_filter :authorize_admin
 
   protect_from_forgery
   rescue_from CanCan::AccessDenied do |exception|
@@ -18,9 +19,15 @@ class ApplicationController < ActionController::Base
 
     elsif current_user.admin?
       admin_root_path
-      
+
     else
       root_path
     end
+  end
+
+  def authorize_admin
+    if !current_user.admin? and self.class.to_s.split("::").first == "Admin"
+      raise CanCan::AccessDenied.new
+    end rescue nil
   end
 end

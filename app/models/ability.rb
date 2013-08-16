@@ -24,7 +24,7 @@ class Ability
       #organizer can see sold tickets for his events
       can :read, Ticket do |ticket|
         ticket.event_user_id == user.id
-      end      
+      end
 
     elsif user.participant?
       #EVENTS
