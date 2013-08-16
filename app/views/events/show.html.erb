@@ -1,35 +1,75 @@
-<p id="notice"><%= notice %></p>
+<div class="page-header">
+  <h1><%= @event.name %></h1>
+  <p><%= @event.description %></p>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @event.name %>
-</p>
+<!-- angular controller -->
+<div id="page_event" class="row">
 
-<p>
-  <b>Address:</b>
-  <%= @event.address %>
-</p>
+  <div class="span4">
+    <div class="panel">
+      <div class="panel-heading panel-title">
+        <i class="icon-building"></i> Organizador
+      </div>
+      <h5><%= @event.organizer_name %></h5>
+      <p>
+        <%= @event.organizer_description %>
+      </p>
+    </div>
+    <div class="panel">
+      <div class="panel-heading panel-title">
+        <i class="icon-map-marker"></i> Cuándo y dónde
+      </div>
+      <%= @event.address %>
+    </div>
+    <div class="panel">
+      <div class="panel-heading panel-title">
+        <i class="icon-bullhorn"></i> Productora
+      </div>
+      Panel content
+    </div>
+  </div>
+  <div class="span8">
+    <div class="panel panel-primary">
+      <div class="panel-heading panel-title">
+        <i class="icon-ticket"></i> Tickets
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @event.ticket_types.each do |ticket| %>
+          <tr>
+            <td><%= ticket.name %></td>
+            <td><%= ticket.price %></td>
+            <td>
+              <select class="input-small">
+                <% 1.upto(10) do |num| %>
+                <option><%= num %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <legend></legend>
+      <div class="control-group text-center">
+        <button ng-click="addTicket()" type="button" class="btn btn-large btn-success"><h3>Comprar ahora</h3></button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-heading panel-title">
+        <i class="icon-info-sign"></i> Información
+      </div>
+      Panel content
+    </div>
+    </div>
+</div>
 
-<p>
-  <b>Description:</b>
-  <%= @event.description %>
-</p>
 
-<p>
-  <b>Organizer name:</b>
-  <%= @event.organizer_name %>
-</p>
-
-<p>
-  <b>Organizer description:</b>
-  <%= @event.organizer_description %>
-</p>
-
-<p>
-  <b>Custom url:</b>
-  <%= @event.custom_url %>
-</p>
-
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>

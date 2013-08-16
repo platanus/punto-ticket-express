@@ -11,6 +11,9 @@ gem 'devise-i18n'
 gem 'jquery-rails', '~> 2.3.0'
 gem 'haml'
 
+# amazon ses
+gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
