@@ -1,7 +1,9 @@
 class TicketMailer < ActionMailer::Base
-  default from: "no-reply@pte.com"
+  add_template_helper(TicketTypesHelper)
+  default from: "no-reply@puntoticketexpress.com"
 
   def completed_payment ticket
-  	mail(:to => ticket.user_email, :subject => "Pago procesado")
+    @ticket = ticket
+    mail(:to => @ticket.user_email)
   end  
 end
