@@ -2,6 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 es:
+  ticket_mailer:
+    completed_payment:
+      subject: "Punto Ticket Express - Confirmación de pago"
+      body: | 
+        Tu pago para el evento %{even_name} se realizó con éxito.
+        Importe: %{price}
   activerecord:
     models:
       admin_user:

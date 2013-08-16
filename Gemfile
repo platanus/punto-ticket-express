@@ -12,6 +12,9 @@ gem 'jquery-rails', '~> 2.3.0'
 gem 'haml'
 gem 'cancan'
 
+# amazon ses
+gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -33,6 +36,7 @@ group :development, :test do
   gem 'html2haml'
   gem 'faker'
   gem 'debugger'
+  gem "letter_opener"
 end
 
 # To use ActiveModel has_secure_password
@@ -43,6 +47,3 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-

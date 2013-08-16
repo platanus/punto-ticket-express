@@ -1,14 +1,31 @@
 @import 'twitter/bootstrap';
-// this is a test of modifiying bootstrap.less
-body {
-  padding-top: 60px;
-}
-// Custom colors:
+
+// GENERAL STYLES
+// ========================
+
+// COLORS
+// ------------------------
 @black:   #200;
 @redDark: blue;
-@linkColor: @redDark;
+@orange: #f1ad4b;
+
+// TITLES
+// ------------------------
 @titleColor: lighten(@red, 10);
-// Copied from vendor/frameworks/twitter/bootstrap/patterns.less in less-rails-bootstrap
+
+// LINKS
+// ------------------------
+@linkColor: @redDark;
+@linkColorHover: #F1AD4B;
+
+// GENERAL
+// ------------------------
+body {
+  padding-top: 78px;
+}
+
+// BUTTONS
+// ========================
 .btn {
   // Primary Button Type
   &.primary {
@@ -16,13 +33,56 @@ body {
     .gradientBar(@red, @redDark)
   }
 }
-.topbar {
 
-  a {
-    color: @titleColor;
+// TOPBAR
+// ========================
+@navbarHeight: 55px;
+@navbarBackground: @white;
+@navbarLinkColorActive: @orange;
+
+.navbar{
+  text-transform: uppercase;
+  .btn{
+    text-shadow: none;
   }
-  // Website name
+  .navbar-inner {
+    border-bottom: 2px solid @orange;
+  }
   .brand {
-    color: @titleColor;
+    // Vertically center the text given @navbarHeight
+    padding: 0 14px 0 0;
+    margin-left: -40px;
   }
 }
+
+// Links
+.navbar .nav > li > a {
+  // Vertically center the text given @navbarHeight
+  padding: 30px 15px ((@navbarHeight - @baseLineHeight) / 8);
+  text-transform: uppercase;
+  text-shadow: none;
+  &:focus, &:hover {
+    color: @orange;
+    border-bottom: solid 2px @orange;
+    .transition(all 0.4s ease);
+  }
+}
+
+// Active nav items
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus {
+  background-color: #F3F3F3;
+  color: @orange;
+  border-bottom: solid 2px @orange;
+  .box-shadow(none);
+}
+
+.nav .dropdown-toggle .caret,
+.nav .dropdown-toggle:hover .caret,
+.nav .dropdown-toggle:focus .caret {
+  border-top-color: @white;
+  border-bottom-color: @white;
+}
+
+// @dropdownBackground: @red;
