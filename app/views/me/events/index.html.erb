@@ -24,8 +24,8 @@
     <td><%= event.description %></td>
     <td><%= l event.start_time, format: :short %></td>
     <td><%= boolean_to_words(event.is_published) %></td>
-    <td><%= link_to 'Ver', event, :class => 'btn btn-mini' %></td>
-    <td><%= link_to 'Editar', edit_event_path(event), :class => 'btn btn-mini' %></td>
+    <td><%= link_to 'Ver', [:me, event], :class => 'btn btn-mini' %></td>
+    <td><%= link_to 'Editar', edit_me_event_path(event), :class => 'btn btn-mini' %></td>
   </tr>
 <% end %>
 </table>
@@ -33,5 +33,5 @@
 <br />
 
 <% if can? :create, Event %>
-  <%= link_to 'Crear Evento', new_event_path, :class => 'btn btn-success' %>
+  <%= link_to 'Crear Evento', new_me_event_path, :class => 'btn btn-success' %>
 <% end %>

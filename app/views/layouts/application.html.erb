@@ -23,8 +23,8 @@
           <ul class="nav">
             <%= nav_link 'Nuestros servicios', features_path %>
             <%= nav_link '¿Como funciona?', how_works_path %>
-            <%= nav_link 'Crear evento', new_event_path %>
-            <li><%= nav_link 'Mis eventos', events_path if user_signed_in? %></li>
+            <%= nav_link 'Crear evento', new_me_event_path %>
+            <li><%= nav_link 'Mis eventos', me_events_path if user_signed_in? %></li>
           </ul>
           <ul class="nav pull-right" id="main-menu-right">
             <% if user_signed_in? %>
