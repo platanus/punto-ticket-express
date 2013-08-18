@@ -25,7 +25,9 @@ class Ability
       can :read, Ticket do |ticket|
         (ticket.user_id == user.id) or (ticket.event_user_id == user.id)
       end
-    end    
+    else
+      can :read, Event
+    end
     
     # Define abilities for the passed in user here. For example:
     #
