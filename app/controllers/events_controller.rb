@@ -15,6 +15,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def participants
+    PTE::Event::Xls.generate_participants_book params[:id]
+  end
+
   # GET /events/1
   # GET /events/1.json
   def show

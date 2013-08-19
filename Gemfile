@@ -11,7 +11,7 @@ gem 'devise-i18n'
 gem 'jquery-rails', '~> 2.3.0'
 gem 'haml'
 gem 'cancan'
-
+gem 'spreadsheet'
 # amazon ses
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
 

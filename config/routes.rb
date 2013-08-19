@@ -7,7 +7,12 @@ PuntoTicketExpress::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   #RESOURCES
-  resources :events
+  resources :events do
+    member do
+      get :participants
+    end
+  end
+
   resources :tickets
 
   # CUSTOM PAGES
