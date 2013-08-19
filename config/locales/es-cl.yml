@@ -5,6 +5,7 @@ es:
   xls:
     participants:
       file_name: participantes.xlsx
+      zip_file_name: participantes.zip
       sheet_name: Participantes
   ticket_mailer:
     completed_payment:

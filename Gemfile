@@ -11,6 +11,7 @@ gem 'devise-i18n'
 gem 'jquery-rails', '~> 2.3.0'
 gem 'haml'
 gem 'cancan'
+gem 'rubyzip', :require => 'zip/zip'
 gem 'spreadsheet'
 # amazon ses
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
@@ -36,7 +37,7 @@ group :development, :test do
   gem 'html2haml'
   gem 'faker'
   gem 'debugger'
-  gem "letter_opener"
+  gem 'letter_opener'
 end
 
 # To use ActiveModel has_secure_password

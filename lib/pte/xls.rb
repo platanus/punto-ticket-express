@@ -18,10 +18,13 @@ module PTE
       PTE::Xls.autofit_cells_size sheet
     end
 
-    def generate_book file_name, path
+    def generate_book file_name, path, zip_file_name = nil
+      file_name += ".xlsx" unless file_name.include? '.xlsx'
       complete_path = generate_directory path
-      @book.write(File.join(complete_path, file_name))
-      File.join(complete_path, file_name)
+      file_path = File.join(complete_path, file_name)
+      @book.write(file_path)
+      return compress(complete_path, file_name, zip_file_name) if zip_file_name
+      file_path
     end
 
     def self.autofit_cells_size sheet
@@ -49,6 +52,19 @@ module PTE
       complete_path = File.join(Rails.public_path, path, unique_directory_name)
       FileUtils.mkdir_p(complete_path) unless File.directory?(complete_path)
       complete_path
+    end
+
+    def compress path, file_name, zip_file_name
+      zip_file_name += ".zip" unless zip_file_name.include? '.zip'
+      zip_path = File.join(path, zip_file_name) 
+
+      ::Zip::ZipFile.open(zip_path, 'w') do |zip_file|
+        Dir.foreach(path) do |saved_file_name|
+          zip_file.add(file_name, File.join(path, file_name)) if saved_file_name == file_name
+        end
+      end
+
+      zip_path
     end
   end
 end
