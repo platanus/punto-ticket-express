@@ -12,6 +12,7 @@ class Event < ActiveRecord::Base
   belongs_to :user
   has_many :ticket_types, dependent: :destroy
   has_many :tickets, through: :ticket_types
+  has_many :users, through: :tickets
   
   accepts_nested_attributes_for :ticket_types
 

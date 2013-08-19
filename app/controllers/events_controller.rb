@@ -16,8 +16,15 @@ class EventsController < ApplicationController
   end
 
   def participants
-    PTE::Event::Xls.generate_participants_book params[:id], "participantes.xlsx"
-    render text: "ok"
+    event = Event.find(params[:id])
+
+    respond_to do |format|
+      format.xls do 
+        file_path = PTE::Event::Xls.generate_participants_book event, I18n.t("xls.participants.file_name")
+        send_file file_path, :type => "application/excel"
+      end
+      format.json { render json: event.users }
+    end
   end
 
   # GET /events/1

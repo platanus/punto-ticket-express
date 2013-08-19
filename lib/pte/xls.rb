@@ -20,7 +20,7 @@ module PTE
     def generate_book file_name, path
       complete_path = generate_directory path
       @book.write(File.join(complete_path, file_name))
-      complete_path
+      File.join(complete_path, file_name)
     end
 
     def generate_directory path
