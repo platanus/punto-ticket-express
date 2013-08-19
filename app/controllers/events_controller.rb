@@ -16,7 +16,8 @@ class EventsController < ApplicationController
   end
 
   def participants
-    PTE::Event::Xls.generate_participants_book params[:id]
+    PTE::Event::Xls.generate_participants_book params[:id], "participantes.xlsx"
+    render text: "ok"
   end
 
   # GET /events/1
