@@ -17,6 +17,7 @@ class EventsController < ApplicationController
 
   def participants
     event = Event.find(params[:id])
+    authorize! :download_participants, event    
 
     respond_to do |format|
       format.xls do 

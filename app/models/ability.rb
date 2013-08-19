@@ -19,6 +19,9 @@ class Ability
       can :destroy, Event do |event|
         event.user_id == user.id
       end
+      can :download_participants, Event do |event|
+        event.user_id == user.id
+      end
       #TICKETS
       can :create, Ticket
       #user can see his own tickets or sold tickets for his events
