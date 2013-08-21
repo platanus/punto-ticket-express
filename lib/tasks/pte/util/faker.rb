@@ -16,18 +16,19 @@ module PTE
         TicketType.delete_all
         Event.delete_all
         Ticket.delete_all
+        Producer.delete_all
       end
 
       def self.create_users
         create_user("user@example.com", 12345678, PTE::Role.admin)
         create_user("super@admin.com", 12345678, PTE::Role.admin)
 
-        @user_ids = [          
-          create_user("one@user.com", 12345678, PTE::Role.user).id,
-          create_user("two@user.com", 12345678, PTE::Role.user).id,
-          create_user("three@user.com", 12345678, PTE::Role.user).id
+        @users = [          
+          create_user("one@user.com", 12345678, PTE::Role.user),
+          create_user("two@user.com", 12345678, PTE::Role.user),
+          create_user("three@user.com", 12345678, PTE::Role.user)
         ]
-        puts "#{@user_ids.size} Users loaded..."
+        puts "#{@users.size} Users loaded..."
       end
 
       def self.create_ticket_buyers
@@ -39,7 +40,26 @@ module PTE
       end
 
       def self.create_user email, password, role
-        User.find_or_create_by_email(email, password: password, role: role)
+        user = User.find_or_create_by_email(email, password: password, role: role)
+        create_producers(user) if user.role == PTE::Role.user
+        user
+      end
+
+      def self.create_producers user
+        [*2..5].sample.times do
+          producer = Producer.create(
+            name: ::Faker::Name.name,
+            address: complete_address,
+            contact_email: ::Faker::Internet.email,
+            contact_name: ::Faker::Name.name,
+            description: ::Faker::Lorem.paragraphs([*2..6].sample),
+            phone: ::Faker::PhoneNumber.phone_number,
+            rut: valid_ruts.sample,
+            website: ::Faker::Internet.url
+          )
+
+          producer.users << user
+        end
       end
 
       def self.create_events
@@ -53,6 +73,7 @@ module PTE
 
       def self.create_event
         start_time = rand_time(Time.now - 20.days, Time.now + 20.days)
+        organizer = @users.sample
 
         evt = Event.create(
           name: ::Faker::Name.name,
@@ -61,14 +82,28 @@ module PTE
           organizer_name: ::Faker::Name.name,
           organizer_description: ::Faker::Lorem.paragraphs([*1..3].sample),
           custom_url: ::Faker::Internet.url,
-          user_id: @user_ids.sample,
+          user_id: organizer.id,
           is_published: random_boolean,
+          producer_id: organizer.producers.sample.id,
           start_time: start_time,
           end_time: start_time + ([*10000..30000].sample)
         )
 
         create_ticket_types evt.id
         evt
+      end
+
+      def self.valid_ruts
+        ["46741787-8",
+         "39416659-6",
+         "53512551-1",
+         "76599154-4",
+         "72779653-3",
+         "58424819-K",
+         "26931538-5",
+         "18719247-1",
+         "42437963-8",
+         "79418519-0"]
       end
 
       def self.random_boolean
