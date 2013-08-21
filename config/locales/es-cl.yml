@@ -58,6 +58,7 @@ es:
         is_published: ¿Publicado?
         start_time: Inicio
         end_time: Fin
+        producer_id: Productora
     errors:
       models:
         ticket:

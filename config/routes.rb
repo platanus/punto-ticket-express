@@ -17,7 +17,7 @@ PuntoTicketExpress::Application.routes.draw do
     resources :tickets, only: [:create]
   end
 
-  resources :tickets, only: [:show]
+  resources :tickets, only: [:index, :show]
 
   scope :path => '/me' do
     resources :events, only: [:index, :show, :new, :edit] do

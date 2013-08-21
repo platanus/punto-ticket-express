@@ -31,6 +31,17 @@ class Ability
       can :read, Ticket do |ticket|
         (ticket.user_id == user.id) or (ticket.event_user_id == user.id)
       end
+      #PRODUCERS
+      can :create, Producer
+      can :read, Producer do |producer|
+        producer.user_ids.include? user.id
+      end
+      can :update, Producer do |producer|
+        producer.user_ids.include? user.id
+      end
+      can :destroy, Producer do |producer|
+        producer.user_ids.include? user.id
+      end      
     else
       can :read, Event
     end

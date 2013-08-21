@@ -8,7 +8,6 @@
     %th Phone
     %th Contact name
     %th Contact email
-    %th Description
     %th Website
     %th
     %th
@@ -22,12 +21,15 @@
       %td= producer.phone
       %td= producer.contact_name
       %td= producer.contact_email
-      %td= producer.description
       %td= producer.website
-      %td= link_to 'Show', producer
-      %td= link_to 'Edit', edit_producer_path(producer)
-      %td= link_to 'Destroy', producer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - if can? :read, producer
+        %td= link_to 'Show', producer
+      - if can? :update, producer        
+        %td= link_to 'Edit', edit_producer_path(producer)
+      - if can? :destroy, producer
+        %td= link_to 'Destroy', producer, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Producer', new_producer_path
+- if can? :create, Producer
+  = link_to 'New Producer', new_producer_path

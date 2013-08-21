@@ -18,12 +18,3 @@
       %td= ticket.quantity
       - if can? :read, ticket
         %td= link_to 'Show', ticket
-      - if can? :update, ticket
-        %td= link_to 'Edit', edit_ticket_path(ticket)
-      - if can? :destroy, ticket
-        %td= link_to 'Destroy', ticket, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-- if can? :create, Ticket
-  = link_to 'New Ticket', new_ticket_path

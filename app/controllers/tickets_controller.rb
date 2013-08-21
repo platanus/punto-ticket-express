@@ -26,4 +26,9 @@ class TicketsController < InheritedResources::Base
     end
   end
 
+  protected
+    def collection
+      @tickets = current_user.tickets
+    end  
+
 end
