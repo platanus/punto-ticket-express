@@ -48,52 +48,54 @@ class Ticket < ActiveRecord::Base
     self.quantity * self.ticket_type_price
   end
 
-  def can_sell_tickets?
-    return false unless self.ticket_type
+  private
 
-    if self.new_record?
-      if self.quantity > self.available_tickets_count
-        self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+    def can_sell_tickets?
+      return false unless self.ticket_type
+
+      if self.new_record?
+        if self.quantity > self.available_tickets_count
+          self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+          return false
+        end
+
+      else
+        if self.payment_status == PTE::PaymentStatus.processing or
+          self.payment_status == PTE::PaymentStatus.completed and
+          self.quantity > (self.available_tickets_count + self.quantity_was.to_i)
+          self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+          return false
+        end
+      end
+    end
+
+    def check_payment_status
+      if self.payment_status_was != self.payment_status and
+        (self.payment_status_was == PTE::PaymentStatus.inactive or 
+         self.payment_status_was == PTE::PaymentStatus.completed)
+        self.errors.add(:payment_status, :inactive_or_completed_cant_change)
         return false
       end
+    end
 
-    else
-      if self.payment_status == PTE::PaymentStatus.processing or
-        self.payment_status == PTE::PaymentStatus.completed and
-        self.quantity > (self.available_tickets_count + self.quantity_was.to_i)
-        self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+    def is_user_id_valid?
+      if User.find_by_id(self.user_id).nil?
+        self.errors.add(:user_id, :invalid_user_given)
         return false
       end
     end
-  end
 
-  def check_payment_status
-    if self.payment_status_was != self.payment_status and
-      (self.payment_status_was == PTE::PaymentStatus.inactive or 
-       self.payment_status_was == PTE::PaymentStatus.completed)
-      self.errors.add(:payment_status, :inactive_or_completed_cant_change)
-      return false
+    def is_ticket_type_valid?
+      if TicketType.find_by_id(self.ticket_type_id).nil?
+        self.errors.add(:ticket_type_id, :invalid_ticket_type_given)
+        return false
+      end
     end
-  end
 
-  def is_user_id_valid?
-    if User.find_by_id(self.user_id).nil?
-      self.errors.add(:user_id, :invalid_user_given)
-      return false
-    end
-  end
-
-  def is_ticket_type_valid?
-    if TicketType.find_by_id(self.ticket_type_id).nil?
-      self.errors.add(:ticket_type_id, :invalid_ticket_type_given)
-      return false
-    end
-  end
-
-  def is_payment_status_valid?
-    unless PTE::PaymentStatus.is_valid? self.payment_status
-      self.errors.add(:payment_status, :invalid_payment_type)
-      return false
-    end
-  end 
+    def is_payment_status_valid?
+      unless PTE::PaymentStatus.is_valid? self.payment_status
+        self.errors.add(:payment_status, :invalid_payment_type)
+        return false
+      end
+    end 
 end

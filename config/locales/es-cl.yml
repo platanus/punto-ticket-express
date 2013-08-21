@@ -60,7 +60,13 @@ es:
         end_time: Fin
         producer_id: Productora
     errors:
+      messages:
+        invalid_url: "Formato de url inválido. Ej: http://wwww.app.domain.com"
+        invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        producer:
+          one_owner_at_least: Debe estar asociada a un usuario por lo menos.
+          has_related_events: Tiene asociada uno o más eventons.
         ticket:
           attributes:
             payment_status:

@@ -204,6 +204,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    validates_email_format_of (1.5.3)
     warden (1.2.3)
       rack (>= 1.0)
     wicked_pdf (0.9.6)
@@ -242,5 +243,6 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.0.3)
   unicorn
+  validates_email_format_of
   wicked_pdf
   wkhtmltopdf-binary
