@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :tickets
   has_many :ticket_types, through: :events
+  has_and_belongs_to_many :producers
 
   PTE::Role::TYPES.each do |type_name|
     define_method("#{type_name}?") do 

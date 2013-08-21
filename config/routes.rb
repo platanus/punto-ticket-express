@@ -1,4 +1,7 @@
 PuntoTicketExpress::Application.routes.draw do
+  resources :producers
+
+
   # ROOT
   root :to => "home#index"
 

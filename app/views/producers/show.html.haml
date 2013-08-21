@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @producer.name
+%p
+  %b Rut:
+  = @producer.rut
+%p
+  %b Address:
+  = @producer.address
+%p
+  %b Phone:
+  = @producer.phone
+%p
+  %b Contact name:
+  = @producer.contact_name
+%p
+  %b Contact email:
+  = @producer.contact_email
+%p
+  %b Description:
+  = @producer.description
+%p
+  %b Website:
+  = @producer.website
+
+= link_to 'Edit', edit_producer_path(@producer)
+\|
+= link_to 'Back', producers_path
