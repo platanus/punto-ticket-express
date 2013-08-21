@@ -18,6 +18,9 @@ es:
       admin_user:
         one: Administrador
         other: Administradores
+      producer:
+        one: Productora
+        other: Productoras
       ticket: 
         one: Ticket
         other: Tickets
@@ -31,6 +34,15 @@ es:
       admin_user:
         email: email
         password: password
+      producer:
+        address: Dirección
+        contact_email: E-mail contacto
+        contact_name: Nombre contacto
+        description: Descripción
+        name: Nombre
+        phone: Teléfono
+        rut: RUT
+        website: Web
       ticket:
         payment_status: Estado de Pago
         quantity: Cantidad
