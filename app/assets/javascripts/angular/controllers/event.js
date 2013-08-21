@@ -1,9 +1,9 @@
 angular.module('puntoTicketApp.controllers')
-  .controller('EventCtrl', ['$scope', '$filter', function ($scope, $filter) {
-    $scope.tickets = [];
+.controller('EventCtrl', ['$scope', '$filter', function ($scope, $filter) {
+  $scope.tickets = [];
 
-    var nowDate = new Date();
-    var nowTime = $filter('date')(nowDate, 'h:mm a');
+  var nowDate = new Date();
+  var nowTime = $filter('date')(nowDate, 'h:mm a');
     //$scope.datepicker = {startDate: nowDate, endDate: nowDate};
     //$scope.timepicker = {startTime: nowTime, endTime: nowTime};
     $scope.time = {
@@ -22,5 +22,18 @@ angular.module('puntoTicketApp.controllers')
     $scope.allowValidation = function () {
       $scope.$broadcast('kickOffValidations');
     };
+  }
+]);
+
+
+angular.module('puntoTicketApp.controllers')
+  .controller('TabsEventCtrl', ['$scope', function ($scope) {
+
+    $scope.tabs = [
+      { title:"Grafico de barras", content:"Dynamic content 1" },
+      { title:"Grafico de torta", content:"Dynamic content 2" }
+    ];
+
+    $scope.navType = 'pills';
   }
 ]);
