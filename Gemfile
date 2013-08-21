@@ -15,6 +15,8 @@ gem 'rubyzip', :require => 'zip/zip'
 gem 'spreadsheet'
 # amazon ses
 gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf'
 
 # Gems used only for assets and not required
 # in production environments by default.

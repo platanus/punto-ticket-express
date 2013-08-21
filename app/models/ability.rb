@@ -22,7 +22,7 @@ class Ability
       can :destroy, Event do |event|
         event.user_id == user.id
       end
-      can :download_participants, Event do |event|
+      can :participants, Event do |event|
         event.user_id == user.id
       end
       #TICKETS

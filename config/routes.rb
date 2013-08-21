@@ -7,18 +7,23 @@ PuntoTicketExpress::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   #RESOURCES
-  resources :events, only: [:show, :update, :destroy] do
+  resources :events, only: [:index, :show, :update, :create, :destroy] do
     member do
       get :participants
     end
-    resources :tickets
+    resources :tickets, only: [:create]
   end
 
+  resources :tickets, only: [:show]
+
   scope :path => '/me' do
-    resources :events, only: [:index, :new, :create, :edit] do
+    resources :events, only: [:index, :show, :new, :edit] do
       member do
+        get :participants
         get :admin, to: 'events#dashboard'
       end
+
+      resources :tickets, only: [:new]
     end
   end
 

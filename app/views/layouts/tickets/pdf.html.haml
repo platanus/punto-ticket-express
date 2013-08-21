@@ -1,0 +1,10 @@
+!!!
+%html
+  %head
+    %meta{ :"http-equiv" => "Content-Type", :content => "text/html; charset=UTF-8" }
+    %meta{ :"http-equiv" => "X-UA-Compatible", :content => "IE=8" }
+    = wicked_pdf_stylesheet_link_tag 'tickets.css'
+    = wicked_pdf_stylesheet_link_tag 'bootstrap_and_overrides.css'
+  %body
+    = wicked_pdf_image_tag 'punto-ticket-logo.png'
+    = yield
