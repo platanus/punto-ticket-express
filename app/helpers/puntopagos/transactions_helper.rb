@@ -1,0 +1,2 @@
+module Puntopagos::TransactionsHelper
+end

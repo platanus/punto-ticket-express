@@ -14,7 +14,7 @@ class Producer < ActiveRecord::Base
     allow_nil: true, allow_blank: true
   validates :contact_email,
     email_format: {message: I18n.t("activerecord.errors.messages.invalid_email"),
-    allow_nil: true, allow_blank: true}    
+    allow_nil: true, allow_blank: true}
 
   # callbacks
   before_destroy :can_destroy?
@@ -35,6 +35,6 @@ class Producer < ActiveRecord::Base
         errors.add(:base, :has_related_events)
         return false
       end
-    end    
+    end
 
 end

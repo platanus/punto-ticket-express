@@ -1,4 +1,12 @@
 PuntoTicketExpress::Application.routes.draw do
+  namespace :puntopagos do
+    post "/transactions/notification"
+    get "transactions/error/:token", to: 'transactions#error', as: :transactions_error
+    get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
+    post "transactions/create"
+    get "transactions/show", to: 'transactions#show', as: :transaction
+  end
+
   # ROOT
   root :to => "home#index"
 
