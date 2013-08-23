@@ -10,7 +10,7 @@ es:
   ticket_mailer:
     completed_payment:
       subject: "Punto Ticket Express - Confirmación de pago"
-      body: | 
+      body: |
         Tu pago para el evento %{even_name} se realizó con éxito.
         Importe: %{price}
   activerecord:
@@ -21,10 +21,10 @@ es:
       producer:
         one: Productora
         other: Productoras
-      ticket: 
+      ticket:
         one: Ticket
         other: Tickets
-      ticket_type: 
+      ticket_type:
         one: Tipo de Ticket
         other: Tipos de Ticket
       event:
@@ -44,8 +44,6 @@ es:
         rut: RUT
         website: Web
       ticket:
-        payment_status: Estado de Pago
-        quantity: Cantidad
         user_id: Participante
         ticket_type_id: Ticket
       event:
@@ -69,15 +67,8 @@ es:
           has_related_events: Tiene asociada uno o más eventons.
         ticket:
           attributes:
-            payment_status:
-              invalid_payment_type: debe ser un estado de pago válido
-              inactive_or_completed_cant_change: no se puede pasar de Inactivo o Completo a otro estado
             ticket_type_id:
               invalid_ticket_type_given: el tipo de ticket no existe
-            user_id:
-              invalid_user_given: el usuario no existe
-            quanityt:
-              ticket_quantity_greater_than_type_quantity: no puede ser mayor a la disponibilidad del Tipo de Ticket
   pte:
     payment_status:
       processing: Procesando

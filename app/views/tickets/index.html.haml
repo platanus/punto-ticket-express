@@ -2,19 +2,13 @@
 
 %table
   %tr
-    %th User
     %th Ticket type
-    %th Payment type
-    %th Quantity
     %th
     %th
     %th
 
   - @tickets.each do |ticket|
     %tr
-      %td= ticket.user_id
       %td= ticket.ticket_type_id
-      %td= ticket.payment_status
-      %td= ticket.quantity
       - if can? :read, ticket
         %td= link_to 'Show', ticket

@@ -4,6 +4,6 @@ class TicketMailer < ActionMailer::Base
 
   def completed_payment ticket
     @ticket = ticket
-    mail(:to => @ticket.user_email)
-  end  
+    mail(:to => @ticket.transaction_user_email)
+  end
 end

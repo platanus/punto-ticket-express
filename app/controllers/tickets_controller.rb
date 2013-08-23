@@ -3,7 +3,7 @@ class TicketsController < InheritedResources::Base
 
   def create
     create! do |success, failure|
-      success.html do 
+      success.html do
         TicketMailer.completed_payment(@ticket).deliver
         redirect_to ticket_url(@ticket)
       end

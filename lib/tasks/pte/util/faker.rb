@@ -17,13 +17,14 @@ module PTE
         Event.delete_all
         Ticket.delete_all
         Producer.delete_all
+        Transaction.delete_all
       end
 
       def self.create_users
         create_user("user@example.com", 12345678, PTE::Role.admin)
         create_user("super@admin.com", 12345678, PTE::Role.admin)
 
-        @users = [          
+        @users = [
           create_user("one@user.com", 12345678, PTE::Role.user),
           create_user("two@user.com", 12345678, PTE::Role.user),
           create_user("three@user.com", 12345678, PTE::Role.user)
@@ -111,7 +112,7 @@ module PTE
       end
 
       def self.complete_address
-        [::Faker::Address.street_name,        
+        [::Faker::Address.street_name,
          ::Faker::Address.city,
          ::Faker::Address.state,
          ::Faker::Address.country].join(", ")
@@ -141,28 +142,10 @@ module PTE
           price: [*200..800].sample,
           quantity: [*50..400].sample
         )
-
-        create_tickets ticket_type
       end
 
       def self.random_ticket_type_name
         ["Platea", "Palco", "Tribuna", "Campo", "Vip", "Popular"].sample
-      end
-
-      def self.create_tickets ticket_type
-        ticket_ids = []
-        [*5..15].sample.times do
-          ticket_ids << create_ticket(ticket_type).id
-        end
-        puts "#{ticket_ids.size} Tickets loaded for Ticket Type #{ticket_type.id}..."
-      end
-
-      def self.create_ticket ticket_type
-        Ticket.create({
-          user_id: @buyer_ids.sample,
-          ticket_type_id: ticket_type.id,
-          payment_status: PTE::PaymentStatus::STATUSES.sample,
-          quantity: [*1..(ticket_type.available_tickets_count.to_f * 10.0 / 100.0).round].sample})
       end
     end
   end

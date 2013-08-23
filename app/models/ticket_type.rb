@@ -12,7 +12,8 @@ class TicketType < ActiveRecord::Base
   has_many :tickets
 
   def available_tickets_count
-  	unavailable_quantity = Ticket.by_type(self.id).unavailable.sum(:quantity)
+  	unavailable_quantity = Ticket.by_type(self.id).processing.count
+    unavailable_quantity += Ticket.by_type(self.id).completed.count
   	self.quantity - unavailable_quantity
   end
 end

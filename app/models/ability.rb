@@ -41,7 +41,7 @@ class Ability
       end
       can :destroy, Producer do |producer|
         producer.user_ids.include? user.id
-      end      
+      end
     else
       can :read, Event
     end
