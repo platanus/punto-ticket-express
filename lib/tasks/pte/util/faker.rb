@@ -8,6 +8,7 @@ module PTE
         create_users
         create_ticket_buyers
         create_events
+
         puts "Done!"
       end
 
@@ -24,20 +25,19 @@ module PTE
         create_user("user@example.com", 12345678, PTE::Role.admin)
         create_user("super@admin.com", 12345678, PTE::Role.admin)
 
-        @users = [
+        @organizers = [
           create_user("one@user.com", 12345678, PTE::Role.user),
           create_user("two@user.com", 12345678, PTE::Role.user),
           create_user("three@user.com", 12345678, PTE::Role.user)
         ]
-        puts "#{@users.size} Users loaded..."
       end
 
       def self.create_ticket_buyers
         @buyer_ids = []
+
         [*5..15].sample.times do
           @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.user).id
         end
-        puts "#{@buyer_ids.size} Buyers loaded..."
       end
 
       def self.create_user email, password, role
@@ -69,12 +69,13 @@ module PTE
         [*5..10].sample.times do
           events << create_event.id
         end
-        puts "#{events.size} Events loaded..."
+
+        events
       end
 
       def self.create_event
         start_time = rand_time(Time.now - 20.days, Time.now + 20.days)
-        organizer = @users.sample
+        organizer = @organizers.sample
 
         evt = Event.create(
           name: ::Faker::Name.name,
@@ -90,8 +91,57 @@ module PTE
           end_time: start_time + ([*10000..30000].sample)
         )
 
-        create_ticket_types evt.id
+        ticket_types = create_ticket_types(evt.id)
+        create_transactions(ticket_types)
         evt
+      end
+
+      def self.create_ticket_types event_id
+        ticket_types = []
+
+        [*2..4].sample.times do
+          ticket_types << create_ticket_type(event_id)
+        end
+
+        ticket_types
+      end
+
+      def self.create_ticket_type event_id
+        TicketType.create(
+          event_id: event_id,
+          name: random_ticket_type_name,
+          price: [*200..800].sample,
+          quantity: [*50..400].sample
+        )
+      end
+
+      def self.create_transactions ticket_types
+        [*2..4].sample.times do
+          participant_id = @buyer_ids.sample
+          transaction = Transaction.create(
+            payment_status: PTE::PaymentStatus::STATUSES.sample,
+            user_id: participant_id
+          )
+
+          create_tickets(transaction.id, ticket_types)
+        end
+      end
+
+      def self.create_tickets transaction_id, ticket_types
+        tickets = []
+
+        [*5..10].sample.times do
+          tickets << create_ticket(transaction_id, ticket_types.sample.id)
+        end
+
+        tickets
+      end
+
+      def self.create_ticket transaction_id, ticket_type_id
+        Ticket.create(
+          ticket_type_id: ticket_type_id,
+          transaction_id: transaction_id
+        )
       end
 
       def self.valid_ruts
@@ -124,24 +174,6 @@ module PTE
 
       def self.rand_in_range from, to
         rand * (to - from) + from
-      end
-
-      def self.create_ticket_types event_id
-        ticket_types = []
-
-        [*2..4].sample.times do
-          ticket_types << create_ticket_type(event_id)
-        end
-        puts "#{ticket_types.size} Ticket Types loaded for event_id #{event_id}..."
-      end
-
-      def self.create_ticket_type event_id
-        ticket_type = TicketType.create(
-          event_id: event_id,
-          name: random_ticket_type_name,
-          price: [*200..800].sample,
-          quantity: [*50..400].sample
-        )
       end
 
       def self.random_ticket_type_name
