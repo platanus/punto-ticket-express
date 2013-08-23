@@ -1,0 +1,1 @@
+<%= t(".body", even_name: @transaction.event_name, start_date: l(@transaction.event_start_time, format: :long), end_date: l(@transaction.event_end_time, format: :long), price: @transaction.total_amount) %>

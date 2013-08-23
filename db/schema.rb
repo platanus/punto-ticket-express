@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130823193324) do
+ActiveRecord::Schema.define(:version => 20130823215538) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20130823193324) do
   create_table "transactions", :force => true do |t|
     t.string   "token"
     t.integer  "user_id"
-    t.integer  "payment_status"
+    t.string   "payment_status"
     t.decimal  "amount",           :precision => 10, :scale => 0
     t.datetime "transaction_time"
     t.string   "details"

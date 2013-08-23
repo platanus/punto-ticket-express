@@ -1,8 +1,0 @@
-%table{style: "width: 600px; background-color: #F5F5F5;"}
-  %tbody
-    %tr
-      %td
-        %h1=@ticket.event_name
-    %tr
-      %td
-        %pre=t(".body", even_name: @ticket.event_name, start_date: l(@ticket.event_start_time, format: :long), end_date: l(@ticket.event_end_time, format: :long), price: complete_ticket_price(@ticket))

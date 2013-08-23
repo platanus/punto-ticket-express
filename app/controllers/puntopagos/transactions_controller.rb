@@ -8,6 +8,7 @@ class Puntopagos::TransactionsController < ApplicationController
     # Si no hay error en la firma devolver json con: respuesta = 00 y token
     # (buscar transaction por token y ponerlo en :inactive)
     # Si esta todo bien, puntopagos redirigirá hacia mi success action sino a error action
+    # TransactionMailer.completed_payment(Transaction.first).deliver (mandamos mail)
   end
 
   def error

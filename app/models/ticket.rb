@@ -1,6 +1,6 @@
 class Ticket < ActiveRecord::Base
   # attrs
-  attr_accessible :ticket_type_id
+  attr_accessible :ticket_type_id, :transaction_id
 
   # relationship
   belongs_to :ticket_type
@@ -27,6 +27,7 @@ class Ticket < ActiveRecord::Base
   delegate :price, to: :ticket_type, prefix: true, allow_nil: true
   delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
   #transaction
+  delegate :user_id, to: :transaction, prefix: true, allow_nil: true
   delegate :user_email, to: :transaction, prefix: true, allow_nil: true
   delegate :payment_status, to: :transaction, prefix: false, allow_nil: true
   #event

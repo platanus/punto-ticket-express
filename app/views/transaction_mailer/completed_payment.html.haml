@@ -1,0 +1,8 @@
+%table{style: "width: 600px; background-color: #F5F5F5;"}
+  %tbody
+    %tr
+      %td
+        %h1=@transaction.event_name
+    %tr
+      %td
+        %pre=t(".body", even_name: @transaction.event_name, start_date: l(@transaction.event_start_time, format: :long), end_date: l(@transaction.event_end_time, format: :long), price: @transaction.total_amount)

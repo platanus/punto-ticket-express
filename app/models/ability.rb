@@ -29,7 +29,7 @@ class Ability
       can :create, Ticket
       #user can see his own tickets or sold tickets for his events
       can :read, Ticket do |ticket|
-        (ticket.user_id == user.id) or (ticket.event_user_id == user.id)
+        (ticket.transaction_user_id == user.id) or (ticket.event_user_id == user.id)
       end
       #PRODUCERS
       can :create, Producer
