@@ -3,6 +3,7 @@ PuntoTicketExpress::Application.routes.draw do
     post "/transactions/notification"
     get "transactions/error/:token", to: 'transactions#error', as: :transactions_error
     get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
+    get "transactions/new"
     post "transactions/create"
     get "transactions/show", to: 'transactions#show', as: :transaction
   end

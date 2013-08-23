@@ -71,7 +71,7 @@ class Ticket < ActiveRecord::Base
 
     def check_payment_status
       if self.payment_status_was != self.payment_status and
-        (self.payment_status_was == PTE::PaymentStatus.inactive or 
+        (self.payment_status_was == PTE::PaymentStatus.inactive or
          self.payment_status_was == PTE::PaymentStatus.completed)
         self.errors.add(:payment_status, :inactive_or_completed_cant_change)
         return false
@@ -97,5 +97,5 @@ class Ticket < ActiveRecord::Base
         self.errors.add(:payment_status, :invalid_payment_type)
         return false
       end
-    end 
+    end
 end
