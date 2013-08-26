@@ -21,6 +21,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def new
     authorize! :create, Transaction
+    @transaction = Transaction.new
     # TODO:
     # render de la vista de forma no editable:
     # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
@@ -28,13 +29,13 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
+    ### TEST DATA ###
+    tt = Event.first.ticket_types
+    params[:ticket_types] = [{:id => tt.first.id, :quantity => 3}, {:id => tt.last .id, :quantity => 5}]
+    ### TEST DATA ###
+
     authorize! :create, Transaction
-    # TODO: recibir en el params :ticket_types => [{:id => 2, :quantity => 3}, {:id => 8, :quantity => 5}]
-    # Crear @transaction pasando como params el current_user y el ticket_types
-    # Setear estado :processing a la transaccion.
-    # Generar en el modelo los tickets validando que haya cupo.
-    # Calcular el amount y guardarlo en la transacción.
-    # Generar transaction_datetime de acuerdo a la especificación: RFC1123
+    @transaction = Transaction.begin current_user.id, params[:ticket_types]
     # Si no hay cupo o falla algo mas, redirigir a new mostrando errores
     # En el after create, ya con el ID, amount y transaction_datetime. hacer:
     # Net::HTTP.post_form a https://servidor/transaccion/crear

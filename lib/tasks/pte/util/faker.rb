@@ -92,7 +92,7 @@ module PTE
         )
 
         ticket_types = create_ticket_types(evt.id)
-        create_transactions(ticket_types)
+        # create_transactions(ticket_types)
         evt
       end
 

@@ -20,6 +20,10 @@ class TicketType < ActiveRecord::Base
   	self.quantity - unavailable_quantity
   end
 
+  def self.ticket_types_for_same_event? ticket_types
+    ticket_types.map { |tt| tt.event_id }.uniq.one?
+  end
+
   private
 
     def can_destroy?
