@@ -67,12 +67,14 @@ es:
           has_related_event_tickets: Ha vendido tickets de sus eventos.
         event:
           has_related_tickets: Se han vendido tickets para este evento.
+          attributes:
+            is_published:
+              published_event_cant_be_unpublished: un evento publicado no puede volver a ser un borrador.
         producer:
           one_owner_at_least: Debe estar asociada a un usuario por lo menos.
           has_related_tickets: Se han vendido tickets en eventos de esta productora.
         ticket:
           has_related_tickets: Se han vendido tickets para este tipo.
-        ticket:
           attributes:
             ticket_type_id:
               invalid_ticket_type_given: el tipo de ticket no existe

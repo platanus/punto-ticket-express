@@ -20,6 +20,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def new
+    authorize! :create, Transaction
     # TODO:
     # render de la vista de forma no editable:
     # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
@@ -27,6 +28,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
+    authorize! :create, Transaction
     # TODO: recibir en el params :ticket_types => [{:id => 2, :quantity => 3}, {:id => 8, :quantity => 5}]
     # Crear @transaction pasando como params el current_user y el ticket_types
     # Setear estado :processing a la transaccion.
@@ -43,5 +45,6 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def show
+    authorize! :read, @transaction
   end
 end

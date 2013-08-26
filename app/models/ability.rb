@@ -25,12 +25,15 @@ class Ability
       can :participants, Event do |event|
         event.user_id == user.id
       end
+
+
       #TICKETS
-      can :create, Ticket
       #user can see his own tickets or sold tickets for his events
       can :read, Ticket do |ticket|
         (ticket.transaction_user_id == user.id) or (ticket.event_user_id == user.id)
       end
+
+
       #PRODUCERS
       can :create, Producer
       can :read, Producer do |producer|
@@ -41,6 +44,13 @@ class Ability
       end
       can :destroy, Producer do |producer|
         producer.user_ids.include? user.id
+      end
+
+
+      #TRANSACTIONS
+      can :create, Transaction
+      can :read, Transaction do |transaction|
+        transaction.user_id == user.id
       end
     else
       can :read, Event

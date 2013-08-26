@@ -1,5 +1,3 @@
-# TODO: Validar que no se pueda pasar un evento de publicado a no publicado
-
 class Event < ActiveRecord::Base
   # attrs
   attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name, :producer_id
@@ -7,6 +5,7 @@ class Event < ActiveRecord::Base
 
   # validations
   validates_presence_of :address, :description, :name, :organizer_name, :producer_id
+  validate :remains_published?
 
   # callbacks
   before_destroy :can_destroy?
@@ -23,6 +22,14 @@ class Event < ActiveRecord::Base
   scope :published, -> { where is_published: true }
 
   private
+
+    def remains_published?
+      if !self.new_record? and self.is_published_was and
+        (self.is_published_was != self.is_published)
+        errors.add(:is_published, :published_event_cant_be_unpublished)
+        return false
+      end
+    end
 
     def can_destroy?
       unless self.tickets.count.zero?
