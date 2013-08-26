@@ -41,7 +41,7 @@ class Ticket < ActiveRecord::Base
 
     def available_tickets?
       if self.new_record? and (!self.ticket_type or self.available_tickets_count < 1)
-        self.errors.add(:ticket_type_id, :ticket_quantity_greater_than_type_quantity)
+        self.errors.add(:ticket_type_id, :no_tickets_left)
         return false
       end
     end

@@ -45,7 +45,7 @@ module PTE
         end
         sheet.column(col).width = width
       end
-    end    
+    end
 
     def generate_directory path
       unique_directory_name = Time.now.to_datetime.strftime("%d%m%Y%H%M%S")
@@ -56,7 +56,7 @@ module PTE
 
     def compress path, file_name, zip_file_name
       zip_file_name += ".zip" unless zip_file_name.include? '.zip'
-      zip_path = File.join(path, zip_file_name) 
+      zip_path = File.join(path, zip_file_name)
 
       ::Zip::ZipFile.open(zip_path, 'w') do |zip_file|
         Dir.foreach(path) do |saved_file_name|

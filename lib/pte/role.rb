@@ -4,14 +4,14 @@ module PTE
 
     PTE::Role::TYPES.each do |type_name|
       self.class.class_eval do
-        define_method(type_name) do 
+        define_method(type_name) do
           type_name.to_s
         end
       end
     end
 
     def self.same? role_one, role_two
-      return false if !PTE::Role.is_valid?(role_one) or !PTE::Role.is_valid?(role_two)
+      return false unless PTE::Role.is_valid?(role_one) and PTE::Role.is_valid?(role_two)
       role_one.to_sym == role_two.to_sym
     end
 

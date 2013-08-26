@@ -16,18 +16,15 @@ class Transaction < ActiveRecord::Base
   end
 
   def event_name
-    return nil unless self.event
-    event.name
+    event.try(:name)
   end
 
   def event_start_time
-    return nil unless self.event
-    event.start_time
+    event.try(:start_time)
   end
 
   def event_end_time
-    return nil unless self.event
-    event.end_time
+    event.try(:end_time)
   end
 
   def tickets_quantity

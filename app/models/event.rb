@@ -8,6 +8,9 @@ class Event < ActiveRecord::Base
   # validations
   validates_presence_of :address, :description, :name, :organizer_name, :producer_id
 
+  # callbacks
+  before_destroy :can_destroy?
+
   # relationship
   belongs_to :user
   belongs_to :producer
@@ -17,5 +20,14 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :ticket_types
 
-  scope :published?, -> { where is_published: true }
+  scope :published, -> { where is_published: true }
+
+  private
+
+    def can_destroy?
+      unless self.tickets.count.zero?
+        errors.add(:base, :has_related_tickets)
+        return false
+      end
+    end
 end

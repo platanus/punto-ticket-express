@@ -62,13 +62,21 @@ es:
         invalid_url: "Formato de url inválido. Ej: http://wwww.app.domain.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        user:
+          has_related_tickets: Ha comprado tickets.
+          has_related_event_tickets: Ha vendido tickets de sus eventos.
+        event:
+          has_related_tickets: Se han vendido tickets para este evento.
         producer:
           one_owner_at_least: Debe estar asociada a un usuario por lo menos.
-          has_related_events: Tiene asociada uno o más eventons.
+          has_related_tickets: Se han vendido tickets en eventos de esta productora.
+        ticket:
+          has_related_tickets: Se han vendido tickets para este tipo.
         ticket:
           attributes:
             ticket_type_id:
               invalid_ticket_type_given: el tipo de ticket no existe
+              no_tickets_left: no quedan entradas de este tipo
   pte:
     payment_status:
       processing: Procesando

@@ -4,7 +4,9 @@ class Producer < ActiveRecord::Base
 
   # relationship
   has_and_belongs_to_many :users
-  has_many :events
+  has_many :events, dependent: :destroy
+  has_many :ticket_types, through: :events
+  has_many :tickets, through: :ticket_types
 
   # validations
   validates :name, presence: true
@@ -31,8 +33,8 @@ class Producer < ActiveRecord::Base
     end
 
     def can_destroy?
-      unless self.events.count.zero?
-        errors.add(:base, :has_related_events)
+      unless self.tickets.count.zero?
+        errors.add(:base, :has_related_tickets)
         return false
       end
     end
