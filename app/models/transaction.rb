@@ -85,7 +85,7 @@ class Transaction < ActiveRecord::Base
   def get_auth_header url
     message = "#{url}\n" +
     "#{self.id}\n" +
-    "#{self.total_amount.round(2)}\n" +
+    "#{self.total_amount_to_s}\n" + #TODO: monto operación con dos decimales
     "#{self.RFC1123_date}"
 
     #TODO: Firma del mensaje utilizando el algoritmo HMAC-SHA1 con la llave secreta entregada por Punto Pagos
@@ -165,7 +165,11 @@ class Transaction < ActiveRecord::Base
   def body_on_create
     {"trx_id" => self.id,
      "medio_pago" => "999", #TODO: de donde saco esto?
-     "monto" => self.total_amount.round(2)}.to_json
+     "monto" => self.total_amount_to_s}
+  end
+
+  def total_amount_to_s
+    "%0.2f" % self.total_amount
   end
 
   def create_puntopagos_transaction
@@ -179,7 +183,7 @@ class Transaction < ActiveRecord::Base
     puts options[:headers]
     puts response.headers.inspect
 
-    if response.code != 200
+    if response.code != 201 and response.code != 200
       raise PTE::Exceptions::TransactionError.new(
         "Puntopagos response - status: #{response.code} and message: #{response.message}")
     end
@@ -191,13 +195,13 @@ class Transaction < ActiveRecord::Base
         "Puntopagos response - respuesta: #{response.code} and error: #{body["error"]}")
     end
 
-    # if body["trx_id"].to_i != self.id
-    #   raise PTE::Exceptions::TransactionError.new(
-    #     "Puntopagos response - trx_id does not match with transcation.id")
-    # end TODO: cuando el servicio "crear" no este harcodeado, activar esta validación
+    if body["trx_id"].to_i != self.id
+      raise PTE::Exceptions::TransactionError.new(
+        "Puntopagos response - trx_id does not match with transcation.id")
+    end
 
     self.token = body["token"]
-    self.amount = body["monto"] #TODO: monto operación con dos decimales
+    self.amount = body["monto"]
     self.save
   end
 
