@@ -4,8 +4,7 @@
 </div>
 
 <!-- angular controller -->
-<!-- passing ruby hash to javascript -->
-<div id="page_event" class="row" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types.to_json %>)'>
+<div id="page_event" class="row">
 
   <div class="span4">
     <div class="panel">
@@ -35,14 +34,6 @@
       <div class="panel-heading panel-title">
         <i class="icon-ticket"></i> Tickets
       </div>
-
-      <div class="control-group">
-      <label>
-        Tipo de ticket <select ng-model="ticketType" ng-options="t.name for t in ticketTypes"></select>
-      </label>
-      </div>
-
-      <legend></legend>
       <table class="table">
         <thead>
           <tr>
@@ -52,17 +43,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="t in ticketTypes" class="ticket-disabled last" ng-class="{'ticket-enabled': t.id == ticketType.id}">
-            <td> {{t.name}} </td>
-            <td> {{t.price}} </td>
+          <% @event.ticket_types.each do |ticket| %>
+          <tr>
+            <td><%= ticket.name %></td>
+            <td><%= ticket.price %></td>
             <td>
-              <select class="input-small" ng-disabled="t.id !== ticketType.id">
+              <select class="input-small">
                 <% 1.upto(10) do |num| %>
                 <option><%= num %></option>
                 <% end %>
               </select>
             </td>
           </tr>
+          <% end %>
         </tbody>
       </table>
       <legend></legend>
