@@ -1,5 +1,5 @@
 class Puntopagos::TransactionsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:create, :crear, :notification, :error, :success]
+  before_filter :authenticate_user!, :except => [:create, :notification, :error, :success, :crear, :procesar]
 
   def notification
     # TODO:
@@ -23,6 +23,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def new
     authorize! :create, Transaction
+    @transaction = Transaction.new
     # TODO:
     # render de la vista de forma no editable:
     # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
@@ -32,16 +33,17 @@ class Puntopagos::TransactionsController < ApplicationController
   def create
     ### TEST DATA ###
     tt = Event.first.ticket_types
-    params[:ticket_types] = [{:id => tt.first.id, :quantity => 5}, {:id => tt.last.id, :quantity => 5}]
+    params[:ticket_types] = [{:id => tt.first.id, :quantity => 2}, {:id => tt.last.id, :quantity => 5}]
     Transaction.configure "http://localhost:3000", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4QpvB+leU8dUj2o" #TODO: Poner esto en un initializer
     ### TEST DATA ###
-    transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
-    authorize! :create, transaction
+    @transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
+    authorize! :create, @transaction
 
-    if transaction.errors.any?
-      render json: transaction.errors, status: :unprocessable_entity
+    if @transaction.errors.any?
+      render action: "new"
+
     else
-      render json: transaction, status: :created
+      redirect_to @transaction.process_url
     end
   end
 
@@ -58,5 +60,9 @@ class Puntopagos::TransactionsController < ApplicationController
       "trx_id" => params[:trx_id],
       "monto" => params[:monto]
     }, status: :created
+  end
+
+  def procesar
+    render :text => "Redireccion a puntopagos.com"
   end
 end

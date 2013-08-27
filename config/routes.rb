@@ -5,8 +5,10 @@ PuntoTicketExpress::Application.routes.draw do
     get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
     get "transactions/new"
     post "transactions/create"
-    post "transactions/crear"
     get "transactions/show", to: 'transactions#show', as: :transaction
+    #To test puntopagos
+    post "transactions/crear"
+    get "transactions/procesar/:token", to: 'transactions#procesar', as: :transactions_procesar
   end
 
   # ROOT

@@ -170,9 +170,17 @@ class Transaction < ActiveRecord::Base
     "%0.2f" % self.total_amount
   end
 
+  def process_url
+    Transaction.safe_puntopagos_action("/puntopagos/transactions/procesar/#{self.token}")
+  end
+
+  def create_url
+    Transaction.safe_puntopagos_action('/puntopagos/transactions/crear')
+  end
+
   def create_puntopagos_transaction
     options = {}
-    url = Transaction.safe_puntopagos_action('/puntopagos/transactions/crear')
+    url = create_url
     options[:body] = body_on_create
     options[:headers] = get_auth_header(url)
     response = HTTParty.post(url, options)
