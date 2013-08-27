@@ -1,5 +1,5 @@
 angular.module('puntoTicketApp.controllers')
-.controller('EventCtrl', ['$scope', '$filter', function ($scope, $filter) {
+.controller('EventNewCtrl', ['$scope', '$filter', function ($scope, $filter) {
   $scope.tickets = [];
 
   var nowDate = new Date();
@@ -26,7 +26,7 @@ angular.module('puntoTicketApp.controllers')
 
 
 angular.module('puntoTicketApp.controllers')
-  .controller('TabsEventCtrl', ['$scope', function ($scope) {
+  .controller('EventDashboardCtrl', ['$scope', function ($scope) {
 
     $scope.tabs = [
       { title:"Grafico de barras", content:"Dynamic content 1" },
