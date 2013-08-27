@@ -33,7 +33,7 @@ class Puntopagos::TransactionsController < ApplicationController
     ### TEST DATA ###
     tt = Event.first.ticket_types
     params[:ticket_types] = [{:id => tt.first.id, :quantity => 3}, {:id => tt.last.id, :quantity => 5}]
-    Transaction.configure "localhost", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4QpvB+leU8dUj2o" #TODO: Poner esto en un initializer
+    Transaction.configure "http://localhost:3000", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4QpvB+leU8dUj2o" #TODO: Poner esto en un initializer
     ### TEST DATA ###
     transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
     authorize! :create, transaction
@@ -54,10 +54,9 @@ class Puntopagos::TransactionsController < ApplicationController
   def crear
     render json: {
       "respuesta" => "00",
-      "token" => "9XJ08401WN0071839",
-      "trx_id" => 9787415132,
-      "medio_pago" => "999",
-      "monto" => 1000000.00
-    }, sstatus: :created
+      "token" => Digest::MD5.hexdigest(params[:trx_id]),
+      "trx_id" => params[:trx_id],
+      "monto" => params[:monto]
+    }, status: :created
   end
 end

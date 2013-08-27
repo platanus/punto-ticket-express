@@ -11,10 +11,48 @@ class Transaction < ActiveRecord::Base
   #delegates
   delegate :email, to: :user, prefix: true, allow_nil: true
 
+  SUCCESS_CODE = "00"
+  ERROR_CODE = "99"
+
   def self.configure puntopagos_url, key_id, key_secret
-    @@puntopagos_url = puntopagos_url
+    @@puntopagos_url = get_valid_url(puntopagos_url)
     @@key_id = key_id
     @@key_secret = key_secret
+  end
+
+  def self.get_valid_url url
+    parts = url.split("//")
+
+    if parts.size == 1
+      url = parts.first.split("/").first
+      url = "http://#{url}"
+
+    else
+      protocol = parts.first
+      url = parts.second.split("/").first
+      url = "#{protocol}//#{url}"
+    end
+
+    return url if validate_url(url)
+  end
+
+  def self.validate_url url
+    if url =~ /^#{URI::regexp}$/
+      return true
+    end
+
+    raise PTE::Exceptions::TransactionError.new(
+      "Invalid url given")
+  end
+
+  def self.safe_puntopagos_action action_path
+    url = [@@puntopagos_url,
+      action_path.split("/").reject do |v|
+        v.empty?
+      end.join("/")
+    ].join("/")
+
+    return url if validate_url(url)
   end
 
   def puntopagos_url
@@ -44,11 +82,18 @@ class Transaction < ActiveRecord::Base
     @@key_secret
   end
 
-  def get_auth_header action_path
-    "#{puntopagos_url}#{action_path}\n" +
+  def get_auth_header url
+    message = "#{url}\n" +
     "#{self.id}\n" +
     "#{self.total_amount.round(2)}\n" +
     "#{self.RFC1123_date}"
+
+    #TODO: Firma del mensaje utilizando el algoritmo HMAC-SHA1 con la llave secreta entregada por Punto Pagos
+    signed_message = Digest::MD5.hexdigest(message)
+
+    auth = "PP#{key_id}:#{signed_message}"
+
+    {"Fecha" => self.RFC1123_date, "Autorizacion" => auth}
   end
 
   def event
@@ -108,17 +153,52 @@ class Transaction < ActiveRecord::Base
       end
 
     rescue Exception => e
-      transaction.errors.add(:base, :unknown_error)
+       puts "#" * 50
+       puts e.message
+       puts "#" * 50
+       transaction.errors.add(:base, :unknown_error)
     end
 
     transaction
   end
 
+  def body_on_create
+    {"trx_id" => self.id,
+     "medio_pago" => "999", #TODO: de donde saco esto?
+     "monto" => self.total_amount.round(2)}.to_json
+  end
+
   def create_puntopagos_transaction
-    puts 'TODO: create_puntopagos_transaction'
-    # Net::HTTP.post_form a https://servidor/transaccion/crear
-    # Si la respuesta es distinta a 00 hacer rollback
-    # Si 00, devuelvo el <token>
+    options = {}
+    url = Transaction.safe_puntopagos_action('/puntopagos/transactions/crear')
+    options[:body] = body_on_create
+    options[:headers] = get_auth_header(url)
+    response = HTTParty.post(url, options)
+
+    puts "#### HEADERS ####"
+    puts options[:headers]
+    puts response.headers.inspect
+
+    if response.code != 200
+      raise PTE::Exceptions::TransactionError.new(
+        "Puntopagos response - status: #{response.code} and message: #{response.message}")
+    end
+
+    body = response.parsed_response
+
+    if body["respuesta"] == Transaction::ERROR_CODE
+      raise PTE::Exceptions::TransactionError.new(
+        "Puntopagos response - respuesta: #{response.code} and error: #{body["error"]}")
+    end
+
+    # if body["trx_id"].to_i != self.id
+    #   raise PTE::Exceptions::TransactionError.new(
+    #     "Puntopagos response - trx_id does not match with transcation.id")
+    # end TODO: cuando el servicio "crear" no este harcodeado, activar esta validación
+
+    self.token = body["token"]
+    self.amount = body["monto"] #TODO: monto operación con dos decimales
+    self.save
   end
 
   def load_beginning_status user_id
