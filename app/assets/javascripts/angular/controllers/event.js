@@ -4,8 +4,7 @@ angular.module('puntoTicketApp.controllers')
 
   var nowDate = new Date();
   var nowTime = $filter('date')(nowDate, 'h:mm a');
-    //$scope.datepicker = {startDate: nowDate, endDate: nowDate};
-    //$scope.timepicker = {startTime: nowTime, endTime: nowTime};
+
     $scope.time = {
       dates: {startDate: nowDate, endDate: nowDate},
       times: {startTime: nowTime, endTime: nowTime}
@@ -35,5 +34,22 @@ angular.module('puntoTicketApp.controllers')
     ];
 
     $scope.navType = 'pills';
+  }
+]);
+
+
+angular.module('puntoTicketApp.controllers')
+  .controller('EventShowCtrl', ['$scope', function ($scope) {
+
+    $scope.ticketTypes = [];
+    // initialization tasks to be executed before the template enters execution mode
+    // used to ruby data parsed into a JavaScript object
+
+    $scope.init = function(ticketTypes) {
+      $scope.ticketTypes = ticketTypes;
+
+      // assigned a default value for the select
+      $scope.ticketType = $scope.ticketTypes[0];
+    };
   }
 ]);

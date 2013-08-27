@@ -6,6 +6,35 @@
 @red: #b94a48;
 @lightGray: #f5f5f5;
 
+/* # ANIMATIONS / TRANSITIONS
+================================================== */
+.ticket-disabled {
+	border-right: 1px solid rgb(219, 219, 219);
+	border-left: 1px solid rgb(219, 219, 219);
+	background-color: #F5F0F0;
+  	-webkit-transition: .5s linear opacity;
+  	-moz-transition: .5s linear opacity;
+  	-o-transition: .5s linear opacity;
+  	transition: .5s linear opacity;
+  	opacity: 0.5;
+}
+
+.ticket-disabled.last {
+	border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+.ticket-enabled {
+	border-right: none;
+	border-left: none;
+	border-bottom: none !important;
+	background-color: #FFFFFF;
+  	-webkit-transition: .5s linear opacity;
+  	-moz-transition: .5s linear opacity;
+  	-o-transition: .5s linear opacity;
+  	transition: .5s linear opacity;
+  	opacity: 1;
+}
+
 /* # NAVBAR STYLES
 ================================================== */
 
@@ -109,6 +138,9 @@ form .input-error label {
 			font-size: 22px;
 			text-shadow: none;
 		}
+	}
+	select {
+		margin-left: 20px;
 	}
 
 }
