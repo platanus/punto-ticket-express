@@ -18,6 +18,7 @@ class Transaction < ActiveRecord::Base
     @@puntopagos_url = get_valid_url(puntopagos_url)
     @@key_id = key_id
     @@key_secret = key_secret
+    @@log = Logger.new(STDOUT)
   end
 
   def self.get_valid_url url
@@ -152,10 +153,8 @@ class Transaction < ActiveRecord::Base
       end
 
     rescue Exception => e
-       puts "#" * 50
-       puts e.message
-       puts "#" * 50
-       transaction.errors.add(:base, :unknown_error)
+      @@log.fatal e.message
+      transaction.errors.add(:base, :unknown_error)
     end
 
     transaction
