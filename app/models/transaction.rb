@@ -85,15 +85,14 @@ class Transaction < ActiveRecord::Base
   def get_auth_header url
     message = "#{url}\n" +
     "#{self.id}\n" +
-    "#{self.total_amount_to_s}\n" + #TODO: monto operación con dos decimales
+    "#{self.total_amount_to_s}\n" +
     "#{self.RFC1123_date}"
 
-    #TODO: Firma del mensaje utilizando el algoritmo HMAC-SHA1 con la llave secreta entregada por Punto Pagos
-    signed_message = Digest::MD5.hexdigest(message)
-
+    signed_message = Digest::HMAC.hexdigest(message, key_secret, Digest::SHA1)
     auth = "PP#{key_id}:#{signed_message}"
 
-    {"Fecha" => self.RFC1123_date, "Autorizacion" => auth}
+    {"Fecha" => self.RFC1123_date,
+      "Autorizacion" => auth}
   end
 
   def event
