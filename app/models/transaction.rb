@@ -11,6 +11,46 @@ class Transaction < ActiveRecord::Base
   #delegates
   delegate :email, to: :user, prefix: true, allow_nil: true
 
+  def self.configure puntopagos_url, key_id, key_secret
+    @@puntopagos_url = puntopagos_url
+    @@key_id = key_id
+    @@key_secret = key_secret
+  end
+
+  def puntopagos_url
+    unless defined? @@puntopagos_url
+      raise PTE::Exceptions::TransactionError.new(
+        "puntopagos_url class variable not initialized")
+    end
+
+    @@puntopagos_url
+  end
+
+  def key_id
+    unless defined? @@key_id
+      raise PTE::Exceptions::TransactionError.new(
+        "key_id class variable not initialized")
+    end
+
+    @@key_id
+  end
+
+  def key_secret
+    unless defined? @@key_secret
+      raise PTE::Exceptions::TransactionError.new(
+        "key_secret class variable not initialized")
+    end
+
+    @@key_secret
+  end
+
+  def get_auth_header action_path
+    "#{puntopagos_url}#{action_path}\n" +
+    "#{self.id}\n" +
+    "#{self.total_amount.round(2)}\n" +
+    "#{self.RFC1123_date}"
+  end
+
   def event
     self.events.first
   end
@@ -63,18 +103,22 @@ class Transaction < ActiveRecord::Base
         load_ticket_types!(ticket_types)
         transaction.load_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
-        if transaction.errors.any?
-          raise ActiveRecord::Rollback
-        end
+        raise ActiveRecord::Rollback if transaction.errors.any?
+        transaction.create_puntopagos_transaction
       end
 
     rescue Exception => e
-      puts e.message
       transaction.errors.add(:base, :unknown_error)
     end
 
-    puts transaction.errors.messages.inspect
     transaction
+  end
+
+  def create_puntopagos_transaction
+    puts 'TODO: create_puntopagos_transaction'
+    # Net::HTTP.post_form a https://servidor/transaccion/crear
+    # Si la respuesta es distinta a 00 hacer rollback
+    # Si 00, devuelvo el <token>
   end
 
   def load_beginning_status user_id

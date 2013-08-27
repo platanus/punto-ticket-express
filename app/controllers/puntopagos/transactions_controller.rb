@@ -1,4 +1,6 @@
 class Puntopagos::TransactionsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:create, :crear, :notification, :error, :success]
+
   def notification
     # TODO:
     # Aquí puntopagos me hace un post avisando sobre el estado del pago.
@@ -8,7 +10,7 @@ class Puntopagos::TransactionsController < ApplicationController
     # Si no hay error en la firma devolver json con: respuesta = 00 y token
     # (buscar transaction por token y ponerlo en :inactive)
     # Si esta todo bien, puntopagos redirigirá hacia mi success action sino a error action
-    # TransactionMailer.completed_payment(Transaction.first).deliver (mandamos mail)
+    # TransactionMailer.completed_payment(Transaction.first).deliver
   end
 
   def error
@@ -21,7 +23,6 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def new
     authorize! :create, Transaction
-    @transaction = Transaction.new
     # TODO:
     # render de la vista de forma no editable:
     # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
@@ -31,21 +32,32 @@ class Puntopagos::TransactionsController < ApplicationController
   def create
     ### TEST DATA ###
     tt = Event.first.ticket_types
-    params[:ticket_types] = [{:id => tt.first.id, :quantity => 3}, {:id => tt.last .id, :quantity => 5}]
+    params[:ticket_types] = [{:id => tt.first.id, :quantity => 3}, {:id => tt.last.id, :quantity => 5}]
+    Transaction.configure "localhost", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4QpvB+leU8dUj2o" #TODO: Poner esto en un initializer
     ### TEST DATA ###
+    transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
+    authorize! :create, transaction
 
-    authorize! :create, Transaction
-    @transaction = Transaction.begin current_user.id, params[:ticket_types]
-    # Si no hay cupo o falla algo mas, redirigir a new mostrando errores
-    # En el after create, ya con el ID, amount y transaction_datetime. hacer:
-    # Net::HTTP.post_form a https://servidor/transaccion/crear
-    # Si la respuesta es distinta a 00, hubo errores y debería hacer rollback de todo lo creado (tranacción, tickets)
-    # (No se en que estado queda la transacción en puntopagos si devolvió error)
-    # Si 00, devuelvo el <token>. Desde la vista se deberá redirigir a:
-    # https://servidor/transaccion/procesar/<token>
+    if transaction.errors.any?
+      render json: transaction.errors, status: :unprocessable_entity
+    else
+      render json: transaction, status: :created
+    end
   end
 
   def show
     authorize! :read, @transaction
+  end
+
+  #PUNTO PAGOS
+
+  def crear
+    render json: {
+      "respuesta" => "00",
+      "token" => "9XJ08401WN0071839",
+      "trx_id" => 9787415132,
+      "medio_pago" => "999",
+      "monto" => 1000000.00
+    }, sstatus: :created
   end
 end
