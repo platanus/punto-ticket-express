@@ -1,11 +1,10 @@
 angular.module('puntoTicketApp.controllers')
-.controller('EventCtrl', ['$scope', '$filter', function ($scope, $filter) {
+.controller('EventNewCtrl', ['$scope', '$filter', function ($scope, $filter) {
   $scope.tickets = [];
 
   var nowDate = new Date();
   var nowTime = $filter('date')(nowDate, 'h:mm a');
-    //$scope.datepicker = {startDate: nowDate, endDate: nowDate};
-    //$scope.timepicker = {startTime: nowTime, endTime: nowTime};
+
     $scope.time = {
       dates: {startDate: nowDate, endDate: nowDate},
       times: {startTime: nowTime, endTime: nowTime}
@@ -27,7 +26,7 @@ angular.module('puntoTicketApp.controllers')
 
 
 angular.module('puntoTicketApp.controllers')
-  .controller('TabsEventCtrl', ['$scope', function ($scope) {
+  .controller('EventDashboardCtrl', ['$scope', function ($scope) {
 
     $scope.tabs = [
       { title:"Grafico de barras", content:"Dynamic content 1" },
@@ -35,5 +34,22 @@ angular.module('puntoTicketApp.controllers')
     ];
 
     $scope.navType = 'pills';
+  }
+]);
+
+
+angular.module('puntoTicketApp.controllers')
+  .controller('EventShowCtrl', ['$scope', function ($scope) {
+
+    $scope.ticketTypes = [];
+    // initialization tasks to be executed before the template enters execution mode
+    // used to ruby data parsed into a JavaScript object
+
+    $scope.init = function(ticketTypes) {
+      $scope.ticketTypes = ticketTypes;
+
+      // assigned a default value for the select
+      $scope.ticketType = $scope.ticketTypes[0];
+    };
   }
 ]);
