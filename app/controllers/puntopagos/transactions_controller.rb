@@ -1,6 +1,6 @@
 class Puntopagos::TransactionsController < ApplicationController
   before_filter :load_notification_attrs, only: [:notification]
-  before_filter :authenticate_user!, :except => [:create, :notification, :error, :success, :crear, :procesar]
+  before_filter :authenticate_user!, :except => [:create, :notification, :error, :success, :crear, :procesar, :send_notification]
 
   def notification
     transaction = Transaction.find_by_id params[:trx_id]
@@ -46,11 +46,8 @@ class Puntopagos::TransactionsController < ApplicationController
       render action: "new"
 
     else
-      redirect_to @transaction.process_url,
-        #TODO: remover los parámetros. Por ahora los paso para simular respuesta de Puntopagos
-        {:token => @transaction.token,
-         :trx_id => @transaction.id,
-         :amount => @transaction.total_amount_to_s}
+      redirect_to @transaction.process_url + "?trx_id=#{@transaction.id}&amount=#{@transaction.total_amount_to_s}&transaction_date=#{@transaction.RFC1123_date}"
+      #TODO: remover los parámetros. Por ahora los paso para simular respuesta de Puntopagos
     end
   end
 
@@ -74,12 +71,19 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def send_notification
-    transaction = Transaction.find_by_id params[:trx_id]
     options = {}
     url = "http://localhost:3000/puntopagos/transactions/notification"
+    message = "#{url}\n" +
+    "#{params[:trx_id]}\n" +
+    "#{params[:monto]}\n" +
+    "#{params[:transaction_date]}"
+    signed_message = Digest::HMAC.hexdigest(message, "uV3F4YluFJax1cKnvbcGwgjvx4QpvB", Digest::SHA1)
+    auth = "PP0PN5J17HBGZHT7ZZ3X82:#{signed_message}"
+
+    options[:headers] = {"Fecha" => params[:transaction_date], "Autorizacion" => auth}
     options[:body] = params
-    options[:headers] = transaction.get_auth_header(url)
     response = HTTParty.post(url, options)
+
     render :text => "Notificacion enviada"
   end
 
