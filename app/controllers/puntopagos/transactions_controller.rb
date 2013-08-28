@@ -3,17 +3,16 @@ class Puntopagos::TransactionsController < ApplicationController
   before_filter :authenticate_user!, :except => [:create, :notification, :error, :success, :crear, :procesar, :send_notification]
 
   def notification
-    transaction = Transaction.find_by_id params[:trx_id]
-    transaction.finish request.headers["Autorizacion"], @notification_attrs
-    # TODO:
-    # Aquí puntopagos me hace un post avisando sobre el estado del pago.
-    # Validar la firma del mensaje. Etonces:
-    # Si hay error en la firma devolver json con: respuesta = 99 y token
-    # (buscar transaction por token y ponerlo en :completed)
-    # Si no hay error en la firma devolver json con: respuesta = 00 y token
-    # (buscar transaction por token y ponerlo en :inactive)
-    # Si esta todo bien, puntopagos redirigirá hacia mi success action sino a error action
-    # TransactionMailer.completed_payment(Transaction.first).deliver
+    unless params.has_key? :token
+      head :bad_request
+      return
+    end
+
+    result = Transaction.finish(params[:token],
+      request.headers["Autorizacion"],
+      @notification_attrs)
+
+    render json: result
   end
 
   def error
@@ -71,8 +70,9 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def send_notification
     options = {}
-    url = "http://localhost:3000/puntopagos/transactions/notification"
-    message = "#{url}\n" +
+    url = "http://localhost:3000/"
+    action = "puntopagos/transactions/notification"
+    message = "#{action}\n" +
     "#{params[:trx_id]}\n" +
     "#{params[:monto]}\n" +
     "#{params[:transaction_date]}"
@@ -81,9 +81,14 @@ class Puntopagos::TransactionsController < ApplicationController
 
     options[:headers] = {"Fecha" => params[:transaction_date], "Autorizacion" => auth}
     options[:body] = params
-    response = HTTParty.post(url, options)
+    response = HTTParty.post(url + action, options)
+    body = response.parsed_response
 
-    render :text => "Notificacion enviada"
+    if body["respuesta"] == "00"
+      redirect_to url + "puntopagos/transactions/success/" + body["token"]
+    else
+      redirect_to url + "puntopagos/transactions/error/" + body["token"]
+    end
   end
 
   private
@@ -91,7 +96,6 @@ class Puntopagos::TransactionsController < ApplicationController
     def load_notification_attrs
       @notification_attrs = {}
       @notification_attrs[:id] = params[:trx_id] if params.has_key? :trx_id
-      @notification_attrs[:token] = params[:token] if params.has_key? :token
       @notification_attrs[:amount] = params[:monto] if params.has_key? :monto
       @notification_attrs[:payment_method] = params[:medio_pago] if params.has_key? :medio_pago
       @notification_attrs[:approbation_date] = params[:fecha_aprobacion] if params.has_key? :fecha_aprobacion

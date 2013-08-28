@@ -14,6 +14,10 @@ class Transaction < ActiveRecord::Base
   SUCCESS_CODE = "00"
   ERROR_CODE = "99"
 
+  CREATE_ACTION_PATH = 'puntopagos/transactions/crear' #TODO: cambiar a puntopagosserver/transaccion/crear
+  PROCESS_ACTION_PATH = 'puntopagos/transactions/procesar/' #TODO: cambiar a puntopagosserver/transaccion/procesar
+  NOTIFICATION_ACTION_PATH = 'puntopagos/transactions/notificacion/' #TODO: cambiar a puntopagosserver/transaccion/notificacion
+
   def self.configure puntopagos_url, key_id, key_secret
     @@puntopagos_url = get_valid_url(puntopagos_url)
     @@key_id = key_id
@@ -83,17 +87,19 @@ class Transaction < ActiveRecord::Base
     @@key_secret
   end
 
-  def get_auth_header url
-    message = "#{url}\n" +
+  def auth_header action_path
+    {"Fecha" => self.RFC1123_date,
+      "Autorizacion" => auth(action_path)}
+  end
+
+  def auth action_path
+    message = "#{action_path}\n" +
     "#{self.id}\n" +
     "#{self.total_amount_to_s}\n" +
     "#{self.RFC1123_date}"
 
     signed_message = Digest::HMAC.hexdigest(message, key_secret, Digest::SHA1)
-    auth = "PP#{key_id}:#{signed_message}"
-
-    {"Fecha" => self.RFC1123_date,
-      "Autorizacion" => auth}
+    "PP#{key_id}:#{signed_message}"
   end
 
   def event
@@ -167,15 +173,84 @@ class Transaction < ActiveRecord::Base
     transaction
   end
 
-  def finish authorization_hash, values
-    #TODO:
-    #Validar el authorization_hash.
-    #Validar los campos values[:id], values[:token]
-    #Guardar demás datos en values
-    puts "###finish###" * 10
-    puts authorization_hash.inspect
-    puts values.inspect
-    puts "###finish###" * 10
+  def self.finish puntopagos_token, authorization_hash, values
+    begin
+      validate_mandatory_values(values)
+      transaction = transaction_by_token(puntopagos_token)
+      unless transaction.can_finish?
+        raise PTE::Exceptions::TransactionError.new(
+          "The transaction with token #{puntopagos_token} was processed already")
+      end
+      unless transaction.auth_match?(authorization_hash)
+        raise PTE::Exceptions::TransactionError.new(
+          "Internal authorization_hash does not match with puntopagos authorization_hash")
+      end
+      transaction.status = PTE::PaymentStatus.completed
+      #transaction.payment_method = values[:payment_method] TODO
+      #transaction.approbation_date = values[:approbation_date]
+      transaction.save
+
+      return {
+        respuesta: SUCCESS_CODE,
+        token: puntopagos_token}
+
+    rescue Exception => e
+      if transaction
+        transaction.status = PTE::PaymentStatus.inactive
+        #transaction.error = e.message TODO
+        transaction.save
+      end
+
+      return {
+        respuesta: ERROR_CODE,
+        error: e.message,
+        token: puntopagos_token}
+    end
+  end
+
+  def auth_match? authorization_hash
+    return false unless authorization_hash
+    transaction_auth = self.auth(NOTIFICATION_ACTION_PATH)
+    transaction_auth == authorization_hash
+  end
+
+  def can_finish?
+    transaction.status == PTE::PaymentStatus.processing
+  end
+
+  def self.transaction_by_token token
+    transaction = Transaction.find_by_token token
+    unless transaction
+      raise PTE::Exceptions::TransactionError.new(
+        "Does not exist transaction with puntopagos_token = #{token}")
+    end
+  end
+
+  def self.validate_mandatory_values values
+    if values.nil? or empty?
+      raise PTE::Exceptions::TransactionError.new(
+        "Undefined values hash")
+    end
+
+    unless values.has_key? :id
+      raise PTE::Exceptions::TransactionError.new(
+        "Undefined id key into values hash")
+    end
+
+    unless values.has_key? :amount
+      raise PTE::Exceptions::TransactionError.new(
+        "Undefined amount key into values hash")
+    end
+
+    unless values.has_key? :payment_method
+      raise PTE::Exceptions::TransactionError.new(
+        "Undefined payment_method key into values hash")
+    end
+
+    unless values.has_key? :approbation_date
+      raise PTE::Exceptions::TransactionError.new(
+        "Undefined approbation_date key into values hash")
+    end
   end
 
   def body_on_create
@@ -189,19 +264,18 @@ class Transaction < ActiveRecord::Base
   end
 
   def process_url
-    Transaction.safe_puntopagos_action("/puntopagos/transactions/procesar/#{self.token}")
+    Transaction.safe_puntopagos_action(PROCESS_ACTION_PATH + self.token)
   end
 
   def create_url
-    Transaction.safe_puntopagos_action('/puntopagos/transactions/crear')
+    Transaction.safe_puntopagos_action(CREATE_ACTION_PATH)
   end
 
   def create_puntopagos_transaction
     options = {}
-    url = create_url
     options[:body] = body_on_create
-    options[:headers] = get_auth_header(url)
-    response = HTTParty.post(url, options)
+    options[:headers] = auth_header(CREATE_ACTION_PATH)
+    response = HTTParty.post(create_url, options)
 
     if response.code != 201 and response.code != 200
       raise PTE::Exceptions::TransactionError.new(

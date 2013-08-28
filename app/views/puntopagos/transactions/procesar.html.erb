@@ -1,10 +1,10 @@
 <h1>Formulario de punto pagos</h1>
 
 <pre>
-El cliente llena el formulario con sus datos para la compra<br/>
-y puntopagos notifica a la url que definimos,<br/>
-/puntopagos/transactions/notification el resultado de la operación.<br/>
-Para simular este proceso, clic en el botón debajo.<br/><br/>
+El cliente llena el formulario con sus datos para la compra
+y puntopagos notifica a la url que definimos,
+/puntopagos/transactions/notification el resultado de la operación.
+Para simular este proceso, clic en el botón debajo.
 
 <%= form_tag(puntopagos_transactions_send_notification_path) do %>
   <%= hidden_field_tag "token", params[:token] %>
