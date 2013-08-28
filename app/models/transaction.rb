@@ -148,12 +148,19 @@ class Transaction < ActiveRecord::Base
         load_ticket_types!(ticket_types)
         transaction.load_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
-        raise ActiveRecord::Rollback if transaction.errors.any?
+        if transaction.errors.any?
+          puts "###errors###" * 10
+          puts transaction.errors.inspect
+          puts "###errors###" * 10
+          raise ActiveRecord::Rollback
+        end
         transaction.create_puntopagos_transaction
       end
 
     rescue Exception => e
+      puts "###exception###" * 10
       @@log.fatal e.message
+      puts "###exception###" * 10
       transaction.errors.add(:base, :unknown_error)
     end
 
@@ -165,10 +172,10 @@ class Transaction < ActiveRecord::Base
     #Validar el authorization_hash.
     #Validar los campos values[:id], values[:token]
     #Guardar demás datos en values
-    puts "#" * 50
+    puts "###finish###" * 10
     puts authorization_hash.inspect
     puts values.inspect
-    puts "#" * 50
+    puts "###finish###" * 10
   end
 
   def body_on_create

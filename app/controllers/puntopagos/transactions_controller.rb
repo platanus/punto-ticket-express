@@ -4,7 +4,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def notification
     transaction = Transaction.find_by_id params[:trx_id]
-    transaction.finish request.header['Autorizacion'], @notification_attrs
+    transaction.finish request.headers["Autorizacion"], @notification_attrs
     # TODO:
     # Aquí puntopagos me hace un post avisando sobre el estado del pago.
     # Validar la firma del mensaje. Etonces:
@@ -27,10 +27,6 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
-    # TODO:
-    # render de la vista de forma no editable:
-    # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
-    # con botón de pagar. Clic aquí con ajax, nos lleva al action create.
   end
 
   def create
@@ -46,7 +42,14 @@ class Puntopagos::TransactionsController < ApplicationController
       render action: "new"
 
     else
-      redirect_to @transaction.process_url + "?trx_id=#{@transaction.id}&amount=#{@transaction.total_amount_to_s}&transaction_date=#{@transaction.RFC1123_date}"
+      uri = Addressable::URI.parse(@transaction.process_url)
+      uri.query_values = {
+        :trx_id => @transaction.id,
+        :amount => @transaction.total_amount_to_s,
+        :transaction_date => @transaction.RFC1123_date,
+      }
+
+      redirect_to uri.to_s
       #TODO: remover los parámetros. Por ahora los paso para simular respuesta de Puntopagos
     end
   end
@@ -64,10 +67,6 @@ class Puntopagos::TransactionsController < ApplicationController
       "trx_id" => params[:trx_id],
       "monto" => params[:monto]
     }, status: :created
-  end
-
-  def procesar
-
   end
 
   def send_notification
@@ -89,7 +88,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   private
 
-    def self.load_notification_attrs
+    def load_notification_attrs
       @notification_attrs = {}
       @notification_attrs[:id] = params[:trx_id] if params.has_key? :trx_id
       @notification_attrs[:token] = params[:token] if params.has_key? :token
