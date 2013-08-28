@@ -8,6 +8,7 @@ PuntoTicketExpress::Application.routes.draw do
     get "transactions/show", to: 'transactions#show', as: :transaction
     #To test puntopagos
     post "transactions/crear"
+    post "transactions/send_notification"
     get "transactions/procesar/:token", to: 'transactions#procesar', as: :transactions_procesar
   end
 

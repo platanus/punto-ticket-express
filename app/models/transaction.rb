@@ -160,6 +160,17 @@ class Transaction < ActiveRecord::Base
     transaction
   end
 
+  def finish authorization_hash, values
+    #TODO:
+    #Validar el authorization_hash.
+    #Validar los campos values[:id], values[:token]
+    #Guardar demás datos en values
+    puts "#" * 50
+    puts authorization_hash.inspect
+    puts values.inspect
+    puts "#" * 50
+  end
+
   def body_on_create
     {"trx_id" => self.id,
      "medio_pago" => "999", #TODO: de donde saco esto?
@@ -184,10 +195,6 @@ class Transaction < ActiveRecord::Base
     options[:body] = body_on_create
     options[:headers] = get_auth_header(url)
     response = HTTParty.post(url, options)
-
-    puts "#### HEADERS ####"
-    puts options[:headers]
-    puts response.headers.inspect
 
     if response.code != 201 and response.code != 200
       raise PTE::Exceptions::TransactionError.new(
