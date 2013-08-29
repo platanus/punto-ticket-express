@@ -70,24 +70,28 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def send_notification
     options = {}
-    url = "http://localhost:3000/"
-    action = "puntopagos/transactions/notification"
-    message = "#{action}\n" +
+    client_url = "http://localhost:3000/"
+    message = "puntopagos/transactions/notificacion\n" +
     "#{params[:trx_id]}\n" +
     "#{params[:monto]}\n" +
     "#{params[:transaction_date]}"
+
+    puts '###sendnotif###' * 10
+    puts message
+    puts '###sendnotif###' * 10
+
     signed_message = Digest::HMAC.hexdigest(message, "uV3F4YluFJax1cKnvbcGwgjvx4QpvB", Digest::SHA1)
     auth = "PP0PN5J17HBGZHT7ZZ3X82:#{signed_message}"
 
     options[:headers] = {"Fecha" => params[:transaction_date], "Autorizacion" => auth}
     options[:body] = params
-    response = HTTParty.post(url + action, options)
+    response = HTTParty.post(client_url + "puntopagos/transactions/notification", options)
     body = response.parsed_response
 
     if body["respuesta"] == "00"
-      redirect_to url + "puntopagos/transactions/success/" + body["token"]
+      redirect_to client_url + "puntopagos/transactions/success/" + body["token"]
     else
-      redirect_to url + "puntopagos/transactions/error/" + body["token"]
+      redirect_to client_url + "puntopagos/transactions/error/" + body["token"]
     end
   end
 

@@ -15,8 +15,8 @@ class Transaction < ActiveRecord::Base
   ERROR_CODE = "99"
 
   CREATE_ACTION_PATH = 'puntopagos/transactions/crear' #TODO: cambiar a puntopagosserver/transaccion/crear
-  PROCESS_ACTION_PATH = 'puntopagos/transactions/procesar/' #TODO: cambiar a puntopagosserver/transaccion/procesar
-  NOTIFICATION_ACTION_PATH = 'puntopagos/transactions/notificacion/' #TODO: cambiar a puntopagosserver/transaccion/notificacion
+  PROCESS_ACTION_PATH = 'puntopagos/transactions/procesar' #TODO: cambiar a puntopagosserver/transaccion/procesar
+  NOTIFICATION_ACTION_PATH = 'puntopagos/transactions/notificacion' #TODO: cambiar a puntopagosserver/transaccion/notificacion
 
   def self.configure puntopagos_url, key_id, key_secret
     @@puntopagos_url = get_valid_url(puntopagos_url)
@@ -98,6 +98,10 @@ class Transaction < ActiveRecord::Base
     "#{self.total_amount_to_s}\n" +
     "#{self.RFC1123_date}"
 
+    puts '###auth###' * 20
+    puts message
+    puts '###auth###' * 20
+
     signed_message = Digest::HMAC.hexdigest(message, key_secret, Digest::SHA1)
     "PP#{key_id}:#{signed_message}"
   end
@@ -177,15 +181,18 @@ class Transaction < ActiveRecord::Base
     begin
       validate_mandatory_values(values)
       transaction = transaction_by_token(puntopagos_token)
+
       unless transaction.can_finish?
         raise PTE::Exceptions::TransactionError.new(
           "The transaction with token #{puntopagos_token} was processed already")
       end
+
       unless transaction.auth_match?(authorization_hash)
         raise PTE::Exceptions::TransactionError.new(
           "Internal authorization_hash does not match with puntopagos authorization_hash")
       end
-      transaction.status = PTE::PaymentStatus.completed
+
+      transaction.payment_status = PTE::PaymentStatus.completed
       #transaction.payment_method = values[:payment_method] TODO
       #transaction.approbation_date = values[:approbation_date]
       transaction.save
@@ -196,10 +203,14 @@ class Transaction < ActiveRecord::Base
 
     rescue Exception => e
       if transaction
-        transaction.status = PTE::PaymentStatus.inactive
+        transaction.payment_status = PTE::PaymentStatus.inactive
         #transaction.error = e.message TODO
         transaction.save
       end
+
+      puts "///error///" * 10
+      puts e.message
+      puts "///error///" * 10
 
       return {
         respuesta: ERROR_CODE,
@@ -215,19 +226,18 @@ class Transaction < ActiveRecord::Base
   end
 
   def can_finish?
-    transaction.status == PTE::PaymentStatus.processing
+    self.payment_status == PTE::PaymentStatus.processing
   end
 
   def self.transaction_by_token token
     transaction = Transaction.find_by_token token
-    unless transaction
-      raise PTE::Exceptions::TransactionError.new(
-        "Does not exist transaction with puntopagos_token = #{token}")
-    end
+    return transaction if transaction
+    raise PTE::Exceptions::TransactionError.new(
+      "Does not exist transaction with puntopagos_token = #{token}")
   end
 
   def self.validate_mandatory_values values
-    if values.nil? or empty?
+    if values.nil? or values.empty?
       raise PTE::Exceptions::TransactionError.new(
         "Undefined values hash")
     end
@@ -264,7 +274,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def process_url
-    Transaction.safe_puntopagos_action(PROCESS_ACTION_PATH + self.token)
+    Transaction.safe_puntopagos_action("#{PROCESS_ACTION_PATH}/#{self.token}")
   end
 
   def create_url
