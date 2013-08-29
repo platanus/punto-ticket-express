@@ -18,6 +18,8 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
+    # converting Ruby hash to array
+    @ticket_types = params.values
   end
 
   def create

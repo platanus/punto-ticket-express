@@ -39,3 +39,24 @@ angular.module('puntoTicketApp.controllers')
     $scope.navType = 'pills';
   }
 ]);
+
+// EVENTS/SHOW
+angular.module('puntoTicketApp.controllers')
+  .controller('EventShowCtrl', ['$scope', '$parse', function ($scope, $parse) {
+
+    $scope.ticketTypes = [];
+    // initialization tasks to be executed before the template enters execution mode
+    // used to ruby data parsed into a JavaScript object
+
+    $scope.init = function(ticketTypes, url) {
+      // eliminates unnecessary attributes
+      _.each(ticketTypes, function(ticketType){
+        delete ticketType.created_at
+        delete ticketType.updated_at
+      });
+
+      $scope.ticketTypes = ticketTypes;
+      $scope.actionUrl = url;
+    };
+  }
+]);

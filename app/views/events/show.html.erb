@@ -4,7 +4,12 @@
 </div>
 
 <!-- angular controller -->
-<div id="page_event" class="row">
+<!-- passing ruby hash to javascript -->
+<!-- passing puntopagos transaction path to javascript -->
+<div id="page_event"
+  class="row"
+  ng-controller="EventShowCtrl"
+  ng-init='init(<%= raw @event.ticket_types.to_json %>, "<%= puntopagos_transactions_new_path %>")'>
 
   <div class="span4">
     <div class="panel">
@@ -30,11 +35,12 @@
     </div>
   </div>
   <div class="span8">
+    <%= form_for @event, {:url => 'poto', :method => 'get'} do |f| %>
     <div class="panel panel-primary">
       <div class="panel-heading panel-title">
         <i class="icon-ticket"></i> Tickets
       </div>
-      <table class="table">
+      <table class="table table-striped table-colored">
         <thead>
           <tr>
             <th>Tipo</th>
@@ -43,26 +49,29 @@
           </tr>
         </thead>
         <tbody>
-          <% @event.ticket_types.each do |ticket| %>
-          <tr>
-            <td><%= ticket.name %></td>
-            <td><%= ticket.price %></td>
+          <tr ng-repeat="t in ticketTypes">
+            <td> {{t.name}} </td>
+            <td> {{t.price}} </td>
             <td>
-              <select class="input-small">
+              <select class="input-small" ng-model="t.qty">
                 <% 1.upto(10) do |num| %>
                 <option><%= num %></option>
                 <% end %>
               </select>
             </td>
           </tr>
-          <% end %>
         </tbody>
       </table>
       <legend></legend>
+
       <div class="control-group text-center">
-        <button ng-click="addTicket()" type="button" class="btn btn-large btn-success"><h3>Comprar ahora</h3></button>
+        <a class="btn btn-large btn-success" href="{{ticketTypes|serailizedUrl:actionUrl}}">
+          <h3>Comprar ahora</h3>
+        </a>
       </div>
     </div>
+    <% end %>
+
     <div class="panel">
       <div class="panel-heading panel-title">
         <i class="icon-info-sign"></i> Información

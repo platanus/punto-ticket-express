@@ -1,3 +1,4 @@
-%pre
-  Aquí va el resumen de la compra con botón de confirmación
-  %div=@transaction.errors.messages.inspect
+%h1 Puntopagos::Transactions#show
+%p Find me in app/views/puntopagos/transactions/show.html.haml
+= button_to("Add WorkRequest", {:action => "create", :ticket_types => @ticket_types})
+%div=@transaction.errors.messages.inspect
