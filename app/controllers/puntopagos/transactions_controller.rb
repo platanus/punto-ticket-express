@@ -23,7 +23,8 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def new
     authorize! :create, Transaction
-    @transaction = Transaction.new
+    # converting Ruby hash to array
+    @ticket_types = params.values
     # TODO:
     # render de la vista de forma no editable:
     # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)

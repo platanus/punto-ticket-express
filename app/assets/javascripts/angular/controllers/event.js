@@ -49,13 +49,14 @@ angular.module('puntoTicketApp.controllers')
     // used to ruby data parsed into a JavaScript object
 
     $scope.init = function(ticketTypes, url) {
-      alert(url);
+      // eliminates unnecessary attributes
+      _.each(ticketTypes, function(ticketType){
+        delete ticketType.created_at
+        delete ticketType.updated_at
+      });
+
       $scope.ticketTypes = ticketTypes;
       $scope.actionUrl = url;
     };
-
-    $scope.submit = function(url) {
-      alert(JSON.stringify(url));
-    }
   }
 ]);
