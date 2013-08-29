@@ -47,13 +47,11 @@ class Transaction < ActiveRecord::Base
       transaction = transaction_by_token(puntopagos_token)
 
       unless transaction.can_finish?
-        raise PTE::Exceptions::TransactionError.new(
-          "The transaction with token #{puntopagos_token} was processed already")
+        raise_error("The transaction with token #{puntopagos_token} was processed already")
       end
 
       unless transaction.auth_match?(authorization_hash)
-        raise PTE::Exceptions::TransactionError.new(
-          "Internal authorization_hash does not match with puntopagos authorization_hash")
+        raise_error("Internal authorization_hash does not match with puntopagos authorization_hash")
       end
 
       transaction.payment_status = PTE::PaymentStatus.completed
@@ -99,20 +97,17 @@ class Transaction < ActiveRecord::Base
     response = HTTParty.post(Transaction.create_url, options)
 
     if response.code != 201 and response.code != 200
-      raise PTE::Exceptions::TransactionError.new(
-        "Puntopagos response - status: #{response.code} and message: #{response.message}")
+      Transaction.raise_error("Puntopagos response - status: #{response.code} and message: #{response.message}")
     end
 
     body = response.parsed_response
 
     if body["respuesta"] == Transaction::ERROR_CODE
-      raise PTE::Exceptions::TransactionError.new(
-        "Puntopagos response - respuesta: #{response.code} and error: #{body["error"]}")
+      Transaction.raise_error("Puntopagos response - respuesta: #{response.code} and error: #{body["error"]}")
     end
 
     if body["trx_id"].to_i != self.id
-      raise PTE::Exceptions::TransactionError.new(
-        "Puntopagos response - trx_id does not match with transcation.id")
+      Transaction.raise_error("Puntopagos response - trx_id does not match with transcation.id")
     end
 
     self.token = body["token"]
@@ -168,53 +163,47 @@ class Transaction < ActiveRecord::Base
   def self.transaction_by_token token
     transaction = Transaction.find_by_token token
     return transaction if transaction
-    raise PTE::Exceptions::TransactionError.new(
-      "Does not exist transaction with puntopagos_token = #{token}")
+    raise_error("Does not exist transaction with puntopagos_token = #{token}")
   end
 
   def self.validate_mandatory_values values
     if values.nil? or values.empty?
-      raise PTE::Exceptions::TransactionError.new(
-        "Undefined values hash")
+      raise_error("Undefined values hash")
     end
 
     unless values.has_key? :id
-      raise PTE::Exceptions::TransactionError.new(
-        "Undefined id key into values hash")
+      raise_error("Undefined id key into values hash")
     end
 
     unless values.has_key? :amount
-      raise PTE::Exceptions::TransactionError.new(
-        "Undefined amount key into values hash")
+      raise_error("Undefined amount key into values hash")
     end
 
     unless values.has_key? :payment_method
-      raise PTE::Exceptions::TransactionError.new(
-        "Undefined payment_method key into values hash")
+      raise_error("Undefined payment_method key into values hash")
     end
 
     unless values.has_key? :approbation_date
-      raise PTE::Exceptions::TransactionError.new(
-        "Undefined approbation_date key into values hash")
+      raise_error("Undefined approbation_date key into values hash")
     end
   end
 
   def self.validate_user_existance user_id
     user = User.find_by_id user_id
     if user.nil?
-      raise PTE::Exceptions::TransactionError.new("Invalid user given")
+      raise_error("Invalid user given")
     end
   end
 
   def self.load_ticket_types! ticket_types
     if ticket_types.nil? or !ticket_types.kind_of? Array
-      raise PTE::Exceptions::TransactionError.new("Invalid ticket types array")
+      raise_error("Invalid ticket types array")
     end
 
     ticket_types.each do |ticket_type|
       unless ticket_type.kind_of? Hash and
         ticket_type.has_key? :id and ticket_type.has_key? :quantity
-        raise PTE::Exceptions::TransactionError.new("Invalid ticket type format")
+        raise_error("Invalid ticket type format")
       end
 
       type = TicketType.find_by_id ticket_type[:id]
@@ -222,12 +211,12 @@ class Transaction < ActiveRecord::Base
       if type
         ticket_type[:object] = type
       else
-        raise PTE::Exceptions::TransactionError.new("Inexistent ticket type")
+        raise_error("Inexistent ticket type")
       end
     end
 
     unless TicketType.ticket_types_for_same_event?(ticket_types.map{ |tt| tt[:object] })
-      raise PTE::Exceptions::TransactionError.new("Ticket types form multiple events found")
+      raise_error("Ticket types form multiple events found")
     end
   end
 end

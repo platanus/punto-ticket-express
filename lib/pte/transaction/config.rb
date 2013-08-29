@@ -9,8 +9,7 @@ module PTE
           values.has_key? :create_path and
           values.has_key? :process_path and
           values.has_key? :notification_path)
-           raise PTE::Exceptions::TransactionError.new(
-             "Missing configuration values")
+           raise_error("Missing configuration values")
         end
 
         values.each do |attr, value|
@@ -30,7 +29,7 @@ module PTE
       end
 
       def raise_error message
-
+        raise PTE::Exceptions::TransactionError.new(message)
       end
 
       def get_valid_url url
@@ -54,8 +53,7 @@ module PTE
           return true
         end
 
-        raise PTE::Exceptions::TransactionError.new(
-          "Invalid url given")
+        raise_error("Invalid url given")
       end
 
       def safe_puntopagos_action action_path
