@@ -63,6 +63,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    colorize (0.5.8)
     columnize (0.3.6)
     commonjs (0.2.6)
     debugger (1.6.1)
@@ -225,6 +226,7 @@ DEPENDENCIES
   cancan
   chronic
   coffee-rails
+  colorize
   debugger
   devise
   devise-i18n

@@ -97,11 +97,6 @@ class Transaction < ActiveRecord::Base
     "#{self.id}\n" +
     "#{self.total_amount_to_s}\n" +
     "#{self.RFC1123_date}"
-
-    puts '###auth###' * 20
-    puts message
-    puts '###auth###' * 20
-
     signed_message = Digest::HMAC.hexdigest(message, key_secret, Digest::SHA1)
     "PP#{key_id}:#{signed_message}"
   end
@@ -159,18 +154,14 @@ class Transaction < ActiveRecord::Base
         transaction.load_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         if transaction.errors.any?
-          puts "###errors###" * 10
-          puts transaction.errors.inspect
-          puts "###errors###" * 10
+          @@log.fatal transaction.errors.messages.to_s.red
           raise ActiveRecord::Rollback
         end
         transaction.create_puntopagos_transaction
       end
 
     rescue Exception => e
-      puts "###exception###" * 10
-      @@log.fatal e.message
-      puts "###exception###" * 10
+      log_error(e)
       transaction.errors.add(:base, :unknown_error)
     end
 
@@ -202,21 +193,24 @@ class Transaction < ActiveRecord::Base
         token: puntopagos_token}
 
     rescue Exception => e
+      log_error(e)
+
       if transaction
         transaction.payment_status = PTE::PaymentStatus.inactive
         #transaction.error = e.message TODO
         transaction.save
       end
 
-      puts "///error///" * 10
-      puts e.message
-      puts "///error///" * 10
-
       return {
         respuesta: ERROR_CODE,
         error: e.message,
         token: puntopagos_token}
     end
+  end
+
+  def self.log_error exception
+    @@log.fatal exception.message.red
+    @@log.fatal exception.backtrace.first.red
   end
 
   def auth_match? authorization_hash

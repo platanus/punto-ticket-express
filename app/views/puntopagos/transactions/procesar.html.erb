@@ -1,4 +1,4 @@
-<h1>Formulario de punto pagos</h1>
+<h1>Formulario confirmación de pago de punto pagos</h1>
 
 <pre>
 El cliente llena el formulario con sus datos para la compra
@@ -15,6 +15,6 @@ Para simular este proceso, clic en el botón debajo.
   <%= hidden_field_tag "fecha_aprobacion", Time.now.strftime("%Y-%m-%dT%H:%M:%S") %>
   <%= hidden_field_tag "codigo_autorizacion", rand(999999999) %>
 
-  <%= submit_tag "Send Notification" %>
+  <%= submit_tag "Continuar" %>
 <% end %>
 </pre>

@@ -15,14 +15,6 @@ class Puntopagos::TransactionsController < ApplicationController
     render json: result
   end
 
-  def error
-    # TODO: mensaje de error al cliente
-  end
-
-  def success
-    # TODO: mensaje de éxito al cliente
-  end
-
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
@@ -32,7 +24,7 @@ class Puntopagos::TransactionsController < ApplicationController
     ### TEST DATA ###
     tt = Event.first.ticket_types
     params[:ticket_types] = [{:id => tt.first.id, :quantity => 2}, {:id => tt.last.id, :quantity => 5}]
-    Transaction.configure "http://localhost:3001", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4QpvB+leU8dUj2o" #TODO: Poner esto en un initializer
+    Transaction.configure "http://localhost:3001", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4Qpv" #TODO: Poner esto en un initializer
     ### TEST DATA ###
     @transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
     authorize! :create, @transaction
@@ -75,10 +67,6 @@ class Puntopagos::TransactionsController < ApplicationController
     "#{params[:trx_id]}\n" +
     "#{params[:monto]}\n" +
     "#{params[:transaction_date]}"
-
-    puts '###sendnotif###' * 10
-    puts message
-    puts '###sendnotif###' * 10
 
     signed_message = Digest::HMAC.hexdigest(message, "uV3F4YluFJax1cKnvbcGwgjvx4QpvB", Digest::SHA1)
     auth = "PP0PN5J17HBGZHT7ZZ3X82:#{signed_message}"
