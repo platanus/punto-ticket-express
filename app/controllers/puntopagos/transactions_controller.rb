@@ -22,9 +22,18 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def create
     ### TEST DATA ###
+    config_values = {
+      puntopagos_url: "http://localhost:3001",
+      key_id: "0PN5J17HBGZHT7ZZ3X82",
+      key_secret: "uV3F4YluFJax1cKnvbcGwgjvx4QpvB",
+      create_path: 'puntopagos/transactions/crear', #TODO: cambiar a puntopagosserver/transaccion/crear
+      process_path: 'puntopagos/transactions/procesar', #TODO: cambiar a puntopagosserver/transaccion/procesar
+      notification_path: 'puntopagos/transactions/notificacion'} #TODO: cambiar a puntopagosserver/transaccion/notificacion
+
+    Transaction.configure(config_values)
+
     tt = Event.first.ticket_types
     params[:ticket_types] = [{:id => tt.first.id, :quantity => 2}, {:id => tt.last.id, :quantity => 5}]
-    Transaction.configure "http://localhost:3001", "0PN5J17HBGZHT7ZZ3X82", "uV3F4YluFJax1cKnvbcGwgjvx4Qpv" #TODO: Poner esto en un initializer
     ### TEST DATA ###
     @transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
     authorize! :create, @transaction
@@ -33,7 +42,7 @@ class Puntopagos::TransactionsController < ApplicationController
       render action: "new"
 
     else
-      uri = Addressable::URI.parse(@transaction.process_url)
+      uri = Addressable::URI.parse(Transaction.process_url @transaction.token)
       uri.query_values = {
         :trx_id => @transaction.id,
         :amount => @transaction.total_amount_to_s,
