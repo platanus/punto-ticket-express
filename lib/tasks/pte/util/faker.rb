@@ -9,7 +9,7 @@ module PTE
         create_ticket_buyers
         create_events
 
-        puts "Done!"
+        puts "Done!".green
       end
 
       def self.delete_old_data
@@ -18,31 +18,32 @@ module PTE
         Event.delete_all
         Ticket.delete_all
         Producer.delete_all
-        Transaction.delete_all
+        ::Transaction.delete_all
       end
 
       def self.create_users
-        create_user("user@example.com", 12345678, PTE::Role.admin)
-        create_user("super@admin.com", 12345678, PTE::Role.admin)
+        create_user("one@admin.com", 12345678, PTE::Role.admin)
+        create_user("two@admin.com", 12345678, PTE::Role.admin)
 
         @organizers = [
-          create_user("one@user.com", 12345678, PTE::Role.user),
-          create_user("two@user.com", 12345678, PTE::Role.user),
-          create_user("three@user.com", 12345678, PTE::Role.user)
+          create_user("one@organizer.com", 12345678, PTE::Role.user),
+          create_user("two@organizer.com", 12345678, PTE::Role.user),
+          create_user("three@organizer.com", 12345678, PTE::Role.user)
         ]
       end
 
       def self.create_ticket_buyers
-        @buyer_ids = []
+        @buyer_ids = [create_user("one@user.com", 12345678, PTE::Role.user).id]
 
         [*5..15].sample.times do
-          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.user).id
+          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.user, false).id
         end
       end
 
-      def self.create_user email, password, role
+      def self.create_user email, password, role, show_ouput = true
         user = User.find_or_create_by_email(email, password: password, role: role)
         create_producers(user) if user.role == PTE::Role.user
+        puts "#{user.role} role - email: #{user.email}, pass: #{password}".green if show_ouput
         user
       end
 
@@ -92,7 +93,6 @@ module PTE
         )
 
         ticket_types = create_ticket_types(evt.id)
-        # create_transactions(ticket_types)
         evt
       end
 
@@ -112,35 +112,6 @@ module PTE
           name: random_ticket_type_name,
           price: [*200..800].sample,
           quantity: [*50..400].sample
-        )
-      end
-
-      def self.create_transactions ticket_types
-        [*2..4].sample.times do
-          participant_id = @buyer_ids.sample
-          transaction = Transaction.create(
-            payment_status: PTE::PaymentStatus::STATUSES.sample,
-            user_id: participant_id
-          )
-
-          create_tickets(transaction.id, ticket_types)
-        end
-      end
-
-      def self.create_tickets transaction_id, ticket_types
-        tickets = []
-
-        [*5..10].sample.times do
-          tickets << create_ticket(transaction_id, ticket_types.sample.id)
-        end
-
-        tickets
-      end
-
-      def self.create_ticket transaction_id, ticket_type_id
-        Ticket.create(
-          ticket_type_id: ticket_type_id,
-          transaction_id: transaction_id
         )
       end
 
