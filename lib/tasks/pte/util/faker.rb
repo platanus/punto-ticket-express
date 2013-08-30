@@ -2,6 +2,7 @@ module PTE
   module Util
     class Faker
       require 'faker'
+      DEFAULT_PASS = 12345678
 
       def self.load_app_data
         delete_old_data
@@ -22,21 +23,21 @@ module PTE
       end
 
       def self.create_users
-        create_user("one@admin.com", 12345678, PTE::Role.admin)
-        create_user("two@admin.com", 12345678, PTE::Role.admin)
+        create_user("one@admin.com", DEFAULT_PASS, PTE::Role.admin)
+        create_user("two@admin.com", DEFAULT_PASS, PTE::Role.admin)
 
         @organizers = [
-          create_user("one@organizer.com", 12345678, PTE::Role.user),
-          create_user("two@organizer.com", 12345678, PTE::Role.user),
-          create_user("three@organizer.com", 12345678, PTE::Role.user)
+          create_user("one@organizer.com", DEFAULT_PASS, PTE::Role.user),
+          create_user("two@organizer.com", DEFAULT_PASS, PTE::Role.user),
+          create_user("three@organizer.com", DEFAULT_PASS, PTE::Role.user)
         ]
       end
 
       def self.create_ticket_buyers
-        @buyer_ids = [create_user("one@user.com", 12345678, PTE::Role.user).id]
+        @buyer_ids = [create_user("one@user.com", DEFAULT_PASS, PTE::Role.user).id]
 
         [*5..15].sample.times do
-          @buyer_ids << create_user(::Faker::Internet.email, 12345678, PTE::Role.user, false).id
+          @buyer_ids << create_user(::Faker::Internet.email, DEFAULT_PASS, PTE::Role.user, false).id
         end
       end
 
