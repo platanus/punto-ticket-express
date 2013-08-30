@@ -138,7 +138,7 @@ class Transaction < ActiveRecord::Base
     ticket_types.each do |ticket_type|
       available_tickets = true
 
-      0..ticket_type[:quantity].to_i.times do
+      0..ticket_type[:qty].to_i.times do
         ticket = Ticket.new(ticket_type_id: ticket_type[:id], transaction_id: self.id)
         available_tickets = false unless ticket.save
       end
@@ -202,7 +202,7 @@ class Transaction < ActiveRecord::Base
 
     ticket_types.each do |ticket_type|
       unless ticket_type.kind_of? Hash and
-        ticket_type.has_key? :id and ticket_type.has_key? :quantity
+        ticket_type.has_key? :id and ticket_type.has_key? :qty
         raise_error("Invalid ticket type format")
       end
 

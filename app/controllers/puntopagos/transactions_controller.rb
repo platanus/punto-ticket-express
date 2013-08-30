@@ -18,34 +18,27 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
-    # converting Ruby hash to array
-    @ticket_types = params['ticket_types'].values
-
-    # TODO:
-    # render de la vista de forma no editable:
-    # los tipos de tickets elegidos por el cliente, sus cantidades y el precio total (por tipo y en general)
-    # con botón de pagar. Clic aquí con ajax, nos lleva al action create.
+    @ticket_types = params[:ticket_types].values
   end
 
   def create
-    ### TEST DATA ###
+    ### TODO: Mover configuración a initializer ###
     config_values = {
       puntopagos_url: "http://localhost:3001",
       key_id: "0PN5J17HBGZHT7ZZ3X82",
       key_secret: "uV3F4YluFJax1cKnvbcGwgjvx4QpvB",
-      create_path: 'puntopagos/transactions/crear', #TODO: cambiar a puntopagosserver/transaccion/crear
-      process_path: 'puntopagos/transactions/procesar', #TODO: cambiar a puntopagosserver/transaccion/procesar
-      notification_path: 'puntopagos/transactions/notificacion'} #TODO: cambiar a puntopagosserver/transaccion/notificacion
+      create_path: 'puntopagos/transactions/crear', #TODO: cambiar a transaccion/crear
+      process_path: 'puntopagos/transactions/procesar', #TODO: cambiar a transaccion/procesar
+      notification_path: 'puntopagos/transactions/notificacion'} #TODO: cambiar a transaccion/notificacion
 
     Transaction.configure(config_values)
+    ### TODO: Mover configuración a initializer ###
 
-    tt = Event.first.ticket_types
-    params[:ticket_types] = [{:id => tt.first.id, :quantity => 2}, {:id => tt.last.id, :quantity => 5}]
-    ### TEST DATA ###
     @transaction = Transaction.begin User.first.id, params[:ticket_types] #change current_user.id
     authorize! :create, @transaction
 
     if @transaction.errors.any?
+      @ticket_types = params[:ticket_types]
       render action: "new"
 
     else
