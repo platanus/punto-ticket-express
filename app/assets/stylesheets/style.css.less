@@ -1,3 +1,19 @@
+/* # FONTS FACE
+================================================== */
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+
 /* # COLORS
 ================================================== */
 @orange: #f1ad4b;
@@ -10,7 +26,45 @@
 @lightGreen: #5db734;
 @lightBlue: #1e8fc6;
 @lightGray: #f5f5f5;
-@darkOrange: #d58512;
+@darkOrange: #fd4f46;
+@darkGray: #666666;
+
+.blue {
+	background-color: #36a9e1;
+}
+.green {
+	background-color: #bdea74;
+}
+.red {
+	background-color: #ff5454;
+}
+.dark-orange-text {
+	color: @darkOrange;
+}
+
+/* # FONTS
+================================================== */
+body, html {
+	line-height: 1.4;
+	font-size: 14px;
+	font-weight: 300;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2 {
+	color: @darkGray;
+	font-weight: 300;
+}
+
+.right-align {
+	text-align: right;
+}
+
+/* # BUTTONS
+================================================== */
+.btn-total {
+	padding: 12px 35px;
+}
 
 /* # NAVBAR STYLES
 ================================================== */
@@ -104,11 +158,7 @@ form .input-error label {
 	border-radius: 4px;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.05);
-	.btn{
-		background: none;
-		background-color: @orange;
-		border-color: @darkOrange;
-		border-radius: 4px;
+	.btn-large{
 		padding: 0px 29px;
 		h3 {
 			font-weight: 500;
@@ -235,18 +285,6 @@ form .input-error label {
 		font-size: 14px;
 		margin-top: 4px;
 	}
-
-	.blue {
-		background-color: #36a9e1;
-	}
-
-	.green {
-		background-color: #bdea74;
-	}
-
-	.red {
-		background-color: #ff5454;
-	}
 }
 
 .box {
@@ -312,6 +350,26 @@ form .input-error label {
 		}
 	}
 }
+
+.table-shop {
+	margin-top: 30px;
+
+	tbody tr td {
+		padding: 20px 12px;
+	}
+}
+
+.table-total {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+
+	tr th {
+		background: #F5F5F5;
+	}
+}
+
+
 
 /* # FOOTER
 ================================================== */

@@ -8,6 +8,7 @@
 @black:   #200;
 @darkGray: #777;
 @orange: #f1ad4b;
+@darkOrange: #fd4f46;
 
 // TITLES
 // ------------------------
@@ -26,11 +27,20 @@ body {
 
 // BUTTONS
 // ========================
-.btn {
+.btn-success {
   // Primary Button Type
+  background: none;
+  background-color: @orange;
+  border-color: @darkOrange;
+  border-radius: 4px;
+
   &.primary {
     color: @white;
     .gradientBar(@red, @darkGray)
+  }
+
+  &:hover {
+    background-color: @darkOrange;
   }
 }
 

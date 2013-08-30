@@ -1,4 +1,32 @@
-%h1 Puntopagos::Transactions#show
-%p Find me in app/views/puntopagos/transactions/show.html.haml
-= button_to("Add WorkRequest", {:action => "create", :ticket_types => @ticket_types})
+%h1 Puntopagos
 %div=@transaction.errors.messages.inspect
+%table.table.table-striped.table-colored.table-shop
+	%thead
+		%tr
+			%th Tipo
+			%th Precio
+			%th Cantidad
+			%th Total
+
+	- @ticket_types.each do |t|
+		%tr
+			%td= t['name']
+			%td.dark-orange-text= number_to_currency(t['price'])
+			%td.dark-orange-text= t['qty']
+			%td.dark-orange-text= number_to_currency calculate_price t
+
+
+.row-fluid
+	.cart-collaterals.span3.offset9
+		.cart-totals
+			%h2.right-align Total
+			%table.table.table-bordered.table-total
+				%tbody
+					%tr
+						%th Sub Total
+						%td.dark-orange-text= number_to_currency calculate_total @ticket_types
+					%tr
+						%th Total
+						%td.dark-orange-text= number_to_currency calculate_total @ticket_types
+
+		= button_to("Add WorkRequest", {:action => "create", :ticket_types => @ticket_types}, :class => "btn btn-large btn-success btn-total")
