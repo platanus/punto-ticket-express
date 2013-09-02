@@ -1,6 +1,4 @@
 class Transaction < ActiveRecord::Base
-  include PTE::Transaction::CalculatedAttributes
-
  # attrs
   attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id
 
@@ -79,8 +77,14 @@ class Transaction < ActiveRecord::Base
 
   def create_puntopagos_transaction
     request = PuntoPagos::Request.new
-    response = request.create(self.id, self.total_amount.to_s)
-    update_attribute(:token, response.get_token) if response.success?
+    response = request.create(self.id.to_s, self.total_amount.to_s)
+
+    if response.success?
+      update_attribute(:token, response.get_token)
+    else
+      self.errors.add(:base, :unknown_error)
+    end
+
     response
   end
 
@@ -120,79 +124,77 @@ class Transaction < ActiveRecord::Base
     raise_error("Does not exist transaction with puntopagos_token = #{token}")
   end
 
-  private
+  def save_beginning_status user_id
+    self.payment_status = PTE::PaymentStatus.processing
+    self.user_id = user_id
+    self.transaction_time = Time.now
+    self.save
+  end
 
-    def save_beginning_status user_id
-      self.payment_status = PTE::PaymentStatus.processing
-      self.user_id = user_id
-      self.transaction_time = Time.now
-      self.save
+  def tickets_data_by_type
+    self.ticket_types.inject([]) do |result, ticket_type|
+      query = self.tickets.where(["tickets.ticket_type_id = ?", ticket_type.id])
+      result << {
+        tickets: nil,
+        count: query.count,
+        price: ticket_type.price,
+        total: (query.count * ticket_type.price)
+      }
+    end
+  end
+
+  def load_tickets ticket_types
+    ticket_types.each do |ticket_type|
+      available_tickets = true
+
+      0..ticket_type[:qty].to_i.times do
+        ticket = Ticket.new(ticket_type_id: ticket_type[:id], transaction_id: self.id)
+        available_tickets = false unless ticket.save
+      end
+
+      unless available_tickets
+        errors.add(:base, I18n.t("activerecord.errors.models.transaction.not_available_tickets",
+          ticket_type_name: ticket_type[:object].name))
+      end
+    end
+  end
+
+  def self.validate_user_existance user_id
+    user = User.find_by_id user_id
+    raise_error("Invalid user given") if user.nil?
+  end
+
+  def self.load_ticket_types! ticket_types
+    if ticket_types.nil? or !ticket_types.kind_of? Array
+      raise_error("Invalid ticket types array")
     end
 
-    def tickets_data_by_type
-      self.ticket_types.inject([]) do |result, ticket_type|
-        query = self.tickets.where(["tickets.ticket_type_id = ?", ticket_type.id])
-        result << {
-          tickets: nil,
-          count: query.count,
-          price: ticket_type.price,
-          total: (query.count * ticket_type.price)
-        }
+    ticket_types.each do |ticket_type|
+      unless ticket_type.kind_of? Hash and
+        ticket_type.has_key? :id and ticket_type.has_key? :qty
+        raise_error("Invalid ticket type format")
+      end
+
+      type = TicketType.find_by_id ticket_type[:id]
+
+      if type
+        ticket_type[:object] = type
+      else
+        raise_error("Inexistent ticket type")
       end
     end
 
-    def load_tickets ticket_types
-      ticket_types.each do |ticket_type|
-        available_tickets = true
-
-        0..ticket_type[:qty].to_i.times do
-          ticket = Ticket.new(ticket_type_id: ticket_type[:id], transaction_id: self.id)
-          available_tickets = false unless ticket.save
-        end
-
-        unless available_tickets
-          errors.add(:base, I18n.t("activerecord.errors.models.transaction.not_available_tickets",
-            ticket_type_name: ticket_type[:object].name))
-        end
-      end
+    unless TicketType.ticket_types_for_same_event?(ticket_types.map{ |tt| tt[:object] })
+      raise_error("Ticket types form multiple events found")
     end
+  end
 
-    def self.validate_user_existance user_id
-      user = User.find_by_id user_id
-      raise_error("Invalid user given") if user.nil?
-    end
+  def self.log_error exception
+    puts exception.message.red
+    puts exception.backtrace.first.red
+  end
 
-    def self.load_ticket_types! ticket_types
-      if ticket_types.nil? or !ticket_types.kind_of? Array
-        raise_error("Invalid ticket types array")
-      end
-
-      ticket_types.each do |ticket_type|
-        unless ticket_type.kind_of? Hash and
-          ticket_type.has_key? :id and ticket_type.has_key? :qty
-          raise_error("Invalid ticket type format")
-        end
-
-        type = TicketType.find_by_id ticket_type[:id]
-
-        if type
-          ticket_type[:object] = type
-        else
-          raise_error("Inexistent ticket type")
-        end
-      end
-
-      unless TicketType.ticket_types_for_same_event?(ticket_types.map{ |tt| tt[:object] })
-        raise_error("Ticket types form multiple events found")
-      end
-    end
-
-    def log_error exception
-      puts exception.message.red
-      puts exception.backtrace.first.red
-    end
-
-    def raise_error message
-      raise PTE::Exceptions::TransactionError.new(message)
-    end
+  def self.raise_error message
+    raise PTE::Exceptions::TransactionError.new(message)
+  end
 end
