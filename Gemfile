@@ -20,6 +20,7 @@ gem 'wicked_pdf'
 gem 'validates_email_format_of'
 gem 'httparty'
 gem 'colorize'
+gem 'puntopagos'
 
 # Gems used only for assets and not required
 # in production environments by default.
