@@ -13,6 +13,7 @@
  *= require style
  *= require bootstrap-datepicker/css/datepicker
  *= require bootstrap-timepicker/css/bootstrap-timepicker
+ *= require prettycheckable/prettyCheckable
  *= require home
  *= require tickets
  * require_tree .

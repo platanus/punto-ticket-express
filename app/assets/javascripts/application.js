@@ -18,6 +18,8 @@
 //= require angular-strap/dist/angular-strap
 //= require bootstrap-datepicker/js/bootstrap-datepicker
 //= require bootstrap-timepicker/js/bootstrap-timepicker
+//= require prettycheckable/prettyCheckable
 //= require app.js
 //= require_tree ./angular
+//= require home
 // require_tree .

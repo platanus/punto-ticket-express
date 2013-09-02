@@ -237,6 +237,60 @@
     </table>
   </fieldset>
 
+
+
+
+
+
+
+
+    <fieldset>
+    <legend>Información a Recolectar</legend>
+
+
+<div class="row-fluid">
+<div class="span8 offset2">
+<table class="table table-condensed table-bordered table-options">
+              <thead>
+                <tr>
+                  <th>Datos solicitados</th>
+                  <th>Opcional</th>
+                  <th class="red-text">Requerido</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nombre</td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                </tr>
+                <tr>
+                  <td>Apellido</td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                </tr>
+                <tr>
+                  <td>Edad</td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                  <td><input type="checkbox" class="custom-check" value="yes" id="answer" name="answer" /></td>
+                </tr>
+              </tbody>
+            </table>
+</div>
+</div>
+
+
+
+</fieldset>
+
+
+
+
+
+
+
+
+
   <div class="form-actions">
     <%= f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'  %>
     <input class="btn btn-large" name="commit" type="submit" value="Guardar evento" ng-show="form.$valid">
