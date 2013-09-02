@@ -82,7 +82,7 @@ class Transaction < ActiveRecord::Base
     if response.success?
       update_attribute(:token, response.get_token)
     else
-      self.errors.add(:base, :unknown_error)
+      self.errors.add(:base, response.get_error)
     end
 
     response
