@@ -11,8 +11,8 @@ class Transaction < ActiveRecord::Base
   #delegates
   delegate :email, to: :user, prefix: true, allow_nil: true
 
-  SUCCESS_CODE = "00"
-  ERROR_CODE = "99"
+  SUCCESS_CODE = 00
+  ERROR_CODE = 99
 
   def self.begin user_id, ticket_types
     transaction = Transaction.new
@@ -56,7 +56,7 @@ class Transaction < ActiveRecord::Base
       transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
 
       return {
-        respuesta: SUCCESS_CODE,
+        respuesta: SUCCESS_CODE.to_s,
         token: puntopagos_token}
 
     rescue Exception => e
@@ -69,7 +69,7 @@ class Transaction < ActiveRecord::Base
       end
 
       return {
-        respuesta: ERROR_CODE,
+        respuesta: ERROR_CODE.to_s,
         error: e.message,
         token: puntopagos_token}
     end
@@ -77,7 +77,7 @@ class Transaction < ActiveRecord::Base
 
   def create_puntopagos_transaction
     request = PuntoPagos::Request.new
-    response = request.create(self.id.to_s, self.total_amount.to_s)
+    response = request.create(self.id.to_s, self.total_amount_to_s)
 
     if response.success?
       update_attribute(:token, response.get_token)
@@ -108,6 +108,10 @@ class Transaction < ActiveRecord::Base
     tickets_data_by_type.inject(0) do |amount, type_data|
       amount += type_data[:total]
     end
+  end
+
+  def total_amount_to_s
+    "%0.2f" % total_amount
   end
 
   def tickets_quantity

@@ -111,7 +111,7 @@ module PTE
         TicketType.create(
           event_id: event_id,
           name: random_ticket_type_name,
-          price: [*200..800].sample,
+          price: [*40..80].sample,
           quantity: [*50..400].sample
         )
       end

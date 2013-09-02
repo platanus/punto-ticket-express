@@ -1,7 +1,7 @@
 development:
   environment:        "sandbox"
-  puntopagos_key:     <%= ENV['DEV_PUNTOPAGOS_KEY'] %>
-  puntopagos_secret:  <%= ENV['DEV_PUNTOPAGOS_SECRET'] %>
+  puntopagos_key:     "AVZBnpM72w9GAN3npJHo"
+  puntopagos_secret:  "bsFfGcr2t6trI2m148ddVhbKAEsSWGtxEuh53LNC"
 
 test:
   environment:        "sandbox"
