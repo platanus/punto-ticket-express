@@ -1,0 +1,53 @@
+.page-header
+  %h1= @event.name
+  %p= @event.description
+/ angular controller
+/ passing ruby hash to javascript
+/ passing puntopagos transaction path to javascript
+#page_event.row{"ng-controller" => "EventShowCtrl", "ng-init" => "init(#{raw @event.ticket_types.to_json}, '#{puntopagos_transactions_new_path}')"}
+  .span4
+    .panel
+      .panel-heading.panel-title
+        %i.icon-building
+        Organizador
+      %h5= @event.organizer_name
+      %p
+        = @event.organizer_description
+    .panel
+      .panel-heading.panel-title
+        %i.icon-map-marker
+        Cuándo y dónde
+      = @event.address
+    .panel
+      .panel-heading.panel-title
+        %i.icon-bullhorn
+        Productora
+      Panel content
+  .span8
+    = form_for @event, {:url => 'poto', :method => 'get'} do |f|
+      .panel.panel-primary
+        .panel-heading.panel-title
+          %i.icon-ticket
+          Tickets
+        %table.table.table-striped.table-colored
+          %thead
+            %tr
+              %th Tipo
+              %th Precio
+              %th Cantidad
+          %tbody
+            %tr{"ng-repeat" => "t in ticketTypes"}
+              %td {{t.name}}
+              %td {{t.price}}
+              %td
+                %select.input-small{"ng-model" => "t.qty"}
+                  = options_for_select((0..10).step(1), 0)
+        %legend
+        .control-group.text-center
+          %a.btn.btn-large.btn-success{:href => "{{ticketTypes|serailizedUrl:actionUrl:'ticket_types'}}", "ng-click" => "sendTicket($event)"}
+            %h3 Comprar ahora
+    .panel
+      .panel-heading.panel-title
+        %i.icon-info-sign
+        Información
+      Panel content
