@@ -29,4 +29,4 @@
 						%th Total
 						%td.dark-orange-text= number_to_currency calculate_total @ticket_types
 
-		= button_to("Add WorkRequest", {:action => "create", :ticket_types => @ticket_types}, :class => "btn btn-large btn-success btn-total")
+		= button_to("Pagar con Punto Pagos", {:action => "create", :ticket_types => @ticket_types}, :class => "btn btn-large btn-success btn-total")
