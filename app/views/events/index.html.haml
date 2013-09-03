@@ -1,0 +1,25 @@
+- if notice
+  #notice.alert.alert-success= notice
+.page-header
+  %h1 Tus Eventos
+%table.table.table-striped
+  %tr
+    %th= t 'activerecord.attributes.event.name'
+    %th= t 'activerecord.attributes.event.address'
+    %th= t 'activerecord.attributes.event.description'
+    %th= t 'activerecord.attributes.event.start_time'
+    %th= t 'activerecord.attributes.event.is_published'
+    %th
+    %th
+  - @events.each do |event|
+    %tr
+      %td= event.name
+      %td= event.address
+      %td= event.description
+      %td= l event.start_time, format: :short
+      %td= boolean_to_words(event.is_published)
+      %td= link_to 'Ver', event, :class => 'btn btn-mini'
+      %td= link_to 'Editar', edit_event_path(event), :class => 'btn btn-mini'
+%br/
+- if can? :create, Event
+  = link_to 'Crear Evento', new_event_path, :class => 'btn btn-success'

@@ -1,0 +1,178 @@
+= form_for @event, html: {name: 'form', class: 'well', novalidate: true} do |f|
+  %fieldset.form-horizontal
+    %legend Detalles del Evento
+    - if @event.errors.any?
+      #error_explanation.alert.alert-error
+        %h4.alert-heading
+          = pluralize(@event.errors.count, "error")
+          prohibited this event from being saved:
+        %br/
+        %ul
+          - @event.errors.full_messages.each do |msg|
+            %li= msg
+    .control-group
+      = f.label :name, :class => 'control-label'
+      .controls
+        = f.text_field :name,          |
+          :class => 'input-xlarge',    |
+          'ng-model' => 'events.name', |
+          'ng-minlength' => '3',       |
+          'form-validate' => '',       |
+          'required' => ''             |
+        / validation
+        .input-error{"ng-show" => "(form['event[name]'].$dirty && form['event[name]'].$invalid)"}
+          %label{"ng-show" => "form['event[name]'].$error.required"}
+            El nombre del evento no puede estar en blanco
+          %label{"ng-show" => "form['event[name]'].$error.minlength"}
+            El nombre del evento debe tener al menos 3 caracteres
+    .control-group
+      = f.label :address, :class => 'control-label'
+      .controls
+        = f.text_field :address,          |
+          :class => 'input-xlarge',       |
+          'ng-model' => 'events.address', |
+          'ng-minlength' => '3',          |
+          'form-validate' => '',          |
+          'required' => ''                |
+        / validation
+        .input-error{"ng-show" => "(form['event[address]'].$dirty && form['event[address]'].$invalid)"}
+          %label{"ng-show" => "form['event[address]'].$error.required"}
+            La dirección del evento no puede estar en blanco
+          %label{"ng-show" => "form['event[address]'].$error.minlength"}
+            La dirección del evento debe tener al menos 3 caracteres
+    .control-group
+      = f.label :description, :class => 'control-label'
+      .controls
+        = f.text_area :description, :rows => '3', :class => 'input-xlarge'
+    .control-group
+      = f.label :organizer_name, :class => 'control-label'
+      .controls
+        = f.text_field :organizer_name,          |
+          :class => 'input-xlarge',              |
+          'ng-model' => 'events.organizer_name', |
+          'ng-minlength' => '3',                 |
+          'form-validate' => '',                 |
+          'required' => ''                       |
+        / validation
+        .input-error{"ng-show" => "(form['event[organizer_name]'].$dirty && form['event[organizer_name]'].$invalid)"}
+          %label{"ng-show" => "form['event[organizer_name]'].$error.required"}
+            El nombre del organizador del evento no puede estar en blanco
+          %label{"ng-show" => "form['event[organizer_name]'].$error.minlength"}
+            El nombre del organizador del evento debe tener al menos 3 caracteres
+    .control-group
+      = f.label :organizer_description, :class => 'control-label'
+      .controls
+        = f.text_area :organizer_description, :rows => '3', :class => 'input-xlarge'
+    .control-group
+      = f.label :custom_url, :class => 'control-label'
+      .controls
+        = f.text_field :custom_url, :class => 'input-xlarge'
+    .control-group
+      = f.label 'Fecha y Horario', :class => 'control-label'
+      .controls
+        .input-append
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text"}/
+          %button.btn{"data-toggle" => "datepicker", :type => "button"}
+            %i.icon-calendar
+        .input-append
+          %input.input-mini{"bs-timepicker" => "", :name => "start_time", "ng-model" => "time.times.startTime", :type => "text"}
+            %button.btn{"data-toggle" => "timepicker", :type => "button"}
+              %i.icon-time
+        \-
+        .input-append
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", :name => "end_date", "ng-model" => "time.dates.endDate", :type => "text"}
+            %button.btn{"data-toggle" => "datepicker", :type => "button"}
+              %i.icon-calendar
+        .input-append
+          %input.input-mini{"bs-timepicker" => "", :name => "end_time", "ng-model" => "time.times.endTime", :type => "text"}
+            %button.btn{"data-toggle" => "timepicker", :type => "button"}
+              %i.icon-time
+        / you must define a filter to accept more than one validation
+        / custom validation
+        .input-error{"ng-show" => "form.start_date.$dirty && form.start_date.$invalid"}
+          %label{"ng-show" => "form.start_date.$error.required"}
+            La fecha de inicio no puede estar en blanco
+          %label{"ng-show" => "form.start_date.$error.date"}
+            El formto de fecha es incorrecto
+        / custom validation
+        %form-validate{:name => "timesStart", "ng-model" => "time", :required => "", "validate-type" => "starttime"}
+          %form-validate{:name => "timesEnd", "ng-model" => "time", :required => "", "validate-type" => "startgreaterend"}
+            .row-fluid
+              .input-error.span6.no-space{"ng-show" => "form.timesStart.$error.starttime"}
+                %label
+                  El comienzo del evento no puede ser menor que la fecha actual
+              .input-error.span6.no-space{"ng-show" => "form.timesEnd.$error.startgreaterend"}
+                %label
+                  El comienzo del evento no puede ser mayor que el final
+  %fieldset
+    %legend Crea los Tickets
+    / custom validation
+    %form-validate{:name => "events", "ng-model" => "tickets", :required => "", "validate-type" => "minrepeat"}
+      .alert.alert-error{"ng-show" => "form.events.$error.minrepeat"}
+        %span Debe crear al menos un tipo de ticket para guardar o publicar este evento.
+      .control-group.text-center
+        %button.btn.btn-success{"ng-click" => "addTicket()", :type => "button"} Agrega un ticket
+      %br/
+      %table.table.table-bordered{"ng-animate" => "{show: 'event-show', hide: 'event-hide'}", "ng-show" => "tickets.length"}
+        %thead
+          %tr
+            %th Nombre
+            %th Precio
+            %th Cantidad
+            %th
+        %tbody
+          %tr{"ng-repeat" => "ticket in tickets"}
+            /
+              do not use only ng-for because not only need a dynamic name for validations,
+              also need a specific structure for rails
+            %td
+              %ng-form{:name => "formInName"}
+                %input.input-xlarge{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
+                  / validation
+                  .input-error{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$dirty && formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$invalid"}
+                    %label{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$error.required"}
+                      El nombre del ticket no puede estar en blanco
+            %td
+              %ng-form{:name => "formInPrice"}
+                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][price]", "ng-model" => "ticket.price", :required => "", :type => "text"}
+                  / validation
+                  .input-error{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$invalid"}
+                    %label{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$error.required"}
+                      El precio del ticket no puede estar en blanco
+            %td
+              %ng-form{:name => "formInQuantity"}
+                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][quantity]", "ng-model" => "ticket.qty", :required => "", :type => "number"}
+                  / validation
+                  .input-error{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$invalid"}
+                    %label{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$error.required"}
+                      La cantidad de tickets no puede estar en blanco
+                    %label{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$error.number"}
+                      Formato no valido
+            %td
+              %a.close{"ng-click" => "deleteTicket($index)"} ×
+  %fieldset
+    %legend Información a Recolectar
+    .row-fluid
+      .span8.offset2
+        %table.table.table-condensed.table-bordered.table-options
+          %thead
+            %tr
+              %th Datos solicitados
+              %th Opcional
+              %th.red-text Requerido
+          %tbody
+            - @event.data_to_collect.each_with_index do |data_to_collect, index|
+              %tr
+                %td
+                  = data_to_collect[:name]
+                  = hidden_field_tag 'event[data_to_collect][][name]', data_to_collect[:name]
+                %td
+                  = check_box_tag "event[data_to_collect][][optional]", 0, data_to_collect[:optional], |
+                    :class => 'custom-check'                                                           |
+                %td
+                  = check_box_tag "event[data_to_collect][][required]", index, data_to_collect[:required], |
+                    :class => 'custom-check'                                                               |
+  .form-actions
+    = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
+    %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
+      %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}

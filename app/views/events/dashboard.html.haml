@@ -1,0 +1,86 @@
+.page-header
+  %h1 Dashboard
+/ angular controller
+#page_event.row
+  .span3
+    .sidebar
+      .first-child.sidebar-header
+        %i.icon-home.icon-large
+        Dashboard
+      .sidebar-header
+        %i.icon-reorder.icon-large
+        General
+      %ul.nav.nav-list.sidenav.affix-top
+        %li
+          %a{:href => "#preview-event"}
+            %i.icon-chevron-right
+            Vista Previa
+        %li
+          %a{:href => "#edit-event"}
+            %i.icon-chevron-right
+            Editar Evento
+      .sidebar-header
+        %i.icon-share.icon-large
+        Promociona
+      %ul.nav.nav-list.sidenav.affix-top
+        %li
+          %a{:href => "#send-mails"}
+            %i.icon-chevron-right
+            Enviar email
+        %li
+          %a{:href => "#facebook-integration"}
+            %i.icon-chevron-right
+            Integrar Facebook
+        %li
+          %a{:href => "#twitter-integration"}
+            %i.icon-chevron-right
+            Integrar Twitter
+      .sidebar-header
+        %i.icon-bar-chart.icon-large
+        Estadísticas
+      %ul.nav.nav-list.sidenav.affix-top
+        %li
+          %a{:href => "#analyze-1"}
+            %i.icon-chevron-right
+            Estadistica 1
+        %li
+          %a{:href => "#analyze-2"}
+            %i.icon-chevron-right
+            Estadistica 2
+        %li
+          %a{:href => "#analyze-3"}
+            %i.icon-chevron-right
+            Estadistica 3
+        %li
+          %a{:href => "#analyze-4"}
+            %i.icon-chevron-right
+            Estadistica 4
+        %li
+          %a{:href => "#analyze-5"}
+            %i.icon-chevron-right
+            Estadistica 5
+        %li
+          %a{:href => "#analyze-6"}
+            %i.icon-chevron-right
+            Estadistica 6
+  .span9
+    .page-header
+      %h3 Tickets vendidos
+    .row-fluid
+      .span4.smallstat.mobileHalf.box{:ondesktop => "span3", :ontablet => "span6"}
+        %i.icon-money.blue
+        %span.title Account
+        %span.value $19 999,99
+      .span4.smallstat.box.mobileHalf.noMargin{:ondesktop => "span3", :ontablet => "span6"}
+        %i.icon-download-alt.green
+        %span.title Income
+        %span.value $1 999,99
+      .span4.smallstat.mobileHalf.box{:ondesktop => "span3", :ontablet => "span6"}
+        %i.icon-money.red
+        %span.title Account
+        %span.value $19 999,99
+    %div{"ng-controller" => "EventDashboardCtrl"}
+      %tabset
+        / <tab heading="Static title">Static content</tab>
+        %tab{:active => "tab.active", :disabled => "tab.disabled", :heading => "{{tab.title}}", "ng-repeat" => "tab in tabs"}
+          {{tab.content}}
