@@ -44,6 +44,16 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
 
+    # fake data to render the input checkboxes
+    @event.data_to_collect = [
+      {:name => 'email', :optional => true, :required => false},
+      {:name => 'nombre', :optional => true, :required => false},
+      {:name => 'apellido', :optional => false, :required => false},
+      {:name => 'edad', :optional => false, :required => false},
+      {:name => 'empresa', :optional => false, :required => false},
+      {:name => 'cargo', :optional => false, :required => false},
+    ]
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
