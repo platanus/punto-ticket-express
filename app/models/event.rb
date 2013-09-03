@@ -1,7 +1,10 @@
 class Event < ActiveRecord::Base
   # attrs
   attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name, :producer_id
-  attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time
+  attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
+
+  # serialize
+  serialize :data_to_collect, Array
 
   # validations
   validates_presence_of :address, :description, :name, :organizer_name, :producer_id
