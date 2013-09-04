@@ -78,6 +78,13 @@ class EventsController < ApplicationController
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
 
+    @event.data_to_collect = [
+      {:name => :email, :required => true},
+      {:name => :name, :required => true},
+      {:name => :age, :required => false},
+      {:name => :rut, :required => false}
+    ]
+
     respond_to do |format|
       if @event.save
         format.html { redirect_to events_path, notice: 'Event was successfully created.' }
