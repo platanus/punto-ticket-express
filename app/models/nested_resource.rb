@@ -43,7 +43,7 @@ class NestedResource < ActiveRecord::Base
     message: I18n.t("activerecord.errors.messages.invalid_url") },
     allow_nil: true, allow_blank: true
 
-  validates :age, numericality: { greater_than: 0 }
+  validates :age, numericality: { greater_than: 0 }, allow_nil: true
 
   validates :email,
     email_format: {message: I18n.t("activerecord.errors.messages.invalid_email"),
@@ -86,14 +86,14 @@ class NestedResource < ActiveRecord::Base
     self.rut = self.rut.to_s.gsub(".", "")
 
     if self.rut.to_s.match(/^(|\d{1,8}-(\d{1}|K|k))$/).nil?
-      errors.add(field, :invalid_rut_format)
+      errors.add(:rut, :invalid_rut_format)
       return false
     end
 
     number_verif_digit = self.rut.to_s.gsub(".", "").split("-")
 
     if number_verif_digit.size != 2
-      errors.add(field, :invalid_rut_format)
+      errors.add(:rut, :invalid_rut_format)
       return false
     end
 
@@ -114,17 +114,17 @@ class NestedResource < ActiveRecord::Base
     result = 0 if result == 11
 
     if result != digit.to_i
-      errors.add(field, :invalid_verification_digit)
+      errors.add(:rut, :invalid_verification_digit)
       return false
     end
 
     return true
   end
 
-  def attr_need_validation attr
-    return false attributes_to_check.nil?
-    attributes_to_check.each do |attr|
-      if attr[:name].to_sym == attr.to_sym and attr[:required]
+  def attr_need_validation? attr
+    return false unless attributes_to_check
+    attributes_to_check.each do |attr_to_check|
+      if attr_to_check[:name].to_sym == attr.to_sym and attr_to_check[:required]
         return true
       end
     end
