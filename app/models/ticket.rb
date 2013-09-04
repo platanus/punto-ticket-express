@@ -7,6 +7,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :transaction
   has_one :user, through: :transaction
   has_one :event, through: :ticket_type
+  has_one :nested_resource, as: :nestable
 
   # validations
   validates :ticket_type_id, presence: true

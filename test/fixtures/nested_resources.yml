@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  last_name: MyString
+  email: MyString
+  rut: MyString
+  phone: MyString
+  mobile_phone: MyString
+  address: MyString
+  company: MyString
+  job: MyString
+  job_address: MyString
+  job_phone: MyString
+  website: MyString
+  gender: MyString
+  birthday: 2013-09-04
+  age: 1
+  nestable_id: 1
+  nestable_type: MyString
+
+two:
+  name: MyString
+  last_name: MyString
+  email: MyString
+  rut: MyString
+  phone: MyString
+  mobile_phone: MyString
+  address: MyString
+  company: MyString
+  job: MyString
+  job_address: MyString
+  job_phone: MyString
+  website: MyString
+  gender: MyString
+  birthday: 2013-09-04
+  age: 1
+  nestable_id: 1
+  nestable_type: MyString

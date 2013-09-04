@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902165201) do
+ActiveRecord::Schema.define(:version => 20130904195807) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -44,6 +44,29 @@ ActiveRecord::Schema.define(:version => 20130902165201) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "producer_id"
+    t.text     "data_to_collect"
+  end
+
+  create_table "nested_resources", :force => true do |t|
+    t.string   "name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "rut"
+    t.string   "phone"
+    t.string   "mobile_phone"
+    t.string   "address"
+    t.string   "company"
+    t.string   "job"
+    t.string   "job_address"
+    t.string   "job_phone"
+    t.string   "website"
+    t.string   "gender"
+    t.date     "birthday"
+    t.integer  "age"
+    t.integer  "nestable_id"
+    t.string   "nestable_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "producers", :force => true do |t|
