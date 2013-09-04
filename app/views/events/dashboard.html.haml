@@ -3,66 +3,7 @@
 / angular controller
 #page_event.row
   .span3
-    .sidebar
-      .first-child.sidebar-header
-        %i.icon-home.icon-large
-        Dashboard
-      .sidebar-header
-        %i.icon-reorder.icon-large
-        General
-      %ul.nav.nav-list.sidenav.affix-top
-        %li
-          %a{:href => "#preview-event"}
-            %i.icon-chevron-right
-            Vista Previa
-        %li
-          %a{:href => "#edit-event"}
-            %i.icon-chevron-right
-            Editar Evento
-      .sidebar-header
-        %i.icon-share.icon-large
-        Promociona
-      %ul.nav.nav-list.sidenav.affix-top
-        %li
-          %a{:href => "#send-mails"}
-            %i.icon-chevron-right
-            Enviar email
-        %li
-          %a{:href => "#facebook-integration"}
-            %i.icon-chevron-right
-            Integrar Facebook
-        %li
-          %a{:href => "#twitter-integration"}
-            %i.icon-chevron-right
-            Integrar Twitter
-      .sidebar-header
-        %i.icon-bar-chart.icon-large
-        Estadísticas
-      %ul.nav.nav-list.sidenav.affix-top
-        %li
-          %a{:href => "#analyze-1"}
-            %i.icon-chevron-right
-            Estadistica 1
-        %li
-          %a{:href => "#analyze-2"}
-            %i.icon-chevron-right
-            Estadistica 2
-        %li
-          %a{:href => "#analyze-3"}
-            %i.icon-chevron-right
-            Estadistica 3
-        %li
-          %a{:href => "#analyze-4"}
-            %i.icon-chevron-right
-            Estadistica 4
-        %li
-          %a{:href => "#analyze-5"}
-            %i.icon-chevron-right
-            Estadistica 5
-        %li
-          %a{:href => "#analyze-6"}
-            %i.icon-chevron-right
-            Estadistica 6
+    = render 'shared/sidebar'
   .span9
     .page-header
       %h3 Tickets vendidos
