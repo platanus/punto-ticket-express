@@ -18,3 +18,5 @@ set :repository, "git@github.com:platanus/punto-ticket-express.git"
 
 # Unicorn
 set :unicorn_workers, 1
+
+set :use_ssl, true
