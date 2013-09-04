@@ -13,7 +13,7 @@ class CreateNestedResources < ActiveRecord::Migration
       t.string :job_address
       t.string :job_phone
       t.string :website
-      t.string :gender
+      t.integer :gender
       t.date :birthday
       t.integer :age
       t.integer :nestable_id

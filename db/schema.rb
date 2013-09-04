@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(:version => 20130904195807) do
     t.string   "job_address"
     t.string   "job_phone"
     t.string   "website"
-    t.string   "gender"
+    t.boolean  "gender"
     t.date     "birthday"
     t.integer  "age"
     t.integer  "nestable_id"
