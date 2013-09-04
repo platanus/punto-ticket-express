@@ -11,8 +11,8 @@ class Transaction < ActiveRecord::Base
   #delegates
   delegate :email, to: :user, prefix: true, allow_nil: true
 
-  SUCCESS_CODE = 00
-  ERROR_CODE = 99
+  SUCCESS_CODE = "00"
+  ERROR_CODE = "99"
 
   def self.begin user_id, ticket_types
     transaction = Transaction.new
@@ -56,7 +56,7 @@ class Transaction < ActiveRecord::Base
       transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
 
       return {
-        respuesta: SUCCESS_CODE.to_s,
+        respuesta: SUCCESS_CODE,
         token: puntopagos_token}
 
     rescue Exception => e
@@ -69,7 +69,7 @@ class Transaction < ActiveRecord::Base
       end
 
       return {
-        respuesta: ERROR_CODE.to_s,
+        respuesta: ERROR_CODE,
         error: e.message,
         token: puntopagos_token}
     end
