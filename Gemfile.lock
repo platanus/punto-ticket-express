@@ -220,6 +220,7 @@ GEM
       rails
     wkhtmltopdf-binary (0.9.9.1)
     xml-simple (1.1.2)
+    yard (0.8.7)
 
 PLATFORMS
   ruby
@@ -258,3 +259,4 @@ DEPENDENCIES
   validates_email_format_of
   wicked_pdf
   wkhtmltopdf-binary
+  yard
