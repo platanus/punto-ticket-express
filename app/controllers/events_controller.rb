@@ -43,6 +43,7 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
+    @attributes = NestedResource.nested_attributes
 
     # fake data to render the input checkboxes
     @event.data_to_collect = [
