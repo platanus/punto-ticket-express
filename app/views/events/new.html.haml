@@ -1,6 +1,9 @@
 .page-header
-  %h1 Crear un Evento
+	%h1 Crear un Evento
+
 / angular controller
 #page_event.row{"ng-controller" => "EventNewCtrl"}
-  .span10.offset1
-    = render 'form'
+	.span3
+		= render 'shared/sidebar'
+	.span9
+		= render 'form'
