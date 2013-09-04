@@ -5,6 +5,9 @@ class NestedResource < ActiveRecord::Base
    :job_phone, :last_name, :mobile_phone, :name,
    :nestable_id, :nestable_type, :phone, :rut, :website
 
+  # Defines which attibutes are required in a particular NestedResource instance.
+  # The format must be like this shown below:
+  #  [{name: :email, required: true}, {name: :name, required: false}]
   attr_accessor :attributes_to_check
 
   # relationship
@@ -79,7 +82,7 @@ class NestedResource < ActiveRecord::Base
     return true
   end
 
-  #Validating rut using Module 11 algorithm
+  #Validates RUT using Module 11 algorithm
   def validate_rut
     return true unless self.rut
 
@@ -121,6 +124,11 @@ class NestedResource < ActiveRecord::Base
     return true
   end
 
+  # Verifies if attr is a required attribute, checking this param against each required attribute.
+  # Required attributes are defined on attributes_to_check.
+  #
+  # @param attr [Symbol] can be any into NESTABLE_ATTRIBUTES constant
+  # @return [Boolean]
   def attr_need_validation? attr
     return false unless attributes_to_check
     attributes_to_check.each do |attr_to_check|
@@ -131,6 +139,10 @@ class NestedResource < ActiveRecord::Base
     return false
   end
 
+  # Returns all nestable attributes with the following structure:
+  #  [{attr: :email, type: :string}, {attr: :gender, type: :boolean}]
+  #
+  # @return [Array]
   def self.nested_attributes
     result = []
 
