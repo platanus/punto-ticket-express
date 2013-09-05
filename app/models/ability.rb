@@ -18,6 +18,7 @@ class Ability
       can :have, :events
       can :create, Event
       can :read, Event
+      can :my_index, Event
       #user can update his events only
       can :update, Event do |event|
         event.user_id == user.id

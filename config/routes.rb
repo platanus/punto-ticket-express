@@ -20,32 +20,22 @@ PuntoTicketExpress::Application.routes.draw do
   devise_for :users
   ActiveAdmin.routes(self)
 
-  #RESOURCES
-  resources :events, only: [:index, :show, :update, :create, :destroy] do
+  # EVENTS
+  get 'me/events', to: 'events#my_index'
+  resources :events, only: [:show, :new, :edit, :create, :destroy] do
     member do
-      get :participants
       get :form, to: 'events#data_to_collect'
     end
-    resources :tickets, only: [:create]
   end
 
-  resources :tickets, only: [:index, :show] do ||
+  # TICKETS
+  resources :tickets, only: [:index, :show] do
     collection do
       get :download
     end
   end
 
-  scope :path => '/me' do
-    resources :events, only: [:index, :show, :new, :edit] do
-      member do
-        get :participants
-        get :admin, to: 'events#dashboard'
-      end
-
-      resources :tickets, only: [:new]
-    end
-  end
-
+  # PRODUCERS
   resources :producers, except: [:index]
 
   # CUSTOM PAGES

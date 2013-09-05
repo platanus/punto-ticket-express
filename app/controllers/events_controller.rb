@@ -4,9 +4,7 @@ class EventsController < ApplicationController
   load_and_authorize_resource
   skip_filter :authenticate_user!, only: :show
 
-  # GET /events
-  # GET /events.json
-  def index
+  def my_index
     @events = current_user.events
 
     respond_to do |format|
@@ -83,7 +81,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to events_path, notice: 'Event was successfully created.' }
+        format.html { redirect_to me_events_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
         @attributes = NestedResource.nested_attributes;
