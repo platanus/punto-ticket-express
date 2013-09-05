@@ -45,6 +45,13 @@ class EventsController < ApplicationController
     @event = Event.new
     @attributes = NestedResource.nested_attributes
 
+    @event.data_to_collect = [
+      {:name => :email, :required => false},
+      {:name => :name, :required => false},
+      {:name => :age, :required => false},
+      {:name => :rut, :required => false}
+    ]
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
@@ -70,8 +77,8 @@ class EventsController < ApplicationController
     @event = current_user.events.build(params[:event])
 
     @event.data_to_collect = [
-      {:name => :email, :required => true},
-      {:name => :name, :required => true},
+      {:name => :email, :required => false},
+      {:name => :name, :required => false},
       {:name => :age, :required => false},
       {:name => :rut, :required => false}
     ]
