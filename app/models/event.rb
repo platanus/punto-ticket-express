@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   serialize :data_to_collect, Array
 
   # validations
-  validates_presence_of :address, :description, :name, :organizer_name, :producer_id
+  validates_presence_of :address, :description, :name, :organizer_name
   validate :remains_published?
 
   # callbacks
