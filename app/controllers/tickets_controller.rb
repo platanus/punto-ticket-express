@@ -1,8 +1,17 @@
-class TicketsController < InheritedResources::Base
+class TicketsController < ApplicationController
 	load_and_authorize_resource
 
+  def index
+    @tickets = current_user.tickets
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @events }
+    end
+  end
+
   def show
-    super do |format|
+    respond_to do |format|
       format.html
       format.pdf do
         render pdf: "ticket",
@@ -14,10 +23,4 @@ class TicketsController < InheritedResources::Base
       end
     end
   end
-
-  protected
-    def collection
-      @tickets = current_user.tickets
-    end
-
 end

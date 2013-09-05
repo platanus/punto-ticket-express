@@ -31,6 +31,22 @@ es:
         one: Evento
         other: Eventos
     attributes:
+      nested_resource:
+        address: Dirección
+        age: Edad
+        birthday: Fecha de nacimiento
+        company: empresa
+        email: E-mail
+        gender: Sexo
+        job: Cargo empresa
+        job_address: Dirección trabajo
+        job_phone: Teléfono trabajo
+        last_name: Apellido
+        mobile_phone: Celular
+        name: Nombre
+        phone: Teléfono fijo
+        rut: RUT
+        website: Página web
       admin_user:
         email: email
         password: password
@@ -62,6 +78,12 @@ es:
         invalid_url: "Formato de url inválido. Ej: http://wwww.app.domain.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        nested_resource:
+          birth_date_greater_than_today: "debe ser menor que la fecha actual"
+          invalid_date: "debe ser una fecha válida"
+          invalid_gender: "debe ser Masculino o Femenino"
+          invalid_rut_format: "debe tener el siguiente formato: XXXXXXXX-X donde X es un número entre 0 y 9 ó K."
+          invalid_verification_digit: "tiene el dígito verificador incorrecto."
         transaction:
           not_available_tickets: "No quedan tickets para el tipo %{ticket_type_name}"
           unknown_error: "Ocurrió un error desconocido y la transacción fue cancelada"

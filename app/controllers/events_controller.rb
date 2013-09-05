@@ -43,16 +43,7 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-
-    # fake data to render the input checkboxes
-    @event.data_to_collect = [
-      {:name => 'email', :optional => true, :required => false},
-      {:name => 'nombre', :optional => true, :required => false},
-      {:name => 'apellido', :optional => false, :required => false},
-      {:name => 'edad', :optional => false, :required => false},
-      {:name => 'empresa', :optional => false, :required => false},
-      {:name => 'cargo', :optional => false, :required => false},
-    ]
+    @attributes = NestedResource.nested_attributes
 
     respond_to do |format|
       format.html # new.html.erb
@@ -77,6 +68,13 @@ class EventsController < ApplicationController
 
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
+
+    @event.data_to_collect = [
+      {:name => :email, :required => true},
+      {:name => :name, :required => true},
+      {:name => :age, :required => false},
+      {:name => :rut, :required => false}
+    ]
 
     respond_to do |format|
       if @event.save
