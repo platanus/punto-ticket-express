@@ -1,4 +1,11 @@
 es:
+  configuration:
+    account:
+      title: Configuración de la cuenta
+    producers:
+      title: Productoras
+    transactions:
+      title: Transacciones
   tickets:
     show:
       total_price_label: "%{ticket_type} $%{price}"

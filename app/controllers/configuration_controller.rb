@@ -8,6 +8,6 @@ class ConfigurationController < ApplicationController
   end
 
   def transactions
-    authorize! :config, :transaction
+    authorize! :config, :transactions
   end
 end
