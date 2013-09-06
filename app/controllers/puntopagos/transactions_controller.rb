@@ -10,6 +10,8 @@ class Puntopagos::TransactionsController < ApplicationController
     authorize! :create, Transaction
     @transaction = Transaction.new
     @ticket_types = params[:ticket_types].values
+    #Atributos definidos en la creación del evento que deberían llenarse en la transacción
+    @nested_attributes = @transaction.event_nested_attributes
   end
 
   def create

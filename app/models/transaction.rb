@@ -1,15 +1,12 @@
 class Transaction < ActiveRecord::Base
- # attrs
   attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id
 
-  # relationship
   belongs_to :user
   has_many :tickets
   has_many :ticket_types, through: :tickets, uniq: true
   has_many :events, through: :ticket_types, uniq: true
   has_one :nested_resource, as: :nestable
 
-  #delegates
   delegate :email, to: :user, prefix: true, allow_nil: true
 
   SUCCESS_CODE = "00"
@@ -21,6 +18,20 @@ class Transaction < ActiveRecord::Base
 
   def event_name
     event.try(:name)
+  end
+
+  def event_nested_attributes
+    data_to_collect = event.try(:data_to_collect)
+    return [] unless data_to_collect
+    attributes = []
+    NestedResource.nested_attributes.each do |col|
+      data_to_collect.each do |attr|
+        if col[:attr] == attr[:name]
+          attributes << col.merge({required: attr[:required]})
+        end
+      end
+    end
+    attributes
   end
 
   def event_start_time
@@ -74,7 +85,7 @@ class Transaction < ActiveRecord::Base
   #  {respuesta: "99", token: "xxxxxxxxx", error: "Error message"}
   #
   # @param headers [Hash]
-  # @param Params [Hash]
+  # @param params [Hash]
   # @return [Hash]
   def self.finish headers, params
     puntopagos_token = params[:token]
