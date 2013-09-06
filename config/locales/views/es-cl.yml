@@ -1,7 +1,8 @@
 es:
   configuration:
+    title: Configuración
     account:
-      title: Configuración de la cuenta
+      title: Mi Cuenta
     producers:
       title: Productoras
     transactions:
