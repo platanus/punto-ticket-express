@@ -21,3 +21,5 @@
 
 # Ignore generated documentation
 /doc
+.yardoc
+
