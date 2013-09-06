@@ -1,37 +1,28 @@
 class Ticket < ActiveRecord::Base
-  # attrs
   attr_accessible :ticket_type_id, :transaction_id
 
-  # relationship
   belongs_to :ticket_type
   belongs_to :transaction
   has_one :user, through: :transaction
   has_one :event, through: :ticket_type
   has_one :nested_resource, as: :nestable
 
-  # validations
   validates :ticket_type_id, presence: true
   validate :is_ticket_type_valid?
   validate :available_tickets?
 
-  #scopes
   scope :processing, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.processing])
   scope :completed, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.completed])
   scope :inactives, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.inactive])
   scope :by_type, lambda {|ticket_type_id| where(ticket_type_id: ticket_type_id)}
 
-  #delegates
-
-  #ticket_type
   delegate :name, to: :ticket_type, prefix: true, allow_nil: true
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
   delegate :price, to: :ticket_type, prefix: true, allow_nil: true
   delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
-  #transaction
   delegate :user_id, to: :transaction, prefix: true, allow_nil: true
   delegate :user_email, to: :transaction, prefix: true, allow_nil: true
   delegate :payment_status, to: :transaction, prefix: false, allow_nil: true
-  #event
   delegate :user_id, to: :event, prefix: true, allow_nil: true
   delegate :name, to: :event, prefix: true, allow_nil: true
   delegate :start_time, to: :event, prefix: true, allow_nil: true

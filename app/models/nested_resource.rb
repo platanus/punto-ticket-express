@@ -1,5 +1,4 @@
 class NestedResource < ActiveRecord::Base
-  # attrs
   attr_accessible :address, :age, :birthday,
    :company, :email, :gender, :job, :job_address,
    :job_phone, :last_name, :mobile_phone, :name,
@@ -7,10 +6,10 @@ class NestedResource < ActiveRecord::Base
 
   # Defines which attibutes are required in a particular NestedResource instance.
   # The format must be like this shown below:
-  #  [{name: :email, required: true}, {name: :name, required: false}]
+  #  [{name: :attr1, required: true}, {name: :attr2, required: false}]
+  # Possible attribute values are defined on NESTABLE_ATTRIBUTES constant
   attr_accessor :attributes_to_check
 
-  # relationship
   belongs_to :nestable, polymorphic: true
 
   NESTABLE_ATTRIBUTES = [
@@ -36,7 +35,6 @@ class NestedResource < ActiveRecord::Base
     MAN = 1
   end
 
-  # validations
   NESTABLE_ATTRIBUTES.each do |attr|
     validates attr, presence: true, if: Proc.new { |nr| nr.attr_need_validation? attr }
   end
@@ -154,6 +152,5 @@ class NestedResource < ActiveRecord::Base
 
     result
   end
-
 
 end

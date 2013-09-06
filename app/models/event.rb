@@ -1,19 +1,17 @@
 class Event < ActiveRecord::Base
-  # attrs
   attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name, :producer_id
   attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
 
-  # serialize
+  # Saves required fields with the following format
+  #  [{:name => :attr1, :required => false}, {:name => :attr2, :required => true}]
+  # Possible attribute values are defined on NestedResource::NESTABLE_ATTRIBUTES constant
   serialize :data_to_collect, Array
 
-  # validations
   validates_presence_of :address, :description, :name, :organizer_name
   validate :remains_published?
 
-  # callbacks
   before_destroy :can_destroy?
 
-  # relationship
   belongs_to :user
   belongs_to :producer
   has_many :ticket_types, dependent: :destroy
