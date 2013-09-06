@@ -8,6 +8,12 @@ class Ability
       can :manage, :all
 
     elsif user.user?
+      #CONFIGURATION
+      can :config, :account
+      can :config, :producers
+      can :config, :transactions
+
+
       #EVENTS
       can :have, :events
       can :create, Event

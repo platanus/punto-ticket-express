@@ -1,4 +1,8 @@
 PuntoTicketExpress::Application.routes.draw do
+  get "configuration/account"
+  get "configuration/producers"
+  get "configuration/transactions"
+
   namespace :puntopagos do
     post "transactions/notification/:token", to: 'transactions#notification'
     get "transactions/error/:token", to: 'transactions#error', as: :transactions_error
