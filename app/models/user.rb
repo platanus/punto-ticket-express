@@ -2,13 +2,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # attrs
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name
 
-  # callbacks
   before_destroy :can_destroy?
 
-  # relationships
   has_many :events, dependent: :destroy
   has_many :transactions
   has_many :tickets, through: :transactions
