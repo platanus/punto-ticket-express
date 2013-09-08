@@ -1,5 +1,6 @@
 PuntoTicketExpress::Application.routes.draw do
   get "configuration/account"
+  put "configuration/update_account"
   get "configuration/producers"
   get "configuration/transactions"
 

@@ -5,4 +5,22 @@
   .span3
     = render 'sidebar'
   .span9
-    = @user.inspect
+    = form_for(@user, :url => configuration_update_account_path, :html => { :method => :put, :class => 'well form-horizontal' }) do |f|
+      .control-group
+        = f.label :email, :class => 'control-label'
+        .controls
+          = f.text_field :email
+      .control-group
+        = f.label :name, :class => 'control-label'
+        .controls
+          = f.text_field :name
+      .control-group
+        = f.label :password, :class => 'control-label'
+        .controls
+          = f.password_field :password, :autocomplete => 'off'
+      .control-group
+        = f.label :password_confirmation, :class => 'control-label'
+        .controls
+          = f.password_field :password_confirmation, :autocomplete => 'off'
+      .form-actions
+        = f.submit t('buttons.save'), :class => 'btn btn-primary'

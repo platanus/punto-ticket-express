@@ -1,8 +1,11 @@
 es:
+  buttons:
+    save: Guardar
   configuration:
     title: Configuración
     account:
       title: Mi Cuenta
+      successfully_updated_message: Sus datos se actualizaron correctamente
     producers:
       title: Productoras
     transactions:

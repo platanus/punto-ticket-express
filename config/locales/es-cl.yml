@@ -31,6 +31,11 @@ es:
         one: Evento
         other: Eventos
     attributes:
+      user:
+        name: Nombre
+        email: E-mail
+        password: Contraseña
+        password_confirmation: Confirmación contraseña
       nested_resource:
         address: Dirección
         age: Edad
