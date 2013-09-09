@@ -7,14 +7,16 @@
   .span9
     %table{class: "table table-striped"}
       %tr
-        %th= "Evento"
-        %th= "Estado transaccción"
-        %th= "Cantidad de tickets"
-        %th= "Total"
+        %th= Transaction.human_attribute_name :transaction_time
+        %th= Transaction.human_attribute_name :event
+        %th= Transaction.human_attribute_name :payment_status
+        %th= Transaction.human_attribute_name :tickets_count
+        %th= Transaction.human_attribute_name :amount
         %th
 
       - @transactions.each do |transaction|
         %tr
+          %td= l(transaction.transaction_time, format: :short)
           %td= transaction.event_name
           %td= payment_label(transaction.payment_status)
           %td= transaction.tickets_quantity

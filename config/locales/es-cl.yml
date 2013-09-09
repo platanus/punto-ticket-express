@@ -31,6 +31,16 @@ es:
         one: Evento
         other: Eventos
     attributes:
+      transaction:
+        event: Evento
+        payment_status: Estado pago
+        tickets_count: Cantidad tickets
+        token: Token Puntopagos
+        user: Usuario
+        amount: Total
+        transaction_time: Fecha transacción
+        details: Detalle
+        error: Mensaje error
       user:
         name: Nombre
         email: E-mail

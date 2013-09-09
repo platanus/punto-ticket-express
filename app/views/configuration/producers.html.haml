@@ -5,4 +5,16 @@
   .span3
     = render 'sidebar'
   .span9
-    = @producers.inspect
+    %table{class: "table table-striped"}
+      %tr
+        %th= Producer.human_attribute_name :name
+        %th= Producer.human_attribute_name :contact_name
+        %th= Producer.human_attribute_name :phone
+        %th
+
+      - @producers.each do |producer|
+        %tr
+          %td= producer.name
+          %td= producer.contact_name
+          %td= producer.phone
+          %td= link_to t('buttons.show'), producer_path(producer)

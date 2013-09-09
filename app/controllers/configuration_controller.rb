@@ -31,6 +31,6 @@ class ConfigurationController < ApplicationController
 
   def transactions
     authorize! :config, :transactions
-    @transactions = current_user.transactions.order(:created_at)
+    @transactions = current_user.transactions.order("transaction_time desc")
   end
 end
