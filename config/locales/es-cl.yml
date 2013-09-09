@@ -2,6 +2,10 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 es:
+  controller:
+    messages:
+      create_success: "La creación fue exitosa"
+      update_success: "La actualización fue exitosa"
   xls:
     participants:
       file_name: participantes.xlsx

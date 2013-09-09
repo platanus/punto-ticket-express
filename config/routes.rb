@@ -41,7 +41,7 @@ PuntoTicketExpress::Application.routes.draw do
     end
   end
 
-  resources :producers
+  resources :producers, except: [:index]
 
   # CUSTOM PAGES
   get '/features', to: 'features#index'

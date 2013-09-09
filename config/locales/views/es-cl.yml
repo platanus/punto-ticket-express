@@ -5,6 +5,7 @@ es:
     edit: Editar
     destroy: Borrar
     back: Volver
+    new: Nuevo
   configuration:
     title: Configuración
     account:
@@ -17,6 +18,10 @@ es:
   producers:
     show:
       title: "Productora: %{producer_name}"
+    new:
+      title: "Creando productora"
+    edit:
+      title: "Editando productora"
   tickets:
     show:
       total_price_label: "%{ticket_type} $%{price}"

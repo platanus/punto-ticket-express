@@ -1,34 +1,36 @@
-= form_for @producer do |f|
-  - if @producer.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@producer.errors.count, "error")} prohibited this producer from being saved:"
-      %ul
-        - @producer.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :rut
-    = f.text_field :rut
-  .field
-    = f.label :address
-    = f.text_field :address
-  .field
-    = f.label :phone
-    = f.text_field :phone
-  .field
-    = f.label :contact_name
-    = f.text_field :contact_name
-  .field
-    = f.label :contact_email
-    = f.text_field :contact_email
-  .field
-    = f.label :description
-    = f.text_field :description
-  .field
-    = f.label :website
-    = f.text_field :website
-  .actions
-    = f.submit 'Save'
+= form_for(@producer, :html => {:class => 'well form-horizontal' }) do |f|
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name
+  .control-group
+    = f.label :rut, :class => 'control-label'
+    .controls
+      = f.text_field :rut
+  .control-group
+    = f.label :address, :class => 'control-label'
+    .controls
+      = f.text_field :address
+  .control-group
+    = f.label :phone, :class => 'control-label'
+    .controls
+      = f.text_field :phone
+  .control-group
+    = f.label :contact_name, :class => 'control-label'
+    .controls
+      = f.text_field :contact_name
+  .control-group
+    = f.label :contact_email, :class => 'control-label'
+    .controls
+      = f.text_field :contact_email
+  .control-group
+    = f.label :description, :class => 'control-label'
+    .controls
+      = f.text_area :description, rows: 6
+  .control-group
+    = f.label :website, :class => 'control-label'
+    .controls
+      = f.text_field :website
+  .form-actions
+    = f.submit t("buttons.save"), :class => 'btn'
+    = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'
