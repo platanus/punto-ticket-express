@@ -4,4 +4,8 @@ module EventsHelper
     value ? "Yes" : "No"
   end
 
+  def form_url(event)
+    event.new_record? ? new_event_path : edit_event_path
+  end
+
 end
