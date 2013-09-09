@@ -2,6 +2,8 @@ es:
   buttons:
     save: Guardar
     show: Ver
+    edit: Editar
+    destroy: Borrar
   configuration:
     title: Configuración
     account:
