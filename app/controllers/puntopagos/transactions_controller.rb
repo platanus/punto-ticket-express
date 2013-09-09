@@ -36,6 +36,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def show
+    @transaction = Transaction.find(params[:id])
     authorize! :read, @transaction
   end
 end

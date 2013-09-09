@@ -1,6 +1,7 @@
 es:
   buttons:
     save: Guardar
+    show: Ver
   configuration:
     title: Configuración
     account:

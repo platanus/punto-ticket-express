@@ -5,4 +5,18 @@
   .span3
     = render 'sidebar'
   .span9
-    = @transactions.inspect
+    %table{class: "table table-striped"}
+      %tr
+        %th= "Evento"
+        %th= "Estado transaccción"
+        %th= "Cantidad de tickets"
+        %th= "Total"
+        %th
+
+      - @transactions.each do |transaction|
+        %tr
+          %td= transaction.event_name
+          %td= payment_label(transaction.payment_status)
+          %td= transaction.tickets_quantity
+          %td= number_to_currency(transaction.total_amount)
+          %td= link_to t('buttons.show'), puntopagos_transaction_path(transaction)

@@ -10,7 +10,7 @@ PuntoTicketExpress::Application.routes.draw do
     get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
     get "transactions/new"
     post "transactions/create"
-    get "transactions/show", to: 'transactions#show', as: :transaction
+    get "transactions/show/:id", to: 'transactions#show', as: :transaction
   end
 
   # ROOT

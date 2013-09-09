@@ -16,5 +16,6 @@
  *= require prettycheckable/prettyCheckable
  *= require home
  *= require tickets
+ *= require puntopagos/transactions
  * require_tree .
  */

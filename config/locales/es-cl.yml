@@ -112,8 +112,8 @@ es:
   pte:
     payment_status:
       processing: Procesando
-      completed: Completo
-      inactive: Inactivo
+      completed: Completa
+      inactive: Inactiva
     role:
       types:
         user: Usuario
