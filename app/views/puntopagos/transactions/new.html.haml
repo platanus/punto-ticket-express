@@ -25,19 +25,20 @@
 	:ticket_types => @ticket_types}) do |f|
 	.row-fluid
 		.span7
-			%h2 Datos adicionales
+			- if !@nested_attributes.empty?
+				%h2 Datos adicionales
 
-			%fieldset.form-horizontal.row-fluid
-				.well
-					= f.fields_for :nested_resource do |resource|
-						- @nested_attributes.each do |el|
-							.control-group
-								= resource.label(el[:attr], :class => 'control-label') do
-									= el[:attr]
-									- if el[:required] == true
-										%span.red-text (*)
-								.controls
-									= build_tag resource, el[:attr], el[:type]
+				%fieldset.form-horizontal.row-fluid
+					.well
+						= f.fields_for :nested_resource do |resource|
+							- @nested_attributes.each do |el|
+								.control-group
+									= resource.label(el[:attr], :class => 'control-label') do
+										= el[:attr]
+										- if el[:required] == true
+											%span.red-text (*)
+									.controls
+										= build_tag resource, el[:attr], el[:type]
 
 		.cart-collaterals.span4.offset1
 			.cart-totals
