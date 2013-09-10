@@ -76,18 +76,25 @@ class EventsController < ApplicationController
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
 
-    @event.data_to_collect = [
-      {:name => :email, :required => false},
-      {:name => :name, :required => false},
-      {:name => :age, :required => false},
-      {:name => :rut, :required => false}
-    ]
+    # create data collection and remove nil data
+    @event.data_to_collect = @event.data_to_collect.select.with_index{|data, i| !data[i.to_s].nil?}
+    @event.data_to_collect = @event.data_to_collect.reduce([]) do |data, i|
+      data << {:name => i[:attr].to_s, :required => !i.has_value?('optional')}
+    end
+
+    # @event.data_to_collect = [
+    #   {:name => :email, :required => false},
+    #   {:name => :name, :required => true},
+    #   {:name => :age, :required => false},
+    #   {:name => :rut, :required => true}
+    # ]
 
     respond_to do |format|
       if @event.save
         format.html { redirect_to events_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
+        @attributes = params[:event][:data_to_collect];
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end

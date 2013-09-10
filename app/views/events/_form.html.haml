@@ -162,16 +162,16 @@
               %th Opcional
               %th.red-text Requerido
           %tbody
-            - @event.data_to_collect.each_with_index do |data_to_collect, index|
+            - @attributes.each_with_index do |a, i|
               %tr
                 %td
-                  = data_to_collect[:name]
-                  = hidden_field_tag 'event[data_to_collect][][name]', data_to_collect[:name]
+                  = a[:attr]
+                  = hidden_field_tag 'event[data_to_collect][][attr]', a[:attr]
                 %td
-                  = check_box_tag "event[data_to_collect][][optional]", 0, data_to_collect[:optional], |
-                    :class => 'custom-check'                                                           |
+                  = radio_button_tag "event[data_to_collect][][#{i}]", 'optional', a[i.to_s] == 'optional', |
+                    :class => 'custom-check'                                                               |
                 %td
-                  = check_box_tag "event[data_to_collect][][required]", index, data_to_collect[:required], |
+                  = radio_button_tag "event[data_to_collect][][#{i}]", 'required', a[i.to_s] == 'required', |
                     :class => 'custom-check'                                                               |
   .form-actions
     = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
