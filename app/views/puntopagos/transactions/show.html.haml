@@ -1,16 +1,21 @@
 .page-header
   %h2= t(".title", time: l(@transaction.transaction_time, format: :long))
 
-%table{class: "table table-striped"}
-  %tr
-    %th
-    %th= Ticket.human_attribute_name :ticket_type
-    %th
-    - @transaction.tickets.each_with_index do |ticket, index|
+#page_account.row
+  .span3
+    = render 'configuration/sidebar'
+  .span9
+    %table{class: "table table-striped"}
       %tr
-        %td= (index += 1)
-        %td= ticket.ticket_type_name
-        %td= link_to t('buttons.show'), ticket_path(ticket)
+        %th
+        %th= Ticket.human_attribute_name :ticket_type
+        %th{colspan: 2}
+        - @transaction.tickets.each_with_index do |ticket, index|
+          %tr
+            %td= (index += 1)
+            %td= ticket.ticket_type_name
+            %td= link_to t('buttons.show'), ticket_path(ticket)
+            %td= link_to t('buttons.download'), ticket_path(ticket, format: :pdf)
 
-.form-actions
-  = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'
+    .form-actions
+      = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'

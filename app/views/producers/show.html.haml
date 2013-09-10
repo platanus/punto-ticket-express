@@ -1,27 +1,31 @@
 .page-header
   %h1= t(".title", producer_name: @producer.name)
 
-%p
-  %b= Producer.human_attribute_name :rut
-  = @producer.rut
-%p
-  %b= Producer.human_attribute_name :address
-  = @producer.address
-%p
-  %b= Producer.human_attribute_name :phone
-  = @producer.phone
-%p
-  %b= Producer.human_attribute_name :contact_name
-  = @producer.contact_name
-%p
-  %b= Producer.human_attribute_name :contact_email
-  = @producer.contact_email
-%p
-  %b= Producer.human_attribute_name :description
-  .pre= @producer.description
-%p
-  %b= Producer.human_attribute_name :website
-  = @producer.website
+#page_account.row
+  .span3
+    = render 'configuration/sidebar'
+  .span9
+    %p
+      %b= Producer.human_attribute_name :rut
+      = @producer.rut
+    %p
+      %b= Producer.human_attribute_name :address
+      = @producer.address
+    %p
+      %b= Producer.human_attribute_name :phone
+      = @producer.phone
+    %p
+      %b= Producer.human_attribute_name :contact_name
+      = @producer.contact_name
+    %p
+      %b= Producer.human_attribute_name :contact_email
+      = @producer.contact_email
+    %p
+      %b= Producer.human_attribute_name :description
+      .pre= @producer.description
+    %p
+      %b= Producer.human_attribute_name :website
+      = @producer.website
 
-.form-actions
-  = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'
+    .form-actions
+      = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'

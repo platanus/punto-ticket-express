@@ -1,36 +1,43 @@
-= form_for(@producer, :html => {:class => 'well form-horizontal' }) do |f|
-  .control-group
-    = f.label :name, :class => 'control-label'
-    .controls
-      = f.text_field :name
-  .control-group
-    = f.label :rut, :class => 'control-label'
-    .controls
-      = f.text_field :rut
-  .control-group
-    = f.label :address, :class => 'control-label'
-    .controls
-      = f.text_field :address
-  .control-group
-    = f.label :phone, :class => 'control-label'
-    .controls
-      = f.text_field :phone
-  .control-group
-    = f.label :contact_name, :class => 'control-label'
-    .controls
-      = f.text_field :contact_name
-  .control-group
-    = f.label :contact_email, :class => 'control-label'
-    .controls
-      = f.text_field :contact_email
-  .control-group
-    = f.label :description, :class => 'control-label'
-    .controls
-      = f.text_area :description, rows: 6
-  .control-group
-    = f.label :website, :class => 'control-label'
-    .controls
-      = f.text_field :website
-  .form-actions
-    = f.submit t("buttons.save"), :class => 'btn'
-    = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'
+.page-header
+  %h1= t(".title", producer_name: @producer.name)
+
+#page_account.row
+  .span3
+    = render 'configuration/sidebar'
+  .span9
+    = form_for(@producer, :html => {:class => 'well form-horizontal' }) do |f|
+      .control-group
+        = f.label :name, :class => 'control-label'
+        .controls
+          = f.text_field :name
+      .control-group
+        = f.label :rut, :class => 'control-label'
+        .controls
+          = f.text_field :rut
+      .control-group
+        = f.label :address, :class => 'control-label'
+        .controls
+          = f.text_field :address
+      .control-group
+        = f.label :phone, :class => 'control-label'
+        .controls
+          = f.text_field :phone
+      .control-group
+        = f.label :contact_name, :class => 'control-label'
+        .controls
+          = f.text_field :contact_name
+      .control-group
+        = f.label :contact_email, :class => 'control-label'
+        .controls
+          = f.text_field :contact_email
+      .control-group
+        = f.label :description, :class => 'control-label'
+        .controls
+          = f.text_area :description, rows: 6
+      .control-group
+        = f.label :website, :class => 'control-label'
+        .controls
+          = f.text_field :website
+      .form-actions
+        = f.submit t("buttons.save"), :class => 'btn'
+        = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'
