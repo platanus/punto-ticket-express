@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     PTE::Role.human_name self.role
   end
 
+  def completed_transactions
+    self.transactions.where(payment_status: PTE::PaymentStatus.completed)
+  end
+
   private
 
     def can_destroy?

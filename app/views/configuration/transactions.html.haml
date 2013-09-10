@@ -9,7 +9,6 @@
       %tr
         %th= Transaction.human_attribute_name :transaction_time
         %th= Transaction.human_attribute_name :event
-        %th= Transaction.human_attribute_name :payment_status
         %th= Transaction.human_attribute_name :tickets_count
         %th= Transaction.human_attribute_name :amount
         %th
@@ -18,7 +17,6 @@
         %tr
           %td= l(transaction.transaction_time, format: :short)
           %td= transaction.event_name
-          %td= payment_label(transaction.payment_status)
           %td= transaction.tickets_quantity
           %td= number_to_currency(transaction.total_amount)
           %td= link_to t('buttons.show'), puntopagos_transaction_path(transaction)
