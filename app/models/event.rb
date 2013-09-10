@@ -22,6 +22,19 @@ class Event < ActiveRecord::Base
 
   scope :published, -> { where is_published: true }
 
+  def nested_attributes
+    return [] unless self.data_to_collect
+    attributes = []
+    NestedResource.nested_attributes.each do |col|
+      self.data_to_collect.each do |attr|
+        if col[:attr].to_s == attr[:name]
+          attributes << col.merge({required: attr[:required]})
+        end
+      end
+    end
+    attributes
+  end
+
   private
 
     def remains_published?

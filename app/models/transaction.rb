@@ -22,17 +22,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def event_nested_attributes
-    data_to_collect = event.try(:data_to_collect)
-    return [] unless data_to_collect
-    attributes = []
-    NestedResource.nested_attributes.each do |col|
-      data_to_collect.each do |attr|
-        if col[:attr].to_s == attr[:name]
-          attributes << col.merge({required: attr[:required]})
-        end
-      end
-    end
-    attributes
+    event.try(:nested_attributes)
   end
 
   def event_start_time
