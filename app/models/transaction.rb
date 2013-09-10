@@ -197,6 +197,7 @@ class Transaction < ActiveRecord::Base
       query = self.tickets.where(["tickets.ticket_type_id = ?", ticket_type.id])
       result << {
         tickets: nil,
+        type_name: ticket_type.name,
         count: query.count,
         price: ticket_type.price,
         total: (query.count * ticket_type.price)

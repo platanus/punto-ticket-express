@@ -39,12 +39,14 @@ es:
         event: Evento
         payment_status: Estado pago
         tickets_count: Cantidad tickets
+        price: Precio ticket
         token: Token Puntopagos
         user: Usuario
         amount: Total
         transaction_time: Fecha transacción
         details: Detalle
         error: Mensaje error
+        type_name: Tipo de ticket
       user:
         name: Nombre
         email: E-mail

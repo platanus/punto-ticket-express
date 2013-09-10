@@ -25,7 +25,7 @@ es:
   puntopagos:
     transactions:
       show:
-        title: "Transacción"
+        title: "Transacción realidaza el día %{time} (%{status})"
   tickets:
     show:
       total_price_label: "%{ticket_type} $%{price}"

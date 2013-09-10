@@ -8,7 +8,7 @@ module Puntopagos::TransactionsHelper
 	end
 
   def payment_label payment_status
-    content_tag(:div, t("pte.payment_status.#{payment_status}"),
+    content_tag(:span, t("pte.payment_status.#{payment_status}"),
       class: "#{payment_status}-payment-status")
   end
 end

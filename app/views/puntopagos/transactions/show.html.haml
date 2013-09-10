@@ -1,15 +1,21 @@
 .page-header
-  %h1= t(".title")
+  %h2= t(".title", time: l(@transaction.transaction_time, format: :short), status: payment_label(@transaction.payment_status)).html_safe
 
-%p
-  %b= Transaction.human_attribute_name :payment_status
-  = payment_label(@transaction.payment_status)
-%p
-  %b= Transaction.human_attribute_name :amount
-  = number_to_currency(@transaction.total_amount)
-%p
-  %b= Transaction.human_attribute_name :transaction_time
-  =  l(@transaction.transaction_time, format: :long)
+%table{class: "table table-striped"}
+  %tr
+    %th= Transaction.human_attribute_name :type_name
+    %th= Transaction.human_attribute_name :tickets_count
+    %th= Transaction.human_attribute_name :price
+    %th= Transaction.human_attribute_name :amount
+    - @transaction.tickets_data_by_type.each do |item|
+      %tr
+        %td= item[:type_name]
+        %td= item[:count]
+        %td= number_to_currency(item[:price])
+        %td= number_to_currency(item[:total])
+    %tr
+      %td{colspan: 3}
+      %td= number_to_currency(@transaction.total_amount)
 
 .form-actions
   = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'
