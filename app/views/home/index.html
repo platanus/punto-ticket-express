@@ -20,7 +20,7 @@
 
 <% @events.each do |event| %>
   <tr>
-    <td><%= link_to event.name, event %></td>
+    <td><%= link_to event.name, event, :class => 'strong-link' %></td>
     <td><%= event.address %></td>
     <td><%= event.description %></td>
     <td><%= l event.start_time, format: :short %></td>
@@ -31,5 +31,5 @@
 
 <br />
 <% if can? :create, Event %>
-  <%= link_to 'New Event', new_event_path, :class => 'btn btn-success' %>
+  <%= link_to 'Crear Evento', new_event_path, :class => 'btn btn-success' %>
 <% end %>
