@@ -1,0 +1,35 @@
+= form_for([:puntopagos, @transaction],
+  :html => {:class => 'form-shop'},
+  :url => {:action => 'create',
+  :ticket_types => @ticket_types}) do |f|
+  .row-fluid
+    .span7
+      - if !@nested_attributes.empty?
+        %h2 Datos adicionales
+
+        %fieldset.form-horizontal.row-fluid
+          .well
+            = f.fields_for :nested_resource do |resource|
+              - @nested_attributes.each do |el|
+                .control-group
+                  = resource.label(el[:attr].to_s.strip, :class => 'control-label') do
+                    - if el[:required] == true
+                      %span.red-text.required (*)
+                    = resource.label el[:attr].to_s.strip
+
+                  .controls
+                    = build_tag resource, el[:attr], el[:type]
+
+    .cart-collaterals.span4.offset1
+      .cart-totals
+        %h2.right-align Total
+        %table.table.table-bordered.table-total
+          %tbody
+            %tr
+              %th Sub Total
+              %td.dark-orange-text= number_to_currency calculate_total @ticket_types
+            %tr
+              %th Total
+              %td.dark-orange-text= number_to_currency calculate_total @ticket_types
+
+      = f.button "Pagar con Punto Pagos", :class => "btn btn-large btn-success btn-total"
