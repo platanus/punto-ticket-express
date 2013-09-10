@@ -1,2 +1,15 @@
-%h1 Puntopagos::Transactions#show
-%p Find me in app/views/puntopagos/transactions/show.html.haml
+.page-header
+  %h1= t(".title")
+
+%p
+  %b= Transaction.human_attribute_name :payment_status
+  = payment_label(@transaction.payment_status)
+%p
+  %b= Transaction.human_attribute_name :amount
+  = number_to_currency(@transaction.total_amount)
+%p
+  %b= Transaction.human_attribute_name :transaction_time
+  =  l(@transaction.transaction_time, format: :long)
+
+.form-actions
+  = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'

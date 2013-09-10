@@ -22,6 +22,10 @@ es:
       title: "Creando productora"
     edit:
       title: "Editando productora"
+  puntopagos:
+    transactions:
+      show:
+        title: "Transacción"
   tickets:
     show:
       total_price_label: "%{ticket_type} $%{price}"
