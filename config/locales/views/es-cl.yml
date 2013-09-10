@@ -6,6 +6,7 @@ es:
     destroy: Borrar
     back: Volver
     new: Nuevo
+    continue: Continuar
   configuration:
     title: Configuración
     account:
@@ -14,7 +15,7 @@ es:
     producers:
       title: Productoras
     transactions:
-      title: Transacciones
+      title: Tickets
   producers:
     show:
       title: "Productora: %{producer_name}"
@@ -24,8 +25,17 @@ es:
       title: "Editando productora"
   puntopagos:
     transactions:
+      success:
+        title: "Transacción exitosa"
+        body: |
+          Su compra se realizó correctamente.
+          Si desea realizar la descarga de los tickets en este momento haga clic
+          <a href="/puntopagos/transactions/show/%{transaction_id}">aquí</a>.
+          Si desea hacerlo en luego, acceda desde el menú "Mi perfil"
+          que se encuentra en la parte superior derecha de la pantalla y
+          luego en la opción "Tickets" del menú de la izquierda.
       show:
-        title: "Transacción realidaza el día %{time} (%{status})"
+        title: "Tickets comprados el día %{time}"
   tickets:
     show:
       total_price_label: "%{ticket_type} $%{price}"

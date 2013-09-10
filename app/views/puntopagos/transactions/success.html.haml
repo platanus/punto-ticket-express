@@ -1,6 +1,22 @@
 .page-header
-	%h1.text-center Transacción exitosa
-%p.text-center Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  %h1.text-center= t(".title")
+%p.text-center= t(".body", transaction_id: @transaction.id).html_safe
+
+%table{class: "table table-striped"}
+  %tr
+    %th= Transaction.human_attribute_name :type_name
+    %th= Transaction.human_attribute_name :tickets_count
+    %th= Transaction.human_attribute_name :price
+    %th= Transaction.human_attribute_name :amount
+    - @transaction.tickets_data_by_type.each do |item|
+      %tr
+        %td= item[:type_name]
+        %td= item[:count]
+        %td= number_to_currency(item[:price])
+        %td= number_to_currency(item[:total])
+    %tr
+      %td{colspan: 3}
+      %td= number_to_currency(@transaction.total_amount)
 
 .control-group.text-center
-%a.btn.btn-large.btn-success.btn-succes-transaction Continuar
+= link_to t("buttons.continue"), root_path, :class => 'btn btn-large btn-success btn-succes-transaction'

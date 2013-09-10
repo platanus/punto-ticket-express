@@ -6,6 +6,11 @@ class Puntopagos::TransactionsController < ApplicationController
     render json: result
   end
 
+  def success
+    #@transaction = Transaction.find_by_token(params[:token])
+    @transaction = Transaction.first
+  end
+
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new

@@ -1,5 +1,5 @@
 .page-header
-  %h2= t(".title", time: l(@transaction.transaction_time, format: :short), status: payment_label(@transaction.payment_status)).html_safe
+  %h2= t(".title", time: l(@transaction.transaction_time, format: :long))
 
 %table{class: "table table-striped"}
   %tr
