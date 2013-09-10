@@ -3,19 +3,14 @@
 
 %table{class: "table table-striped"}
   %tr
-    %th= Transaction.human_attribute_name :type_name
-    %th= Transaction.human_attribute_name :tickets_count
-    %th= Transaction.human_attribute_name :price
-    %th= Transaction.human_attribute_name :amount
-    - @transaction.tickets_data_by_type.each do |item|
+    %th
+    %th= Ticket.human_attribute_name :ticket_type
+    %th
+    - @transaction.tickets.each_with_index do |ticket, index|
       %tr
-        %td= item[:type_name]
-        %td= item[:count]
-        %td= number_to_currency(item[:price])
-        %td= number_to_currency(item[:total])
-    %tr
-      %td{colspan: 3}
-      %td= number_to_currency(@transaction.total_amount)
+        %td= (index += 1)
+        %td= ticket.ticket_type_name
+        %td= link_to t('buttons.show'), ticket_path(ticket)
 
 .form-actions
   = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'

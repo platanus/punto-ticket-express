@@ -101,6 +101,7 @@ es:
       ticket:
         user_id: Participante
         ticket_type_id: Ticket
+        ticket_type: Tipo de Ticket
       event:
         name: Nombre
         address: Dirección
