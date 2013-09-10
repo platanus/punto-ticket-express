@@ -20,12 +20,11 @@
 
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.name %></td>
+    <td><%= link_to event.name, event %></td>
     <td><%= event.address %></td>
     <td><%= event.description %></td>
     <td><%= l event.start_time, format: :short %></td>
     <td><%= l event.end_time, format: :short %></td>
-    <td><%= link_to 'Show', event, :class => 'btn btn-mini' %></td>
   </tr>
 <% end %>
 </table>
