@@ -20,6 +20,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
     if @transaction.errors.any?
       @ticket_types = params[:ticket_types]
+      @nested_attributes = @transaction.event_nested_attributes
       render action: "new"
 
     else
@@ -30,6 +31,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
       else
         @ticket_types = params[:ticket_types]
+        @nested_attributes = @transaction.event_nested_attributes
         render action: "new"
       end
     end

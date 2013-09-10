@@ -17,6 +17,24 @@ es:
       body: |
         Tu pago para el evento %{even_name} se realizó con éxito.
         Importe: $%{price}
+  helpers:
+    label:
+      transaction[nested_resource]:
+        address: Dirección
+        age: Edad
+        birthday: Fecha de nacimiento
+        company: empresa
+        email: E-mail
+        gender: Sexo
+        job: Cargo empresa
+        job_address: Dirección trabajo
+        job_phone: Teléfono trabajo
+        last_name: Apellido
+        mobile_phone: Celular
+        name: Nombre
+        phone: Teléfono fijo
+        rut: RUT
+        website: Página web
   activerecord:
     models:
       admin_user:

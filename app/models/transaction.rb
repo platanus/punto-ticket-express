@@ -14,6 +14,7 @@ class Transaction < ActiveRecord::Base
 
   def event
     events.first
+    # Event.last
   end
 
   def event_name
@@ -26,7 +27,7 @@ class Transaction < ActiveRecord::Base
     attributes = []
     NestedResource.nested_attributes.each do |col|
       data_to_collect.each do |attr|
-        if col[:attr] == attr[:name]
+        if col[:attr].to_s == attr[:name]
           attributes << col.merge({required: attr[:required]})
         end
       end
