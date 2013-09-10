@@ -7,8 +7,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def success
-    #@transaction = Transaction.find_by_token(params[:token])
-    @transaction = Transaction.first
+    @transaction = Transaction.find_by_token(params[:token])
   end
 
   def new
