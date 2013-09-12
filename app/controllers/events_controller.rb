@@ -45,13 +45,6 @@ class EventsController < ApplicationController
     @event = Event.new
     @attributes = NestedResource.nested_attributes
 
-    @event.data_to_collect = [
-      {:name => :email, :required => false},
-      {:name => :name, :required => false},
-      {:name => :age, :required => false},
-      {:name => :rut, :required => false}
-    ]
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
@@ -60,6 +53,11 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @attributes = NestedResource.nested_attributes
+  end
+
+  def data_to_collect
+    @attributes = NestedResource.nested_attributes
   end
 
   # POST /events
@@ -76,12 +74,6 @@ class EventsController < ApplicationController
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
 
-    # create data collection and remove nil data
-    @event.data_to_collect = @event.data_to_collect.select.with_index{|data, i| !data[i.to_s].nil?}
-    @event.data_to_collect = @event.data_to_collect.reduce([]) do |data, i|
-      data << {:name => i[:attr].to_s, :required => !i.has_value?('optional')}
-    end
-
     # @event.data_to_collect = [
     #   {:name => :email, :required => false},
     #   {:name => :name, :required => true},
@@ -94,7 +86,7 @@ class EventsController < ApplicationController
         format.html { redirect_to events_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
-        @attributes = params[:event][:data_to_collect];
+        @attributes = NestedResource.nested_attributes;
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end

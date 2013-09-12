@@ -1,0 +1,26 @@
+= form_for @event, html: {name: 'form', class: 'well', novalidate: true} do |f|
+
+  %fieldset
+    %legend Información a Recolectar
+    .row-fluid
+      .span8.offset2
+        %table.table.table-condensed.table-bordered.table-options
+          %thead
+            %tr
+              %th Datos solicitados
+              %th Opcional
+              %th.red-text Requerido
+          %tbody
+            - @attributes.each_with_index do |a, i|
+              %tr
+                %td
+                  = a[:attr]
+                  = hidden_field_tag 'event[data_to_collect][][name]', a[:attr]
+                %td
+                  = radio_button_tag "event[data_to_collect][][#{i}]", 'optional', attr_is_checked(a[:attr], false), |
+                    :class => 'custom-check'                                                                         |
+                %td
+                  = radio_button_tag "event[data_to_collect][][#{i}]", 'required', attr_is_checked(a[:attr], true), |
+                    :class => 'custom-check'                                                                         |
+  .form-actions
+    = f.submit 'Guardar formulario', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'

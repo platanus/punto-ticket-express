@@ -152,27 +152,7 @@
             %td
               %a.close{"ng-click" => "deleteTicket($index)"} ×
   %fieldset
-    %legend Información a Recolectar
-    .row-fluid
-      .span8.offset2
-        %table.table.table-condensed.table-bordered.table-options
-          %thead
-            %tr
-              %th Datos solicitados
-              %th Opcional
-              %th.red-text Requerido
-          %tbody
-            - @attributes.each_with_index do |a, i|
-              %tr
-                %td
-                  = a[:attr]
-                  = hidden_field_tag 'event[data_to_collect][][attr]', a[:attr]
-                %td
-                  = radio_button_tag "event[data_to_collect][][#{i}]", 'optional', a[i.to_s] == 'optional', |
-                    :class => 'custom-check'                                                               |
-                %td
-                  = radio_button_tag "event[data_to_collect][][#{i}]", 'required', a[i.to_s] == 'required', |
-                    :class => 'custom-check'                                                               |
+
   .form-actions
     = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
     %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}

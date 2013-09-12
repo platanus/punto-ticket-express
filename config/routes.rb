@@ -24,6 +24,7 @@ PuntoTicketExpress::Application.routes.draw do
   resources :events, only: [:index, :show, :update, :create, :destroy] do
     member do
       get :participants
+      get :form, to: 'events#data_to_collect'
     end
     resources :tickets, only: [:create]
   end
