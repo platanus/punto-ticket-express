@@ -1,21 +1,29 @@
-%p#notice= notice
+.page-header
+  %h2= t(".title")
 
-.row#printable-ticket
-  .span9.well
-    .row
-      .span9.hrule.title
-        %h2= @ticket.event_name
-    .row
-      .span5
-        - printable_ticket_label(Event.human_attribute_name(:start_time), l(@ticket.event_start_time, format: :long))
-      .span4
-        - printable_ticket_label(Event.human_attribute_name(:address), @ticket.event_address)
-    .row
-      .span9.hrule
-        - printable_ticket_label(Event.human_attribute_name(:end_time), l(@ticket.event_end_time, format: :long))
-    .row
-      .span9.hrule
-        - printable_ticket_label(Ticket.human_attribute_name(:user_id), @ticket.transaction_user_email)
-    .row
-      .span9
-        - ticket_type_label @ticket
+.row
+  .span3
+    = render 'configuration/sidebar'
+  .span9
+    .row.ticket
+      .span9.ticket-wrapper
+        .row
+          .span9.hrule.title
+            %h2= @ticket.event_name
+        .row
+          .span5
+            - printable_ticket_label(Event.human_attribute_name(:start_time), l(@ticket.event_start_time, format: :long))
+          .span4
+            - printable_ticket_label(Event.human_attribute_name(:address), @ticket.event_address)
+        .row
+          .span9.hrule
+            - printable_ticket_label(Event.human_attribute_name(:end_time), l(@ticket.event_end_time, format: :long))
+        .row
+          .span9.hrule
+            - printable_ticket_label(Ticket.human_attribute_name(:user_id), @ticket.transaction_user_email)
+        .row
+          .span9
+            - ticket_type_label @ticket
+    .form-actions
+      = link_to t("buttons.back"), puntopagos_transaction_path(@ticket.transaction), :class => 'btn'
+      = link_to t("buttons.download"), download_tickets_path(ticket_id: @ticket.id, format: :pdf), :class => 'btn'

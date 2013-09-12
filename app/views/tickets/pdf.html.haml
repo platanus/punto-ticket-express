@@ -1,0 +1,21 @@
+- @tickets.each do |ticket|
+  = wicked_pdf_image_tag 'punto-ticket-logo.png'
+  .row#printable-ticket.ticket
+    .span9.ticket-wrapper#printable-ticket_wrapper
+      .row
+        .span9.hrule.title
+          %h2= ticket.event_name
+      .row
+        .span5
+          - printable_ticket_label(Event.human_attribute_name(:start_time), l(ticket.event_start_time, format: :long))
+        .span4
+          - printable_ticket_label(Event.human_attribute_name(:address), ticket.event_address)
+      .row
+        .span9.hrule
+          - printable_ticket_label(Event.human_attribute_name(:end_time), l(ticket.event_end_time, format: :long))
+      .row
+        .span9.hrule
+          - printable_ticket_label(Ticket.human_attribute_name(:user_id), ticket.transaction_user_email)
+      .row
+        .span9
+          - ticket_type_label ticket

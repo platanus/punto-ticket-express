@@ -38,6 +38,15 @@ class Ability
       can :read, Ticket do |ticket|
         (ticket.transaction_user_id == user.id) or (ticket.event_user_id == user.id)
       end
+      can :download, Array do |tickets|
+        tickets.each do |ticket|
+          unless (ticket.transaction_user_id == user.id) or
+            (ticket.event_user_id == user.id)
+            return false
+          end
+        end
+        true
+      end
 
 
       #PRODUCERS

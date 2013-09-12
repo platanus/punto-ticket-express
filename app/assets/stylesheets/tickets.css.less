@@ -1,25 +1,46 @@
 #printable-ticket {
-  .title {
-    padding-bottom: 20px;
-  }
+  width: 210mm;
+  height: 277mm;
+  overflow: hidden;
+  page-break-after: always;
 
-  .hrule {
+  #printable-ticket_wrapper {
+    background-color: #FFFFFF;
+  }
+}
+
+.ticket {
+
+  .ticket-wrapper {
     border: 1px solid #DDD;
-    border-width: 0 0 1px 0;
-  }
+    margin: 0 0 0 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #F4F4F4;
 
-  .printable-label-wrapper {
-    padding: 15px 0 15px 0;
-
-    .printable-label {
-      color: #51A451;
-      font-size: 14px;
-      padding-bottom: 10px;
+    .title h2 {
+      margin-left: 15px;
     }
 
-    .printable-value {
-      padding-left: 5px;
-      font-size: 16px;
+    .hrule {
+      border: 1px solid #DDD;
+      border-width: 0 0 1px 0;
+    }
+
+    .printable-label-wrapper {
+      padding: 15px 0 15px 15px;
+
+      .printable-label {
+        color: #51A451;
+        font-size: 14px;
+        padding-bottom: 10px;
+      }
+
+      .printable-value {
+        padding-left: 5px;
+        font-size: 16px;
+      }
     }
   }
 }

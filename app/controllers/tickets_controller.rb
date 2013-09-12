@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-	load_and_authorize_resource
+	load_and_authorize_resource except: [:download]
 
   def index
     @tickets = current_user.tickets
@@ -10,12 +10,19 @@ class TicketsController < ApplicationController
     end
   end
 
-  def show
+  def download
+    if params.has_key? :ticket_id
+      @tickets = Ticket.find_all_by_id(params[:ticket_id])
+    else
+      @tickets = Ticket.find(params[:ticket_ids])
+    end
+
+    authorize! :download, @tickets
+
     respond_to do |format|
-      format.html
       format.pdf do
         render pdf: "ticket",
-          template: "tickets/show",
+          template: "tickets/pdf",
           layout: "tickets/pdf",
           handlers: ["html.haml"],
           # renders html version if you set debug=true in URL

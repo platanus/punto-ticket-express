@@ -15,7 +15,8 @@
             %td= (index += 1)
             %td= ticket.ticket_type_name
             %td= link_to t('buttons.show'), ticket_path(ticket)
-            %td= link_to t('buttons.download'), ticket_path(ticket, format: :pdf)
+            %td= link_to t('buttons.download'), download_tickets_path(ticket_id: ticket.id, format: :pdf)
 
     .form-actions
       = link_to t("buttons.back"), configuration_transactions_path, :class => 'btn'
+      = link_to t("buttons.download"), download_tickets_path(ticket_ids: @transaction.ticket_ids, format: :pdf), :class => 'btn'

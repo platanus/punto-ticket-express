@@ -39,4 +39,5 @@ es:
         title: "Tickets comprados el día %{time}"
   tickets:
     show:
+      title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
