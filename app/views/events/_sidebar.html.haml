@@ -3,43 +3,33 @@
     %i.icon-reorder.icon-large
     Información del Evento
   %ul.nav.nav-list.sidenav.affix-top
-
-    - if(@event.is_published)
-      %li
-        %a{:href => "#details"}
-          %i.icon-chevron-right
-          Detalles
-
-    - if(@event.is_published)
-      %li
-        %a{:href => "#tickets"}
-          %i.icon-chevron-right
-          Tickets
     %li
       %a{:href => "#{form_url @event}"}
         %i.icon-chevron-right
+        Detalles y Tickets
+    %li{:class => "#{disabled_class}"}
+      %a{:href => "#{form_event_path if !@event.new_record? }"}
+        %i.icon-chevron-right
         Formulario
 
-  - if(@event.is_published || !@event.new_record? )
-    .sidebar-header
-      %i.icon-picture.icon-large
-      Estilo
-    %ul.nav.nav-list.sidenav.affix-top
-      %li
-        %a{:href => "#preview-event"}
-          %i.icon-chevron-right
-          Vista Previa
+  .sidebar-header
+    %i.icon-picture.icon-large
+    Estilo
+  %ul.nav.nav-list.sidenav.affix-top
+    %li{:class => "#{disabled_class}"}
+      %a{:href => "#preview-event"}
+        %i.icon-chevron-right
+        Vista Previa
 
-  - if(@event.is_published)
-    .sidebar-header
-      %i.icon-bar-chart.icon-large
-      Estadísticas
-    %ul.nav.nav-list.sidenav.affix-top
-      %li
-        %a{:href => "#analyze-1"}
-          %i.icon-chevron-right
-          Ventas por ticket
-      %li
-        %a{:href => "#analyze-2"}
-          %i.icon-chevron-right
-          Lista de Asistentes
+  .sidebar-header
+    %i.icon-bar-chart.icon-large
+    Estadísticas
+  %ul.nav.nav-list.sidenav.affix-top
+    %li{:class => "#{disabled_class}"}
+      %a{:href => "#analyze-1"}
+        %i.icon-chevron-right
+        Ventas por ticket
+    %li{:class => "#{disabled_class}"}
+      %a{:href => "#analyze-2"}
+        %i.icon-chevron-right
+        Lista de Asistentes
