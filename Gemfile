@@ -48,6 +48,11 @@ group :development, :test do
   gem 'letter_opener'
 end
 
+group :development do
+  gem 'negroku', '~> 1.1.4'
+end
+
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
