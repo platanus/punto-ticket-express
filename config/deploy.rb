@@ -20,3 +20,8 @@ set :repository, "git@github.com:platanus/punto-ticket-express.git"
 set :unicorn_workers, 1
 
 set :use_ssl, true
+
+set :whenever_roles, [:web, :app]
+require "whenever/capistrano"
+
+after "deploy", "whenever:update_crontab"
