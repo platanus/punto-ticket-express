@@ -1,5 +1,6 @@
 .page-header
-  %h2= t(".title", time: l(@transaction.transaction_time, format: :long))
+  %h1= @transaction.event_name
+  %h4= t(".title", time: l(@transaction.transaction_time, format: :long))
 
 #page_account.row
   .span3
