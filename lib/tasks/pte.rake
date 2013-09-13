@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 namespace :pte do
-  namespace :util do 
+  namespace :util do
     desc "Loads development fake data for users, tickets, events, ticket types, etc."
     task :load_fake_data => :environment do
       require 'tasks/pte/util/faker.rb'
@@ -9,6 +9,13 @@ namespace :pte do
         return
       end
       PTE::Util::Faker.load_app_data
+    end
+  end
+  namespace :cron do
+    require 'tasks/pte/cron.rb'
+    desc "Changes payment_status from processing to inactive for transactions that have been processing status for 15 minutes or more"
+    task :deactivate_old_pending_transactions => :environment do
+      PTE::Cron.deactivate_old_pending_transactions
     end
   end
 end

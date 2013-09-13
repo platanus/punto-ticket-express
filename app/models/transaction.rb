@@ -7,6 +7,9 @@ class Transaction < ActiveRecord::Base
   has_many :events, through: :ticket_types, uniq: true
   has_one :nested_resource, as: :nestable
 
+  scope :processing, where(["payment_status = ?", PTE::PaymentStatus.processing])
+  scope :more_than_x_minutes_old, lambda {|x| where(["created_at <= ?", Time.now - x.minutes])}
+
   delegate :email, to: :user, prefix: true, allow_nil: true
 
   SUCCESS_CODE = "00"
