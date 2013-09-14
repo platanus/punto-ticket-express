@@ -11,10 +11,24 @@
           - @event.errors.full_messages.each do |msg|
             %li= msg
     .control-group
+      = f.label :producer_id, :class => 'control-label'
+      .controls
+        = f.select :producer_id,                                                            |
+          options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), |
+          {:include_blank => true},                                                         |
+          :class => 'span4',                                                                |
+          'ng-model' => 'events.producer_id',                                               |
+          'form-validate' => '',                                                            |
+          'required' => ''                                                                  |
+        / validation
+        .input-error{"ng-show" => "(form['event[producer_id]'].$dirty && form['event[producer_id]'].$invalid)"}
+          %label{"ng-show" => "form['event[producer_id]'].$error.required"}
+            Debe elegir una productora
+    .control-group
       = f.label :name, :class => 'control-label'
       .controls
         = f.text_field :name,          |
-          :class => 'input-xlarge',    |
+          :class => 'span4',           |
           'ng-model' => 'events.name', |
           'ng-minlength' => '3',       |
           'form-validate' => '',       |
@@ -29,7 +43,7 @@
       = f.label :address, :class => 'control-label'
       .controls
         = f.text_field :address,          |
-          :class => 'input-xlarge',       |
+          :class => 'span4',              |
           'ng-model' => 'events.address', |
           'ng-minlength' => '3',          |
           'form-validate' => '',          |
@@ -43,12 +57,12 @@
     .control-group
       = f.label :description, :class => 'control-label'
       .controls
-        = f.text_area :description, :rows => '3', :class => 'input-xlarge'
+        = f.text_area :description, :rows => '3', :class => 'span4'
     .control-group
       = f.label :organizer_name, :class => 'control-label'
       .controls
         = f.text_field :organizer_name,          |
-          :class => 'input-xlarge',              |
+          :class => 'span4',                     |
           'ng-model' => 'events.organizer_name', |
           'ng-minlength' => '3',                 |
           'form-validate' => '',                 |
@@ -62,11 +76,11 @@
     .control-group
       = f.label :organizer_description, :class => 'control-label'
       .controls
-        = f.text_area :organizer_description, :rows => '3', :class => 'input-xlarge'
+        = f.text_area :organizer_description, :rows => '3', :class => 'span4'
     .control-group
       = f.label :custom_url, :class => 'control-label'
       .controls
-        = f.text_field :custom_url, :class => 'input-xlarge'
+        = f.text_field :custom_url, :class => 'span4'
     .control-group
       = f.label 'Fecha y Horario', :class => 'control-label'
       .controls
@@ -128,7 +142,7 @@
               also need a specific structure for rails
             %td
               %ng-form{:name => "formInName"}
-                %input.input-xlarge{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
+                %input.span4{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
                   / validation
                   .input-error{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$dirty && formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$invalid"}
                     %label{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$error.required"}

@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :ticket_types
 
-  scope :published, -> { where is_published: true }
+  scope :published, where(is_published: true)
 
   def data_to_collect=(val)
     # create data collection and remove nil data
