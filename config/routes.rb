@@ -22,7 +22,7 @@ PuntoTicketExpress::Application.routes.draw do
 
   # EVENTS
   get 'me/events', to: 'events#my_index'
-  resources :events, only: [:show, :new, :edit, :create, :destroy] do
+  resources :events, only: [:show, :new, :edit, :update, :create, :destroy] do
     member do
       get :form, to: 'events#data_to_collect'
     end
