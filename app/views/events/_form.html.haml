@@ -13,13 +13,13 @@
     .control-group
       = f.label :producer_id, :class => 'control-label'
       .controls
-        = f.select :producer_id,                                                            |
+        = f.select :producer_id,                                                                      |
           options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), |
-          {:include_blank => true},                                                         |
-          :class => 'span4',                                                                |
-          'ng-model' => 'events.producer_id',                                               |
-          'form-validate' => '',                                                            |
-          'required' => ''                                                                  |
+          {:include_blank => true},                                                                   |
+          :class => 'span4',                                                                          |
+          'ng-model' => 'producer_id',                                                                |
+          'form-validate' => '',                                                                      |
+          'required' => ''                                                                            |
         / validation
         .input-error{"ng-show" => "(form['event[producer_id]'].$dirty && form['event[producer_id]'].$invalid)"}
           %label{"ng-show" => "form['event[producer_id]'].$error.required"}
@@ -29,7 +29,7 @@
       .controls
         = f.text_field :name,          |
           :class => 'span4',           |
-          'ng-model' => 'events.name', |
+          'ng-model' => 'name',        |
           'ng-minlength' => '3',       |
           'form-validate' => '',       |
           'required' => ''             |
@@ -44,7 +44,7 @@
       .controls
         = f.text_field :address,          |
           :class => 'span4',              |
-          'ng-model' => 'events.address', |
+          'ng-model' => 'address',        |
           'ng-minlength' => '3',          |
           'form-validate' => '',          |
           'required' => ''                |
@@ -63,7 +63,7 @@
       .controls
         = f.text_field :organizer_name,          |
           :class => 'span4',                     |
-          'ng-model' => 'events.organizer_name', |
+          'ng-model' => 'organizerName',         |
           'ng-minlength' => '3',                 |
           'form-validate' => '',                 |
           'required' => ''                       |
@@ -156,7 +156,7 @@
                       El precio del ticket no puede estar en blanco
             %td
               %ng-form{:name => "formInQuantity"}
-                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][quantity]", "ng-model" => "ticket.qty", :required => "", :type => "number"}
+                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][quantity]", "ng-model" => "ticket.quantity", :required => "", :type => "number"}
                   / validation
                   .input-error{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$invalid"}
                     %label{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$error.required"}
@@ -169,5 +169,6 @@
 
   .form-actions
     = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
-    %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
-      %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}
+    - if !@event.is_published
+      %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
+        %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}

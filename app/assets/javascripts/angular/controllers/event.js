@@ -1,18 +1,20 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-.controller('EventNewCtrl', ['$scope', '$filter', function ($scope, $filter) {
-  $scope.tickets = [];
+  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', function ($scope, $filter, defineTime) {
 
-  var nowDate = new Date();
-  var nowTime = $filter('date')(nowDate, 'h:mm a');
+    $scope.tickets = [];
 
-    $scope.time = {
-      dates: {startDate: nowDate, endDate: nowDate},
-      times: {startTime: nowTime, endTime: nowTime}
+    $scope.init = function(event) {
+      $scope.name = event.name;
+      $scope.address = event.address;
+      $scope.organizerName = event.organizer_name;
+      //call factory
+      $scope.time = defineTime.time(event.start_time, event.end_time);
+      $scope.tickets = event.ticket_types;
     };
 
     $scope.addTicket = function() {
-      $scope.tickets.push({name:"", price:"", qty:0});
+      $scope.tickets.push({name:"", price:"", quantity:0});
     };
 
     $scope.deleteTicket = function(index) {

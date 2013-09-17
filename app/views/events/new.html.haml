@@ -2,7 +2,9 @@
 	%h1 Crear un Evento
 
 / angular controller
-#page_event.row{"ng-controller" => "EventNewCtrl"}
+#page_event.row{"ng-controller" => "EventNewCtrl",
+	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types) })"}
+
 	.span3
 		= render 'sidebar'
 	.span9
