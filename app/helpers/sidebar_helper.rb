@@ -21,4 +21,19 @@ module SidebarHelper
       return "active"
     end
   end
+
+  def active_if_event
+    if params[:controller].include? "events" and
+      (params[:action] == "edit" or params[:action] == "new" )
+      return "active"
+    end
+  end
+
+  def active_if_form
+    if params[:controller].include? "events" and
+      params[:action] == "data_to_collect"
+      return "active"
+    end
+  end
+
 end

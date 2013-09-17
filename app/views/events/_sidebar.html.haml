@@ -3,11 +3,11 @@
     %i.icon-reorder.icon-large
     Información del Evento
   %ul.nav.nav-list.sidenav.affix-top
-    %li
+    %li{class: active_if_event}
       %a{:href => "#{form_url @event}"}
         %i.icon-chevron-right
         Detalles y Tickets
-    %li{:class => "#{disabled_class}"}
+    %li{:class => "#{disabled_class} #{active_if_form}"}
       %a{:href => "#{form_event_path if !@event.new_record? }"}
         %i.icon-chevron-right
         Formulario
