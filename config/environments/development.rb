@@ -38,7 +38,4 @@ PuntoTicketExpress::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.delivery_method = :letter_opener
-
-  # ImageMagick path, necessary to generate thumbnails
-  Paperclip.options[:command_path] = ENV['IMAGE_MAGICK_PATH']
 end

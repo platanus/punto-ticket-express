@@ -65,5 +65,20 @@ module PuntoTicketExpress
     config.i18n.default_locale = 'es-CL'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
     config.i18n.locale = I18n.locale = config.i18n.default_locale
+
+    # fallback location
+    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [:es]
+
+    # paperclip configuration
+    config.paperclip_defaults = {
+      :storage => :s3,
+      :command_path => ENV['IMAGE_MAGICK_PATH'],
+      :s3_credentials => {
+        :bucket => ENV['AWS_BUCKET'],
+        :access_key_id => ENV['AWS_KEY_ID'],
+        :secret_access_key => ENV['AWS_ACCESS_KEY']
+      }
+    }
   end
 end

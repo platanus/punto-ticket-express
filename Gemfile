@@ -23,8 +23,9 @@ gem 'colorize'
 gem 'puntopagos'
 gem 'yard'
 gem 'whenever', :require => false
-gem 'paperclip'
 gem 'rqrcode'
+gem 'paperclip', "~> 3.0"
+gem 'aws-sdk', "~> 1.5.7"
 
 # Gems used only for assets and not required
 # in production environments by default.
