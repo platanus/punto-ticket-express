@@ -11,6 +11,11 @@
           - @event.errors.full_messages.each do |msg|
             %li= msg
     .control-group
+      = f.label :logo, :class => 'control-label'
+      .controls
+        = f.file_field :logo
+
+    .control-group
       = f.label :producer_id, :class => 'control-label'
       .controls
         = f.select :producer_id,                                                                      |

@@ -1,6 +1,10 @@
 class Event < ActiveRecord::Base
   attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name, :producer_id
   attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
+  attr_accessible :logo
+
+  # paperclip
+  has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 
   # Saves required fields with the following format
   #  [{:name => :attr1, :required => false}, {:name => :attr2, :required => true}]

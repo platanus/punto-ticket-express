@@ -3,4 +3,6 @@ $().ready(function(){
 	$('input.custom-check').prettyCheckable({
 		color: 'yellow'
 	});
+
+	$(":file").filestyle();
 });
