@@ -4,5 +4,5 @@ $().ready(function(){
 		color: 'yellow'
 	});
 
-	$(":file").filestyle();
+	$(":file").filestyle({buttonText: "Subir logo"});
 });

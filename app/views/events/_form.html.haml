@@ -10,10 +10,10 @@
         %ul
           - @event.errors.full_messages.each do |msg|
             %li= msg
-    .control-group
+    .control-group.logo-upload
       = f.label :logo, :class => 'control-label'
       .controls
-        = f.file_field :logo
+        = f.file_field :logo, :html => {'data-buttonText' => 'Find file'}
 
     .control-group
       = f.label :producer_id, :class => 'control-label'
