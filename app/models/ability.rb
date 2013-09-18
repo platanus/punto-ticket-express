@@ -35,6 +35,9 @@ class Ability
       can :data_to_collect, Event do |event|
         event.user_id == user.id
       end
+      can :sold_tickets, Event do |event|
+        event.user_id == user.id
+      end
 
 
       #TICKETS

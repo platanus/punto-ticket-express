@@ -53,6 +53,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def sold_tickets
+    render "events/statistics/sold_tickets"
+  end
+
   # GET /events/1/edit
   def edit
     @attributes = NestedResource.nested_attributes

@@ -24,6 +24,7 @@ PuntoTicketExpress::Application.routes.draw do
   get 'me/events', to: 'events#my_index'
   resources :events, only: [:show, :new, :edit, :update, :create, :destroy] do
     member do
+      get '/statistics/sold_tickets', to: 'events#sold_tickets', as: :sold_tickets
       get :form, to: 'events#data_to_collect'
     end
   end
