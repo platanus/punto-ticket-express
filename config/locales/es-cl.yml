@@ -120,6 +120,9 @@ es:
         producer_id: Productora
         producer: Productora
         user: Usuario
+        total: Total
+        tickets_count: Cantidad vendida
+        ticket_type: Ticket
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"

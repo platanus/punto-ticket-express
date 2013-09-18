@@ -1,8 +1,20 @@
 .page-header
-	%h1 Ventas por ticket
+  %h1 Ventas por ticket
 
 .row
-	.span3
-		= render 'sidebar'
-	.span9
-		lean
+  .span3
+    = render 'sidebar'
+  .span9
+    %table{class: "table table-striped"}
+      %tr
+        %th= Event.human_attribute_name :ticket_type
+        %th= Event.human_attribute_name :tickets_count
+        %th= Event.human_attribute_name :total
+        - @result[:data].each do |item|
+          %tr
+            %td= item[:name]
+            %td= item[:tickets_count]
+            %td= number_to_currency(item[:total])
+        %tr
+          %td{colspan: 2}
+          %td= number_to_currency(@result[:total])
