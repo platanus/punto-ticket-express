@@ -26,6 +26,9 @@
     %p
       %b= Producer.human_attribute_name :website
       = @producer.website
+    %p
+      %b= Producer.human_attribute_name :confirmed
+      = t(@producer.confirmed.to_s)
 
     .form-actions
       = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'

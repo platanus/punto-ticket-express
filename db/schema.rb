@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130906203745) do
+ActiveRecord::Schema.define(:version => 20130918174322) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -45,6 +45,10 @@ ActiveRecord::Schema.define(:version => 20130906203745) do
     t.datetime "end_time"
     t.integer  "producer_id"
     t.text     "data_to_collect"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   create_table "nested_resources", :force => true do |t|
@@ -78,8 +82,9 @@ ActiveRecord::Schema.define(:version => 20130906203745) do
     t.string   "contact_email"
     t.string   "description"
     t.string   "website"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "confirmed",     :default => false
   end
 
   create_table "producers_users", :force => true do |t|

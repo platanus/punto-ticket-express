@@ -2,6 +2,8 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 es:
+  "true": "Sí"
+  "false": "No"
   controller:
     messages:
       create_success: "La creación fue exitosa"
@@ -98,6 +100,7 @@ es:
         phone: Teléfono
         rut: RUT
         website: Web
+        confirmed: Confirmada
       ticket:
         user_id: Participante
         ticket_type_id: Ticket
