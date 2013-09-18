@@ -6,21 +6,9 @@
     = render 'sidebar'
   .span9
     = form_for(@user, :url => configuration_update_account_path, :html => { :method => :put, :class => 'well form-horizontal' }) do |f|
-      .control-group
-        = f.label :email, :class => 'control-label'
-        .controls
-          = f.text_field :email
-      .control-group
-        = f.label :name, :class => 'control-label'
-        .controls
-          = f.text_field :name
-      .control-group
-        = f.label :password, :class => 'control-label'
-        .controls
-          = f.password_field :password, :autocomplete => 'off'
-      .control-group
-        = f.label :password_confirmation, :class => 'control-label'
-        .controls
-          = f.password_field :password_confirmation, :autocomplete => 'off'
+      - control_group f, :email, f.text_field(:email)
+      - control_group f, :name, f.text_field(:name)
+      - control_group f, :password, f.password_field(:password, :autocomplete => 'off')
+      - control_group f, :password_confirmation, f.password_field(:password_confirmation, :autocomplete => 'off')
       .form-actions
         = f.submit t('buttons.save'), :class => 'btn'
