@@ -8,6 +8,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def success
     @transaction = Transaction.find_by_token(params[:token])
+    TransactionMailer.completed_payment(@transaction).deliver if @transaction
   end
 
   def new
