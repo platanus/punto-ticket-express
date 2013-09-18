@@ -15,6 +15,7 @@ es:
       successfully_updated_message: Sus datos se actualizaron correctamente
     producers:
       title: Productoras
+      new_producer_btn: Nueva Productora
     transactions:
       title: Tickets
   producers:
@@ -41,3 +42,11 @@ es:
     show:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
+  events:
+    user_producers:
+      title: "Crear un Evento"
+      body: |
+        Antes de crear un nuevo evento usted debe registrar una productora.<br/>
+        Esto puede hacerse desde la configuración de su perfil, entrando en el <b>menu Productoras</b><br/>
+        en el panel de la izquierda y luego haciendo clic en el <b>botón Nueva Productora</b> o haciendo clic <b><a href="%{new_producer_url}">aquí</a></b>.<br/>
+        Recuerde que debe esperar a que un administrador autorice su productora antes de <b>publicar</b> un evento.

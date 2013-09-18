@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def confirmed_producers
+    self.producers.where(confirmed: true)
+  end
+
   def human_role
     PTE::Role.human_name self.role
   end
