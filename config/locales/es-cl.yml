@@ -115,7 +115,7 @@ es:
         producer_id: Productora
     errors:
       messages:
-        invalid_url: "Formato de url inválido. Ej: http://wwww.app.domain.com"
+        invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
         nested_resource:
