@@ -101,6 +101,8 @@ es:
         rut: RUT
         website: Web
         confirmed: Confirmada
+        created_at: Fecha Creación
+        updated_at: Fecha Modificación
       ticket:
         user_id: Participante
         ticket_type_id: Ticket
@@ -116,6 +118,8 @@ es:
         start_time: Inicio
         end_time: Fin
         producer_id: Productora
+        producer: Productora
+        user: Usuario
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
