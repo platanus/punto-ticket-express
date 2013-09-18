@@ -6,38 +6,14 @@
     = render 'configuration/sidebar'
   .span9
     = form_for(@producer, :html => {:class => 'well form-horizontal' }) do |f|
-      .control-group
-        = f.label :name, :class => 'control-label'
-        .controls
-          = f.text_field :name
-      .control-group
-        = f.label :rut, :class => 'control-label'
-        .controls
-          = f.text_field :rut
-      .control-group
-        = f.label :address, :class => 'control-label'
-        .controls
-          = f.text_field :address
-      .control-group
-        = f.label :phone, :class => 'control-label'
-        .controls
-          = f.text_field :phone
-      .control-group
-        = f.label :contact_name, :class => 'control-label'
-        .controls
-          = f.text_field :contact_name
-      .control-group
-        = f.label :contact_email, :class => 'control-label'
-        .controls
-          = f.text_field :contact_email
-      .control-group
-        = f.label :description, :class => 'control-label'
-        .controls
-          = f.text_area :description, rows: 6
-      .control-group
-        = f.label :website, :class => 'control-label'
-        .controls
-          = f.text_field :website
+      - control_group f, :name, f.text_field(:name)
+      - control_group f, :rut, f.text_field(:rut)
+      - control_group f, :address, f.text_field(:address)
+      - control_group f, :phone, f.text_field(:phone)
+      - control_group f, :contact_name, f.text_field(:contact_name)
+      - control_group f, :contact_email, f.text_field(:contact_email)
+      - control_group f, :description, f.text_area(:description, rows: 6)
+      - control_group f, :website, f.text_field(:website)
       .form-actions
         = f.submit t("buttons.save"), :class => 'btn'
         = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'
