@@ -18,7 +18,7 @@ angular.module('puntoTicketApp.controllers')
     };
 
     $scope.deleteTicket = function(index) {
-      $scope.tickets.splice(index, 1);
+      $scope.tickets[index]["destroy"] = "1"
     };
 
     // triggers the method set out in the validations directive

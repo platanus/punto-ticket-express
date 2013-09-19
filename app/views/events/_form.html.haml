@@ -147,6 +147,7 @@
               also need a specific structure for rails
             %td
               %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][id]", "ng-model" => "ticket.id", :required => "", :type => "text", :style => "display: none"}
+              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][_destroy]", "ng-model" => "ticket.destroy", :required => "", :type => "text", :style => "display: none"}
               %ng-form{:name => "formInName"}
                 %input.span4{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
                   / validation
@@ -170,7 +171,7 @@
                     %label{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$error.number"}
                       Formato no valido
             %td
-              %a.close{"ng-click" => "deleteTicket($index)"} ×
+              %a.close{"ng-click" => "deleteTicket($index)", "remove-nested-attribute" => ""} ×
   %fieldset
 
   .form-actions
