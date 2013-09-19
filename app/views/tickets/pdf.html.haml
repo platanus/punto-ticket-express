@@ -17,5 +17,7 @@
         .span9.hrule
           - printable_ticket_label(Ticket.human_attribute_name(:user_id), ticket.transaction_user_email)
       .row
-        .span9
+        .span6
           - ticket_type_label ticket
+        .span3#qrcode
+          - render_qr_code(ticket.id.to_s)

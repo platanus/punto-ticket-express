@@ -24,6 +24,7 @@ gem 'puntopagos'
 gem 'yard'
 gem 'whenever', :require => false
 gem 'paperclip'
+gem 'rqrcode'
 
 # Gems used only for assets and not required
 # in production environments by default.
