@@ -146,6 +146,7 @@
               do not use only ng-for because not only need a dynamic name for validations,
               also need a specific structure for rails
             %td
+              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][id]", "ng-model" => "ticket.id", :required => "", :type => "text", :style => "display: none"}
               %ng-form{:name => "formInName"}
                 %input.span4{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
                   / validation

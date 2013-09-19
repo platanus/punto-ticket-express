@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   has_many :tickets, through: :ticket_types
   has_many :users, through: :tickets
 
-  accepts_nested_attributes_for :ticket_types
+  accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
   scope :published, where(is_published: true)
 
