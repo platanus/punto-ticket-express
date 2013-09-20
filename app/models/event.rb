@@ -26,6 +26,9 @@ class Event < ActiveRecord::Base
 
   scope :published, where(is_published: true)
 
+  delegate :name, to: :producer, prefix: true, allow_nil: true
+  delegate :description, to: :producer, prefix: true, allow_nil: true
+
   def data_to_collect=(val)
     result = []
 

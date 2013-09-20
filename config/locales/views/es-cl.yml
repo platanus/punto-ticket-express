@@ -8,6 +8,7 @@ es:
     new: Nuevo
     continue: Continuar
     download: Descargar
+    buy_now: Comprar Ahora
   configuration:
     title: Configuración
     account:
@@ -43,6 +44,17 @@ es:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
+    show:
+      titles:
+        organizer: Organizador
+        when: Cuándo y Dónde?
+        producer: Productora
+        tickets: Tickets
+        information: Información
+      tickets_table:
+        type: Tipo
+        amount: Precio
+        qty: Cantidad
     edit:
       title: Editando evento
     new:

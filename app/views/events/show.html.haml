@@ -9,32 +9,32 @@
     .panel
       .panel-heading.panel-title
         %i.icon-building
-        Organizador
+        = t(".titles.organizer")
       %h5= @event.organizer_name
       %p
         = @event.organizer_description
     .panel
       .panel-heading.panel-title
         %i.icon-map-marker
-        Cuándo y dónde
+        = t(".titles.when")
       = @event.address
     .panel
       .panel-heading.panel-title
         %i.icon-bullhorn
-        Productora
-      Panel content
+        = t(".titles.producer")
+      = @event.producer_name
   .span8
-    = form_for @event, {:url => 'poto', :method => 'get'} do |f|
+    = form_for @event do |f|
       .panel.panel-primary
         .panel-heading.panel-title
           %i.icon-ticket
-          Tickets
+          = t(".titles.tickets")
         %table.table.table-striped.table-colored
           %thead
             %tr
-              %th Tipo
-              %th Precio
-              %th Cantidad
+              %th= t(".tickets_table.type")
+              %th= t(".tickets_table.amount")
+              %th= t(".tickets_table.qty")
           %tbody
             %tr{"ng-repeat" => "t in ticketTypes"}
               %td {{t.name}}
@@ -45,9 +45,9 @@
         %legend
         .control-group.text-center
           %a.btn.btn-large.btn-success{:href => "{{ticketTypes|serailizedUrl:actionUrl:'ticket_types'}}", "ng-click" => "sendTicket($event)"}
-            %h3 Comprar ahora
+            %h3= t("buttons.buy_now")
     .panel
       .panel-heading.panel-title
         %i.icon-info-sign
-        Información
-      Panel content
+        = t(".titles.information")
+      = @event.description
