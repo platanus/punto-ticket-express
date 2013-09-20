@@ -13,6 +13,9 @@ es:
   home:
     index:
       title: Últimos Eventos
+  shared:
+    footer:
+      copyright: "Diseñado y construido por <a href='http://platan.us' target='_blank'>Platanus SpA</a>, %{year}"
   configuration:
     title: Configuración
     account:
