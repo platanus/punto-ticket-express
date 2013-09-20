@@ -32,6 +32,13 @@ es:
       title: "Editando productora"
   puntopagos:
     transactions:
+      new:
+        title: Punto Pagos
+        tickets_table:
+          type: Tipo
+          price: Precio
+          qty: Cantidad
+          amount: Total
       error:
         title: Ocurrieron errores al momento de completar la transacción
       success:

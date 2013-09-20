@@ -1,12 +1,12 @@
-%h1 Puntopagos
+%h1= t(".title")
 
 %table.table.table-striped.table-colored.table-shop
 	%thead
 		%tr
-			%th Tipo
-			%th Precio
-			%th Cantidad
-			%th Total
+			%th= t(".tickets_table.type")
+			%th= t(".tickets_table.price")
+			%th= t(".tickets_table.qty")
+			%th= t(".tickets_table.amount")
 
 	- @ticket_types.each do |t|
 		%tr
