@@ -43,6 +43,14 @@ es:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
+    data_to_collect:
+      title: Información a Recolectar
+      table:
+        fields:
+          attr: Dato
+          none: No recolectar
+          required: Requerido
+          optional: Opcional
     user_producers:
       title: "Crear un Evento"
       body: |
