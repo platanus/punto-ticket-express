@@ -9,6 +9,9 @@ es:
     continue: Continuar
     download: Descargar
     buy_now: Comprar Ahora
+  home:
+    index:
+      title: Últimos Eventos
   configuration:
     title: Configuración
     account:

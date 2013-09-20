@@ -1,0 +1,20 @@
+- content_for(:without_container) do
+  .home-section
+
+.page-header
+  %h1= t(".title")
+%table.table.table-striped
+  %tr
+    %th= Event.human_attribute_name :name
+    %th= Event.human_attribute_name :address
+    %th= Event.human_attribute_name :description
+    %th= Event.human_attribute_name :start_time
+    %th= Event.human_attribute_name :end_time
+
+  - @events.each do |event|
+    %tr
+      %td= link_to event.name, event, class: 'strong-link'
+      %td= event.address
+      %td= event.description
+      %td= l event.start_time, format: :short
+      %td= l event.end_time, format: :short
