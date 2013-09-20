@@ -1,7 +1,7 @@
 module ApplicationHelper
-  def current_user_email
-    return @current_user_email if @current_user_email
-    @current_user_email =  User.find_by_id(current_user.id).email
+  def curren_user_identifier
+    return @curren_user_identifier if @curren_user_identifier
+    @curren_user_identifier =  User.find_by_id(current_user.id).identifier
   end
 
   def nav_link(link_text, link_path)

@@ -3,21 +3,11 @@
 .row
   .span7
     = form_for(resource, :html => {:class => 'well'}, :as => resource_name, :url => registration_path(resource_name)) do |f|
-      #error_explanation.alert.alert-error
-        = devise_error_messages!
       %fieldset.form-horizontal
-        .control-group
-          = f.label :email, :class => 'control-label'
-          .controls
-            = f.text_field :email, :class => 'input-xlarge'
-        .control-group
-          = f.label :password, :class => 'control-label'
-          .controls
-            = f.text_field :password, :class => 'input-xlarge', :type => 'password'
-        .control-group
-          = f.label "Confirmación Password", :class => 'control-label'
-          .controls
-            = f.text_field :password_confirmation, :class => 'input-xlarge', :type => 'password'
+        - control_group f, :email, f.text_field(:email)
+        - control_group f, :name, f.text_field(:name)
+        - control_group f, :password, f.password_field(:password, :autocomplete => 'off')
+        - control_group f, :password_confirmation, f.password_field(:password_confirmation, :autocomplete => 'off')
         .form-actions
           = f.submit 'Crear', :class => 'btn btn-success'
           = link_to 'Ya tengo una cuenta', new_user_session_path

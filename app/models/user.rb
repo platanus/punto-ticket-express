@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   before_destroy :can_destroy?
 
+  validates :name, presence: true
+
   has_many :events, dependent: :destroy
   has_many :transactions
   has_many :tickets, through: :transactions
@@ -17,6 +19,11 @@ class User < ActiveRecord::Base
     define_method("#{type_name}?") do
       PTE::Role.same? self.role, type_name
     end
+  end
+
+  def identifier
+    return self.name if self.name
+    self.email
   end
 
   def confirmed_producers
