@@ -14,6 +14,15 @@ es:
     index:
       title: Últimos Eventos
   shared:
+    navbar:
+      services: Nuestros Servicios
+      how_works: ¿Cómo funciona?
+      create_event: Crear Evento
+      my_events: Mis Eventos
+      profile: Mi Perfil
+      logout: Salir
+      sign_in: Iniciar Sesión
+      create_account: Crear Cuenta
     footer:
       copyright: "Diseñado y construido por <a href='http://platan.us' target='_blank'>Platanus SpA</a>, %{year}"
   configuration:
