@@ -43,6 +43,9 @@ es:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
+    statistics:
+      sold_tickets:
+        title: Ventas por Ticket
     data_to_collect:
       title: Información a Recolectar
       table:
