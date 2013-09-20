@@ -9,6 +9,7 @@ es:
     continue: Continuar
     download: Descargar
     buy_now: Comprar Ahora
+    pay_puntopagos:  Pagar con Punto Pagos
   home:
     index:
       title: Últimos Eventos
@@ -42,6 +43,10 @@ es:
           luego en la opción "Tickets" del menú de la izquierda.
       show:
         title: "Tickets comprados el día %{time}"
+      form:
+        title: Complete el formulario
+        total: Total
+        subtotal: Sub Total
   tickets:
     show:
       title: Ticket

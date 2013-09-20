@@ -5,7 +5,7 @@
   .row-fluid
     .span7
       - unless @nested_attributes.empty?
-        %h2 Datos adicionales
+        %h3= t(".title")
 
         %fieldset.form-horizontal.row-fluid
           .well
@@ -16,14 +16,14 @@
 
     .cart-collaterals.span4.offset1
       .cart-totals
-        %h2.right-align Total
+        %h3.right-alignt= t(".total")
         %table.table.table-bordered.table-total
           %tbody
             %tr
-              %th Sub Total
+              %th= t(".subtotal")
               %td.dark-orange-text= number_to_currency calculate_total @ticket_types
             %tr
-              %th Total
+              %th= t(".total")
               %td.dark-orange-text= number_to_currency calculate_total @ticket_types
 
-      = f.button "Pagar con Punto Pagos", :class => "btn btn-large btn-success btn-total"
+      = f.button t("buttons.pay_puntopagos"), :class => "btn btn-large btn-success btn-total"
