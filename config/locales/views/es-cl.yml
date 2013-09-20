@@ -46,6 +46,20 @@ es:
     statistics:
       sold_tickets:
         title: Ventas por Ticket
+    sidebar:
+      headers:
+        info:
+          title: Información del Evento
+          details: Detalles y Tickets
+          form: Formulario
+        style:
+          title: Estilo
+          preview: Vista Previa
+        statistic:
+          title: Estadística
+          tickets_sold: Ventas por Ticket
+          participants: Lista de Asistentes
+
     data_to_collect:
       title: Información a Recolectar
       table:

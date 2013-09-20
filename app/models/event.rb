@@ -27,14 +27,17 @@ class Event < ActiveRecord::Base
   scope :published, where(is_published: true)
 
   def data_to_collect=(val)
-    # create data collection and remove nil data
-    val = val.select.with_index{|data, i| !data[i.to_s].nil?}
-    val = val.reduce([]) do |data, i|
-      data << {:name => i[:name].to_s, :required => !i.has_value?('optional')}
+    result = []
+
+    val.each_with_index do |data, index|
+      attr = data["name"]
+      value = data[index.to_s].to_sym
+      next if value == :none
+      result << {:name => attr, :required => (value == :required)}
     end
 
     # overwrite the attribute writer
-    write_attribute(:data_to_collect, val)
+    write_attribute(:data_to_collect, result)
   end
 
   def nested_attributes

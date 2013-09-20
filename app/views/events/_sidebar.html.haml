@@ -1,35 +1,35 @@
 .sidebar
   .first-child.sidebar-header
     %i.icon-reorder.icon-large
-    Información del Evento
+    = t(".headers.info.title")
   %ul.nav.nav-list.sidenav.affix-top
     %li{class: active_if_event}
       %a{:href => "#{form_url @event}"}
         %i.icon-chevron-right
-        Detalles y Tickets
+        = t(".headers.info.details")
     %li{:class => "#{disabled_class} #{active_if_form}"}
       %a{:href => "#{form_event_path if !@event.new_record? }"}
         %i.icon-chevron-right
-        Formulario
+        = t(".headers.info.form")
 
   .sidebar-header
     %i.icon-picture.icon-large
-    Estilo
+    = t(".headers.style.title")
   %ul.nav.nav-list.sidenav.affix-top
     %li{:class => "#{disabled_class}"}
       %a{:href => "#preview-event"}
         %i.icon-chevron-right
-        Vista Previa
+        = t(".headers.style.preview")
 
   .sidebar-header
     %i.icon-bar-chart.icon-large
-    Estadísticas
+    = t(".headers.statistic.title")
   %ul.nav.nav-list.sidenav.affix-top
     %li{:class => "#{disabled_class} #{active_if_event_statistic}"}
       %a{:href => "#{sold_tickets_event_path(@event) if !@event.new_record?}"}
         %i.icon-chevron-right
-        Ventas por ticket
+        = t(".headers.statistic.tickets_sold")
     %li{:class => "#{disabled_class}"}
       %a{:href => "#analyze-2"}
         %i.icon-chevron-right
-        Lista de Asistentes
+        = t(".headers.statistic.participants")

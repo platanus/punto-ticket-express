@@ -42,7 +42,7 @@ module PTE
       end
 
       def self.create_user email, password, role, show_ouput = true
-        user = User.find_or_create_by_email(email, password: password, role: role)
+        user = User.find_or_create_by_email(email, password: password, role: role, name: ::Faker::Name.name)
         create_producers(user) if user.role == PTE::Role.user
         puts "#{user.role} role - email: #{user.email}, pass: #{password}".green if show_ouput
         user
@@ -88,7 +88,7 @@ module PTE
           custom_url: ::Faker::Internet.url,
           user_id: organizer.id,
           is_published: random_boolean,
-          producer_id: organizer.producers.sample.id,
+          producer_id: organizer.producer_ids.try(:sample),
           start_time: start_time,
           end_time: start_time + ([*10000..30000].sample)
         )
