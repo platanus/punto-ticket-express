@@ -9,7 +9,8 @@
 
         %fieldset.form-horizontal.row-fluid
           .well
-            = f.fields_for :nested_resource do |resource|
+            - @nested_resource = @transaction.nested_resource || @transaction.build_nested_resource
+            = f.fields_for :nested_resource, @nested_resource do |resource|
               - @nested_attributes.each do |el|
                 .control-group
                   = resource.label(el[:attr].to_s.strip, :class => 'control-label') do

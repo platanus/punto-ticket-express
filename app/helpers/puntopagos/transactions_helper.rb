@@ -8,10 +8,10 @@ module Puntopagos::TransactionsHelper
 		ticket_types.inject(0) {|sum, hash| sum + (hash['price'].to_i * hash['qty'].to_i) }
 	end
 
-  	def payment_label payment_status
-    	content_tag(:span, t("pte.payment_status.#{payment_status}"),
-      	class: "#{payment_status}-payment-status")
-  	end
+	def payment_label payment_status
+  	content_tag(:span, t("pte.payment_status.#{payment_status}"),
+    	class: "#{payment_status}-payment-status")
+	end
 
 	def build_tag f, name, type
 		case type.to_s

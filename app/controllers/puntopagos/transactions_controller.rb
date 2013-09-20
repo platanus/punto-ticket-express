@@ -1,5 +1,7 @@
 class Puntopagos::TransactionsController < ApplicationController
   before_filter :authenticate_user!, :except => [:notification, :error, :success]
+  before_filter :load_ticket_types, :only => [:new, :create]
+  before_filter :load_nested_attributes, :only => [:new, :create]
 
   def notification
     result = Transaction.finish(request.headers, params)
@@ -14,18 +16,13 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
-    @ticket_types = params[:ticket_types].values
-    @event = Event.find(@ticket_types.first[:event_id])
-    @nested_attributes = @event.nested_attributes
   end
 
   def create
-    @transaction = Transaction.begin current_user.id, params[:ticket_types]
+    @transaction = Transaction.begin current_user.id, @ticket_types, formatted_nested_data
     authorize! :create, @transaction
 
     if @transaction.errors.any?
-      @ticket_types = params[:ticket_types]
-      @nested_attributes = @transaction.event_nested_attributes
       render action: "new"
 
     else
@@ -35,8 +32,6 @@ class Puntopagos::TransactionsController < ApplicationController
         redirect_to puntopagos_response.payment_process_url
 
       else
-        @ticket_types = params[:ticket_types]
-        @nested_attributes = @transaction.event_nested_attributes
         render action: "new"
       end
     end
@@ -46,4 +41,23 @@ class Puntopagos::TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
     authorize! :read, @transaction
   end
+
+  private
+
+    def load_ticket_types
+      @ticket_types = params[:ticket_types].values rescue nil
+      @ticket_types = params[:ticket_types] if @ticket_types.nil?
+    end
+
+    def load_nested_attributes
+      @event = Event.find(@ticket_types.first[:event_id])
+      @nested_attributes = @event.nested_attributes
+    end
+
+    def formatted_nested_data
+      nested_resource_attrs = params[:transaction][:nested_resource_attributes] rescue nil
+      return {attrs: nested_resource_attrs,
+        required_attributes: @event.required_nested_attributes
+      } if nested_resource_attrs
+    end
 end

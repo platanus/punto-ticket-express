@@ -50,6 +50,11 @@ class Event < ActiveRecord::Base
     attributes
   end
 
+  def required_nested_attributes
+    required_values = self.nested_attributes.reject{ |attr| !attr[:required] }
+    required_values.map {|item| item[:attr] }
+  end
+
   private
 
     def remains_published?

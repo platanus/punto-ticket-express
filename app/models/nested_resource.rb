@@ -6,9 +6,9 @@ class NestedResource < ActiveRecord::Base
 
   # Defines which attibutes are required in a particular NestedResource instance.
   # The format must be like this shown below:
-  #  [{name: :attr1, required: true}, {name: :attr2, required: false}]
+  #  [:attr1, :attr2, :attr3]
   # Possible attribute values are defined on NESTABLE_ATTRIBUTES constant
-  attr_accessor :attributes_to_check
+  attr_accessor :required_attributes
 
   belongs_to :nestable, polymorphic: true
 
@@ -35,10 +35,6 @@ class NestedResource < ActiveRecord::Base
     MAN = 1
   end
 
-  NESTABLE_ATTRIBUTES.each do |attr|
-    validates attr, presence: true, if: Proc.new { |nr| nr.attr_need_validation? attr }
-  end
-
   validates :website,
     format: { with: %r{\Ahttps?:\/\/([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
     message: I18n.t("activerecord.errors.messages.invalid_url") },
@@ -53,6 +49,15 @@ class NestedResource < ActiveRecord::Base
   validate :validate_birthdate
   validate :validate_gender
   validate :validate_rut
+  validate :validate_required_fields
+
+  def validate_required_fields
+    NESTABLE_ATTRIBUTES.each do |attr|
+      if self.attr_need_validation?(attr) and self[attr].to_s.blank?
+        errors.add(attr, :blank)
+      end
+    end
+  end
 
   def validate_gender
     return true unless self.gender
@@ -82,7 +87,7 @@ class NestedResource < ActiveRecord::Base
 
   #Validates RUT using Module 11 algorithm
   def validate_rut
-    return true unless self.rut
+    return true if self.rut.to_s.blank?
 
     self.rut = self.rut.to_s.gsub(".", "")
 
@@ -123,18 +128,13 @@ class NestedResource < ActiveRecord::Base
   end
 
   # Verifies if attr is a required attribute, checking this param against each required attribute.
-  # Required attributes are defined on attributes_to_check.
+  # Required attributes are defined on required_attributes.
   #
   # @param attr [Symbol] can be any into NESTABLE_ATTRIBUTES constant
   # @return [Boolean]
   def attr_need_validation? attr
-    return false unless attributes_to_check
-    attributes_to_check.each do |attr_to_check|
-      if attr_to_check[:name].to_sym == attr.to_sym and attr_to_check[:required]
-        return true
-      end
-    end
-    return false
+    return false unless required_attributes
+    required_attributes.include?(attr)
   end
 
   # Returns all nestable attributes with the following structure:

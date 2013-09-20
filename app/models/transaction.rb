@@ -1,11 +1,13 @@
 class Transaction < ActiveRecord::Base
-  attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id
+  attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id, :nested_resource_attributes
 
   belongs_to :user
   has_many :tickets
   has_many :ticket_types, through: :tickets, uniq: true
   has_many :events, through: :ticket_types, uniq: true
   has_one :nested_resource, as: :nestable
+
+  accepts_nested_attributes_for :nested_resource
 
   scope :processing, where(["payment_status = ?", PTE::PaymentStatus.processing])
   scope :more_than_x_minutes_old, lambda {|x| where(["created_at <= ?", Time.now - x.minutes])}
@@ -45,20 +47,21 @@ class Transaction < ActiveRecord::Base
   #  The param has the following structure:
   #   [{id: 1, qty: 3},{id: 2, qty: 4}]
   # @return [Transaction] with PTE::PaymentStatus.processing as payment_status
-  def self.begin user_id, ticket_types
+  def self.begin user_id, ticket_types, nested_resource_data
     transaction = Transaction.new
 
     begin
       ActiveRecord::Base.transaction do
         validate_user_existance(user_id)
         load_ticket_types!(ticket_types)
+        transaction.load_nested_resource(nested_resource_data)
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         if transaction.errors.any?
-          @@log.fatal transaction.errors.messages.to_s.red
+          puts transaction.errors.messages.to_s.red
           raise ActiveRecord::Rollback
         end
-      end
+    end
 
     rescue Exception => e
       log_error(e)
@@ -116,6 +119,19 @@ class Transaction < ActiveRecord::Base
         error: e.message,
         token: puntopagos_token}
     end
+  end
+
+  def load_nested_resource nested_resource_data
+    return unless nested_resource_data
+
+    unless nested_resource_data.has_key? :attrs and
+      nested_resource_data.has_key? :required_attributes
+      Transaction.raise_error("The structure of nested_resource_data param must be {attrs: {attr1: 'value1', attr2: 'value1'}, required_attributes: [:required_attr1, :required_attr2]}")
+    end
+
+    nr = NestedResource.new(nested_resource_data[:attrs])
+    nr.required_attributes = nested_resource_data[:required_attributes]
+    self.nested_resource = nr
   end
 
   # Sends a request to create a transaction with puntopagos.
@@ -258,7 +274,7 @@ class Transaction < ActiveRecord::Base
 
   def self.log_error exception
     puts exception.message.red
-    puts exception.backtrace.first.red
+    puts exception.backtrace.join("\n").red
   end
 
   def self.raise_error message
