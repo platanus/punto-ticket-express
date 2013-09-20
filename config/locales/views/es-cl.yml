@@ -1,5 +1,6 @@
 es:
   buttons:
+    create: Crear
     save: Guardar
     show: Ver
     edit: Editar
@@ -13,6 +14,11 @@ es:
   home:
     index:
       title: Últimos Eventos
+  devise:
+    registrations:
+      new:
+        title: Registrarme
+        have_account_already: 'Ya tengo una cuenta'
   shared:
     navbar:
       services: Nuestros Servicios

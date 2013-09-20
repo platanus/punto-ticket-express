@@ -1,5 +1,5 @@
 .page-header.span7
-  %h2 Crea una cuenta
+  %h2= t(".title")
 .row
   .span7
     = form_for(resource, :html => {:class => 'well'}, :as => resource_name, :url => registration_path(resource_name)) do |f|
@@ -9,5 +9,5 @@
         - control_group f, :password, f.password_field(:password, :autocomplete => 'off')
         - control_group f, :password_confirmation, f.password_field(:password_confirmation, :autocomplete => 'off')
         .form-actions
-          = f.submit 'Crear', :class => 'btn btn-success'
-          = link_to 'Ya tengo una cuenta', new_user_session_path
+          = f.submit t("buttons.create"), :class => 'btn btn-success'
+          = link_to t(".have_account_already"), new_user_session_path
