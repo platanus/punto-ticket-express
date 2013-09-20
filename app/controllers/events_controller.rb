@@ -61,11 +61,12 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @attributes = NestedResource.nested_attributes
   end
 
   def data_to_collect
-    @attributes = NestedResource.nested_attributes
+    array = NestedResource.nested_attributes + @event.nested_attributes
+    @attributes = (array).group_by { |h|
+      h[:attr] }.map { |k, v| v.reduce(:merge) }
   end
 
   # POST /events
