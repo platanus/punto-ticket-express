@@ -32,8 +32,10 @@ es:
       title: "Editando productora"
   puntopagos:
     transactions:
+      error:
+        title: Ocurrieron errores al momento de completar la transacción
       success:
-        title: "Transacción exitosa"
+        title: Transacción exitosa
         body: |
           Su compra se realizó correctamente.
           Si desea realizar la descarga de los tickets en este momento haga clic
