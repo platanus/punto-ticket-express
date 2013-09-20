@@ -1,12 +1,21 @@
 module FormHelper
-  def control_group form, attr, control
+  def control_group form, attr, control, options = {}
     haml_tag :div, class: "control-group #{error_for(form, attr)}" do
-    	haml_concat(form.label attr, class: 'control-label')
+    	haml_concat(render_label(form, attr, options))
       haml_tag :div, class: 'controls' do
       	haml_concat(control)
       	haml_concat(error_label(form, attr))
     	end
     end
+  end
+
+  def render_label form, attr, options
+    if options.has_key? :required and options[:required]
+      label = "#{form.object.class.human_attribute_name(attr)} *"
+      return label_tag(nil, label, class: 'control-label')
+    end
+
+    form.label(attr, class: 'control-label')
   end
 
   def error_for form, field
@@ -26,6 +35,17 @@ module FormHelper
 
     content_tag :span, class: 'help-inline' do
       errors.html_safe
+    end
+  end
+
+  def build_control f, name, type
+    case type.to_s
+    when 'string'
+      return f.text_field name, :class => 'input-xlarge'
+    when 'integer'
+      return f.text_field name, :type => 'number', :class => 'input-xlarge'
+    else
+      return f.text_field name, :class => 'input-xlarge'
     end
   end
 end

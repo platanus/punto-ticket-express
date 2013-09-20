@@ -4,22 +4,15 @@
   :ticket_types => @ticket_types}) do |f|
   .row-fluid
     .span7
-      - if !@nested_attributes.empty?
+      - unless @nested_attributes.empty?
         %h2 Datos adicionales
 
         %fieldset.form-horizontal.row-fluid
           .well
             - @nested_resource = @transaction.nested_resource || @transaction.build_nested_resource
-            = f.fields_for :nested_resource, @nested_resource do |resource|
-              - @nested_attributes.each do |el|
-                .control-group
-                  = resource.label(el[:attr].to_s.strip, :class => 'control-label') do
-                    - if el[:required] == true
-                      %span.red-text.required (*)
-                    = resource.label el[:attr].to_s.strip
-
-                  .controls
-                    = build_tag resource, el[:attr], el[:type]
+            = f.fields_for :nested_resource, @nested_resource do |ff|
+              - @nested_attributes.each do |na|
+                - control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type]), {required: na[:required]})
 
     .cart-collaterals.span4.offset1
       .cart-totals

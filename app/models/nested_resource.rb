@@ -60,7 +60,7 @@ class NestedResource < ActiveRecord::Base
   end
 
   def validate_gender
-    return true unless self.gender
+    return true if self.gender.to_s.blank?
     unless self.gender == Gender::WOMAN or self.gender == Gender::MAN
       errors.add(:gender, :invalid_gender)
       return false
@@ -70,7 +70,7 @@ class NestedResource < ActiveRecord::Base
   end
 
   def validate_birthdate
-    return true unless self.birthday
+    return true if self.birthday.to_s.blank?
 
     if self.birthday.to_datetime.year < 1900
       errors.add(:birthday, :invalid_date)

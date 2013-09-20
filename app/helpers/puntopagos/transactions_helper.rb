@@ -12,16 +12,4 @@ module Puntopagos::TransactionsHelper
   	content_tag(:span, t("pte.payment_status.#{payment_status}"),
     	class: "#{payment_status}-payment-status")
 	end
-
-	def build_tag f, name, type
-		case type.to_s
-		when 'string'
-			return f.text_field name, :class => 'input-xlarge'
-		when 'integer'
-			return f.text_field name, :type => 'number', :class => 'input-xlarge'
-		else
-			return f.text_field name, :class => 'input-xlarge'
-		end
-	end
-
 end
