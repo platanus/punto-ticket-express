@@ -1,5 +1,5 @@
 .page-header
-	%h1 Editar un Evento
+	%h1= t(".title")
 
 #page_event.row{"ng-controller" => "EventNewCtrl",
 	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types) })"}

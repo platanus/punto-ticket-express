@@ -43,6 +43,10 @@ es:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
+    edit:
+      title: Editando evento
+    new:
+      title: Creando evento
     statistics:
       sold_tickets:
         title: Ventas por Ticket
@@ -59,9 +63,11 @@ es:
           title: Estadística
           tickets_sold: Ventas por Ticket
           participants: Lista de Asistentes
-
+    my_index:
+      title: Mis Eventos
     data_to_collect:
-      title: Información a Recolectar
+      title: Formulario
+      subtitle: Información a Recolectar
       table:
         fields:
           attr: Dato

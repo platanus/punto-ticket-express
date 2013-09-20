@@ -1,14 +1,12 @@
-- if notice
-  #notice.alert.alert-success= notice
 .page-header
-  %h1 Mis Eventos
+  %h1= t(".title")
 %table.table.table-striped
   %tr
-    %th= t 'activerecord.attributes.event.name'
-    %th= t 'activerecord.attributes.event.address'
-    %th= t 'activerecord.attributes.event.description'
-    %th= t 'activerecord.attributes.event.start_time'
-    %th= t 'activerecord.attributes.event.is_published'
+    %th= Event.human_attribute_name :name
+    %th= Event.human_attribute_name :address
+    %th= Event.human_attribute_name :description
+    %th= Event.human_attribute_name :start_time
+    %th= Event.human_attribute_name :is_published
     %th
     %th
   - @events.each do |event|
@@ -18,8 +16,8 @@
       %td= event.description
       %td= l event.start_time, format: :short
       %td= t(event.is_published.to_s)
-      %td= link_to 'Ver', event, :class => 'btn btn-mini'
-      %td= link_to 'Editar', edit_event_path(event), :class => 'btn btn-mini'
+      %td= link_to t("buttons.show"), event, :class => 'btn btn-mini'
+      %td= link_to t("buttons.edit"), edit_event_path(event), :class => 'btn btn-mini'
 %br/
 - if can? :create, Event
-  = link_to 'Crear Evento', new_event_path, :class => 'btn btn-success'
+  = link_to t("buttons.new"), new_event_path, :class => 'btn btn-success'
