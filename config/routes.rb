@@ -6,6 +6,7 @@ PuntoTicketExpress::Application.routes.draw do
 
   namespace :puntopagos do
     post "transactions/notification/:token", to: 'transactions#notification'
+    get "transactions/notification/:token", to: 'transactions#notification'
     get "transactions/error/:token", to: 'transactions#error', as: :transactions_error
     get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
     get "transactions/new"
