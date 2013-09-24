@@ -36,6 +36,9 @@ es-CL:
       event:
         one: Evento
         other: Eventos
+      user:
+        one: Usuario
+        other: Usuarios
     attributes:
       transaction:
         event: Evento
@@ -54,6 +57,11 @@ es-CL:
         email: E-mail
         password: Contraseña
         password_confirmation: Confirmación contraseña
+        last_sign_in_at: Último acceso
+        sign_in_count: Cant. de accesos
+        current_sign_in_at: Acceso actual
+        created_at: Creado
+        updated_at: Modificado
       nested_resource:
         address: Dirección
         age: Edad
