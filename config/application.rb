@@ -64,9 +64,5 @@ module PuntoTicketExpress
     config.i18n.available_locales = ['es-CL']
     config.i18n.default_locale = 'es-CL'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
-    I18n.locale = config.i18n.locale = config.i18n.default_locale
-
-    # fallback location
-    config.i18n.fallbacks = true
   end
 end
