@@ -68,6 +68,5 @@ module PuntoTicketExpress
 
     # fallback location
     config.i18n.fallbacks = true
-    config.i18n.fallbacks = [:es]
   end
 end
