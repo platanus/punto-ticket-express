@@ -13,6 +13,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :address, :description, :name, :organizer_name
   validate :remains_published?
+  validates_attachment_content_type :logo, :content_type => /image/
 
   before_destroy :can_destroy?
 
