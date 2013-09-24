@@ -1,5 +1,5 @@
 class TransactionMailer < ActionMailer::Base
-  default from: "no-reply@puntoticketexpress.com"
+  default :from => ENV['DEFAULT_EMAIL_SENDER']
 
   def completed_payment transaction
     @transaction = transaction
