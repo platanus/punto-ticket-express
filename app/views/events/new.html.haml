@@ -9,3 +9,10 @@
 		= render 'sidebar'
 	.span9
 		= render 'form'
+
+:javascript
+	$('a').click(function(e){
+		// $('#modalConfirm').modal('show');
+		if (!confirm("¿Esta seguro que desea salir?"))
+			e.preventDefault();
+	});

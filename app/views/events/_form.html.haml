@@ -22,7 +22,7 @@
           options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), |
           {:include_blank => true},                                                                   |
           :class => 'span4',                                                                          |
-          'ng-model' => 'producer_id',                                                                |
+          'ng-model' => 'producerId',                                                                |
           'form-validate' => '',                                                                      |
           'required' => ''                                                                            |
         / validation
@@ -175,7 +175,7 @@
   %fieldset
 
   .form-actions
-    = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
+    / = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
     - if !@event.is_published
       %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
         %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}

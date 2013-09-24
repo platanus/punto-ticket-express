@@ -10,6 +10,7 @@
     = csrf_meta_tags
   %body
     = render "shared/navbar"
+    = yield(:publish_navbar)
     = yield(:without_container)
     .container
       = yield

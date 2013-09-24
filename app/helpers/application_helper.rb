@@ -11,4 +11,9 @@ module ApplicationHelper
       link_to link_text, link_path
     end
   end
+
+  def link_to_submit(text, css_class)
+    link_to_function text, "$(':submit').trigger('click')", :class => css_class, :name => "publish"
+  end
+
 end

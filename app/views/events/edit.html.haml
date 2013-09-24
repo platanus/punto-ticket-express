@@ -1,9 +1,14 @@
+- content_for(:publish_navbar) do
+	.navbar.persistent-header.navbar-static-top
+		.navbar-inner
+			.container
+				=link_to_submit "Publicar Evento", "btn btn-success btn-primary btn-large"
+
 .page-header
 	%h1= t(".title")
 
 #page_event.row{"ng-controller" => "EventNewCtrl",
 	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types) })"}
-
 	.span3
 		= render 'sidebar'
 	.span9

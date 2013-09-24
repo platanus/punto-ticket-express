@@ -83,16 +83,9 @@ class EventsController < ApplicationController
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
 
-    # @event.data_to_collect = [
-    #   {:name => :email, :required => false},
-    #   {:name => :name, :required => true},
-    #   {:name => :age, :required => false},
-    #   {:name => :rut, :required => true}
-    # ]
-
     respond_to do |format|
       if @event.save
-        format.html { redirect_to me_events_path, notice: 'Event was successfully created.' }
+        format.html { redirect_to  @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
         @attributes = NestedResource.nested_attributes;
@@ -105,6 +98,9 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
+
+    # publishing or saving
+    params[:event][:is_published] = params[:publish] ? true : false
     @event = Event.find(params[:id])
 
     respond_to do |format|
