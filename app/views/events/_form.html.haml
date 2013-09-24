@@ -146,8 +146,8 @@
               do not use only ng-for because not only need a dynamic name for validations,
               also need a specific structure for rails
             %td
-              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][id]", "ng-model" => "ticket.id", :required => "", :type => "text", :style => "display: none"}
-              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][_destroy]", "ng-model" => "ticket.destroy", :required => "", :type => "text", :style => "display: none"}
+              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][id]", "ng-model" => "ticket.id" , :type => "text", :style => "display: none"}
+              %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][_destroy]", "ng-model" => "ticket.destroy", :type => "text", :style => "display: none"}
               %ng-form{:name => "formInName"}
                 %input.span4{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
                   / validation
@@ -175,7 +175,7 @@
   %fieldset
 
   .form-actions
-    / = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
+    = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large', :visibility=>"hidden"
     - if !@event.is_published
       %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
         %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}

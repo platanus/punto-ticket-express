@@ -28,7 +28,7 @@
 				%button.btn.btn-close{"aria-hidden" => "true", "data-dismiss" => "modal"}= t ".close"
 
 :javascript
-	$('a').click(function(e){
+	$('a').not('.btn-success, .btn-primary').click(function(e){
 		// $('#modalConfirm').modal('show');
 		if (!confirm("¿Esta seguro que desea salir?"))
 			e.preventDefault();
