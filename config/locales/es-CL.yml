@@ -62,6 +62,7 @@ es-CL:
         current_sign_in_at: Acceso actual
         created_at: Creado
         updated_at: Modificado
+        role: Rol
       nested_resource:
         address: Dirección
         age: Edad

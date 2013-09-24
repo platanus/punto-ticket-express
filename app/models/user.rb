@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   before_destroy :can_destroy?
 
   validates :name, presence: true
+  validates :role, presence: true
 
   has_many :events, dependent: :destroy
   has_many :transactions
