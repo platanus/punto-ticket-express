@@ -9,7 +9,6 @@ class NestedResource < ActiveRecord::Base
   #  [:attr1, :attr2, :attr3]
   # Possible attribute values are defined on NESTABLE_ATTRIBUTES constant
   attr_accessor :required_attributes
-
   belongs_to :nestable, polymorphic: true
 
   NESTABLE_ATTRIBUTES = [
@@ -61,7 +60,8 @@ class NestedResource < ActiveRecord::Base
 
   def validate_gender
     return true if self.gender.to_s.blank?
-    unless self.gender == Gender::WOMAN or self.gender == Gender::MAN
+
+    unless self.gender == false or self.gender == true
       errors.add(:gender, :invalid_gender)
       return false
     end
@@ -151,6 +151,11 @@ class NestedResource < ActiveRecord::Base
     end
 
     result
+  end
+
+  def self.genders_to_a
+    [[I18n.t("gender.woman"), Gender::WOMAN],
+    [I18n.t("gender.man"), Gender::MAN]]
   end
 
 end

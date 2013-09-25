@@ -40,14 +40,20 @@ module FormHelper
     end
   end
 
-  def build_control f, name, type
+  def build_control f, name, type, html_options = {}
     case type.to_s
-    when 'string'
-      return f.text_field name, :class => 'input-xlarge'
     when 'integer'
-      return f.text_field name, :type => 'number', :class => 'input-xlarge'
+      return f.text_field name, html_options.merge(:type => 'number')
+    when 'boolean'
+      return f.select name,
+        # The following line returs NestedAttribute.genders_to_a if:
+        # name param equals to gender
+        # f.object.class.name equals to NestedResource
+        # We need to have the genders_to_a method defined into NestedAttribute model.
+        eval("#{f.object.class.name}.#{name.to_s.pluralize}_to_a"),
+        { :include_blank => true }, html_options
     else
-      return f.text_field name, :class => 'input-xlarge'
+      return f.text_field name, html_options
     end
   end
 

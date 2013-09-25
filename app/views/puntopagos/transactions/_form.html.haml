@@ -12,7 +12,7 @@
             - @nested_resource = @transaction.nested_resource || @transaction.build_nested_resource
             = f.fields_for :nested_resource, @nested_resource do |ff|
               - @nested_attributes.each do |na|
-                - control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type]), {required: na[:required]})
+                - control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type], {class: "span10"}), {required: na[:required]})
 
     .cart-collaterals.span4.offset1
       .cart-totals
