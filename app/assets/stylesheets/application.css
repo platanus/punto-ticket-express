@@ -15,6 +15,7 @@
  *= require bootstrap-timepicker/css/bootstrap-timepicker
  *= require prettycheckable/prettyCheckable
  *= require home
+ *= require events
  *= require tickets
  *= require puntopagos/transactions
  * require_tree .

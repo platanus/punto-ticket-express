@@ -10,6 +10,7 @@
         %ul
           - @event.errors.full_messages.each do |msg|
             %li= msg
+
     .control-group.logo-upload
       = f.label :logo, :class => 'control-label'
       .controls
@@ -18,6 +19,8 @@
     .control-group
       = f.label :producer_id, :class => 'control-label'
       .controls
+        .producer-hint{"ng-show" => "{{disabled}}"}
+          = t(".no_producers_hint", new_producer_url: new_producer_path).html_safe
         = f.select :producer_id,                                                                      |
           options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), |
           {:include_blank => true},                                                                   |
