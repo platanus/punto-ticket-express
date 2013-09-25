@@ -42,6 +42,13 @@ class Puntopagos::TransactionsController < ApplicationController
     authorize! :read, @transaction
   end
 
+  def nested_resource
+    @transaction = Transaction.find(params[:id])
+    authorize! :read, @transaction
+    @nested_resource = @transaction.nested_resource
+    @event = @transaction.event
+  end
+
   private
 
     def load_ticket_types

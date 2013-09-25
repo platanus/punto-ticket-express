@@ -14,6 +14,7 @@ class Transaction < ActiveRecord::Base
 
   delegate :email, to: :user, prefix: true, allow_nil: true
   delegate :name, to: :user, prefix: true, allow_nil: true
+  delegate :identifier, to: :user, prefix: true, allow_nil: true
 
   SUCCESS_CODE = "00"
   ERROR_CODE = "99"

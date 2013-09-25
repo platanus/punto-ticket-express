@@ -71,6 +71,11 @@ es-CL:
           luego en la opción "Tickets" del menú de la izquierda.
       show:
         title: "Tickets comprados el día %{time}"
+      nested_resource:
+        title: "Información adicional"
+        subtitle: "Compra realizada por %{user_name} el %{time}"
+      transactions:
+        title: Información Adicional
       form:
         title: Complete el formulario
         total: Total

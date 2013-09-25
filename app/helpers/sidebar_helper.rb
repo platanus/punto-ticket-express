@@ -44,8 +44,10 @@ module SidebarHelper
   end
 
   def active_if_participants
-    if params[:controller].include? "events" and
-      params[:action] == "participants"
+    if (params[:controller].include? "events" and
+      params[:action] == "participants") or
+      (params[:controller].include? "transactions" and
+      params[:action] == "nested_resource")
       return "active"
     end
   end

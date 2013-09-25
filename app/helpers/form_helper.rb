@@ -50,4 +50,12 @@ module FormHelper
       return f.text_field name, :class => 'input-xlarge'
     end
   end
+
+  def show_item label, value
+    return if value.nil? or value.to_s.empty?
+    content_tag :p do
+      haml_concat(content_tag(:b){ label })
+      haml_concat(value)
+    end
+  end
 end
