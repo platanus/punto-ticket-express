@@ -4,7 +4,8 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.tickets = [];
 
-    $scope.init = function(event) {
+    $scope.init = function(event, producersExist) {
+      $scope.disabled = !producersExist;
       $scope.name = event.name;
       $scope.address = event.address;
       $scope.organizerName = event.organizer_name;

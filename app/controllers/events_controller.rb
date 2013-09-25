@@ -42,16 +42,12 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    if current_user.producers.any?
-      @event = Event.new
-      @attributes = NestedResource.nested_attributes
+    @event = Event.new
+    @attributes = NestedResource.nested_attributes
 
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @event }
-      end
-    else
-      render :user_producers
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @event }
     end
   end
 

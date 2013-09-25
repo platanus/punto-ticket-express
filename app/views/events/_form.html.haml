@@ -22,7 +22,8 @@
           options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), |
           {:include_blank => true},                                                                   |
           :class => 'span4',                                                                          |
-          'ng-model' => 'producerId',                                                                |
+          'ng-model' => 'producerId',                                                                 |
+          'ng-disabled' => "{{disabled}}",                                                            |
           'form-validate' => '',                                                                      |
           'required' => ''                                                                            |
         / validation
@@ -32,12 +33,13 @@
     .control-group
       = f.label :name, :class => 'control-label'
       .controls
-        = f.text_field :name,          |
-          :class => 'span4',           |
-          'ng-model' => 'name',        |
-          'ng-minlength' => '3',       |
-          'form-validate' => '',       |
-          'required' => ''             |
+        = f.text_field :name,              |
+          :class => 'span4',               |
+          'ng-model' => 'name',            |
+          'ng-minlength' => '3',           |
+          'ng-disabled' => "{{disabled}}", |
+          'form-validate' => '',           |
+          'required' => ''                 |
         / validation
         .input-error{"ng-show" => "(form['event[name]'].$dirty && form['event[name]'].$invalid)"}
           %label{"ng-show" => "form['event[name]'].$error.required"}
@@ -47,12 +49,13 @@
     .control-group
       = f.label :address, :class => 'control-label'
       .controls
-        = f.text_field :address,          |
-          :class => 'span4',              |
-          'ng-model' => 'address',        |
-          'ng-minlength' => '3',          |
-          'form-validate' => '',          |
-          'required' => ''                |
+        = f.text_field :address,           |
+          :class => 'span4',               |
+          'ng-model' => 'address',         |
+          'ng-minlength' => '3',           |
+          'ng-disabled' => "{{disabled}}", |
+          'form-validate' => '',           |
+          'required' => ''                 |
         / validation
         .input-error{"ng-show" => "(form['event[address]'].$dirty && form['event[address]'].$invalid)"}
           %label{"ng-show" => "form['event[address]'].$error.required"}
@@ -62,7 +65,7 @@
     .control-group
       = f.label :description, :class => 'control-label'
       .controls
-        = f.text_area :description, :rows => '3', :class => 'span4'
+        = f.text_area :description, :rows => '3', :class => 'span4', 'ng-disabled' => "{{disabled}}"
     .control-group
       = f.label :organizer_name, :class => 'control-label'
       .controls
@@ -70,6 +73,7 @@
           :class => 'span4',                     |
           'ng-model' => 'organizerName',         |
           'ng-minlength' => '3',                 |
+          'ng-disabled' => "{{disabled}}",       |
           'form-validate' => '',                 |
           'required' => ''                       |
         / validation
@@ -81,30 +85,30 @@
     .control-group
       = f.label :organizer_description, :class => 'control-label'
       .controls
-        = f.text_area :organizer_description, :rows => '3', :class => 'span4'
+        = f.text_area :organizer_description, :rows => '3', :class => 'span4', 'ng-disabled' => "{{disabled}}"
     .control-group
       = f.label :custom_url, :class => 'control-label'
       .controls
-        = f.text_field :custom_url, :class => 'span4'
+        = f.text_field :custom_url, :class => 'span4', 'ng-disabled' => "{{disabled}}"
     .control-group
       = f.label 'Fecha y Horario', :class => 'control-label'
       .controls
         .input-append
-          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text"}/
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", 'ng-disabled' => "{{disabled}}", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text"}/
           %button.btn{"data-toggle" => "datepicker", :type => "button"}
             %i.icon-calendar
         .input-append
-          %input.input-mini{"bs-timepicker" => "", :name => "start_time", "ng-model" => "time.times.startTime", :type => "text"}
+          %input.input-mini{"bs-timepicker" => "", :name => "start_time", 'ng-disabled' => "{{disabled}}", "ng-model" => "time.times.startTime", :type => "text"}
             %button.btn{"data-toggle" => "timepicker", :type => "button"}
               %i.icon-time
         \-
 
         .input-append
-          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", :name => "end_date", "ng-model" => "time.dates.endDate", :required => "", :type => "text"}
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", 'ng-disabled' => "{{disabled}}", :name => "end_date", "ng-model" => "time.dates.endDate", :required => "", :type => "text"}
             %button.btn{"data-toggle" => "datepicker", :type => "button"}
               %i.icon-calendar
         .input-append
-          %input.input-mini{"bs-timepicker" => "", :name => "end_time", "ng-model" => "time.times.endTime", :type => "text"}
+          %input.input-mini{"bs-timepicker" => "", :name => "end_time", 'ng-disabled' => "{{disabled}}", "ng-model" => "time.times.endTime", :type => "text"}
             %button.btn{"data-toggle" => "timepicker", :type => "button"}
               %i.icon-time
         / you must define a filter to accept more than one validation
@@ -131,7 +135,7 @@
       .alert.alert-error{"ng-show" => "form.events.$error.minrepeat"}
         %span Debe crear al menos un tipo de ticket para guardar o publicar este evento.
       .control-group.text-center
-        %button.btn.btn-success{"ng-click" => "addTicket()", :type => "button"} Agrega un ticket
+        %button.btn.btn-success{"ng-click" => "addTicket()", :type => "button", 'ng-disabled' => "{{disabled}}"} Agrega un ticket
       %br/
       %table.table.table-bordered{"ng-animate" => "{show: 'event-show', hide: 'event-hide'}", "ng-show" => "tickets.length"}
         %thead
@@ -175,7 +179,7 @@
   %fieldset
 
   .form-actions
-    = f.submit 'Publicar evento', :name => 'publish', :class => 'btn btn-success btn-primary btn-large', :visibility=>"hidden"
+    = f.submit 'Publicar evento', :name => 'publish', 'ng-disabled' => "{{disabled}}", :class => 'btn btn-success btn-primary btn-large', :visibility=>"hidden"
     - if !@event.is_published
-      %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", :type => "submit", :value => "Guardar evento"}
-        %input.btn.btn-large{"ng-click" => "allowValidation()", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}
+      %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", 'ng-disabled' => "{{disabled}}", :type => "submit", :value => "Guardar evento"}
+        %input.btn.btn-large{"ng-click" => "allowValidation()", 'ng-disabled' => "{{disabled}}", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}
