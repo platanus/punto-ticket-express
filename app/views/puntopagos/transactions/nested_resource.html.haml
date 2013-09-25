@@ -13,7 +13,7 @@
     = show_item NestedResource.human_attribute_name(:age), @nested_resource.age
     = show_item NestedResource.human_attribute_name(:birthday), @nested_resource.birthday
     = show_item NestedResource.human_attribute_name(:company), @nested_resource.company
-    = show_item NestedResource.human_attribute_name(:gender), @nested_resource.gender
+    = show_item NestedResource.human_attribute_name(:gender), gender_label(@nested_resource.gender)
     = show_item NestedResource.human_attribute_name(:job), @nested_resource.job
     = show_item NestedResource.human_attribute_name(:job_address), @nested_resource.job_address
     = show_item NestedResource.human_attribute_name(:job_phone), @nested_resource.job_phone

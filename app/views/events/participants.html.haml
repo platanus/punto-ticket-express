@@ -16,3 +16,5 @@
             %td= transaction.user_email
             %td= link_to t('buttons.show_extra_data'), puntopagos_transaction_nested_resource_path(transaction) if transaction.nested_resource
     = will_paginate @transactions
+    .form-actions
+      = link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn'

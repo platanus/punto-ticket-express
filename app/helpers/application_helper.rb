@@ -16,4 +16,8 @@ module ApplicationHelper
     link_to_function text, "$(':submit').trigger('click')", :class => css_class, :name => "publish"
   end
 
+  def gender_label gender
+    return I18n.t("gender.man") if gender
+    I18n.t("gender.woman")
+  end
 end

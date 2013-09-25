@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html
       format.xls do
-        file_path = PTE::Event::Xls.generate_participants_book(event,
+        file_path = PTE::Event::Xls.generate_participants_book(@transactions,
           I18n.t("xls.participants.file_name"),
           I18n.t("xls.participants.zip_file_name"))
 
