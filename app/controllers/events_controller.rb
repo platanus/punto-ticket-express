@@ -15,8 +15,10 @@ class EventsController < ApplicationController
 
   def participants
     event = Event.find(params[:id])
+    @transactions = event.transactions
 
     respond_to do |format|
+      format.html
       format.xls do
         file_path = PTE::Event::Xls.generate_participants_book(event,
           I18n.t("xls.participants.file_name"),

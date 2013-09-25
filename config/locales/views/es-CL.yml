@@ -10,7 +10,8 @@ es-CL:
     continue: Continuar
     download: Descargar
     buy_now: Comprar Ahora
-    pay_puntopagos:  Pagar con Punto Pagos
+    pay_puntopagos: Pagar con Punto Pagos
+    show_extra_data: Ver infromación adicional
   home:
     index:
       title: Últimos Eventos
@@ -112,6 +113,8 @@ es-CL:
           participants: Lista de Asistentes
     my_index:
       title: Mis Eventos
+    participants:
+      title: Asistentes
     data_to_collect:
       title: Formulario
       subtitle: Información a Recolectar

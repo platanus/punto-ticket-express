@@ -15,5 +15,4 @@ class EventsPresenter
 		end
 		{total: total, data: result}
 	end
-
 end

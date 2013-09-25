@@ -29,7 +29,7 @@
       %a{:href => "#{sold_tickets_event_path(@event) if !@event.new_record?}"}
         %i.icon-chevron-right
         = t(".headers.statistic.tickets_sold")
-    %li{:class => "#{disabled_class}"}
-      %a{:href => "#analyze-2"}
+    %li{:class => "#{disabled_class} #{active_if_participants}"}
+      %a{:href => "#{participants_event_path if !@event.new_record?}"}
         %i.icon-chevron-right
         = t(".headers.statistic.participants")

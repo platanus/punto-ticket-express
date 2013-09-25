@@ -11,7 +11,8 @@ PuntoTicketExpress::Application.routes.draw do
     get "transactions/success/:token", to: 'transactions#success', as: :transactions_success
     get "transactions/new"
     post "transactions/create"
-    get "transactions/show/:id", to: 'transactions#show', as: :transaction
+    get "transactions/:id", to: 'transactions#show', as: :transaction
+    get "transactions/:id/extra_data", to: 'transactions#nested_resource', as: :transaction_nested_resource
   end
 
   # ROOT
@@ -25,6 +26,7 @@ PuntoTicketExpress::Application.routes.draw do
   get 'me/events', to: 'events#my_index'
   resources :events, only: [:show, :new, :edit, :update, :create, :destroy] do
     member do
+      get :participants
       get '/statistics/sold_tickets', to: 'events#sold_tickets', as: :sold_tickets
       get :form, to: 'events#data_to_collect'
     end
@@ -44,6 +46,3 @@ PuntoTicketExpress::Application.routes.draw do
   get '/features', to: 'features#index'
   get '/how_works', to: 'how_works#index'
 end
-
-
-

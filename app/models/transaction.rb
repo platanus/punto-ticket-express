@@ -13,6 +13,7 @@ class Transaction < ActiveRecord::Base
   scope :more_than_x_minutes_old, lambda {|x| where(["created_at <= ?", Time.now - x.minutes])}
 
   delegate :email, to: :user, prefix: true, allow_nil: true
+  delegate :name, to: :user, prefix: true, allow_nil: true
 
   SUCCESS_CODE = "00"
   ERROR_CODE = "99"

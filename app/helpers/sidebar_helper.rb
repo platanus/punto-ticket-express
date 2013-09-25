@@ -43,4 +43,11 @@ module SidebarHelper
     end
   end
 
+  def active_if_participants
+    if params[:controller].include? "events" and
+      params[:action] == "participants"
+      return "active"
+    end
+  end
+
 end

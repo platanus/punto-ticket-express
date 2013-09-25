@@ -22,6 +22,7 @@ class Event < ActiveRecord::Base
   has_many :ticket_types, dependent: :destroy
   has_many :tickets, through: :ticket_types
   has_many :users, through: :tickets
+  has_many :transactions, through: :tickets, uniq: true
 
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
