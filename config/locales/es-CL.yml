@@ -82,6 +82,8 @@ es-CL:
         phone: Teléfono fijo
         rut: RUT
         website: Página web
+        buyer_name: Nombre (compardor)
+        buyer_email: E-mail (compardor)
       admin_user:
         email: email
         password: password

@@ -12,8 +12,8 @@ module PTE
         sheet_data = []
 
         xls_header = [
-          User.human_attribute_name(:name),
-          User.human_attribute_name(:email),
+          NestedResource.human_attribute_name(:buyer_name),
+          NestedResource.human_attribute_name(:buyer_email),
           NestedResource.human_attribute_name(:name),
           NestedResource.human_attribute_name(:last_name),
           NestedResource.human_attribute_name(:rut),
