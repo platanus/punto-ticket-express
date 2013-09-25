@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
   def participants
     event = Event.find(params[:id])
-    @transactions = event.transactions
+    @transactions = event.transactions.completed
 
     respond_to do |format|
       format.html

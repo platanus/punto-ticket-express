@@ -10,6 +10,7 @@ class Transaction < ActiveRecord::Base
   accepts_nested_attributes_for :nested_resource
 
   scope :processing, where(["payment_status = ?", PTE::PaymentStatus.processing])
+  scope :completed, where(["payment_status = ?", PTE::PaymentStatus.completed])
   scope :more_than_x_minutes_old, lambda {|x| where(["created_at <= ?", Time.now - x.minutes])}
 
   delegate :email, to: :user, prefix: true, allow_nil: true
