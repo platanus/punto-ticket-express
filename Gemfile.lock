@@ -264,6 +264,7 @@ GEM
       chronic (>= 0.6.3)
     wicked_pdf (0.9.6)
       rails
+    will_paginate (3.0.5)
     wkhtmltopdf-binary (0.9.9.1)
     xml-simple (1.1.2)
     yard (0.8.7)
@@ -309,5 +310,6 @@ DEPENDENCIES
   validates_email_format_of
   whenever
   wicked_pdf
+  will_paginate (~> 3.0)
   wkhtmltopdf-binary
   yard

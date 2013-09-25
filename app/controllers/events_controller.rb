@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
   def participants
     event = Event.find(params[:id])
-    @transactions = event.transactions.completed
+    @transactions = event.transactions.completed.paginate(:page => params[:page], :per_page => 15)
 
     respond_to do |format|
       format.html
