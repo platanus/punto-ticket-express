@@ -2,34 +2,17 @@
 	.navbar.persistent-header.navbar-static-top
 		.navbar-inner
 			.container
-				=link_to_submit "Publicar Evento", "btn btn-success btn-primary btn-large"
+				.page-header
+					.row-fluid
+						.span6
+							%h1= t(".title")
+						.span6
+							=link_to_submit "Publicar Evento", "btn btn-success btn-primary btn-large"
+							=link_to_submit "Publicar Evento", "btn btn-success btn-primary btn-large"
 
-.page-header
-	%h1= t(".title")
-
-#page_event.row{"ng-controller" => "EventNewCtrl",
+#page_event.row{"ng-controller" => "EventNewCtrl", "style" => "margin-top: 30px;",
 	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types)}, #{current_user.producers.any?})"}
 	.span3
 		= render 'sidebar'
 	.span9
 		= render 'form'
-
-.modal.hide.fade{:id => 'modalConfirm'}
-	.modal-header
-		%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
-		%h3#ModalHeader
-	.modal-body
-		%p.modal-p#jobs
-	.modal-footer
-		.row
-			.span
-				%h6#ModalFooter
-			.span.pull-right#ButtonSpan
-				%button.btn.btn-close{"aria-hidden" => "true", "data-dismiss" => "modal"}= t ".close"
-
-:javascript
-	$('a').not('.btn-success, .btn-primary').click(function(e){
-		// $('#modalConfirm').modal('show');
-		if (!confirm("¿Esta seguro que desea salir?"))
-			e.preventDefault();
-	});
