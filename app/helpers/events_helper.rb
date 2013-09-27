@@ -6,4 +6,8 @@ module EventsHelper
   def disabled_class
   	@event.new_record? ? 'disabled' : ''
   end
+
+  def my_even_url(event)
+  	event.is_published ? sold_tickets_event_path(event) : edit_event_path(event)
+  end
 end
