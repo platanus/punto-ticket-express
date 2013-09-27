@@ -1,6 +1,10 @@
 .page-header
-  %h1= @event.name
-  %p= @event.description
+  .row-fluid
+    .span8
+      %h1= @event.name
+      %p= @event.description
+    .span4
+      = image_tag @event.logo.url(:medium), :class => 'pull-right medium-img' if @event.logo.file?
 / angular controller
 / passing ruby hash to javascript
 / passing puntopagos transaction path to javascript
