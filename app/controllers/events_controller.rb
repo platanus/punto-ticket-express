@@ -52,8 +52,7 @@ class EventsController < ApplicationController
   end
 
   def sold_tickets
-    event = Event.find(params[:id])
-    @result = EventsPresenter.totals_by_ticket_type event
+    @event = Event.find(params[:id])
     render "events/statistics/sold_tickets"
   end
 

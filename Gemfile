@@ -27,6 +27,7 @@ gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
 gem 'aws-sdk', "~> 1.5.7"
 gem 'will_paginate', '~> 3.0'
+gem 'active_decorator'
 
 # Gems used only for assets and not required
 # in production environments by default.

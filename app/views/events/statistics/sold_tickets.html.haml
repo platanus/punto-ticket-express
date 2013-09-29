@@ -10,11 +10,12 @@
         %th= Event.human_attribute_name :ticket_type
         %th= Event.human_attribute_name :tickets_count
         %th= Event.human_attribute_name :total
-        - @result[:data].each do |item|
+        - @event.ticket_types.each do |type|
+          - type_data = @event.amounts_by_type(type)
           %tr
-            %td= item[:name]
-            %td= item[:tickets_count]
-            %td= number_to_currency(item[:total])
+            %td= type_data[:name]
+            %td= type_data[:tickets_count]
+            %td= number_to_currency(type_data[:total])
         %tr
           %td{colspan: 2}
-          %td= number_to_currency(@result[:total])
+          %td= number_to_currency(@event.sold_amounts[:total])
