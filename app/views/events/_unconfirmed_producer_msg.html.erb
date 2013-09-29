@@ -1,0 +1,11 @@
+<div modal="producerModal" close="closeModal()">
+  <div class="modal-header">
+    <h3><%= t(".title") %></h3>
+  </div>
+  <div class="modal-body">
+    <%= t(".message").html_safe %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" type="button" ng-click="closeModal()"><%= t("buttons.ok") %></button>
+  </div>
+</div>
