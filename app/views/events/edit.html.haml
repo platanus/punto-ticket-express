@@ -11,7 +11,7 @@
 							=link_to_submit "Publicar Evento", "btn btn-success btn-primary btn-large"
 
 #page_event.row{"ng-controller" => "EventNewCtrl", "style" => "margin-top: 30px;",
-	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types)}, #{current_user.producers.any?})"}
+	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types)}, #{current_user.producers.any?}, #{raw current_user.unconfirmed_producers.pluck(:id).to_json})"}
 	.span3
 		= render 'sidebar'
 	.span9

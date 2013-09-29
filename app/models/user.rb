@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
     self.email
   end
 
-  def confirmed_producers
-    self.producers.where(confirmed: true)
+  def unconfirmed_producers
+    self.producers.where(confirmed: false)
   end
 
   def human_role

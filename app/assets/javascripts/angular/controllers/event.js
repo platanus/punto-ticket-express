@@ -4,7 +4,8 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.tickets = [];
 
-    $scope.init = function(event, producersExist) {
+    $scope.init = function(event, producersExist, unconfirmedProducerIds) {
+      $scope.unconfirmedProducerIds = unconfirmedProducerIds;
       $scope.disabled = !producersExist;
       $scope.name = event.name;
       $scope.address = event.address;
@@ -26,6 +27,21 @@ angular.module('puntoTicketApp.controllers')
     // triggers the method set out in the validations directive
     $scope.allowValidation = function () {
       $scope.$broadcast('kickOffValidations');
+    };
+
+    // PRODUCERS MESSAGE
+    $scope.submit = function(event) {
+      for(var i = 0; i < $scope.unconfirmedProducerIds.length; i++ ){
+        if($scope.unconfirmedProducerIds[i] == $scope.producerId) {
+          event.preventDefault();
+          $scope.producerModal = true;
+          break;
+        }
+      }
+    };
+
+    $scope.closeModal = function() {
+      $scope.producerModal = false;
     };
   }
 ]);
