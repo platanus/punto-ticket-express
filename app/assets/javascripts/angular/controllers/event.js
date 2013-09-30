@@ -72,7 +72,7 @@ angular.module('puntoTicketApp.controllers')
     // initialization tasks to be executed before the template enters execution mode
     // used to ruby data parsed into a JavaScript object
 
-    $scope.init = function(ticketTypes, url) {
+    $scope.init = function(ticketTypes, url, isPreview) {
       // eliminates unnecessary attributes
       _.each(ticketTypes, function(ticketType){
         // set default select option
@@ -82,6 +82,7 @@ angular.module('puntoTicketApp.controllers')
         delete ticketType.updated_at
       });
 
+      $scope.isPreview = isPreview
       $scope.ticketTypes = ticketTypes;
       $scope.actionUrl = url;
     };
@@ -95,11 +96,16 @@ angular.module('puntoTicketApp.controllers')
       // if all tickets are equal to zero is sent a warning
       if(_.size(ticketTypes) == 0) {
         // default action of the event will not be triggered
-        $event.preventDefault()
+        $event.preventDefault();
         alert('No puede comprar 0 tickets!')
-      }
-      else
+
+      } else if($scope.isPreview) {
+        $event.preventDefault();
+        alert('Esto es sólo la vista previa de su evento. No puede comprar desde aquí.')
+
+      } else {
         $scope.ticketTypes = ticketTypes;
+      }
     };
   }
 ]);

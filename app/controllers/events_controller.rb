@@ -33,6 +33,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @is_preview = params.has_key?(:preview)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
