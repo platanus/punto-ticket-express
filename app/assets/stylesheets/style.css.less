@@ -26,7 +26,8 @@
 @lightGreen: #5db734;
 @lightBlue: #1e8fc6;
 @lightGray: #f5f5f5;
-@darkOrange: #D5882A;
+@darkOrange: #E48A17;
+@strongOrange: #D14C18;
 @darkGray: #666666;
 
 .blue {
@@ -62,6 +63,10 @@ h1, h2, h3, h4, h5 {
 
 .right-align {
 	text-align: right;
+}
+
+.bold {
+	font-weight: 400;
 }
 
 /* # BUTTONS
@@ -103,8 +108,8 @@ h1, h2, h3, h4, h5 {
 		margin-top: -1px;
 		height: auto;
 		padding: 10px;
-		background-color: #D14C18;
-		border-color: #B6420C;
+		background-color: @strongOrange;
+		border-color: #b6420c;
 		text-align: left;
 		width: 176px;
 		text-shadow: none;
@@ -151,6 +156,23 @@ h1, h2, h3, h4, h5 {
 		-moz-box-shadow: none;
 		box-shadow: none;
 		text-transform: uppercase;
+
+		&:hover {
+			border-color: @strongOrange;
+		}
+		&:focus {
+			border-color: @strongOrange;
+		}
+	}
+
+	.btn-primary  {
+		background-color: @darkOrange;
+		&:hover {
+			background-color: @strongOrange;
+		}
+		&:focus {
+			background-color: @strongOrange;
+		}
 	}
 
 	h1 {
@@ -163,14 +185,14 @@ h1, h2, h3, h4, h5 {
 	}
 }
 
-.navbar-fixed-top {
+.navbar-fixed-top, .navbar-shadow {
 	transition: all 0.4s ease;
 	-webkit-box-shadow: 0 1px 10px rgba(0,0,0,.1);
 	-moz-box-shadow: 0 1px 10px rgba(0,0,0,.1);
 	box-shadow: 0 1px 10px rgba(0,0,0,.1);
 }
 
-.navbar-fixed-top .page-header {
+.navbar-fixed-top .page-header, .navbar-shadow .page-header {
 	border-bottom: none;
 }
 
@@ -387,6 +409,16 @@ form .input-error label {
 			-webkit-border-radius: 0 0 4px 4px;
 			-moz-border-radius: 0 0 4px 4px;
 			border-radius: 0 0 4px 4px;
+		}
+		&.active a {
+			background-color: @darkOrange;
+			border-color: @darkOrange;
+			&:hover {
+				background-color: @strongOrange;
+			}
+			&:focus {
+				background-color: @strongOrange;
+			}
 		}
 		a {
 			display: block;
