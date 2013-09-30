@@ -1,5 +1,5 @@
 // serializes an javascript object so it can be sent through to a url and concatenated with a url
-angular.module('puntoTicketApp.filters', []).filter('serailizedUrl', function() {
+angular.module('puntoTicketApp.filters').filter('serailizedUrl', function() {
 	// @obj (required)	  - object to be serialized
 	// @url (optional) 	  - url to the which you concatenate the serialized object
 	// @prefix (optional) - prefijo para envolver el objeto

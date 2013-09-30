@@ -29,6 +29,10 @@ angular.module('puntoTicketApp.controllers')
       $scope.$broadcast('kickOffValidations');
     };
 
+    $scope.changeStartDate = function () {
+      $scope.time.dates.endDate = $scope.time.dates.startDate
+    }
+
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
       for(var i = 0; i < $scope.unconfirmedProducerIds.length; i++ ){

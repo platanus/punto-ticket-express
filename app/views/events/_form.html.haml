@@ -99,23 +99,24 @@
       = f.label 'Fecha y Horario', :class => 'control-label'
       .controls
         .input-append
-          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", 'ng-disabled' => "{{disabled}}", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text"}/
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", 'ng-disabled' => "{{disabled}}", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text", "ng-change" => "changeStartDate()" }/
           %button.btn{"data-toggle" => "datepicker", :type => "button"}
             %i.icon-calendar
-        .input-append
-          %input.input-mini{"bs-timepicker" => "", :name => "start_time", 'ng-disabled' => "{{disabled}}", "ng-model" => "time.times.startTime", :type => "text"}
-            %button.btn{"data-toggle" => "timepicker", :type => "button"}
-              %i.icon-time
-        \-
 
+        .input-append
+          %select.input-mini.form-control{"ng-model" => "time.times.startTime", "ng-options" => "t as t for t in [] | timeInterval:0:24"}
+          %input{:name => "start_time" , :value => "{{time.times.startTime}}", :type => "text", :style => "display: none"}
+
+        \-
         .input-append
           %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", 'ng-disabled' => "{{disabled}}", :name => "end_date", "ng-model" => "time.dates.endDate", :required => "", :type => "text"}
             %button.btn{"data-toggle" => "datepicker", :type => "button"}
               %i.icon-calendar
+
         .input-append
-          %input.input-mini{"bs-timepicker" => "", :name => "end_time", 'ng-disabled' => "{{disabled}}", "ng-model" => "time.times.endTime", :type => "text"}
-            %button.btn{"data-toggle" => "timepicker", :type => "button"}
-              %i.icon-time
+          %select.input-mini.form-control{"ng-model" => "time.times.endTime", "ng-options" => "t as t for t in [] | timeInterval:0:24"}
+          %input{:name => "end_time" , :value => "{{time.times.endTime}}", :type => "text", :style => "display: none"}
+
         / you must define a filter to accept more than one validation
         / custom validation
         .input-error{"ng-show" => "form.start_date.$dirty && form.start_date.$invalid"}
@@ -132,7 +133,8 @@
                   El comienzo del evento no puede ser menor que la fecha actual
               .input-error.span6.no-space{"ng-show" => "form.timesEnd.$error.startgreaterend"}
                 %label
-                  El comienzo del evento no puede ser mayor que el final
+                  El comienzo del evento no puede ser mayor o igual que el final
+
   %fieldset
     %legend Crea los Tickets
     / custom validation

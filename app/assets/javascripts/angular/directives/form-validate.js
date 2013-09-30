@@ -21,16 +21,28 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
       }, true);
 
       function resolveValidation(viewValue) {
+        outside:
         switch (attrs.validateType) {
           case "minrepeat":
             scope.isValid = _.size(viewValue) > 0 ? 'valid' : undefined;
             break;
           case "starttime":
+
+            if(!viewValue.dates.startDate) {
+              scope.isValid = 'valid';
+              break outside;
+            }
+
             var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
             var currentTime = new Date();
             scope.isValid = startTime > currentTime ? 'valid' : undefined;
             break;
           case "startgreaterend":
+
+            if(!viewValue.dates.startDate || !viewValue.dates.endDate) {
+              scope.isValid = 'valid';
+              break outside;
+            }
             var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
             var endTime = new Date (viewValue.dates.endDate.toDateString() + ' ' + viewValue.times.endTime);
             scope.isValid = startTime - endTime < 0 ? 'valid' : undefined;
