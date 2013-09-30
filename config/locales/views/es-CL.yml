@@ -107,7 +107,7 @@ es-CL:
         amount: Precio
         qty: Cantidad
     form:
-      no_producers_hint: Antes de crear un evento usted debe <b><a href="%{new_producer_url}">Registrar una productora</a></b>
+      no_producers_hint: Antes de crear un evento debes <b><a href="%{new_producer_url}">Registrar una productora</a></b>
     edit:
       title: Editando evento
     new:
