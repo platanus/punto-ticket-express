@@ -45,6 +45,7 @@
 	color: @red;
 }
 
+
 /* # FONTS
 ================================================== */
 body, html {
@@ -75,6 +76,50 @@ h1, h2, h3, h4, h5 {
 	padding: 20px 70px;
 	margin-top: 40px;
 	margin-left: 380px;
+}
+
+/* # HOME CONTAINER
+================================================== */
+.intro {
+	margin-top: 88px;
+
+	h1, h2 {
+		color: #ffffff;
+		padding: 5px;
+		display: inline-block;
+		background: rgba(255, 153, 0, 0.7);
+	}
+	h1 {
+		font-weight: 400;
+		text-transform: uppercase;
+	}
+	h2 {
+		line-height: 24px;
+		font-size: 20px;
+	}
+
+	.btn {
+		float: right;
+		margin-top: -1px;
+		height: auto;
+		padding: 10px;
+		background-color: #D14C18;
+		border-color: #B6420C;
+		text-align: left;
+		width: 176px;
+		text-shadow: none;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+		webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		text-transform: uppercase;
+
+		i {
+			float: right;
+		}
+	}
 }
 
 /* # NAVBAR STYLES
@@ -193,9 +238,9 @@ form .no-space {
 /* ===== Form events ===== */
 #page_event form {
 	.form-actions input {  float: left; margin-right: 8px;}
-  	input[name="start_date"], input[name^="end_date"] { width: 73px; }
-  	input[name="start_time"], input[name^="end_time"]  {width: 52px;}
-  	.logo-upload input {width: 160px; }
+	input[name="start_date"], input[name^="end_date"] { width: 73px; }
+	select.input-mini {width: 86px;}
+	.logo-upload input {width: 160px; }
 }
 
 .form-shop {
@@ -430,28 +475,28 @@ form .input-error label {
 
 	tbody tr{
 		&:nth-child(1n) {
-  			border-left: 5px solid #e5603b;
+			border-left: 5px solid #e5603b;
 		}
 		&:nth-child(2n) {
 			border-left: 5px solid #eac85e;
 		}
 		&:nth-child(3n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 		&:nth-child(4n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 		&:nth-child(5n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 		&:nth-child(6n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 		&:nth-child(7n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 		&:nth-child(8n) {
-  			border-left: 5px solid #8cbf26;
+			border-left: 5px solid #8cbf26;
 		}
 	}
 }

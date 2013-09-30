@@ -1,5 +1,15 @@
 - content_for(:without_container) do
   .home-section
+    .container-fluid
+      .row-fluid
+        .span4.offset7.intro
+          %h1 Titulo
+          %h2 Puntoticket te facilita el trabajo con herramientas sencillas pero potentes para gestionar, promocionar y vender tu evento.
+          =link_to new_event_path, :class => "btn btn-success btn-primary btn-large" do
+            CREAR EVENTO
+            %i.icon-circle-arrow-right
+
+
 
 .page-header
   %h1= t(".title")
