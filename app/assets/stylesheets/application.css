@@ -20,3 +20,5 @@
  *= require puntopagos/transactions
  * require_tree .
  */
+
+.prettyradio.yellow a{ background-image: url(prettycheckable/prettyCheckable-yellow.png);}
