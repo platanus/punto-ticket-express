@@ -1,0 +1,8 @@
+%div{:modal => "producerModal", :close => "closeModal()"}
+  .modal-header
+    %h3= t(".title")
+  .modal-body
+    = t(".message").html_safe
+  .modal-footer
+    %button.btn{:type => "button", "ng-click" => "closeModal()"}
+      = t("buttons.ok")
