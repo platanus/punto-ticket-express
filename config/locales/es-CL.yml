@@ -4,6 +4,15 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  pte:
+    payment_status:
+      processing: Procesando
+      completed: Completa
+      inactive: Inactiva
+    role:
+      types:
+        user: Usuario
+        admin: Administrador
   gender:
     woman: Femenino
     man: Masculino
@@ -150,12 +159,3 @@ es-CL:
             ticket_type_id:
               invalid_ticket_type_given: el tipo de ticket no existe
               no_tickets_left: no quedan entradas de este tipo
-  pte:
-    payment_status:
-      processing: Procesando
-      completed: Completa
-      inactive: Inactiva
-    role:
-      types:
-        user: Usuario
-        admin: Administrador
