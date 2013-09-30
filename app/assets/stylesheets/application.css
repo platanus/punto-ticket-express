@@ -18,5 +18,6 @@
  *= require events
  *= require tickets
  *= require puntopagos/transactions
+ *= require override_vendor
  * require_tree .
  */
