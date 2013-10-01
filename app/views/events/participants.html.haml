@@ -7,14 +7,15 @@
   .span9
     %table{class: "table table-striped"}
       %tr
-        %th= User.human_attribute_name :name
-        %th= User.human_attribute_name :email
+        - @event.participants_table_header.each do |col|
+          %th= NestedResource.human_attribute_name col
         %th
-        - @transactions.each do |transaction|
+        - @event.participants(@transactions).each do |data|
           %tr
-            %td= transaction.user_name
-            %td= transaction.user_email
-            %td= link_to t('buttons.show_extra_data'), puntopagos_transaction_nested_resource_path(transaction) if transaction.nested_resource
+            - data.each do |attr|
+              - unless attr == data.last
+                %td= attr
+            %td= link_to t('buttons.show'), puntopagos_transaction_nested_resource_path(data.last)
     = will_paginate @transactions
     .form-actions
       = link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn'

@@ -62,8 +62,12 @@ class Event < ActiveRecord::Base
     required_values.map {|item| item[:attr] }
   end
 
-  private
+  def optional_nested_attributes
+    optional_values = self.nested_attributes.reject{ |attr| attr[:required] }
+    optional_values.map {|item| item[:attr] }
+  end
 
+  private
     def remains_published?
       if !self.new_record? and self.is_published_was and
         (self.is_published_was != self.is_published)
