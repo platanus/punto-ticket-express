@@ -6,7 +6,7 @@ module PTE
         transactions = event.transactions.completed
         sheet = xls.add_sheet I18n.t("xls.participants.sheet_name")
         load_participants_sheet xls, sheet, transactions
-        xls.generate_book file_name, "participants_xls", zip_file_name
+        xls.generate_book file_name, "participants_xls" #, zip_file_name uncomment to download a zip file instead xlsx
       end
 
       def self.load_participants_sheet xls, sheet, transactions
