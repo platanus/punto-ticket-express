@@ -77,8 +77,7 @@ es-CL:
       show:
         title: "Tickets comprados el día %{time}"
       nested_resource:
-        title: "Información adicional"
-        subtitle: "Compra realizada por %{user_name} el %{time}"
+        title: "Asistente"
       transactions:
         title: Información Adicional
       form:
