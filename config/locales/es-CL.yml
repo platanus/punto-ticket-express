@@ -102,6 +102,8 @@ es-CL:
         contact_name: Nombre contacto
         description: Descripción
         name: Nombre
+        corporate_name: Razón Social
+        brief: Descripción breve
         phone: Teléfono
         rut: RUT
         website: Web

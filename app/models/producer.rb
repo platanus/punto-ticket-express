@@ -1,5 +1,8 @@
 class Producer < ActiveRecord::Base
-  attr_accessible :address, :contact_email, :contact_name, :description, :name, :phone, :rut, :website, :confirmed
+  attr_accessible :address, :contact_email,
+    :contact_name, :description, :name,
+    :phone, :rut, :website, :confirmed,
+    :brief, :corporate_name
 
   has_and_belongs_to_many :users
   has_many :events, dependent: :destroy
@@ -7,6 +10,13 @@ class Producer < ActiveRecord::Base
   has_many :tickets, through: :ticket_types
 
   validates :name, presence: true
+  validates :corporate_name, presence: true
+  validates :rut, presence: true
+  validates :address, presence: true
+  validates :contact_email, presence: true
+  validates :contact_name, presence: true
+  validates :phone, presence: true
+
   validates :website,
     format: {with: %r{\Ahttps?:\/\/([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
     message: I18n.t("activerecord.errors.messages.invalid_url")},
@@ -36,3 +46,5 @@ class Producer < ActiveRecord::Base
     end
 
 end
+
+

@@ -6,6 +6,9 @@
     = render 'configuration/sidebar'
   .span9
     %p
+      %b= Producer.human_attribute_name :corporate_name
+      = @producer.rut
+    %p
       %b= Producer.human_attribute_name :rut
       = @producer.rut
     %p
@@ -20,6 +23,9 @@
     %p
       %b= Producer.human_attribute_name :contact_email
       = @producer.contact_email
+    %p
+      %b= Producer.human_attribute_name :brief
+      .pre= @producer.brief
     %p
       %b= Producer.human_attribute_name :description
       .pre= @producer.description
