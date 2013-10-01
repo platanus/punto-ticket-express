@@ -2,17 +2,21 @@
 ================================================== */
 
 @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+font-family: 'Open Sans';
+font-style: normal;
+font-weight: 400;
+src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
 }
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+
+
+
+/* # FONTS
+================================================== */
+body, html {
+	font-size: 13px;
+	font-family: 'Open Sans', sans-serif;
 }
+
 
 /* # COLORS
 ================================================== */
@@ -51,8 +55,8 @@
 ================================================== */
 body, html {
 	line-height: 1.4;
+	font-weight: 300px;
 	font-size: 14px;
-	font-weight: 300;
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -143,10 +147,9 @@ h1, h2, h3, h4, h5 {
 	text-transform: none;
 
 	.btn {
-		float: right;
 		margin-top: -1px;
 		height: auto;
-		padding: 28px 28px 29px;
+		padding: 16px 16px 16px;
 		border-left: 1px solid @darkOrange;
 		border-right: 1px solid @darkOrange;
 		-webkit-border-radius: 0;
@@ -157,6 +160,12 @@ h1, h2, h3, h4, h5 {
 		box-shadow: none;
 		text-transform: uppercase;
 
+		&.pull-left {
+			margin: 10px 10px 10px 0px;
+		}
+		&.pull-right {
+			margin: 10px 0px 10px 10px;
+		}
 		&:hover {
 			border-color: @strongOrange;
 		}
