@@ -1,4 +1,8 @@
 ActiveAdmin.setup do |config|
+  config.before_filter do
+    I18n.locale = :es
+    I18n.reload!
+  end
 
   # == Site Title
   #

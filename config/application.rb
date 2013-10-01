@@ -62,14 +62,14 @@ module PuntoTicketExpress
     config.assets.version = '1.0'
 
     # Default location
-    config.i18n.available_locales = 'es-CL'
+    config.i18n.available_locales = ['es-CL', 'es', 'en']
     config.i18n.default_locale = 'es-CL'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
     config.i18n.locale = I18n.locale = config.i18n.default_locale
 
     # fallback location
     config.i18n.fallbacks = true
-    config.i18n.fallbacks = [:es]
+    config.i18n.fallbacks = ['es-CL']
 
     # paperclip configuration
     config.paperclip_defaults = {
