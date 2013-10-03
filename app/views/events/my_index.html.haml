@@ -16,8 +16,8 @@
       %td= event.description
       %td= l event.start_time, format: :short
       %td= t(event.is_published.to_s)
-      %td= link_to t("buttons.show"), event, :class => 'btn btn-mini'
-      %td= link_to t("buttons.edit"), my_even_url(event), :class => 'btn btn-mini'
+      %td= show_url_or_preview(event)
+      %td= analytics_or_edit_url(event)
 %br/
 - if can? :create, Event
   = link_to t("buttons.new"), new_event_path, :class => 'btn btn-success'

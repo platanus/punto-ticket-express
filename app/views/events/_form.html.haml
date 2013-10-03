@@ -1,6 +1,6 @@
 = render :partial => "unconfirmed_producer_msg"
 
-= form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'well' novalidate: true} do |f|
+= form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'well', novalidate: true} do |f|
   %fieldset.form-horizontal
     %legend Detalles del Evento
     - if @event.errors.any?
