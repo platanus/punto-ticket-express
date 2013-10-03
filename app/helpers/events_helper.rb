@@ -7,19 +7,19 @@ module EventsHelper
   	@event.new_record? ? 'disabled' : ''
   end
 
-  def show_url_or_preview(event)
+  def show_or_preview_button(event)
   	if event.is_published?
-  		link_to(t("buttons.show"), event, :class => 'btn btn-mini')
+  		link_to(t("buttons.show"), event, :class => 'btn btn-mini btn-mini-in-line')
   	else
-  		link_to(t("buttons.show"), event_path(event, :preview => 'true'), :class => 'btn btn-mini')
+  		link_to(t("buttons.preview"), event_path(event, :preview => 'true'), :class => 'btn btn-mini btn-mini-in-line')
   	end
   end
 
-  def analytics_or_edit_url(event)
+  def statistics_or_edit_button(event)
   	if event.is_published?
-  		link_to t("buttons.edit"), sold_tickets_event_path(event), :class => 'btn btn-mini'
+  		link_to t("buttons.statistics"), sold_tickets_event_path(event), :class => 'btn btn-mini btn-mini-in-line'
   	else
-  		link_to t("buttons.edit"), edit_event_path(event), :class => 'btn btn-mini'
+  		link_to t("buttons.edit"), edit_event_path(event), :class => 'btn btn-mini btn-mini-in-line'
   	end
   end
 end

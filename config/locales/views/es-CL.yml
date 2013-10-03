@@ -17,6 +17,9 @@ es-CL:
     pay_puntopagos: Pagar
     show_extra_data: Ver infromación adicional
     ok: OK
+    preview: vista previa
+    statistics: estadisticas
+
   home:
     index:
       title: Últimos Eventos
