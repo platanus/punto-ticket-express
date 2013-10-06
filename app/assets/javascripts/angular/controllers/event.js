@@ -44,7 +44,7 @@ angular.module('puntoTicketApp.controllers')
       }
     };
 
-    $scope.closeModal = function() {
+    $scope.closeProducerModal = function() {
       $scope.producerModal = false;
     };
   }
@@ -87,6 +87,14 @@ angular.module('puntoTicketApp.controllers')
       $scope.actionUrl = url;
     };
 
+    $scope.closeBuyModal = function() {
+      $scope.buyModal = false;
+    }
+
+    $scope.closeNoTicketsModal = function() {
+      $scope.notTicketsModal = false;
+    }
+
     // removes and validates the fields of the array before being sent to the next page
     $scope.sendTicket = function($event) {
 
@@ -97,11 +105,11 @@ angular.module('puntoTicketApp.controllers')
       if(_.size(ticketTypes) == 0) {
         // default action of the event will not be triggered
         $event.preventDefault();
-        alert('No puede comprar 0 tickets!')
+        $scope.notTicketsModal = true;
 
       } else if($scope.isPreview) {
         $event.preventDefault();
-        alert('Esto es sólo la vista previa de su evento. No puede comprar desde aquí.')
+        $scope.buyModal = true;
 
       } else {
         $scope.ticketTypes = ticketTypes;

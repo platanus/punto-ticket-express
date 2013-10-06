@@ -93,6 +93,12 @@ es-CL:
       total_price_label: "%{ticket_type} $%{price}"
   events:
     show:
+      not_tickets_msg:
+        title: Mensaje
+        message: No puede comprar 0 tickets!
+      prevent_buy_msg:
+        title: Mensaje
+        message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
       titles:
         organizer: Organizador
         when: Cuándo y Dónde?

@@ -1,4 +1,4 @@
-= render :partial => "shared/message", :locals => { :message => t(".unconfirmed_producer_msg.message"), :title => t(".unconfirmed_producer_msg.title") }
+= render :partial => "shared/message", :locals => { :message => t(".unconfirmed_producer_msg.message"), :title => t(".unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"}
 
 = form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'well', novalidate: true} do |f|
   %fieldset.form-horizontal
