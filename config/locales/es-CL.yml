@@ -120,6 +120,8 @@ es-CL:
         description: Descripción
         custom_url: Dirección Web Personalizada
         is_published: ¿Publicado?
+        start_time: Fecha Inicio
+        end_time: Fecha Fin
         start_time: Inicio
         end_time: Fin
         producer_id: Productora
@@ -128,6 +130,8 @@ es-CL:
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket
+        created_at: Fecha Creación
+        updated_at: Fecha Modificación
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
