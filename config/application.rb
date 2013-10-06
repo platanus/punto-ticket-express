@@ -61,15 +61,28 @@ module PuntoTicketExpress
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    # Default location
-    config.i18n.available_locales = ['es-CL', 'es', 'en']
-    config.i18n.default_locale = 'es-CL'
-    I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
-    config.i18n.locale = I18n.locale = config.i18n.default_locale
+    #config.i18n.available_locales = ['es-CL', 'es', 'en']
+    #config.i18n.default_locale = 'es-CL'
+    #I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
+    #config.i18n.locale = I18n.locale = config.i18n.default_locale
 
-    # fallback location
-    config.i18n.fallbacks = true
-    config.i18n.fallbacks = ['es-CL']
+    #config.i18n.fallbacks = true
+    #config.i18n.fallbacks = ['es-CL']
+
+    config.before_configuration do
+      I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+      I18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
+      I18n.locale = I18n.default_locale = config.i18n.locale = 'es-CL'
+      config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+      config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}')]
+
+      # bypasses rails bug with i18n in production\
+      I18n.reload!
+      config.i18n.reload!
+    end
+
+    config.i18n.locale = config.i18n.default_locale = 'es-CL'
+    config.i18n.fallbacks = [:es, :en]
 
     # paperclip configuration
     config.paperclip_defaults = {
