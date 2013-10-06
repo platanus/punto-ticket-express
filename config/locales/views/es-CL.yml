@@ -92,11 +92,6 @@ es-CL:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
-    unconfirmed_producer_msg:
-      title: Importante
-      message: |
-        La productora que ha seleccionado se encuentra pendiente de aprobación.<br/>
-        Esta debe ser verificada por un administrador antes de la publicación del evento.
     show:
       titles:
         organizer: Organizador
@@ -110,6 +105,12 @@ es-CL:
         qty: Cantidad
     form:
       no_producers_hint: "Antes de crear un evento debes <b><a href='%{new_producer_url}'>Registrar una productora</a></b>"
+      unconfirmed_producer_msg:
+        title: Importante
+        message: |
+          La productora que ha seleccionado se encuentra pendiente de aprobación.<br/>
+          Esta debe ser verificada por un administrador<br/>
+          antes de la publicación del evento.
     edit:
       title: Editando evento
     new:
