@@ -72,26 +72,6 @@
       .controls
         = f.text_area :description, :rows => '3', :class => 'span4', 'ng-disabled' => "{{disabled}}"
     .control-group
-      = f.label :organizer_name, :class => 'control-label'
-      .controls
-        = f.text_field :organizer_name,          |
-          :class => 'span4',                     |
-          'ng-model' => 'organizerName',         |
-          'ng-minlength' => '3',                 |
-          'ng-disabled' => "{{disabled}}",       |
-          'form-validate' => '',                 |
-          'required' => ''                       |
-        / validation
-        .input-error{"ng-show" => "(form['event[organizer_name]'].$dirty && form['event[organizer_name]'].$invalid)"}
-          %label{"ng-show" => "form['event[organizer_name]'].$error.required"}
-            El nombre del organizador del evento no puede estar en blanco
-          %label{"ng-show" => "form['event[organizer_name]'].$error.minlength"}
-            El nombre del organizador del evento debe tener al menos 3 caracteres
-    .control-group
-      = f.label :organizer_description, :class => 'control-label'
-      .controls
-        = f.text_area :organizer_description, :rows => '3', :class => 'span4', 'ng-disabled' => "{{disabled}}"
-    .control-group
       = f.label :custom_url, :class => 'control-label'
       .controls
         = f.text_field :custom_url, :class => 'span4', 'ng-disabled' => "{{disabled}}"

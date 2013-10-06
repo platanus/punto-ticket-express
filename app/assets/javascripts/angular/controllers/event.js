@@ -9,7 +9,6 @@ angular.module('puntoTicketApp.controllers')
       $scope.disabled = !producersExist;
       $scope.name = event.name;
       $scope.address = event.address;
-      $scope.organizerName = event.organizer_name;
       $scope.producerId = event.producer_id
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);

@@ -100,7 +100,6 @@ es-CL:
         title: Mensaje
         message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
       titles:
-        organizer: Organizador
         when: Cuándo y Dónde?
         producer: Productora
         tickets: Tickets

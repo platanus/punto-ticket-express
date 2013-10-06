@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  attr_accessible :user_id, :address, :custom_url, :description, :name, :organizer_description, :organizer_name, :producer_id
+  attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id
   attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
   attr_accessible :logo
 
@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   # Possible attribute values are defined on NestedResource::NESTABLE_ATTRIBUTES constant
   serialize :data_to_collect, Array
 
-  validates_presence_of :address, :description, :name, :organizer_name
+  validates_presence_of :address, :description, :name
   validate :remains_published?
   validates_attachment_content_type :logo, :content_type => /image/
 
@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
   scope :published, where(is_published: true)
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
+  delegate :description, to: :producer, prefix: true, allow_nil: true
 
   def data_to_collect=(val)
     result = []
