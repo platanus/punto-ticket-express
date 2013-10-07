@@ -168,5 +168,5 @@
   .form-actions
     = f.submit 'Publicar evento', :name => 'publish', 'ng-disabled' => "{{disabled}}", :class => 'btn btn-success btn-primary btn-large', :visibility=>"hidden"
     - if !@event.is_published
-      %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", 'ng-disabled' => "{{disabled}}", :type => "submit", :value => "Guardar evento"}
-        %input.btn.btn-large{"ng-click" => "allowValidation()", 'ng-disabled' => "{{disabled}}", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento"}
+      %input.btn.btn-large{:name => "commit", "ng-show" => "form.$valid", 'ng-disabled' => "{{disabled}}", :type => "submit", :value => "Guardar evento", "ng-click" => "submitAction = 'save'"}
+        %input.btn.btn-large{"ng-click" => "allowValidation()", 'ng-disabled' => "{{disabled}}", "ng-show" => "form.$invalid", :type => "button", :value => "Guardar evento", "ng-click" => "submitAction = 'save'"}
