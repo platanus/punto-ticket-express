@@ -35,6 +35,9 @@
         .input-error{"ng-show" => "(form['event[producer_id]'].$dirty && form['event[producer_id]'].$invalid)"}
           %label{"ng-show" => "form['event[producer_id]'].$error.required"}
             Debe elegir una productora
+        .producer-description.span5{"ng-repeat" => "producer in producers | filter:{id:producerId}", "ng-hide" => "!producerId"}
+          {{producer.description}}
+
     .control-group
       = f.label :name, :class => 'control-label'
       .controls
