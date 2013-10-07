@@ -3,7 +3,7 @@
 
 / angular controller
 #page_event.row{"ng-controller" => "EventNewCtrl",
-	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types) }, #{current_user.producers.any?}, #{raw current_user.unconfirmed_producers.pluck(:id).to_json})"}
+	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types) }, #{raw current_user.producers.to_json})"}
 
 	.span3
 		= render 'sidebar'

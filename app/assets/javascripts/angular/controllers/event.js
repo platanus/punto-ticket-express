@@ -4,9 +4,9 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.tickets = [];
 
-    $scope.init = function(event, producersExist, unconfirmedProducerIds) {
-      $scope.unconfirmedProducerIds = unconfirmedProducerIds;
-      $scope.disabled = !producersExist;
+    $scope.init = function(event, producers) {
+      $scope.producers = producers;
+      $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
       $scope.address = event.address;
       $scope.producerId = event.producer_id
@@ -34,8 +34,9 @@ angular.module('puntoTicketApp.controllers')
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
-      for(var i = 0; i < $scope.unconfirmedProducerIds.length; i++ ){
-        if($scope.unconfirmedProducerIds[i] == $scope.producerId) {
+      for(var i = 0; i < $scope.producers.length; i++ ){
+        if(($scope.producers[i].id.toString() == $scope.producerId) &&
+          !$scope.producers[i].confirmed) {
           event.preventDefault();
           $scope.producerModal = true;
           break;
