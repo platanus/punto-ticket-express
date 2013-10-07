@@ -4,14 +4,10 @@ one:
   name: MyString
   address: MyString
   description: MyText
-  organizer_name: MyString
-  organizer_description: MyText
   custom_url: MyString
 
 two:
   name: MyString
   address: MyString
   description: MyText
-  organizer_name: MyString
-  organizer_description: MyText
   custom_url: MyString

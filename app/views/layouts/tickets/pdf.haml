@@ -3,8 +3,6 @@
   %head
     %meta{ :"http-equiv" => "Content-Type", :content => "text/html; charset=UTF-8" }
     %meta{ :"http-equiv" => "X-UA-Compatible", :content => "IE=8" }
-    = wicked_pdf_stylesheet_link_tag 'tickets.css'
-    = wicked_pdf_stylesheet_link_tag 'bootstrap_and_overrides.css'
-    = wicked_pdf_stylesheet_link_tag 'qrcode.css'
+    = wicked_pdf_stylesheet_link_tag 'application'
   %body{style: "padding-top: 0"}
     = yield

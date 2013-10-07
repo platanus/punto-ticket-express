@@ -1,12 +1,25 @@
 ActiveAdmin.register Event do
   index do
     column :name
-    column :description
     column :address
-    column :organizer_name
     column :custom_url
-    column :is_published
+    bool_column :is_published
     column :created_at
     default_actions
+  end
+
+  filter :name
+  filter :address
+  filter :start
+  filter :is_published
+
+  show do
+    attributes_table do
+      row :name
+      row :address
+      row :description
+      row :custom_url
+      bool_row :is_published
+    end
   end
 end

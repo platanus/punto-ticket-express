@@ -4,6 +4,15 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  pte:
+    payment_status:
+      processing: Procesando
+      completed: Completa
+      inactive: Inactiva
+    role:
+      types:
+        user: Usuario
+        admin: Administrador
   gender:
     woman: Femenino
     man: Masculino
@@ -70,7 +79,7 @@ es-CL:
         address: Dirección
         age: Edad
         birthday: Fecha de nacimiento
-        company: empresa
+        company: Empresa
         email: E-mail
         gender: Sexo
         job: Cargo empresa
@@ -93,6 +102,8 @@ es-CL:
         contact_name: Nombre contacto
         description: Descripción
         name: Nombre
+        corporate_name: Razón Social
+        brief: Descripción breve
         phone: Teléfono
         rut: RUT
         website: Web
@@ -107,10 +118,10 @@ es-CL:
         name: Nombre
         address: Dirección
         description: Descripción
-        organizer_name: Nombre del Organizador
-        organizer_description: Descripción del Organizador
         custom_url: Dirección Web Personalizada
         is_published: ¿Publicado?
+        start_time: Fecha Inicio
+        end_time: Fecha Fin
         start_time: Inicio
         end_time: Fin
         producer_id: Productora
@@ -119,6 +130,8 @@ es-CL:
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket
+        created_at: Fecha Creación
+        updated_at: Fecha Modificación
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
@@ -150,12 +163,3 @@ es-CL:
             ticket_type_id:
               invalid_ticket_type_given: el tipo de ticket no existe
               no_tickets_left: no quedan entradas de este tipo
-  pte:
-    payment_status:
-      processing: Procesando
-      completed: Completa
-      inactive: Inactiva
-    role:
-      types:
-        user: Usuario
-        admin: Administrador

@@ -9,7 +9,6 @@ angular.module('puntoTicketApp.controllers')
       $scope.disabled = !producersExist;
       $scope.name = event.name;
       $scope.address = event.address;
-      $scope.organizerName = event.organizer_name;
       $scope.producerId = event.producer_id
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
@@ -44,7 +43,7 @@ angular.module('puntoTicketApp.controllers')
       }
     };
 
-    $scope.closeModal = function() {
+    $scope.closeProducerModal = function() {
       $scope.producerModal = false;
     };
   }
@@ -72,7 +71,7 @@ angular.module('puntoTicketApp.controllers')
     // initialization tasks to be executed before the template enters execution mode
     // used to ruby data parsed into a JavaScript object
 
-    $scope.init = function(ticketTypes, url) {
+    $scope.init = function(ticketTypes, url, isPreview) {
       // eliminates unnecessary attributes
       _.each(ticketTypes, function(ticketType){
         // set default select option
@@ -82,9 +81,18 @@ angular.module('puntoTicketApp.controllers')
         delete ticketType.updated_at
       });
 
+      $scope.isPreview = isPreview
       $scope.ticketTypes = ticketTypes;
       $scope.actionUrl = url;
     };
+
+    $scope.closeBuyModal = function() {
+      $scope.buyModal = false;
+    }
+
+    $scope.closeNoTicketsModal = function() {
+      $scope.notTicketsModal = false;
+    }
 
     // removes and validates the fields of the array before being sent to the next page
     $scope.sendTicket = function($event) {
@@ -95,11 +103,16 @@ angular.module('puntoTicketApp.controllers')
       // if all tickets are equal to zero is sent a warning
       if(_.size(ticketTypes) == 0) {
         // default action of the event will not be triggered
-        $event.preventDefault()
-        alert('No puede comprar 0 tickets!')
-      }
-      else
+        $event.preventDefault();
+        $scope.notTicketsModal = true;
+
+      } else if($scope.isPreview) {
+        $event.preventDefault();
+        $scope.buyModal = true;
+
+      } else {
         $scope.ticketTypes = ticketTypes;
+      }
     };
   }
 ]);

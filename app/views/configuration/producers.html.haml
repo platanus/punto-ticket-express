@@ -10,6 +10,7 @@
         %th= Producer.human_attribute_name :name
         %th= Producer.human_attribute_name :contact_name
         %th= Producer.human_attribute_name :phone
+        %th= Producer.human_attribute_name :confirmed
         %th{colspan: 3}
 
       - @producers.each do |producer|
@@ -17,6 +18,7 @@
           %td= producer.name
           %td= producer.contact_name
           %td= producer.phone
+          %td= t(producer.confirmed.to_s)
           %td= link_to t('buttons.show'), producer_path(producer)
           %td= link_to t('buttons.edit'), edit_producer_path(producer)
           %td= link_to t('buttons.destroy'), producer_path(producer), method: :delete

@@ -16,7 +16,7 @@ module PTE
     end
 
     def self.human_name role
-      I18n.t("pte.role.types.#{role}", default: "Undefined role name" )
+      I18n.t("pte.role.types.#{role.to_s}")
     end
 
     def self.is_valid? type_name

@@ -1,32 +1,40 @@
 - content_for(:without_container) do
-  .home-section
-    .container-fluid
-      .row-fluid
-        .span4.offset7.intro
-          %h1 Titulo
-          %h2 Puntoticket te facilita el trabajo con herramientas sencillas pero potentes para gestionar, promocionar y vender tu evento.
-          =link_to new_event_path, :class => "btn btn-success btn-primary btn-large" do
-            CREAR EVENTO
-            %i.icon-circle-arrow-right
+	.home-section
+		.container-fluid
+			.row-fluid
+				.span4.offset7.intro
+					%h1 PUNTO TICKET
+					%h2 Puntoticket te facilita el trabajo con herramientas sencillas pero potentes para gestionar, promocionar y vender tu evento.
+					=link_to new_event_path, :class => "btn btn-success btn-primary btn-large" do
+						CREAR EVENTO
+						%i.icon-circle-arrow-right
 
 
+.page-header.home
+	%h1= t(".title")
 
-.page-header
-  %h1= t(".title")
-%table.table.table-striped
-  %tr
-    %th
-    %th= Event.human_attribute_name :name
-    %th= Event.human_attribute_name :address
-    %th= Event.human_attribute_name :description
-    %th= Event.human_attribute_name :start_time
-    %th= Event.human_attribute_name :end_time
-
-  - @events.each do |event|
-    %tr
-      %td{:style => 'width: 100px;'}= image_tag event.logo.url(:thumb)
-      %td= link_to event.name, event, class: 'strong-link'
-      %td= event.address
-      %td= event.description
-      %td= l event.start_time, format: :short
-      %td= l event.end_time, format: :short
+	- @events.each do |event|
+		.row-fluid.line-list
+			.span1
+				.img-container
+					= image_tag event.logo.url(:thumb)
+					.icon-caret-left
+			.span11.line-border.info-container
+				.media-body
+					%blockquote
+						%h4
+							=link_to event.name, event
+							%small= event.address
+						%p= event.description
+						.row-fluid
+							.span6.tablet-column-reset
+								%span.time
+									Desde:
+									%strong= l event.start_time, format: :short
+								%span.time
+									Hasta:
+									%strong= l event.end_time, format: :short
+							.span6.text-right.tablet-column-reset
+								=link_to event, class: 'btn btn-success btn-primary btn-large' do
+									Ir al evento
+									%i.icon-chevron-right

@@ -83,8 +83,6 @@ module PTE
           name: ::Faker::Name.name,
           address: complete_address,
           description: ::Faker::Lorem.paragraphs([*2..6].sample),
-          organizer_name: ::Faker::Name.name,
-          organizer_description: ::Faker::Lorem.paragraphs([*1..3].sample),
           custom_url: ::Faker::Internet.url,
           user_id: organizer.id,
           is_published: random_boolean,

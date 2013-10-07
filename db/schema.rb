@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918174322) do
+ActiveRecord::Schema.define(:version => 20131006020900) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -32,15 +32,13 @@ ActiveRecord::Schema.define(:version => 20130918174322) do
     t.string   "name"
     t.string   "address"
     t.text     "description"
-    t.string   "organizer_name"
-    t.text     "organizer_description"
     t.string   "custom_url"
     t.datetime "start"
     t.datetime "end"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.integer  "user_id"
-    t.boolean  "is_published",          :default => false
+    t.boolean  "is_published",      :default => false
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "producer_id"
@@ -82,9 +80,11 @@ ActiveRecord::Schema.define(:version => 20130918174322) do
     t.string   "contact_email"
     t.string   "description"
     t.string   "website"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-    t.boolean  "confirmed",     :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.boolean  "confirmed",      :default => false
+    t.string   "corporate_name"
+    t.text     "brief"
   end
 
   create_table "producers_users", :force => true do |t|

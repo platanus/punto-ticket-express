@@ -1,19 +1,18 @@
 module PTE
   module Event
     class Xls
-      def self.generate_participants_book transactions, file_name, zip_file_name
+      def self.generate_participants_book event, file_name, zip_file_name
         xls = PTE::Xls.new
+        transactions = event.transactions.completed
         sheet = xls.add_sheet I18n.t("xls.participants.sheet_name")
         load_participants_sheet xls, sheet, transactions
-        xls.generate_book file_name, "participants_xls", zip_file_name
+        xls.generate_book file_name, "participants_xls" #, zip_file_name uncomment to download a zip file instead xlsx
       end
 
       def self.load_participants_sheet xls, sheet, transactions
         sheet_data = []
 
         xls_header = [
-          NestedResource.human_attribute_name(:buyer_name),
-          NestedResource.human_attribute_name(:buyer_email),
           NestedResource.human_attribute_name(:name),
           NestedResource.human_attribute_name(:last_name),
           NestedResource.human_attribute_name(:rut),
@@ -34,10 +33,9 @@ module PTE
         sheet_data << xls_header
 
         transactions.each do |transaction|
+          next unless transaction.nested_resource
           nested_resource = transaction.nested_resource
           sheet_data << [
-            transaction.user_name,
-            transaction.user_email,
             safe_resource_value(nested_resource, :name),
             safe_resource_value(nested_resource, :last_name),
             safe_resource_value(nested_resource, :rut),

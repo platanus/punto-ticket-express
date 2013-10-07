@@ -15,8 +15,11 @@ es-CL:
     download: Descargar
     buy_now: Comprar Ahora
     pay_puntopagos: Pagar
-    show_extra_data: Ver infromación adicional
+    show_extra_data: Ver información adicional
     ok: OK
+    preview: vista previa
+    statistics: estadisticas
+
   home:
     index:
       title: Últimos Eventos
@@ -77,8 +80,7 @@ es-CL:
       show:
         title: "Tickets comprados el día %{time}"
       nested_resource:
-        title: "Información adicional"
-        subtitle: "Compra realizada por %{user_name} el %{time}"
+        title: "Asistente"
       transactions:
         title: Información Adicional
       form:
@@ -90,14 +92,14 @@ es-CL:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
   events:
-    unconfirmed_producer_msg:
-      title: Importante
-      message: |
-        La productora que ha seleccionado se encuentra pendiente de aprobación.<br/>
-        Esta debe ser verificada por un administrador antes de la publicación del evento.
     show:
+      not_tickets_msg:
+        title: Mensaje
+        message: No puede comprar 0 tickets!
+      prevent_buy_msg:
+        title: Mensaje
+        message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
       titles:
-        organizer: Organizador
         when: Cuándo y Dónde?
         producer: Productora
         tickets: Tickets
@@ -107,7 +109,13 @@ es-CL:
         amount: Precio
         qty: Cantidad
     form:
-      no_producers_hint: Antes de crear un evento debes <b><a href="%{new_producer_url}">Registrar una productora</a></b>
+      no_producers_hint: "Antes de crear un evento debes <b><a href='%{new_producer_url}'>Registrar una productora</a></b>"
+      unconfirmed_producer_msg:
+        title: Importante
+        message: |
+          La productora que ha seleccionado se encuentra pendiente de aprobación.<br/>
+          Esta debe ser verificada por un administrador<br/>
+          antes de la publicación del evento.
     edit:
       title: Editando evento
     new:

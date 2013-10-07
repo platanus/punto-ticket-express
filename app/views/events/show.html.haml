@@ -1,3 +1,18 @@
+- if(params[:preview])
+  - content_for(:publish_navbar) do
+    .navbar.persistent-header.navbar-static-top.navbar-shadow
+      .navbar-inner
+        .container
+          .page-header
+            .row-fluid
+              .span6
+                =link_to edit_event_path, :class => "btn btn-success btn-primary btn-large pull-left" do
+                  %i.icon-circle-arrow-left.icon-large
+                  Volver
+              .span6
+                %h3.text-right Vista Previa
+
+
 .page-header
   .row-fluid
     .span8
@@ -8,26 +23,23 @@
 / angular controller
 / passing ruby hash to javascript
 / passing puntopagos transaction path to javascript
-#page_event.row{"ng-controller" => "EventShowCtrl", "ng-init" => "init(#{raw @event.ticket_types.to_json}, '#{puntopagos_transactions_new_path}')"}
+#page_event.row{"ng-controller" => "EventShowCtrl", "ng-init" => "init(#{raw @event.ticket_types.to_json}, '#{puntopagos_transactions_new_path}', #{@is_preview})"}
   .span4
     .panel
       .panel-heading.panel-title
-        %i.icon-building
-        = t(".titles.organizer")
-      %h5= @event.organizer_name
+        %i.icon-bullhorn
+        = t(".titles.producer")
+      %h5= @event.producer_name
       %p
-        = @event.organizer_description
+        = @event.producer_description
     .panel
       .panel-heading.panel-title
         %i.icon-map-marker
         = t(".titles.when")
       = @event.address
-    .panel
-      .panel-heading.panel-title
-        %i.icon-bullhorn
-        = t(".titles.producer")
-      = @event.producer_name
   .span8
+    = render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoTicketsModal()"}
+    = render :partial => "shared/message", :locals => { :message => t(".prevent_buy_msg.message"), :title => t(".prevent_buy_msg.title"), :modal_name => "buyModal", :close_function => "closeBuyModal()"}
     = form_for @event do |f|
       .panel.panel-primary
         .panel-heading.panel-title

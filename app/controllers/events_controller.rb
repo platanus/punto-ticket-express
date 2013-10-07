@@ -14,13 +14,15 @@ class EventsController < ApplicationController
   end
 
   def participants
-    event = Event.find(params[:id])
-    @transactions = event.transactions.completed.paginate(:page => params[:page], :per_page => 15)
+    @event = Event.find(params[:id])
+    @transactions = @event.transactions.
+      completed.joins([:nested_resource]).
+      paginate(:page => params[:page], :per_page => 15)
 
     respond_to do |format|
       format.html
       format.xls do
-        file_path = PTE::Event::Xls.generate_participants_book(@transactions,
+        file_path = PTE::Event::Xls.generate_participants_book(@event,
           I18n.t("xls.participants.file_name"),
           I18n.t("xls.participants.zip_file_name"))
 
@@ -33,6 +35,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @is_preview = params.has_key?(:preview)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
