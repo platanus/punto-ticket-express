@@ -54,7 +54,7 @@
                   = options_for_select((0..10).step(1), 0)
         %legend
         .control-group.text-center
-          %a.btn.btn-large.btn-success{:href => "{{ticketTypes|serailizedUrl:actionUrl:'ticket_types'}}", "ng-click" => "sendTicket($event)"}
+          %a.btn.btn-large.btn-success{:href => "{{ticketTypesAfterFilter|serailizedUrl:actionUrl:'ticket_types'}}", "ng-click" => "sendTicket($event)"}
             %h3= t("buttons.buy_now")
     .panel
       .panel-heading.panel-title

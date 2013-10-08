@@ -114,7 +114,7 @@ angular.module('puntoTicketApp.controllers')
         $scope.buyModal = true;
 
       } else {
-        $scope.ticketTypes = ticketTypes;
+        $scope.ticketTypesAfterFilter = ticketTypes;
       }
     };
   }
