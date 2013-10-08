@@ -8,5 +8,9 @@ module PTE
         transaction.update_column(:payment_status, PTE::PaymentStatus.inactive)
       end
     end
+
+    def self.clean_old_participant_files
+      PTE::Event::Xls.clean_old_participant_files
+    end
   end
 end
