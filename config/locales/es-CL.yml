@@ -154,6 +154,8 @@ es-CL:
           attributes:
             is_published:
               published_event_cant_be_unpublished: un evento publicado no puede volver a ser un borrador.
+            theme:
+              invalid_theme_type: el tipo de tema no existe
         producer:
           one_owner_at_least: Debe estar asociada a un usuario por lo menos.
           has_related_tickets: Se han vendido tickets en eventos de esta productora.

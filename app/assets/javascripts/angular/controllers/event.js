@@ -50,6 +50,7 @@ angular.module('puntoTicketApp.controllers')
   }
 ]);
 
+
 // EVENTS/DASHBOARD
 angular.module('puntoTicketApp.controllers')
   .controller('EventDashboardCtrl', ['$scope', function ($scope) {
@@ -63,6 +64,7 @@ angular.module('puntoTicketApp.controllers')
     $scope.navType = 'pills';
   }
 ]);
+
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
@@ -117,3 +119,24 @@ angular.module('puntoTicketApp.controllers')
     };
   }
 ]);
+
+// EVENTS TOPBAR
+angular.module('puntoTicketApp.controllers')
+  .controller('EventTopBarCtrl', ['$scope', '$parse', function ($scope) {
+
+    $scope.themes = [];
+
+    $scope.init = function(themes) {
+      $scope.themes = themes
+    }
+
+    // change theme
+    $scope.changeStyle = function(theme) {
+      document.getElementById('theme_css').href = theme.url;
+      $scope.theme = theme.name;
+    }
+  }
+]);
+
+
+

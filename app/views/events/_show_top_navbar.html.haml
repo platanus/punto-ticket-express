@@ -12,3 +12,18 @@
 										Volver
 								.span8
 									%h3.text-left Vista Previa
+						.span6
+
+							.dropdown.vertical-align-center.pull-right
+								%a.btn.btn-primary.btn-success.dropdown-toggle{:href => "#"}
+									Diseño
+									%span.caret
+								%ul.dropdown-menu
+									.img-container{"ng-repeat" => "t in themes", "ng-click" => "changeStyle(t)"}
+										.color-container{"class" => "{{t.name}}"}
+											.first-color
+											.second-color
+
+							=form_tag event_path(@event), :method => :put do
+								=hidden_field_tag 'event[theme]', '', :value => '{{theme}}'
+								=button_tag 'Guardar cambios' , class: 'btn btn-success btn-primary btn-large pull-right' , type: :submit
