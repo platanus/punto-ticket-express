@@ -12,8 +12,8 @@ module ApplicationHelper
     end
   end
 
-  def link_to_submit(text, css_class)
-    link_to_function text, "$(':submit').trigger('click')", :class => css_class, :name => "publish"
+  def link_to_id(text, id, css_class)
+    link_to_function text, "$('##{id}').trigger('click')", :class => css_class, :name => "publish"
   end
 
   def gender_label gender
