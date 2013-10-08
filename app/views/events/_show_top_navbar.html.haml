@@ -1,0 +1,14 @@
+- content_for(:publish_navbar) do
+	.navbar.persistent-header.navbar-static-top.navbar-shadow{"ng-controller" => "EventTopBarCtrl", "ng-init" => "init(#{raw PTE::Theme::types_to_a.to_json})"}
+		.navbar-inner
+			.container
+				.page-header
+					.row-fluid
+						.span6
+							.row-fluid
+								.span4
+									=link_to edit_event_path, :class => "btn btn-success btn-primary btn-large pull-left" do
+										%i.icon-circle-arrow-left.icon-large
+										Volver
+								.span8
+									%h3.text-left Vista Previa
