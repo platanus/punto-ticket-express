@@ -126,8 +126,9 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.themes = [];
 
-    $scope.init = function(themes) {
-      $scope.themes = themes
+    $scope.init = function(themes, currentTheme) {
+      $scope.themes = themes;
+      $scope.theme = currentTheme;
     }
 
     // change theme

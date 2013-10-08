@@ -1,5 +1,5 @@
 - content_for(:publish_navbar) do
-	.navbar.persistent-header.navbar-static-top.navbar-shadow{"ng-controller" => "EventTopBarCtrl", "ng-init" => "init(#{raw PTE::Theme::types_to_a.to_json})"}
+	.navbar.persistent-header.navbar-static-top.navbar-shadow{"ng-controller" => "EventTopBarCtrl", "ng-init" => "init(#{raw PTE::Theme::types_to_a.to_json}, '#{@event.theme}')"}
 		.navbar-inner
 			.container
 				.page-header
