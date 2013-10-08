@@ -4,9 +4,9 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.tickets = [];
 
-    $scope.init = function(event, producersExist, unconfirmedProducerIds) {
-      $scope.unconfirmedProducerIds = unconfirmedProducerIds;
-      $scope.disabled = !producersExist;
+    $scope.init = function(event, producers) {
+      $scope.producers = producers;
+      $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
       $scope.address = event.address;
       $scope.producerId = event.producer_id
@@ -34,8 +34,9 @@ angular.module('puntoTicketApp.controllers')
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
-      for(var i = 0; i < $scope.unconfirmedProducerIds.length; i++ ){
-        if($scope.unconfirmedProducerIds[i] == $scope.producerId) {
+      for(var i = 0; i < $scope.producers.length; i++ ){
+        if(($scope.producers[i].id.toString() == $scope.producerId) &&
+          !$scope.producers[i].confirmed) {
           event.preventDefault();
           $scope.producerModal = true;
           break;
@@ -48,6 +49,7 @@ angular.module('puntoTicketApp.controllers')
     };
   }
 ]);
+
 
 // EVENTS/DASHBOARD
 angular.module('puntoTicketApp.controllers')
@@ -62,6 +64,7 @@ angular.module('puntoTicketApp.controllers')
     $scope.navType = 'pills';
   }
 ]);
+
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
@@ -111,8 +114,30 @@ angular.module('puntoTicketApp.controllers')
         $scope.buyModal = true;
 
       } else {
-        $scope.ticketTypes = ticketTypes;
+        $scope.ticketTypesAfterFilter = ticketTypes;
       }
     };
   }
 ]);
+
+// EVENTS TOPBAR
+angular.module('puntoTicketApp.controllers')
+  .controller('EventTopBarCtrl', ['$scope', '$parse', function ($scope) {
+
+    $scope.themes = [];
+
+    $scope.init = function(themes, currentTheme) {
+      $scope.themes = themes;
+      $scope.theme = currentTheme;
+    }
+
+    // change theme
+    $scope.changeStyle = function(theme) {
+      document.getElementById('theme_css').href = theme.url;
+      $scope.theme = theme.name;
+    }
+  }
+]);
+
+
+

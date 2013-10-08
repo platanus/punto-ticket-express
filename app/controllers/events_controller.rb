@@ -86,7 +86,9 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to  @event, notice: 'Event was successfully created.' }
+        # if the event is published redirect to show, otherwise redirect to preview
+        path_to_redirect = @event.is_published ? @event : event_path(@event, :preview => 'true')
+        format.html { redirect_to  path_to_redirect, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
         @attributes = NestedResource.nested_attributes;

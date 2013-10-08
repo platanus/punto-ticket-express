@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id
   attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
-  attr_accessible :logo
+  attr_accessible :logo, :theme
 
   # paperclip
   has_attached_file :logo, :styles => { :medium => "160x160>", :thumb => "100x100>" }
@@ -13,6 +13,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :address, :description, :name
   validate :remains_published?
+  validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
 
   before_destroy :can_destroy?
@@ -30,6 +31,8 @@ class Event < ActiveRecord::Base
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
   delegate :description, to: :producer, prefix: true, allow_nil: true
+
+  after_initialize :default_theme
 
   def data_to_collect=(val)
     result = []
@@ -83,4 +86,16 @@ class Event < ActiveRecord::Base
         return false
       end
     end
+
+    def default_theme
+      self.theme ||= PTE::Theme::default
+    end
+
+    def is_theme_type_valid?
+      unless PTE::Theme::is_valid? self.theme
+        self.errors.add(:theme, :invalid_theme_type)
+        return false
+      end
+    end
+
 end

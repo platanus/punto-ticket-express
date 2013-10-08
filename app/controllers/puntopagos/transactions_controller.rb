@@ -10,7 +10,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def success
     @transaction = Transaction.find_by_token(params[:token])
-    TransactionMailer.completed_payment(@transaction).deliver if @transaction
+    send_completed_payment_mail @transaction
   end
 
   def new
@@ -66,5 +66,23 @@ class Puntopagos::TransactionsController < ApplicationController
       return {attrs: nested_resource_attrs,
         required_attributes: @event.required_nested_attributes
       } if nested_resource_attrs
+    end
+
+    def send_completed_payment_mail transaction
+      Dir.mktmpdir do |dir|
+        @tickets = transaction.tickets
+
+        pdf = render_to_string(
+          pdf: "ticket",
+          template: "tickets/pdf",
+          layout: "tickets/pdf",
+          handlers: ["haml"])
+
+        pdf_name = "tickets.pdf"
+        pdf_path = Rails.root.join(dir, pdf_name)
+        File.open(pdf_path, 'wb'){ |file| file << pdf }
+
+        TransactionMailer.completed_payment(transaction, pdf_path, pdf_name).deliver
+      end if transaction
     end
 end

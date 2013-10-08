@@ -290,7 +290,6 @@ DEPENDENCIES
   haml-rails
   hpricot
   html2haml
-  httparty
   jquery-rails (~> 2.3.0)
   less-rails
   less-rails-bootstrap
