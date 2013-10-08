@@ -3,6 +3,9 @@ angular.module('puntoTicketApp.controllers')
   .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', function ($scope, $filter, defineTime) {
 
     $scope.tickets = [];
+    // Defines the reason for submiting the form
+    // 'save' is for saving the event
+    $scope.submitAction = undefined;
 
     $scope.init = function(event, producers) {
       $scope.producers = producers;
@@ -34,14 +37,19 @@ angular.module('puntoTicketApp.controllers')
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
-      for(var i = 0; i < $scope.producers.length; i++ ){
-        if(($scope.producers[i].id.toString() == $scope.producerId) &&
-          !$scope.producers[i].confirmed) {
-          event.preventDefault();
-          $scope.producerModal = true;
-          break;
+      if($scope.submitAction !== 'save') {
+        for(var i = 0; i < $scope.producers.length; i++ ){
+          if((($scope.producers[i].id.toString() == $scope.producerId) &&
+            !$scope.producers[i].confirmed) || $scope.producerId == undefined) {
+            event.preventDefault();
+            $scope.producerModal = true;
+            break;
+          }
         }
       }
+
+      // reset submit action to undefined
+      $scope.submitAction = undefined;
     };
 
     $scope.closeProducerModal = function() {
