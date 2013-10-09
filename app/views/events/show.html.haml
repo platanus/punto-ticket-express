@@ -3,7 +3,7 @@
 =stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css'
 
 / static top navbar
-- if(params[:preview])
+- if(@is_preview)
   = render "show_top_navbar"
 
 

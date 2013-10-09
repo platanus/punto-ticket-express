@@ -20,10 +20,8 @@ module PTE
     end
 
     def self.types_to_a
-      # assets url
-      themes_path = ActionController::Base.helpers.asset_path 'themes/'
       # returns a hash with an url and name for each theme
-      TYPES.map {|theme| {name: theme, url: "#{themes_path}#{theme}.css"}}
+      TYPES.map {|theme| {name: theme, url: ActionController::Base.helpers.asset_path("themes/#{theme}.css")}}
     end
   end
 end

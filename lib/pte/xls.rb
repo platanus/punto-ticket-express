@@ -12,18 +12,16 @@ module PTE
     end
 
     def load_data sheet, data
-      data.each_with_index do |row, row_number|
-        sheet.insert_row(row_number, row)
-      end
+      data.each_with_index { |row, row_number| sheet.insert_row(row_number, row) }
       PTE::Xls.autofit_cells_size sheet
     end
 
     def generate_book file_name, path, zip_file_name = nil
       file_name += ".xlsx" unless file_name.include? '.xlsx'
-      complete_path = generate_directory path
+      complete_path = PTE::FileUtils.generate_tmp_directory path
       file_path = File.join(complete_path, file_name)
       @book.write(file_path)
-      return compress(complete_path, file_name, zip_file_name) if zip_file_name
+      return PTE::FileUtils.compress(complete_path, file_name, zip_file_name) if zip_file_name
       file_path
     end
 
@@ -45,26 +43,6 @@ module PTE
         end
         sheet.column(col).width = width
       end
-    end
-
-    def generate_directory path
-      unique_directory_name = Time.now.to_datetime.strftime("%d%m%Y%H%M%S")
-      complete_path = File.join(Rails.public_path, path, unique_directory_name)
-      FileUtils.mkdir_p(complete_path) unless File.directory?(complete_path)
-      complete_path
-    end
-
-    def compress path, file_name, zip_file_name
-      zip_file_name += ".zip" unless zip_file_name.include? '.zip'
-      zip_path = File.join(path, zip_file_name)
-
-      ::Zip::ZipFile.open(zip_path, 'w') do |zip_file|
-        Dir.foreach(path) do |saved_file_name|
-          zip_file.add(file_name, File.join(path, file_name)) if saved_file_name == file_name
-        end
-      end
-
-      zip_path
     end
   end
 end

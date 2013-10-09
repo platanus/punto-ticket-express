@@ -22,10 +22,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html
       format.xls do
-        file_path = PTE::Event::Xls.generate_participants_book(@event,
-          I18n.t("xls.participants.file_name"),
-          I18n.t("xls.participants.zip_file_name"))
-
+        file_path = PTE::Event::Xls.generate_participants_book(@event)
         send_file file_path, :type => "application/excel"
       end
       format.json { render json: event.users }
