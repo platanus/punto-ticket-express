@@ -1,6 +1,6 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', function ($scope, $filter, defineTime) {
+  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', '$window', function ($scope, $filter, defineTime, $window) {
 
     $scope.tickets = [];
     // Defines the reason for submiting the form
@@ -16,6 +16,12 @@ angular.module('puntoTicketApp.controllers')
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
+      alert(JSON.stringify(event));
+      // it warns not to leave the form without saving data
+      if(!event.is_published && !event.id)
+        window.onbeforeunload = function(e) {
+          return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
+        };
     };
 
     $scope.addTicket = function() {
@@ -50,10 +56,6 @@ angular.module('puntoTicketApp.controllers')
 
       // reset submit action to undefined
       $scope.submitAction = undefined;
-    };
-
-    $scope.closeProducerModal = function() {
-      $scope.producerModal = false;
     };
   }
 ]);
