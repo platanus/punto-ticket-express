@@ -22,7 +22,7 @@ es-CL:
       update_success: "La actualización fue exitosa"
   xls:
     participants:
-      file_name: participantes.xlsx
+      file_name: participantes.xls
       zip_file_name: participantes.zip
       sheet_name: Participantes
   transaction_mailer:
