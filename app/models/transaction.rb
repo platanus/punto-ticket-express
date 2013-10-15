@@ -125,17 +125,19 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  # Loads NestedResource instance into transaction
+  # @param [Hash] The structure of nested_resource_data param must be:
+  #  {attrs: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}, required_attributes: [:attr1, :attr2]}
   def load_nested_resource nested_resource_data
     return unless nested_resource_data
 
-    unless nested_resource_data.has_key? :attrs and
-      nested_resource_data.has_key? :required_attributes
-      Transaction.raise_error("The structure of nested_resource_data param must be {attrs: {attr1: 'value1', attr2: 'value1'}, required_attributes: [:required_attr1, :required_attr2]}")
+    begin
+      nr = NestedResource.new(nested_resource_data[:attrs])
+      nr.required_attributes = nested_resource_data[:required_attributes]
+      self.nested_resource = nr
+    rescue
+      Transaction.raise_error("Invalid nested_resource_data structure given")
     end
-
-    nr = NestedResource.new(nested_resource_data[:attrs])
-    nr.required_attributes = nested_resource_data[:required_attributes]
-    self.nested_resource = nr
   end
 
   # Sends a request to create a transaction with puntopagos.
