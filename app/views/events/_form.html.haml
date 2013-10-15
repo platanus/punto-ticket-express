@@ -81,12 +81,12 @@
       = f.label 'Fecha y Horario', :class => 'control-label'
       .controls
         .input-append
-          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", 'ng-disabled' => "{{disabled}}", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text", "ng-change" => "changeStartDate()" }/
+          %input.input-small{"bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "data-model-ref" => "time", "form-validate" => "", 'ng-disabled' => "{{disabled}}", :name => "start_date", "ng-model" => "time.dates.startDate", :required => "", :type => "text", "ng-change" => "changeStartTime(true)" }/
           %button.btn{"data-toggle" => "datepicker", :type => "button"}
             %i.icon-calendar
 
         .input-append
-          %select.input-mini.form-control{"ng-model" => "time.times.startTime", "ng-options" => "t as t for t in [] | timeInterval:0:24"}
+          %select.input-mini.form-control{"ng-model" => "time.times.startTime", "ng-options" => "t as t for t in [] | timeInterval:0:24", "ng-change" => "changeStartTime(false)"}
           %input{:name => "start_time" , :value => "{{time.times.startTime}}", :type => "text", :style => "display: none"}
 
         \-
