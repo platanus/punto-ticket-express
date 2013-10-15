@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Transaction do
-  describe "#add_tag" do
+  let(:user) { create(:user) }
+  describe "#begin" do
     pending
   end
 end
