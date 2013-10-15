@@ -36,7 +36,7 @@
     .gradientBar(@red, @darkGray)
   }
 
-  &:hover {
+  &:hover, &:focus, &:active, &[disabled], &.disabled, &.active {
     background-color: @darkOrange;
   }
 }

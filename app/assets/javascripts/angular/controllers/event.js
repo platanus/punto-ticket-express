@@ -1,6 +1,6 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', function ($scope, $filter, defineTime) {
+  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', '$window', function ($scope, $filter, defineTime, $window) {
 
     $scope.tickets = [];
     // Defines the reason for submiting the form
@@ -16,6 +16,18 @@ angular.module('puntoTicketApp.controllers')
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
+
+      // it warns not to leave the form without saving data
+      if(!event.is_published && !event.id)
+        $scope.$watch('submitAction', function(newValue, oldValue) {
+          if(newValue !== 'save' && oldValue !== 'save') {
+            $window.onbeforeunload = function(){
+              return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
+            };
+          }else{
+            $window.onbeforeunload = undefined;
+          }
+        });
     };
 
     $scope.addTicket = function() {
@@ -31,8 +43,24 @@ angular.module('puntoTicketApp.controllers')
       $scope.$broadcast('kickOffValidations');
     };
 
-    $scope.changeStartDate = function () {
-      $scope.time.dates.endDate = $scope.time.dates.startDate
+    $scope.changeStartTime = function (dateChange) {
+      if(dateChange)
+        $scope.time.dates.endDate = $scope.time.dates.startDate
+
+      // transform the date and time selectors in date format
+      var startDate = $scope.time.dates.startDate || new Date();
+      var endDate = $scope.time.dates.endDate || new Date();
+      startTime = new Date (startDate.toDateString() + ' ' + $scope.time.times.startTime);
+      endTime = new Date (endDate.toDateString() + ' ' + $scope.time.times.endTime);
+
+      if(startTime >= endTime){
+        // add one hour to end time
+        startTime.setHours(startTime.getHours() + 1);
+        $scope.time.dates.endDate = startTime;
+        $scope.time.times.endTime = $filter('date')(startTime, 'h:mm a');
+      }
+
+
     }
 
     // PRODUCERS MESSAGE
@@ -50,10 +78,6 @@ angular.module('puntoTicketApp.controllers')
 
       // reset submit action to undefined
       $scope.submitAction = undefined;
-    };
-
-    $scope.closeProducerModal = function() {
-      $scope.producerModal = false;
     };
   }
 ]);
