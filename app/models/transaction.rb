@@ -68,6 +68,7 @@ class Transaction < ActiveRecord::Base
 
     rescue Exception => e
       log_error(e)
+      transaction.error = e.message
       transaction.errors.add(:base, :unknown_error)
     end
 
@@ -277,7 +278,7 @@ class Transaction < ActiveRecord::Base
 
   def self.log_error exception
     puts exception.message.red
-    puts exception.backtrace.join("\n").red
+    #puts exception.backtrace.join("\n").red
   end
 
   def self.raise_error message

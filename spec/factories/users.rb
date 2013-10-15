@@ -5,7 +5,11 @@ FactoryGirl.define do
     sequence :id do |identificator|
       identificator
     end
-    email Faker::Internet.email
+
+    sequence :email do |n|
+      "#{n}_#{Faker::Internet.email}"
+    end
+
     role PTE::Role.user
     name Faker::Name.name
     password "12345678"
