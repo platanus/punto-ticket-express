@@ -51,6 +51,14 @@ group :development, :test do
   gem 'faker'
   gem 'debugger'
   gem 'letter_opener'
+  gem 'zeus'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'guard-rspec'
+end
+
+group :test do
+  gem 'shoulda-matchers'
 end
 
 group :development do
