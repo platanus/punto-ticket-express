@@ -93,4 +93,11 @@ describe Transaction do
       expect(t.nested_resource.required_attributes.include?(:last_name)).to be_true
     end
   end
+
+  describe "#finish" do
+
+    it "something" do
+      pending
+    end
+  end
 end

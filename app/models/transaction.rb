@@ -17,9 +17,6 @@ class Transaction < ActiveRecord::Base
   delegate :name, to: :user, prefix: true, allow_nil: true
   delegate :identifier, to: :user, prefix: true, allow_nil: true
 
-  SUCCESS_CODE = "00"
-  ERROR_CODE = "99"
-
   def event
     events.first
   end
@@ -76,53 +73,35 @@ class Transaction < ActiveRecord::Base
   end
 
   # Ends a transaction.
-  # Checks if header data sent by puntopagos and token are correct.
-  # If this method is executed sucessfully, the transaction will have payment_status
-  # with value PTE::PaymentStatus.completed and return value will be:
-  #  {respuesta: "00", token: "xxxxxxxxx"}
-  # If this method is executed with errors, the transaction will have payment_status
-  # PTE::PaymentStatus.inactive and return value will be:
-  #  {respuesta: "99", token: "xxxxxxxxx", error: "Error message"}
+  # If this method is executed sucessfully, the transaction will be
+  # returned with payment_status value as PTE::PaymentStatus.completed
+  # If this method is executed with errors, the transaction will be
+  # returned with error field setted, .valid? method false and, if token
+  # exists, payment_status with value PTE::PaymentStatus.inactive
   #
   # @param headers [Hash]
   # @param params [Hash]
-  # @return [Hash]
-  def self.finish headers, params
-    puntopagos_token = params[:token]
+  # @return [Transaction]
+  def self.finish token
+    transaction = Transaction.new
 
     begin
-      notification = PuntoPagos::Notification.new
-
-      if !notification.valid? headers, params
-        raise_error("Transaction's notification invalid")
-      end
-
-      transaction = transaction_by_token(puntopagos_token)
-
-      unless transaction.can_finish?
-        raise_error("The transaction with token #{puntopagos_token} was processed already")
-      end
-
+      raise_error("Invalid token given") if token or token.to_s.empty?
+      transaction = transaction_by_token(token)
+      raise_error("Transaction with given token was processed already") unless transaction.can_finish?
       transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
-
-      return {
-        respuesta: SUCCESS_CODE,
-        token: puntopagos_token}
 
     rescue Exception => e
       log_error(e)
-
-      if transaction
+      transaction.error = e.message
+      transaction.errors.add(:base, :unknown_error)
+      unless transaction.new_record?
         transaction.payment_status = PTE::PaymentStatus.inactive
-        transaction.error = e.message
         transaction.save
       end
-
-      return {
-        respuesta: ERROR_CODE,
-        error: e.message,
-        token: puntopagos_token}
     end
+
+    transaction
   end
 
   # Loads NestedResource instance into transaction
@@ -138,23 +117,6 @@ class Transaction < ActiveRecord::Base
     rescue
       Transaction.raise_error("Invalid nested_resource_data structure given")
     end
-  end
-
-  # Sends a request to create a transaction with puntopagos.
-  # Updates the token attribute if response is satisfactory.
-  #
-  # @return [PuntoPagos::Response]
-  def create_puntopagos_transaction
-    request = PuntoPagos::Request.new
-    response = request.create(self.id.to_s, self.total_amount_to_s)
-
-    if response.success?
-      update_attribute(:token, response.get_token)
-    else
-      self.errors.add(:base, response.get_error)
-    end
-
-    response
   end
 
   # Calculates the total amount of the transaction based on ticket prices
