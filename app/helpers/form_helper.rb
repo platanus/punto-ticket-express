@@ -56,7 +56,7 @@ module FormHelper
         { :include_blank => true }, html_options
 
     elsif name.to_s.include? 'rut'
-      return f.text_field name, html_options.merge('rut-mask' => '', 'ng-model' => 'rut')
+      return f.text_field name, html_options.merge('rut' => '', 'render-on-blue' => '', 'ng-model' => 'rut')
     end
 
     f.text_field name, html_options
