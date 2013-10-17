@@ -1,16 +1,5 @@
-- content_for(:publish_navbar) do
-	.navbar.persistent-header.navbar-static-top
-		.navbar-inner
-			.container
-				.page-header
-					.row-fluid
-						.span6
-							%h1= t(".title")
-						.span6
-							=link_to_submit "Publicar evento", "btn btn-primary btn-success bold pull-right"
-							=link_to event_path(:preview => 'true'), :class => "btn btn-success pull-right" do
-								%i.icon-picture.icon-large
-								Vista Previa
+/ static top navbar
+= render 'edit_top_navbar'
 
 #page_event.row{"ng-controller" => "EventNewCtrl", "style" => "margin-top: 30px;",
 	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types)}, #{raw current_user.producers.to_json})"}

@@ -4,7 +4,7 @@ gem 'rails', '3.2.13'
 gem 'mysql2'
 gem 'devise'
 gem 'chronic'
-gem 'activeadmin'
+gem 'activeadmin', '0.6.1'
 gem "meta_search", '>= 1.1.0.pre'
 gem 'rails-i18n'
 gem 'devise-i18n'
@@ -44,12 +44,21 @@ group :production do
 end
 
 group :development, :test do
+  gem 'thin'
   gem 'haml-rails'
   gem 'hpricot'
   gem 'html2haml'
   gem 'faker'
   gem 'debugger'
   gem 'letter_opener'
+  gem 'zeus'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'guard-rspec'
+end
+
+group :test do
+  gem 'shoulda-matchers'
 end
 
 group :development do

@@ -14,8 +14,13 @@ namespace :pte do
   namespace :cron do
     require 'tasks/pte/cron.rb'
     desc "Changes payment_status from processing to inactive for transactions that have been processing status for 15 minutes or more"
-    task :deactivate_old_pending_transactions => :environment do
-      PTE::Cron.deactivate_old_pending_transactions
+    task :clean_old_participant_files => :environment do
+      PTE::Cron.clean_old_participant_files
+    end
+
+    desc "Cleans /tmp/participants_xls directory. Deletes files 60 minutes old or more."
+    task :clean_old_participant_files => :environment do
+      PTE::Cron.clean_old_participant_files
     end
   end
 end

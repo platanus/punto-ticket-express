@@ -1,8 +1,11 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', function ($scope, $filter, defineTime) {
+  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', '$window', function ($scope, $filter, defineTime, $window) {
 
     $scope.tickets = [];
+    // Defines the reason for submiting the form
+    // 'save' is for saving the event
+    $scope.submitAction = undefined;
 
     $scope.init = function(event, producers) {
       $scope.producers = producers;
@@ -13,6 +16,11 @@ angular.module('puntoTicketApp.controllers')
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
+      // it warns not to leave the form without saving data
+      if(!event.is_published && !event.id)
+        window.onbeforeunload = function(e) {
+          return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
+        };
     };
 
     $scope.addTicket = function() {
@@ -28,27 +36,45 @@ angular.module('puntoTicketApp.controllers')
       $scope.$broadcast('kickOffValidations');
     };
 
-    $scope.changeStartDate = function () {
-      $scope.time.dates.endDate = $scope.time.dates.startDate
+    $scope.changeStartTime = function (dateChange) {
+      if(dateChange)
+        $scope.time.dates.endDate = $scope.time.dates.startDate
+
+      // transform the date and time selectors in date format
+      var startDate = $scope.time.dates.startDate || new Date();
+      var endDate = $scope.time.dates.endDate || new Date();
+      startTime = new Date (startDate.toDateString() + ' ' + $scope.time.times.startTime);
+      endTime = new Date (endDate.toDateString() + ' ' + $scope.time.times.endTime);
+
+      if(startTime >= endTime){
+        // add one hour to end time
+        startTime.setHours(startTime.getHours() + 1);
+        $scope.time.dates.endDate = startTime;
+        $scope.time.times.endTime = $filter('date')(startTime, 'h:mm a');
+      }
+
+
     }
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
-      for(var i = 0; i < $scope.producers.length; i++ ){
-        if(($scope.producers[i].id.toString() == $scope.producerId) &&
-          !$scope.producers[i].confirmed) {
-          event.preventDefault();
-          $scope.producerModal = true;
-          break;
+      if($scope.submitAction !== 'save') {
+        for(var i = 0; i < $scope.producers.length; i++ ){
+          if((($scope.producers[i].id.toString() == $scope.producerId) &&
+            !$scope.producers[i].confirmed) || $scope.producerId == undefined) {
+            event.preventDefault();
+            $scope.producerModal = true;
+            break;
+          }
         }
       }
-    };
 
-    $scope.closeProducerModal = function() {
-      $scope.producerModal = false;
+      // reset submit action to undefined
+      $scope.submitAction = undefined;
     };
   }
 ]);
+
 
 // EVENTS/DASHBOARD
 angular.module('puntoTicketApp.controllers')
@@ -63,6 +89,7 @@ angular.module('puntoTicketApp.controllers')
     $scope.navType = 'pills';
   }
 ]);
+
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
@@ -112,8 +139,30 @@ angular.module('puntoTicketApp.controllers')
         $scope.buyModal = true;
 
       } else {
-        $scope.ticketTypes = ticketTypes;
+        $scope.ticketTypesAfterFilter = ticketTypes;
       }
     };
   }
 ]);
+
+// EVENTS TOPBAR
+angular.module('puntoTicketApp.controllers')
+  .controller('EventTopBarCtrl', ['$scope', '$parse', function ($scope) {
+
+    $scope.themes = [];
+
+    $scope.init = function(themes, currentTheme) {
+      $scope.themes = themes;
+      $scope.theme = currentTheme;
+    }
+
+    // change theme
+    $scope.changeStyle = function(theme) {
+      document.getElementById('theme_css').href = theme.url;
+      $scope.theme = theme.name;
+    }
+  }
+]);
+
+
+

@@ -17,7 +17,7 @@
             / dropdown menu links
             .dropdown
               %a.btn.dropdown-toggle{:href => "#"}
-                = truncate(current_user_identifier, :length => 23, :omission => '', :separator => ' ')
+                = truncate(current_user_identifier, :length => 20, :separator => ' ')
                 %span.caret
               %ul.dropdown-menu
                 %li= link_to t(".profile"), configuration_account_path

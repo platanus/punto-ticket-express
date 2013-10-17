@@ -10,6 +10,8 @@ ActiveAdmin.register Producer do
     default_actions
   end
 
+  filter :address
+
   show do
     attributes_table do
 	    row :address

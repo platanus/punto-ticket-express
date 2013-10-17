@@ -1,0 +1,13 @@
+- content_for(:publish_navbar) do
+	.navbar.persistent-header.navbar-static-top
+		.navbar-inner
+			.container
+				.page-header
+					.row-fluid
+						.span6
+							%h1= t(".title")
+						.span6
+							=link_to_id "Publicar evento", "publish-btn", "btn btn-primary btn-success bold pull-right"
+							=link_to event_path(:preview => 'true'), :class => "btn btn-success pull-right" do
+								%i.icon-picture.icon-large
+								Vista Previa

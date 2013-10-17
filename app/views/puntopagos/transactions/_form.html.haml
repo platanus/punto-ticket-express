@@ -1,5 +1,5 @@
 = form_for([:puntopagos, @transaction],
-  :html => {:class => 'form-shop'},
+  :html => {:class => 'form-shop', 'ng-init' => "rut = ''"},
   :url => {:action => 'create',
   :ticket_types => @ticket_types}) do |f|
   .row-fluid

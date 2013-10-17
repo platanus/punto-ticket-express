@@ -15,18 +15,17 @@ GEM
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
     active_decorator (0.3.4)
-    activeadmin (0.6.0)
-      arbre (>= 1.0.1)
-      bourbon (>= 1.0.0)
-      devise (>= 1.1.2)
-      fastercsv
-      formtastic (>= 2.0.0)
-      inherited_resources (>= 1.3.1)
-      jquery-rails (>= 1.0.0)
-      kaminari (>= 0.13.0)
-      meta_search (>= 0.9.2)
-      rails (>= 3.0.0)
-      sass (>= 3.1.0)
+    activeadmin (0.6.1)
+      arbre (~> 1.0)
+      bourbon (>= 1.0.0, < 4)
+      devise (>= 1.5.4, < 4)
+      formtastic (~> 2.0)
+      inherited_resources (~> 1.3)
+      jquery-rails (>= 1.0.0, < 3)
+      kaminari (~> 0.13)
+      meta_search (~> 1.0)
+      rails (>= 3.0.0, < 4)
+      sass (~> 3.1)
     activemodel (3.2.13)
       activesupport (= 3.2.13)
       builder (~> 3.0.0)
@@ -56,7 +55,7 @@ GEM
       mime-types
       xml-simple
     bcrypt-ruby (3.1.1)
-    bourbon (3.1.7)
+    bourbon (3.1.8)
       sass (>= 3.2.0)
       thor
     builder (3.0.4)
@@ -74,6 +73,7 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.1)
       climate_control (>= 0.0.3, < 1.0)
+    coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -84,6 +84,7 @@ GEM
     colorize (0.5.8)
     columnize (0.3.6)
     commonjs (0.2.6)
+    daemons (1.1.9)
     debugger (1.6.1)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -96,14 +97,31 @@ GEM
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
     devise-i18n (0.8.6)
+    diff-lcs (1.2.4)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
-    fastercsv (1.5.5)
+    ffi (1.9.0)
+    formatador (0.2.4)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    guard (1.8.2)
+      formatador (>= 0.2.4)
+      listen (>= 1.0.0)
+      lumberjack (>= 1.0.2)
+      pry (>= 0.9.10)
+      thor (>= 0.14.6)
+    guard-rspec (3.0.3)
+      guard (>= 1.8)
+      rspec (~> 2.13)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -111,7 +129,9 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    has_scope (0.5.1)
+    has_scope (0.6.0.rc)
+      actionpack (>= 3.2, < 5)
+      activesupport (>= 3.2, < 5)
     highline (1.6.19)
     hike (1.2.3)
     hpricot (0.8.6)
@@ -124,9 +144,9 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.1)
-    inherited_resources (1.4.0)
-      has_scope (~> 0.5.0)
-      responders (~> 0.9)
+    inherited_resources (1.4.1)
+      has_scope (~> 0.6.0.rc)
+      responders (~> 1.0.0.rc)
     journey (1.0.4)
     jquery-rails (2.3.0)
       railties (>= 3.0, < 5.0)
@@ -148,6 +168,11 @@ GEM
     letter_opener (1.1.2)
       launchy (~> 2.2)
     libv8 (3.11.8.17)
+    listen (1.3.1)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      rb-kqueue (>= 0.2)
+    lumberjack (1.0.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -156,6 +181,7 @@ GEM
       activerecord (~> 3.1)
       activesupport (~> 3.1)
       polyamorous (~> 0.5.0)
+    method_source (0.8.2)
     mime-types (1.23)
     mini_portile (0.5.1)
     multi_json (1.7.7)
@@ -186,6 +212,10 @@ GEM
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     puntopagos (0.2)
       rest-client (~> 1.6.7)
     rack (1.4.5)
@@ -215,14 +245,34 @@ GEM
     rainbow (1.1.4)
     raindrops (0.11.0)
     rake (10.1.0)
+    rb-fsevent (0.9.3)
+    rb-inotify (0.9.1)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.0)
+      ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
-    responders (0.9.3)
-      railties (~> 3.1)
+    responders (1.0.0)
+      railties (>= 3.2, < 5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rqrcode (0.4.2)
+    rspec (2.14.1)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
+    rspec-core (2.14.5)
+    rspec-expectations (2.14.2)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.14.3)
+    rspec-rails (2.14.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
     ruby-ole (1.2.11.7)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
@@ -233,6 +283,9 @@ GEM
       sass (>= 3.1.10)
       tilt (~> 1.3)
     sexp_processor (4.2.1)
+    shoulda-matchers (2.2.0)
+      activesupport (>= 3.0.0)
+    slop (3.4.6)
     spreadsheet (0.8.8)
       ruby-ole (>= 1.0)
     sprockets (2.2.2)
@@ -243,6 +296,10 @@ GEM
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
+    thin (1.5.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.18.1)
     tilt (1.4.1)
     treetop (1.4.14)
@@ -269,13 +326,15 @@ GEM
     wkhtmltopdf-binary (0.9.9.1)
     xml-simple (1.1.2)
     yard (0.8.7)
+    zeus (0.13.3)
+      method_source (>= 0.6.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   active_decorator
-  activeadmin
+  activeadmin (= 0.6.1)
   aws-sdk (~> 1.5.7)
   aws-ses (~> 0.5.0)
   cancan
@@ -285,7 +344,9 @@ DEPENDENCIES
   debugger
   devise
   devise-i18n
+  factory_girl_rails
   faker
+  guard-rspec
   haml
   haml-rails
   hpricot
@@ -302,10 +363,13 @@ DEPENDENCIES
   rails (= 3.2.13)
   rails-i18n
   rqrcode
+  rspec-rails
   rubyzip
   sass-rails (~> 3.2.3)
+  shoulda-matchers
   spreadsheet
   therubyracer
+  thin
   uglifier (>= 1.0.3)
   unicorn
   validates_email_format_of
@@ -314,3 +378,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
   wkhtmltopdf-binary
   yard
+  zeus
