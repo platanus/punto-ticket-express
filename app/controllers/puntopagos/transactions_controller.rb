@@ -13,7 +13,7 @@ class Puntopagos::TransactionsController < ApplicationController
     if notification.valid?(request.headers, params) and transaction.valid?
        render json: {
         respuesta: SUCCESS_CODE,
-        token: puntopagos_token}
+        token: params[:token]}
 
     else
       render json: {
