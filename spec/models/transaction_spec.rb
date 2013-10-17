@@ -2,9 +2,10 @@
 require 'spec_helper'
 
 describe Transaction do
+  general_error = I18n.t("activerecord.errors.models.transaction.unknown_error")
+
   describe "#begin" do
     let(:user) { create(:user) }
-    general_error = I18n.t("activerecord.errors.models.transaction.unknown_error")
     let(:event) { create(:event, id: 1) }
     let(:event_two) { create(:event, id: 2) }
     let(:ticket_type_one) { create(:ticket_type, id: 1, quantity: 10, event: event) }
@@ -95,9 +96,46 @@ describe Transaction do
   end
 
   describe "#finish" do
+    it "fails when no token given" do
+      t = Transaction.finish(nil)
+      expect(t.error).to eq("Invalid token given")
+      expect(t.id).to be_nil
+      t.errors.messages[:base].should include(general_error)
+      expect(t.payment_status).to be_nil
+      expect(t.with_errors?).to be_true
+    end
 
-    it "something" do
-      pending
+    it "fails when non existent token given" do
+      t = Transaction.finish("INEXISTENTTOKEN")
+      expect(t.error).to eq("Transaction not found for given token")
+      expect(t.id).to be_nil
+      t.errors.messages[:base].should include(general_error)
+      expect(t.payment_status).to be_nil
+      expect(t.with_errors?).to be_true
+    end
+
+    it "fails when transaction was processed already" do
+      create(:completed_transaction, token: "COMPLETEDTOKEN")
+      t = Transaction.finish("COMPLETEDTOKEN")
+      expect(t.error).to eq("Transaction with given token was processed already")
+      expect(t.id).to be_nil
+      expect(t.with_errors?).to be_true
+      t.errors.messages[:base].should include(general_error)
+      create(:inactive_transaction, token: "INACTIVETOKEN")
+      t = Transaction.finish("INACTIVETOKEN")
+      expect(t.error).to eq("Transaction with given token was processed already")
+      expect(t.id).to be_nil
+      expect(t.with_errors?).to be_true
+      t.errors.messages[:base].should include(general_error)
+    end
+
+    it "ends transaction" do
+      create(:transaction, token: "PROCCESSTOKEN")
+      t = Transaction.finish("PROCCESSTOKEN")
+      expect(t.with_errors?).not_to be_true
+      expect(t.payment_status).to eq(PTE::PaymentStatus.completed)
+      expect(t.token).to eq("PROCCESSTOKEN")
+      expect(t.error).to be_nil
     end
   end
 end

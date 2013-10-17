@@ -88,8 +88,6 @@ class Transaction < ActiveRecord::Base
     begin
       raise_error("Invalid token given") if !token or token.to_s.empty?
       transaction = transaction_by_token(token)
-      raise_error("Transaction not found for given token") unless transaction
-      raise_error("Transaction with given token was processed already") unless transaction.can_finish?
       transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
 
     rescue Exception => e
@@ -98,11 +96,14 @@ class Transaction < ActiveRecord::Base
       transaction.errors.add(:base, :unknown_error)
       unless transaction.new_record?
         transaction.payment_status = PTE::PaymentStatus.inactive
-        transaction.save
       end
     end
 
     transaction
+  end
+
+  def with_errors?
+    !self.error.nil?
   end
 
   # Loads NestedResource instance into transaction
@@ -149,8 +150,9 @@ class Transaction < ActiveRecord::Base
 
   def self.transaction_by_token token
     transaction = Transaction.find_by_token token
-    return transaction if transaction
-    raise_error("Does not exist transaction with puntopagos_token = #{token}")
+    raise_error("Transaction not found for given token") unless transaction
+    raise_error("Transaction with given token was processed already") unless transaction.can_finish?
+    transaction
   end
 
   # Saves the initial status of a transaction.
