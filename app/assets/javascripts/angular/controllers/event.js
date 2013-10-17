@@ -16,11 +16,18 @@ angular.module('puntoTicketApp.controllers')
       //call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
+
       // it warns not to leave the form without saving data
       if(!event.is_published && !event.id)
-        window.onbeforeunload = function(e) {
-          return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
-        };
+        $scope.$watch('submitAction', function(newValue, oldValue) {
+          if(newValue !== 'save' && oldValue !== 'save') {
+            $window.onbeforeunload = function(){
+              return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
+            };
+          }else{
+            $window.onbeforeunload = undefined;
+          }
+        });
     };
 
     $scope.addTicket = function() {
