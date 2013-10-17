@@ -10,7 +10,7 @@ class Puntopagos::TransactionsController < ApplicationController
     notification = PuntoPagos::Notification.new
     transaction = Transaction.finish(params[:token])
 
-    if notification.valid?(request.headers, params) and transaction.valid?
+    if notification.valid?(request.headers, params) and !transaction.with_errors?
        render json: {
         respuesta: SUCCESS_CODE,
         token: params[:token]}
