@@ -86,8 +86,9 @@ class Transaction < ActiveRecord::Base
     transaction = Transaction.new
 
     begin
-      raise_error("Invalid token given") if token or token.to_s.empty?
+      raise_error("Invalid token given") if !token or token.to_s.empty?
       transaction = transaction_by_token(token)
+      raise_error("Transaction not found for given token") unless transaction
       raise_error("Transaction with given token was processed already") unless transaction.can_finish?
       transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
 
