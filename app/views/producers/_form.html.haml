@@ -16,8 +16,6 @@
       - control_group f, :brief, f.text_area(:brief, rows: 3)
       - control_group f, :description, f.text_area(:description, rows: 6)
       - control_group f, :website, f.text_field(:website)
-      - control_group f, :percent_fee, f.number_field(:percent_fee, :in => 0..100)
-      - control_group f, :fixed_fee, f.number_field(:fixed_fee, :min => 0)
       .form-actions
         = f.submit t('buttons.save'), :class => 'btn'
         = link_to t('buttons.back'), configuration_producers_path, :class => 'btn'

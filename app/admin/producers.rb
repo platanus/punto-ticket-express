@@ -6,8 +6,6 @@ ActiveAdmin.register Producer do
     column :name
     column :phone
     column :rut
-    column :percent_fee
-    column :fixed_fee
     bool_column :confirmed
     default_actions
   end

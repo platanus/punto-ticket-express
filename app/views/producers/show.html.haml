@@ -33,12 +33,6 @@
       %b= Producer.human_attribute_name :website
       = @producer.website
     %p
-      %b= Producer.human_attribute_name :fixed_fee
-      = @producer.fixed_fee
-    %p
-      %b= Producer.human_attribute_name :percent_fee
-      = number_to_percentage(@producer.percent_fee)
-    %p
       %b= Producer.human_attribute_name :confirmed
       = t(@producer.confirmed.to_s)
 
