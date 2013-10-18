@@ -48,28 +48,22 @@ class Transaction < ActiveRecord::Base
   #   [{id: 1, qty: 3},{id: 2, qty: 4}]
   # @return [Transaction] with PTE::PaymentStatus.processing as payment_status
   def self.begin user_id, ticket_types, nested_resource_data
-    transaction = Transaction.new
-
     begin
+      transaction = Transaction.new
+
       ActiveRecord::Base.transaction do
         validate_user_existance(user_id)
         load_ticket_types!(ticket_types)
         transaction.load_nested_resource(nested_resource_data)
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
-        if transaction.errors.any?
-          puts transaction.errors.messages.to_s.red
-          raise ActiveRecord::Rollback
-        end
-    end
+        raise ActiveRecord::Rollback if transaction.errors.any?
+      end
+      transaction
 
     rescue Exception => e
-      log_error(e)
-      transaction.error = e.message
-      transaction.errors.add(:base, :unknown_error)
+      get_transaction_with_error(e.message)
     end
-
-    transaction
   end
 
   # Ends a transaction.
@@ -83,23 +77,31 @@ class Transaction < ActiveRecord::Base
   # @param params [Hash]
   # @return [Transaction]
   def self.finish token
-    transaction = Transaction.new
-
     begin
-      raise_error("Invalid token given") if !token or token.to_s.empty?
-      transaction = transaction_by_token(token)
-      transaction.update_attribute(:payment_status, PTE::PaymentStatus.completed)
+      validate_token(token)
+      transaction = validate_transaction_for_completion(token)
+      transaction.save_finished_status
+      transaction
 
     rescue Exception => e
-      log_error(e)
-      transaction.error = e.message
-      transaction.errors.add(:base, :unknown_error)
-      unless transaction.new_record?
-        transaction.payment_status = PTE::PaymentStatus.inactive
-      end
+      get_transaction_with_error(e.message)
     end
+  end
 
+  # Gets new Transaction instance with error attr filled with error_msg param
+  #
+  # @param error_msg [String]
+  # @return [Transaction]
+  def self.get_transaction_with_error error_msg
+    log_error(error_msg)
+    transaction = Transaction.new
+    transaction.error = error_msg
+    transaction.errors.add(:base, :unknown_error)
     transaction
+  end
+
+  def self.validate_token token
+    raise_error("Invalid token given") if(!token or token.to_s.empty?)
   end
 
   def with_errors?
@@ -148,7 +150,12 @@ class Transaction < ActiveRecord::Base
     self.payment_status == PTE::PaymentStatus.processing
   end
 
-  def self.transaction_by_token token
+  # Checks if transaction (for a given token) exist on db
+  # Checks if transaction was procesed already.
+  #
+  # @param token [String]
+  # @return [Transaction]
+  def self.validate_transaction_for_completion token
     transaction = Transaction.find_by_token token
     raise_error("Transaction not found for given token") unless transaction
     raise_error("Transaction with given token was processed already") unless transaction.can_finish?
@@ -164,6 +171,10 @@ class Transaction < ActiveRecord::Base
     self.user_id = user_id
     self.transaction_time = Time.now
     self.save
+  end
+
+  def save_finished_status
+    self.update_attribute(:payment_status, PTE::PaymentStatus.completed)
   end
 
   # Returns transaction's data grouped by ticket type.
@@ -186,10 +197,10 @@ class Transaction < ActiveRecord::Base
   end
 
   # Creates Ticket objects based on id and qty keys passed on ticket_types param.
-  # The structure of tycket_types is:
+  # The ticket_types's structure is:
   #  [{id: 1, qty: 3, object: TicketType},{id: 2, qty: 4, object: TicketType}]
   #
-  # @param ticket_types [Array] with the structure
+  # @param ticket_types [Array]
   def load_tickets ticket_types
     ticket_types.each do |ticket_type|
       available_tickets = true
@@ -243,9 +254,8 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def self.log_error exception
-    puts exception.message.red
-    #puts exception.backtrace.join("\n").red
+  def self.log_error error_msg
+    puts error_msg.red
   end
 
   def self.raise_error message
