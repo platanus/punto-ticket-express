@@ -18,6 +18,10 @@ class GlobalConfiguration < ActiveRecord::Base
     self.config.percent_fee
   end
 
+  def display_name
+    I18n.t("activerecord.models.global_configuration.one")
+  end
+
   private
 
   def cancel_destroy

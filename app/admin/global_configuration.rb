@@ -1,7 +1,7 @@
 ActiveAdmin.register GlobalConfiguration do
   actions :show, :edit, :update
 
-  show :title => I18n.t("activerecord.models.global_configuration.one") do
+  show :title => GlobalConfiguration.config.display_name do
     attributes_table do
 	    row :fixed_fee
 	    row :percent_fee
@@ -10,7 +10,7 @@ ActiveAdmin.register GlobalConfiguration do
 
   controller do
     def index
-      redirect_to(admin_global_configuration_url(GlobalConfiguration.first))
+      redirect_to(admin_global_configuration_url(GlobalConfiguration.config))
     end
   end
 end
