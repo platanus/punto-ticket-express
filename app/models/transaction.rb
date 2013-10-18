@@ -255,7 +255,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.log_error error_msg
-    puts error_msg.red
+    Rails.logger.error(error_msg)
   end
 
   def self.raise_error message
