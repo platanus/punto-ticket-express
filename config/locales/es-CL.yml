@@ -114,6 +114,8 @@ es-CL:
         rut: RUT
         website: Web
         confirmed: Confirmada
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
       ticket:
