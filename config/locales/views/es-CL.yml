@@ -66,6 +66,9 @@ es-CL:
           price: Precio
           qty: Cantidad
           amount: Total
+      puntopagos_conn_error:
+        title: "Transacción terminada"
+        message: "No se pudo establecer conexión con puntopagos, por favor intente más tarde nuevamente..."
       error:
         title: Ocurrieron errores al momento de completar la transacción
       success:

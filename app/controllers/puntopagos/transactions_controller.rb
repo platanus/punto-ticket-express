@@ -49,7 +49,7 @@ class Puntopagos::TransactionsController < ApplicationController
       return
     end
 
-    render action: "new"
+    render action: "puntopagos_conn_error"
   end
 
   def show
