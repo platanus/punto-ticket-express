@@ -33,6 +33,9 @@ es-CL:
         Importe: $%{price}
   activerecord:
     models:
+      global_configuration:
+        one: Configuración
+        other: Configuración
       admin_user:
         one: Administrador
         other: Administradores
@@ -52,6 +55,9 @@ es-CL:
         one: Usuario
         other: Usuarios
     attributes:
+      global_configuration:
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
       transaction:
         event: Evento
         payment_status: Estado pago
