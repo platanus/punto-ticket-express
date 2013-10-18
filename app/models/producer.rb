@@ -32,6 +32,20 @@ class Producer < ActiveRecord::Base
   after_create :validate_one_owner_at_least
   after_save :validate_one_owner_at_least
 
+  def initialize attributes = nil
+    attributes = attributes || {}
+
+    if !attributes.has_key? :fixed_fee or attributes[:fixed_fee].nil?
+      attributes[:fixed_fee] = GlobalConfiguration.fixed_fee
+    end
+
+    if !attributes.has_key? :percent_fee or attributes[:percent_fee].nil?
+      attributes[:percent_fee] = GlobalConfiguration.percent_fee
+    end
+
+    super(attributes)
+  end
+
   private
 
     def validate_one_owner_at_least
