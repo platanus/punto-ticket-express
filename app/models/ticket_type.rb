@@ -20,6 +20,14 @@ class TicketType < ActiveRecord::Base
     ticket_types.map { |tt| tt.event_id }.uniq.one?
   end
 
+  def sold_amount
+    (self.sold_tickets_count * self.price) rescue 0.to_d
+  end
+
+  def sold_tickets_count
+    self.tickets.completed.count
+  end
+
   private
 
     def can_destroy?

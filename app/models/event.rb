@@ -74,6 +74,16 @@ class Event < ActiveRecord::Base
     optional_values.map {|item| item[:attr] }
   end
 
+  def sold_amount
+    query = self.tickets.completed
+    query = query.joins([:ticket_type])
+    query.sum("ticket_types.price")
+  end
+
+  def sold_tickets_count
+    self.tickets.completed.count
+  end
+
   private
     def remains_published?
       if !self.new_record? and self.is_published_was and

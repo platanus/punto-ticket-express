@@ -1,20 +1,13 @@
 # coding: utf-8
 module EventDecorator
   def amounts_by_type ticket_type
-    data = {name: ticket_type.name, tickets_count: 0, total: 0}
-    query = ticket_type.tickets.completed
-    data[:tickets_count] = query.count
-    data[:total] = data[:tickets_count] * ticket_type.price
-    data
+    {name: ticket_type.name,
+     tickets_count: ticket_type.sold_tickets_count,
+     total: ticket_type.sold_amount}
   end
 
   def sold_amounts
-    data = {count: 0, total: 0}
-    query = tickets.completed
-    data[:count] = query.count
-    query = query.joins([:ticket_type])
-    data[:total] = query.sum("ticket_types.price")
-    data
+    {count: self.sold_tickets_count, total: self.sold_amount}
   end
 
   # Returns first 4 attribute names of an event's nested resource. Prioritizing mandatory fields.
