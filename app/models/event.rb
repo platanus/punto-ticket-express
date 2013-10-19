@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
-  attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id
-  attr_accessible :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect
-  attr_accessible :logo, :theme
+  attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id,
+  :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect,
+  :logo, :theme, :fixed_fee, :percent_fee
 
   # paperclip
   has_attached_file :logo, :styles => { :medium => "160x160>", :thumb => "100x100>" }
@@ -17,6 +17,7 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :logo, :content_type => /image/
 
   before_destroy :can_destroy?
+  before_create :set_fee_values
 
   belongs_to :user
   belongs_to :producer
@@ -31,6 +32,8 @@ class Event < ActiveRecord::Base
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
   delegate :description, to: :producer, prefix: true, allow_nil: true
+  delegate :fixed_fee, to: :producer, prefix: true, allow_nil: true
+  delegate :percent_fee, to: :producer, prefix: true, allow_nil: true
 
   after_initialize :default_theme
 
@@ -89,6 +92,11 @@ class Event < ActiveRecord::Base
 
     def default_theme
       self.theme ||= PTE::Theme::default
+    end
+
+    def set_fee_values
+      self.fixed_fee = (self.producer_fixed_fee || GlobalConfiguration.fixed_fee) unless self.fixed_fee
+      self.percent_fee = (self.producer_percent_fee || GlobalConfiguration.percent_fee) unless self.percent_fee
     end
 
     def is_theme_type_valid?
