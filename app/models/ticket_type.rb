@@ -10,6 +10,9 @@ class TicketType < ActiveRecord::Base
   belongs_to :event
   has_many :tickets
 
+  delegate :fixed_fee, to: :event, prefix: true, allow_nil: true
+  delegate :percent_fee, to: :event, prefix: true, allow_nil: true
+
   def available_tickets_count
   	unavailable_quantity = Ticket.by_type(self.id).processing.count
     unavailable_quantity += Ticket.by_type(self.id).completed.count
@@ -21,11 +24,19 @@ class TicketType < ActiveRecord::Base
   end
 
   def sold_amount
-    (self.sold_tickets_count * self.price) rescue 0.to_d
+    (self.sold_tickets_count.to_d * self.price.to_d) rescue 0.0
   end
 
   def sold_tickets_count
     self.tickets.completed.count
+  end
+
+  def fixed_fee
+    (self.sold_tickets_count.to_d * self.event_fixed_fee.to_d) rescue 0.0
+  end
+
+  def percent_fee
+    (self.sold_amount.to_d * self.event_percent_fee.to_d / 100.0) rescue 0.0
   end
 
   private

@@ -84,6 +84,14 @@ class Event < ActiveRecord::Base
     self.tickets.completed.count
   end
 
+  def calculated_fixed_fee
+    (self.sold_tickets_count.to_d * self.fixed_fee.to_d) rescue 0.0
+  end
+
+  def calculated_percent_fee
+    (self.sold_amount.to_d * self.percent_fee.to_d / 100.0) rescue 0.0
+  end
+
   private
     def remains_published?
       if !self.new_record? and self.is_published_was and
