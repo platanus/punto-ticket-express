@@ -138,6 +138,8 @@ es-CL:
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
     errors:
