@@ -12,4 +12,29 @@ module Puntopagos::TransactionsHelper
   	content_tag(:span, t("pte.payment_status.#{payment_status}"),
     	class: "#{payment_status}-payment-status")
 	end
+
+  def payment_methods
+    types = []
+
+    if Rails.env == 'production'
+      types << ['Santander Rio', 1]
+      types << ['Tarjeta Presto', 2]
+      types << ['Transbank', 3]
+      types << ['Banco de Chile', 4]
+      types << ['BCI', 5]
+      types << ['TBanc', 6]
+      types << ['Banco Estado', 7]
+      types << ['Ripley', 10]
+      types << ['Paypal', 15]
+    else
+      types << ['Presto', 2]
+      types << ['WebPay', 3]
+      types << ['Ripley', 10]
+      types << ['BBVA', 16]
+      types << ['Cencosud', 17]
+      types << ['Paris', 18]
+      types << ['Jumbo', 19]
+      types << ['Easy', 20]
+    end
+  end
 end
