@@ -22,10 +22,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html
       format.xls do
-        file_path = PTE::Event::Xls.generate_participants_book(@event,
-          I18n.t("xls.participants.file_name"),
-          I18n.t("xls.participants.zip_file_name"))
-
+        file_path = PTE::Event::Xls.generate_participants_book(@event)
         send_file file_path, :type => "application/excel"
       end
       format.json { render json: event.users }
@@ -101,14 +98,21 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-
     # publishing or saving
     params[:event][:is_published] = params[:publish] ? true : false
     @event = Event.find(params[:id])
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+
+        format.html {
+          if params.has_key?(:preview)
+            redirect_to(:action => 'edit')
+          else
+            redirect_to @event, notice: 'Event was successfully updated.'
+          end
+        }
+
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

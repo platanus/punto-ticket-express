@@ -10,6 +10,8 @@ ActiveAdmin.register Producer do
     default_actions
   end
 
+  filter :address
+
   show do
     attributes_table do
 	    row :address
@@ -20,6 +22,8 @@ ActiveAdmin.register Producer do
 	    row :rut
 	    row :description
 	    row :website
+      row :percent_fee
+      row :fixed_fee
       bool_row :confirmed
     end
   end

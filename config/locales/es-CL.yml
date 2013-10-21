@@ -22,7 +22,7 @@ es-CL:
       update_success: "La actualización fue exitosa"
   xls:
     participants:
-      file_name: participantes.xlsx
+      file_name: participantes.xls
       zip_file_name: participantes.zip
       sheet_name: Participantes
   transaction_mailer:
@@ -33,6 +33,9 @@ es-CL:
         Importe: $%{price}
   activerecord:
     models:
+      global_configuration:
+        one: Configuración
+        other: Configuración
       admin_user:
         one: Administrador
         other: Administradores
@@ -52,6 +55,9 @@ es-CL:
         one: Usuario
         other: Usuarios
     attributes:
+      global_configuration:
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
       transaction:
         event: Evento
         payment_status: Estado pago
@@ -108,6 +114,8 @@ es-CL:
         rut: RUT
         website: Web
         confirmed: Confirmada
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
       ticket:

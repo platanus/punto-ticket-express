@@ -19,6 +19,8 @@ ActiveAdmin.register Event do
       row :address
       row :description
       row :custom_url
+      row :fixed_fee
+      row :percent_fee
       bool_row :is_published
     end
   end

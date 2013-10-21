@@ -3,9 +3,24 @@ class Puntopagos::TransactionsController < ApplicationController
   before_filter :load_ticket_types, :only => [:new, :create]
   before_filter :load_nested_attributes, :only => [:new, :create]
 
+  SUCCESS_CODE = "00"
+  ERROR_CODE = "99"
+
   def notification
-    result = Transaction.finish(request.headers, params)
-    render json: result
+    notification = PuntoPagos::Notification.new
+    transaction = Transaction.finish(params[:token])
+
+    if notification.valid?(request.headers, params) and !transaction.with_errors?
+       render json: {
+        respuesta: SUCCESS_CODE,
+        token: params[:token]}
+
+    else
+      render json: {
+        respuesta: ERROR_CODE,
+        error: transaction.error,
+        token: params[:token]}
+    end
   end
 
   def success
@@ -24,17 +39,17 @@ class Puntopagos::TransactionsController < ApplicationController
 
     if @transaction.errors.any?
       render action: "new"
-
-    else
-      puntopagos_response = @transaction.create_puntopagos_transaction
-
-      if puntopagos_response.success?
-        redirect_to puntopagos_response.payment_process_url
-
-      else
-        render action: "new"
-      end
+      return
     end
+
+    puntopagos_response = create_puntopagos_transaction(@transaction)
+
+    if puntopagos_response.success?
+      redirect_to puntopagos_response.payment_process_url
+      return
+    end
+
+    render action: "puntopagos_conn_error"
   end
 
   def show
@@ -50,6 +65,13 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   private
+
+    def create_puntopagos_transaction transaction
+      request = PuntoPagos::Request.new
+      resp = request.create(transaction.id.to_s, transaction.total_amount_to_s)
+      transaction.update_attribute(:token, resp.get_token) if resp.success?
+      resp
+    end
 
     def load_ticket_types
       @ticket_types = params[:ticket_types].values rescue nil

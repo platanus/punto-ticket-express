@@ -24,6 +24,6 @@
 											.first-color
 											.second-color
 
-							=form_tag event_path(@event), :method => :put do
+							=form_tag event_path(@event, :preview => 'true'), :method => :put do
 								=hidden_field_tag 'event[theme]', '', :value => '{{theme}}'
 								=button_tag 'Guardar cambios' , class: 'btn btn-success btn-primary btn-large pull-right' , type: :submit
