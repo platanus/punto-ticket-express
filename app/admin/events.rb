@@ -20,7 +20,9 @@ ActiveAdmin.register Event do
       row :description
       row :custom_url
       row :fixed_fee
-      row :percent_fee
+      row :percent_fee do |a|
+        "#{a.percent_fee}%"
+      end
       bool_row :is_published
     end
   end

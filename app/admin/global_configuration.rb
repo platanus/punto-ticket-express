@@ -4,7 +4,9 @@ ActiveAdmin.register GlobalConfiguration do
   show :title => GlobalConfiguration.config.display_name do
     attributes_table do
 	    row :fixed_fee
-	    row :percent_fee
+	    row :percent_fee do |a|
+        "#{a.percent_fee}%"
+      end
     end
   end
 

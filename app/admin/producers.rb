@@ -22,7 +22,9 @@ ActiveAdmin.register Producer do
 	    row :rut
 	    row :description
 	    row :website
-      row :percent_fee
+      row :percent_fee do |a|
+        "#{a.percent_fee}%"
+      end
       row :fixed_fee
       bool_row :confirmed
     end
