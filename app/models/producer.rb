@@ -17,8 +17,8 @@ class Producer < ActiveRecord::Base
   validates :contact_email, presence: true
   validates :contact_name, presence: true
   validates :phone, presence: true
-  validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
-  validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
+  validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validates :website,
     format: {with: %r{\Ahttps?:\/\/([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
@@ -29,6 +29,7 @@ class Producer < ActiveRecord::Base
     allow_nil: true, allow_blank: true}
 
   before_destroy :can_destroy?
+  before_create :set_fee_values
   after_create :validate_one_owner_at_least
   after_save :validate_one_owner_at_least
 
@@ -48,6 +49,10 @@ class Producer < ActiveRecord::Base
       end
     end
 
+    def set_fee_values
+      self.fixed_fee = GlobalConfiguration.fixed_fee unless self.fixed_fee
+      self.percent_fee = GlobalConfiguration.percent_fee unless self.percent_fee
+    end
 end
 
 

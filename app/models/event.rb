@@ -15,6 +15,8 @@ class Event < ActiveRecord::Base
   validate :remains_published?
   validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
+  validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
+  validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   before_destroy :can_destroy?
   before_create :set_fee_values
@@ -113,8 +115,8 @@ class Event < ActiveRecord::Base
     end
 
     def set_fee_values
-      self.fixed_fee = (self.producer_fixed_fee || GlobalConfiguration.fixed_fee) unless self.fixed_fee
-      self.percent_fee = (self.producer_percent_fee || GlobalConfiguration.percent_fee) unless self.percent_fee
+      self.fixed_fee = self.producer_fixed_fee unless self.fixed_fee
+      self.percent_fee = self.producer_percent_fee unless self.percent_fee
     end
 
     def is_theme_type_valid?
