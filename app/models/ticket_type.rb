@@ -1,5 +1,5 @@
 class TicketType < ActiveRecord::Base
-  attr_accessible :event_id, :name, :price, :quantity, :event_id
+  attr_accessible :event_id, :name, :price, :quantity, :event_id, :promotion_id
 
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }

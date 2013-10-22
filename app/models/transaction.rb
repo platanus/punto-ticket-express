@@ -7,6 +7,8 @@ class Transaction < ActiveRecord::Base
   has_many :ticket_types, through: :tickets, uniq: true
   has_many :events, through: :ticket_types, uniq: true
   has_one :nested_resource, as: :nestable
+  has_and_belongs_to_many :promotions
+
 
   accepts_nested_attributes_for :nested_resource
 

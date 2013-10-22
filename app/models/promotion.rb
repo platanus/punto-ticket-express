@@ -1,0 +1,5 @@
+class Promotion < ActiveRecord::Base
+  attr_accessible :activation_code, :end_date, :limit, :name, :promotion_type, :promotion_type_config, :start_date
+
+  has_and_belongs_to_many :transactions
+end

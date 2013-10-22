@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022185718) do
+ActiveRecord::Schema.define(:version => 20131022201053) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -105,13 +105,31 @@ ActiveRecord::Schema.define(:version => 20131022185718) do
     t.integer "producer_id"
   end
 
+  create_table "promotions", :force => true do |t|
+    t.string   "name"
+    t.string   "promotion_type"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "limit"
+    t.string   "activation_code"
+    t.string   "promotion_type_config"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "promotions_transactions", :force => true do |t|
+    t.integer "transaction_id"
+    t.integer "promotion_id"
+  end
+
   create_table "ticket_types", :force => true do |t|
     t.integer  "event_id"
     t.string   "name"
     t.integer  "price"
     t.integer  "quantity"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "promotion_id"
   end
 
   create_table "tickets", :force => true do |t|
