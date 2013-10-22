@@ -7,7 +7,7 @@ class GlobalConfiguration < ActiveRecord::Base
   before_destroy :cancel_destroy
 
   def self.config
-    GlobalConfiguration.first
+    self.first || self.create({fixed_fee: 0.0, percent_fee: 0.0})
   end
 
   def self.fixed_fee

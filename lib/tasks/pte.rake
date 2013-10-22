@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 namespace :pte do
+  desc "Creates GlobalConfiguration instance with default values"
+  task :create_config_instance => :environment do
+    GlobalConfiguration.delete_all
+    GlobalConfiguration.create({fixed_fee: 0.0, percent_fee: 0.0})
+  end
+
   namespace :util do
     desc "Loads development fake data for users, tickets, events, ticket types, etc."
     task :load_fake_data => :environment do
