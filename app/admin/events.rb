@@ -24,6 +24,9 @@ ActiveAdmin.register Event do
         "#{a.percent_fee}%"
       end
       bool_row :is_published
+      row :total_fee do |a|
+        number_to_currency a.calculated_fixed_fee + a.calculated_percent_fee
+      end
     end
   end
 end
