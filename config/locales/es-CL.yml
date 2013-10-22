@@ -4,6 +4,7 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  fee: "Comisión"
   pte:
     promo_type:
       percent_discount: "% de Descuento"
