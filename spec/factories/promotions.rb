@@ -2,12 +2,29 @@
 
 FactoryGirl.define do
   factory :promotion do
-    name "MyString"
-    promotion_type "MyString"
-    start_date "2013-10-22"
-    end_date "2013-10-22"
-    limit 1
-    activation_code "MyString"
-    promotion_type_config "MyString"
+    name Faker::Name.name
+    promotion_type promotion_type PTE::PromoType.code
+    start_date Date.today
+    end_date Date.today + 5.days
+    limit 500
+    activation_code (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    promotion_type_config ::Faker::Number.number(3)
+
+    factory :percent_promotion do
+      promotion_type PTE::PromoType.percent_discount
+      activation_code nil
+      promotion_type_config [*10..50].sample.to_s
+    end
+
+    factory :amount_promotion do
+      promotion_type PTE::PromoType.amount_discount
+      activation_code nil
+    end
+
+    factory :nx1_promotion do
+      promotion_type promotion_type PTE::PromoType.nx1
+      activation_code nil
+      promotion_type_config ::Faker::Number.digit
+    end
   end
 end
