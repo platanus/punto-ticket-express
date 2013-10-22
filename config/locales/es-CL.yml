@@ -5,6 +5,10 @@ es-CL:
   "true": "Sí"
   "false": "No"
   pte:
+    promo_type:
+      percent_discount: "% de Descuento"
+      amount_discount: "$ de Descuento"
+      nx1: "n x 1"
     payment_status:
       processing: Procesando
       completed: Completa
