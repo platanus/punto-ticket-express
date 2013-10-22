@@ -446,12 +446,23 @@ form .input-error label {
   margin-bottom: 0;
 }
 
-/**/
-
+/* # IMAGES
+================================================== */
 .medium-img{
 	background-color: @lightGray;
 	padding: 3px;
 	border: 1px solid @gray;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+.payment-img {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
 }
 
 /* # PANELS
@@ -676,7 +687,7 @@ form .input-error label {
 	}
 }
 
-.table-total {
+.table-total, .table-payments {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -689,6 +700,18 @@ form .input-error label {
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
+	}
+}
+
+.table-payments {
+	th, td {
+		padding: 4px 8px;
+		&:first-child {
+			width: 40%;
+		}
+		.labelright {
+			float: left;
+		}
 	}
 }
 
@@ -808,6 +831,19 @@ form .input-error label {
 			}
 		}
 	}
+}
+
+.payment-img-container {
+	overflow: hidden;
+	float: left;
+	width: 52px;
+	position: relative;
+	height: 33px;
+	display: inline-block;
+	border: 1px solid #C2C1C1;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
 }
 
 /* # FOOTER

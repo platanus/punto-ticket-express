@@ -16,7 +16,7 @@ module Puntopagos::TransactionsHelper
   def payment_methods
     types = []
 
-    if Rails.env == 'production'
+    if Rails.env == 'production' || Rails.env == 'development'
       types << ['Santander Rio', 1]
       types << ['Tarjeta Presto', 2]
       types << ['Transbank', 3]

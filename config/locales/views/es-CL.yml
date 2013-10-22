@@ -99,6 +99,9 @@ es-CL:
       not_tickets_msg:
         title: Mensaje
         message: No puede comprar 0 tickets!
+      not_payment_method_msg:
+        title: Mensaje
+        message: Debe escoger un método de pago
       prevent_buy_msg:
         title: Mensaje
         message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
