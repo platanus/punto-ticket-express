@@ -109,7 +109,8 @@ class EventsController < ApplicationController
           if params.has_key?(:preview)
             redirect_to(:action => 'edit')
           else
-            redirect_to @event, notice: 'Event was successfully updated.'
+            path_to_redirect = params[:publish] ? @event : event_path(@event, :preview => 'true')
+            redirect_to path_to_redirect, notice: 'Event was successfully updated.'
           end
         }
 
