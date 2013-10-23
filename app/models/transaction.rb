@@ -1,5 +1,5 @@
 class Transaction < ActiveRecord::Base
-  attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id, :nested_resource_attributes
+  attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id, :nested_resource_attributes, :error
   attr_accessor :payment_method
 
   belongs_to :user

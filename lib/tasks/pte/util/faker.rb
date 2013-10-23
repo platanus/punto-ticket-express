@@ -67,7 +67,7 @@ module PTE
       end
 
       def self.create_events
-        [*5..10].sample.times do
+        [*40..50].sample.times do
           create_event
         end
       end
@@ -89,7 +89,47 @@ module PTE
         )
 
         create_ticket_types(evt.id)
+        create_transactions(evt)
         evt
+      end
+
+      def self.create_transactions event
+        return unless event.is_published?
+        [*2..20].sample.times do
+          create_transaction(event.ticket_types[1..[*1..event.ticket_types.count].sample])
+        end
+      end
+
+      def self.create_transaction ticket_types
+        payment_status = PTE::PaymentStatus::STATUSES.sample.to_s
+
+        data = {user_id: @buyer_ids.sample, transaction_time: Time.now}
+
+        if payment_status == PTE::PaymentStatus.processing
+          data[:payment_status] = PTE::PaymentStatus.processing
+
+        elsif payment_status == PTE::PaymentStatus.completed
+          data[:payment_status] = PTE::PaymentStatus.completed
+          data[:token] = ::Faker::Number.number(10)
+
+        elsif payment_status == PTE::PaymentStatus.inactive
+          data[:payment_status] = PTE::PaymentStatus.inactive
+          data[:error] = "Error message"
+
+        else
+          raise Exception.new("Invalid payment type")
+        end
+
+        transaction = Transaction.create(data)
+        ticket_types.each do |tt|
+          [*1..5].sample.times do
+            create_ticket tt.id, transaction.id
+          end
+        end
+      end
+
+      def self.create_ticket ticket_type_id, transaction_id
+         Ticket.create(ticket_type_id: ticket_type_id, transaction_id: transaction_id)
       end
 
       def self.create_ticket_types event_id
@@ -102,7 +142,7 @@ module PTE
         ticket_type = TicketType.create(
           event_id: event_id,
           name: random_ticket_type_name,
-          price: [*40..80].sample,
+          price: [*2000..60000].sample,
           quantity: [*50..400].sample
         )
 

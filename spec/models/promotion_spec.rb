@@ -6,6 +6,7 @@ describe Promotion do
     it do
       should have_and_belong_to_many(:transactions)
       should belong_to(:ticket_type)
+      should have_one(:event)
     end
   end
 
