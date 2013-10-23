@@ -5,17 +5,20 @@
   .span3
     = render 'sidebar'
   .span9
-    %table{class: "table table-striped"}
-      %tr
-        - @event.participants_table_header.each do |col|
-          %th= NestedResource.human_attribute_name col
-        %th
-        - @event.participants(@transactions).each do |data|
-          %tr
-            - data.each do |attr|
-              - unless attr == data.last
-                %td= attr
-            %td= link_to t('buttons.show'), puntopagos_transaction_nested_resource_path(data.last)
-    = will_paginate @transactions
-    .form-actions
-      = link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn'
+    - if @event.participants_table_header.size.zero?
+      = t(".no_data_message")
+    - else
+      %table{class: "table table-striped"}
+        %tr
+          - @event.participants_table_header.each do |col|
+            %th= NestedResource.human_attribute_name col
+          %th
+          - @event.participants(@transactions).each do |data|
+            %tr
+              - data.each do |attr|
+                - unless attr == data.last
+                  %td= attr
+              %td= link_to t('buttons.show'), puntopagos_transaction_nested_resource_path(data.last)
+      = will_paginate @transactions
+      .form-actions
+        = link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn'

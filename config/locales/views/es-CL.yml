@@ -146,6 +146,7 @@ es-CL:
       title: Mis Eventos
     participants:
       title: Asistentes
+      no_data_message: No se ha recolectado información sobre los asistentes en este evento...
     data_to_collect:
       title: Formulario
       subtitle: Información a Recolectar
