@@ -19,6 +19,7 @@ module PTE
         Event.delete_all
         Ticket.delete_all
         Producer.delete_all
+        Promotion.delete_all
         ::Transaction.delete_all
       end
 
@@ -66,13 +67,9 @@ module PTE
       end
 
       def self.create_events
-        events = []
-
         [*5..10].sample.times do
-          events << create_event.id
+          create_event
         end
-
-        events
       end
 
       def self.create_event
@@ -91,27 +88,65 @@ module PTE
           end_time: start_time + ([*10000..30000].sample)
         )
 
-        ticket_types = create_ticket_types(evt.id)
+        create_ticket_types(evt.id)
         evt
       end
 
       def self.create_ticket_types event_id
-        ticket_types = []
-
         [*2..4].sample.times do
-          ticket_types << create_ticket_type(event_id)
+          create_ticket_type(event_id)
         end
-
-        ticket_types
       end
 
       def self.create_ticket_type event_id
-        TicketType.create(
+        ticket_type = TicketType.create(
           event_id: event_id,
           name: random_ticket_type_name,
           price: [*40..80].sample,
           quantity: [*50..400].sample
         )
+
+        create_promotions(ticket_type.id)
+      end
+
+      def self.create_promotions ticket_type_id
+        [*1..3].sample.times do
+          create_promotion(ticket_type_id)
+        end
+      end
+
+      def self.create_promotion ticket_type_id
+        promo_type = PTE::PromoType::TYPES.sample.to_s
+
+        data = {
+          name: ::Faker::Name.name,
+          start_date: Date.today,
+          end_date: (Date.today + [*50..150].sample.days),
+          limit: [*50..500].sample,
+          ticket_type_id: ticket_type_id
+        }
+
+        if promo_type == PTE::PromoType.code
+          data[:promotion_type] = PTE::PromoType.code
+          data[:activation_code] = ::Faker::Number.number(5)
+
+        elsif promo_type == PTE::PromoType.percent_discount
+          data[:promotion_type] = PTE::PromoType.percent_discount
+          data[:promotion_type_config] = [*5..50].sample.to_s
+
+        elsif promo_type == PTE::PromoType.amount_discount
+          data[:promotion_type] = PTE::PromoType.amount_discount
+          data[:promotion_type_config] = [*2000..5000].sample.to_s
+
+        elsif promo_type == PTE::PromoType.nx1
+          data[:promotion_type] = PTE::PromoType.nx1
+          data[:promotion_type_config] = ::Faker::Number.digit
+
+        else
+          raise Exception.new("Invalid promo type")
+        end
+
+        Promotion.create(data)
       end
 
       def self.valid_ruts

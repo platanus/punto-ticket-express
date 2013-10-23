@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :global_configuration do
-    fixed_fee "9.99"
-    percent_fee "9.99"
+    fixed_fee 0
+    percent_fee 0
   end
 end

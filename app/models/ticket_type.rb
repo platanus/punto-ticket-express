@@ -1,5 +1,5 @@
 class TicketType < ActiveRecord::Base
-  attr_accessible :event_id, :name, :price, :quantity, :event_id, :promotion_id
+  attr_accessible :event_id, :name, :price, :quantity, :event_id
 
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -9,6 +9,7 @@ class TicketType < ActiveRecord::Base
 
   belongs_to :event
   has_many :tickets
+  has_many :promotions
 
   delegate :fixed_fee, to: :event, prefix: true, allow_nil: true
   delegate :percent_fee, to: :event, prefix: true, allow_nil: true
