@@ -1,8 +1,9 @@
 class Ticket < ActiveRecord::Base
-  attr_accessible :ticket_type_id, :transaction_id
+  attr_accessible :ticket_type_id, :transaction_id, :promotion_id
 
   belongs_to :ticket_type
   belongs_to :transaction
+  belongs_to :promotion
   has_one :user, through: :transaction
   has_one :event, through: :ticket_type
   has_one :nested_resource, as: :nestable

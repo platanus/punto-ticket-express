@@ -4,4 +4,5 @@ class Promotion < ActiveRecord::Base
   has_and_belongs_to_many :transactions
   belongs_to :ticket_type
   has_one :event, through: :ticket_type
+  has_many :tickets
 end

@@ -123,13 +123,23 @@ module PTE
         transaction = Transaction.create(data)
         ticket_types.each do |tt|
           [*1..5].sample.times do
-            create_ticket tt.id, transaction.id
+            create_ticket tt, transaction
           end
         end
       end
 
-      def self.create_ticket ticket_type_id, transaction_id
-         Ticket.create(ticket_type_id: ticket_type_id, transaction_id: transaction_id)
+      def self.create_ticket ticket_type, transaction
+        promotion = ticket_type.promotions.sample
+        if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
+          promotion = nil
+        else
+          transaction.promotions << promotion
+        end
+
+        data = {ticket_type_id: ticket_type.id, transaction_id: transaction.id}
+        data[:promotion_id] = promotion.id if promotion
+
+        Ticket.create(data)
       end
 
       def self.create_ticket_types event_id
