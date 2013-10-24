@@ -44,14 +44,14 @@ module PTE
 
       def self.create_user email, password, role, show_ouput = true
         user = User.find_or_create_by_email(email, password: password, role: role, name: ::Faker::Name.name)
-        create_producers(user) if user.role == PTE::Role.user
+        create_producers(user) if user.role.to_s == PTE::Role.user.to_s
         puts "#{user.role} role - email: #{user.email}, pass: #{password}".green if show_ouput
         user
       end
 
       def self.create_producers user
         [*2..5].sample.times do
-          producer = Producer.create(
+          producer = Producer.create!(
             name: ::Faker::Name.name,
             address: complete_address,
             contact_email: ::Faker::Internet.email,
@@ -59,7 +59,10 @@ module PTE
             description: ::Faker::Lorem.paragraphs([*2..6].sample),
             phone: ::Faker::PhoneNumber.phone_number,
             rut: valid_ruts.sample,
-            website: ::Faker::Internet.url
+            website: ::Faker::Internet.url,
+            corporate_name: ::Faker::Name.name,
+            fixed_fee: [*1000..3000].sample,
+            percent_fee: [*10..50].sample
           )
 
           producer.users << user
@@ -75,6 +78,7 @@ module PTE
       def self.create_event
         start_time = rand_time(Time.now - 20.days, Time.now + 20.days)
         organizer = @organizers.sample
+        producer = organizer.producers.try(:sample)
 
         evt = Event.create(
           name: ::Faker::Name.name,
@@ -83,9 +87,11 @@ module PTE
           custom_url: ::Faker::Internet.url,
           user_id: organizer.id,
           is_published: random_boolean,
-          producer_id: organizer.producer_ids.try(:sample),
+          producer_id: producer.id,
           start_time: start_time,
-          end_time: start_time + ([*10000..30000].sample)
+          end_time: start_time + ([*10000..30000].sample),
+          fixed_fee: producer.fixed_fee,
+          percent_fee: producer.percent_fee
         )
 
         create_ticket_types(evt.id)
