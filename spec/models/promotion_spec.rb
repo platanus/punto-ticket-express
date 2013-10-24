@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Promotion do
-  let(:promotion) { create(:promotion) }
+  let(:promotion) { create(:percent_promotion) }
 
   describe "Relations" do
     it do

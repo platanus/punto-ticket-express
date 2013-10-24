@@ -10,6 +10,8 @@ class Promotion < ActiveRecord::Base
   has_many :transactions, through: :tickets, uniq: true
 
   scope :enabled, where(enabled: true)
+  scope :amount, where(promotion_type: :amount_discount)
+  scope :percent, where(promotion_type: :percent_discount)
 
   before_destroy :cancel_destroy
 

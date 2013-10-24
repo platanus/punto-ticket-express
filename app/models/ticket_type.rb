@@ -41,7 +41,18 @@ class TicketType < ActiveRecord::Base
   end
 
   def promotion_price
-    #TODO
+    discount = 0.0
+
+    self.promotions.percent.each do |percent_promo|
+      percent_promo_total = (percent_promo.promotion_type_config * self.price / 100)
+      discount = percent_promo_total if percent_promo_total > discount
+    end
+
+    self.promotions.amount.each do |amount_promo|
+      discount = amount_promo.promotion_type_config if amount_promo.promotion_type_config > discount
+    end
+
+    self.price - discount
   end
 
   private
