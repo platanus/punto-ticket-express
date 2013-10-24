@@ -38,7 +38,7 @@ class Event < ActiveRecord::Base
   delegate :fixed_fee, to: :producer, prefix: true, allow_nil: true
   delegate :percent_fee, to: :producer, prefix: true, allow_nil: true
 
-  after_initialize :default_theme
+  after_initialize :set_default_theme
 
   def data_to_collect=(val)
     result = []
@@ -111,7 +111,7 @@ class Event < ActiveRecord::Base
       end
     end
 
-    def default_theme
+    def set_default_theme
       self.theme ||= PTE::Theme::default
     end
 

@@ -136,12 +136,15 @@ module PTE
 
       def self.create_ticket ticket_type, transaction
         promotion = ticket_type.promotions.sample
-        if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
-          promotion = nil
-        end
+        data = {
+          ticket_type_id: ticket_type.id,
+          transaction_id: transaction.id,
+          promotion_id: promotion.id}
 
-        data = {ticket_type_id: ticket_type.id, transaction_id: transaction.id}
-        data[:promotion_id] = promotion.id if promotion
+        if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
+          promotion.promotion_type_config.times { Ticket.create(data) }
+          return
+        end
 
         Ticket.create(data)
       end
@@ -180,9 +183,10 @@ module PTE
           ticket_type_id: ticket_type_id
         }
 
+        data[:activation_code] = ::Faker::Number.number(5).to_s if random_boolean
+
         if promo_type == PTE::PromoType.code
           data[:promotion_type] = PTE::PromoType.code
-          data[:activation_code] = ::Faker::Number.number(5)
           data[:promotion_type_config] = [*5..50].sample
 
         elsif promo_type == PTE::PromoType.percent_discount

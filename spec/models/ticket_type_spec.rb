@@ -91,15 +91,15 @@ describe TicketType do
 
   describe "#promotion_price" do
 
-    it "applies percent discount when discount promo is bigger than amount promo" do
-      create(:percent_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 20)
-      create(:amount_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 100)
+    it "applies percent discount when percent promo is bigger than amount promo" do
+      create(:percent_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 20, activation_code: nil)
+      create(:amount_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 100, activation_code: nil)
       expect(@ticket_type.promotion_price).to eq(800)
     end
 
     it "applies amount discount when amount promo is bigger than discount promo" do
-      create(:percent_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 10)
-      create(:amount_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 200)
+      create(:percent_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 10, activation_code: nil)
+      create(:amount_promotion, ticket_type_id: @ticket_type.id, promotion_type_config: 200, activation_code: nil)
       expect(@ticket_type.promotion_price).to eq(800)
     end
 
