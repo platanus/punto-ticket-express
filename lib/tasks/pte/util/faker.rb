@@ -132,8 +132,6 @@ module PTE
         promotion = ticket_type.promotions.sample
         if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
           promotion = nil
-        else
-          transaction.promotions << promotion
         end
 
         data = {ticket_type_id: ticket_type.id, transaction_id: transaction.id}
@@ -179,6 +177,7 @@ module PTE
         if promo_type == PTE::PromoType.code
           data[:promotion_type] = PTE::PromoType.code
           data[:activation_code] = ::Faker::Number.number(5)
+          data[:promotion_type_config] = [*5..50].sample.to_s
 
         elsif promo_type == PTE::PromoType.percent_discount
           data[:promotion_type] = PTE::PromoType.percent_discount

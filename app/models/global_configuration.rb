@@ -24,8 +24,8 @@ class GlobalConfiguration < ActiveRecord::Base
 
   private
 
-  def cancel_destroy
-    raise PTE::Exceptions::GlobalConfigurationError.new(
-      "Global Configuration instance can't be destroyed")
-  end
+    def cancel_destroy
+      raise PTE::Exceptions::GlobalConfigurationError.new(
+        "Global Configuration instance can't be destroyed")
+    end
 end

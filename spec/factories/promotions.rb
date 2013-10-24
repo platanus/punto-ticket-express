@@ -9,6 +9,7 @@ FactoryGirl.define do
     limit 500
     activation_code "XXXXXX"
     promotion_type_config ::Faker::Number.number(3)
+    association :ticket_type, factory: :ticket_type
 
     factory :percent_promotion do
       promotion_type PTE::PromoType.percent_discount
