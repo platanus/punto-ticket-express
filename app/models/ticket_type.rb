@@ -40,6 +40,10 @@ class TicketType < ActiveRecord::Base
     (self.sold_amount.to_d * self.event_percent_fee.to_d / 100.0) rescue 0.0
   end
 
+  def promotion_price
+    #TODO
+  end
+
   private
 
     def can_destroy?

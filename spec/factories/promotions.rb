@@ -8,13 +8,13 @@ FactoryGirl.define do
     end_date Date.today + 5.days
     limit 500
     activation_code "XXXXXX"
-    promotion_type_config ::Faker::Number.number(3)
+    promotion_type_config ::Faker::Number.number(3).to_i
     association :ticket_type, factory: :ticket_type
 
     factory :percent_promotion do
       promotion_type PTE::PromoType.percent_discount
       activation_code nil
-      promotion_type_config [*10..50].sample.to_s
+      promotion_type_config [*10..50].sample
     end
 
     factory :amount_promotion do
@@ -25,7 +25,7 @@ FactoryGirl.define do
     factory :nx1_promotion do
       promotion_type promotion_type PTE::PromoType.nx1
       activation_code nil
-      promotion_type_config ::Faker::Number.digit
+      promotion_type_config ::Faker::Number.digit.to_i
     end
   end
 end

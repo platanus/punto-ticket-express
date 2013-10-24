@@ -183,19 +183,19 @@ module PTE
         if promo_type == PTE::PromoType.code
           data[:promotion_type] = PTE::PromoType.code
           data[:activation_code] = ::Faker::Number.number(5)
-          data[:promotion_type_config] = [*5..50].sample.to_s
+          data[:promotion_type_config] = [*5..50].sample
 
         elsif promo_type == PTE::PromoType.percent_discount
           data[:promotion_type] = PTE::PromoType.percent_discount
-          data[:promotion_type_config] = [*5..50].sample.to_s
+          data[:promotion_type_config] = [*5..50].sample
 
         elsif promo_type == PTE::PromoType.amount_discount
           data[:promotion_type] = PTE::PromoType.amount_discount
-          data[:promotion_type_config] = [*2000..5000].sample.to_s
+          data[:promotion_type_config] = [*2000..5000].sample
 
         elsif promo_type == PTE::PromoType.nx1
           data[:promotion_type] = PTE::PromoType.nx1
-          data[:promotion_type_config] = ::Faker::Number.digit
+          data[:promotion_type_config] = ::Faker::Number.digit.to_i
 
         else
           raise Exception.new("Invalid promo type")

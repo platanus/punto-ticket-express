@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131024125549) do
+ActiveRecord::Schema.define(:version => 20131024155112) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -112,11 +112,11 @@ ActiveRecord::Schema.define(:version => 20131024125549) do
     t.date     "end_date"
     t.integer  "limit"
     t.string   "activation_code"
-    t.string   "promotion_type_config"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.decimal  "promotion_type_config", :precision => 10, :scale => 0
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
     t.integer  "ticket_type_id"
-    t.boolean  "enabled",               :default => true
+    t.boolean  "enabled",                                              :default => true
   end
 
   create_table "ticket_types", :force => true do |t|
