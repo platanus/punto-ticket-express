@@ -9,13 +9,19 @@
       %tr
         %th= Event.human_attribute_name :ticket_type
         %th= Event.human_attribute_name :tickets_count
+        %th= Event.human_attribute_name :sub_total
+        %th= Event.human_attribute_name :fixed_fee_total
+        %th= Event.human_attribute_name :percent_fee_total
         %th= Event.human_attribute_name :total
         - @event.ticket_types.each do |type|
           - type_data = @event.amounts_by_type(type)
           %tr
             %td= type_data[:name]
             %td= type_data[:tickets_count]
+            %td= number_to_currency(type_data[:sub_total])
+            %td= number_to_currency(type_data[:fixed_fee_total])
+            %td= number_to_currency(type_data[:percent_fee_total])
             %td= number_to_currency(type_data[:total])
         %tr
-          %td{colspan: 2}
+          %td{colspan: 5}
           %td= number_to_currency(@event.sold_amounts[:total])

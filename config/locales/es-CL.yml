@@ -128,7 +128,12 @@ es-CL:
         ticket_type_id: Ticket
         ticket_type: Tipo de Ticket
       event:
+        event: Evento
+        order_number: No de orden
         name: Nombre
+        place: Lugar
+        date: Fecha
+        sector: Sector
         address: Dirección
         description: Descripción
         custom_url: Dirección Web Personalizada
@@ -140,6 +145,9 @@ es-CL:
         producer_id: Productora
         producer: Productora
         user: Usuario
+        percent_fee_total: Comisión en porcentaje
+        fixed_fee_total: Comisión en fija
+        sub_total: Sub total
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket

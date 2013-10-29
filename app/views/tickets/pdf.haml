@@ -1,23 +1,38 @@
 - @tickets.each do |ticket|
-  = wicked_pdf_image_tag 'punto-ticket-logo.png'
+  .row
+    .span5
+      = wicked_pdf_image_tag 'punto-ticket-logo-download.png'
+    .span4
+      .pull-right= image_tag ticket.event.logo.url(:medium), :class => 'medium-img' if ticket.event.logo.file?
   .row#printable-ticket.ticket
     .span9.ticket-wrapper#printable-ticket_wrapper
       .row
-        .span9.hrule.title
-          %h2= ticket.event_name
-      .row
-        .span5
-          - printable_ticket_label(Event.human_attribute_name(:start_time), l(ticket.event_start_time, format: :long))
-        .span4
-          - printable_ticket_label(Event.human_attribute_name(:address), ticket.event_address)
-      .row
-        .span9.hrule
-          - printable_ticket_label(Event.human_attribute_name(:end_time), l(ticket.event_end_time, format: :long))
-      .row
-        .span9.hrule
-          - printable_ticket_label(Ticket.human_attribute_name(:user_id), ticket.transaction_user_email)
-      .row
+        .span1
         .span6
-          - ticket_type_label ticket
-        .span3#qrcode
+          .order-number.printable-label-wrapper.row-fluid
+            .printable-label.span3=Event.human_attribute_name(:order_number).capitalize + ": "
+            .printable-value.span9=ticket.id.to_s
+          - printable_ticket_label(Event.human_attribute_name(:event), ticket.event_name)
+          - printable_ticket_label(Event.human_attribute_name(:place), ticket.event_address)
+          - printable_ticket_label(Event.human_attribute_name(:date), l(ticket.event_start_time, format: :long))
+          - printable_ticket_label(Ticket.human_attribute_name(:sector), ticket.ticket_type_name)
+        .span2#qrcode
           - render_qr_code(ticket.id.to_s)
+          .pull-left.printable-label-wrapper Rut: 77.929.090-5
+          .pull-left.printable-label-wrapper Precio: $0
+          .pull-left.printer-img
+            .pull-right= wicked_pdf_image_tag 'printer.png'
+      .row
+        .span9.conditions-wrapper
+          %h3.conditions-title ESTE ES UN TICKET ELECTRÓNICO
+          %h4.conditions-sub-title Válido para una persona y sólo para el evento y fecha indicada.
+          %p.conditions-desc
+            %br La realización del evento está sujeta a la cancelación de éste previo aviso del organizador.
+            %br El portador de este boleto acepta ser revisado previo ingreso al recinto de la presentación si ello es requerido, para evitar su acceso con bebidas alcohólicas, drogas, armas, grabadoras, cámaras de cualquier tipo o cualquier otro artículo no autorizado, y está consciente que ello puede ser una condición para suingreso al recinto. Se podrá impedir el ingreso del portador de este boleto al recinto de la presentación o, en su caso, podrá ser desalojado de dicho recinto, si portara cualquiera de los objetos antes indicados o su conducta es ofensiva o induzca al desorden. en cualquier de estos casos, dicho tenedor no será reembolsado de cantidad alguna. El tenedor de este boleto se obliga a cumplir con las normas y exigencias del recinto de presentación.
+            %br Punto Ticket S.A. y el administrador del recinto no se hacen responsables por los boletos no adquiridos a través del sistema de venta de entradas de Punto Ticket S.A.
+      .row
+        .span9.producer-wrapper.text-center
+          %div Produce
+          %h2= ticket.event.producer_name
+        .span9.footer-wrapper
+          .pull-right= wicked_pdf_image_tag 'punto-ticket-logo-download.png'

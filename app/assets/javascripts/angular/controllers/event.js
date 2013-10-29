@@ -12,8 +12,11 @@ angular.module('puntoTicketApp.controllers')
       $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
       $scope.address = event.address;
-      $scope.producerId = event.producer_id
-      //call factory
+      $scope.producerId = event.producer_id || producers[0].id;
+      // value of commissions
+      $scope.fixedFee = producers[0].fixed_fee;
+      $scope.percentFee = producers[0].percent_fee;
+      // call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
 
@@ -62,6 +65,19 @@ angular.module('puntoTicketApp.controllers')
 
 
     }
+
+    // change select
+    $scope.changeProducer = function(producerId) {
+        var producer = _.find($scope.producers, function(producer){ return producer.id == $scope.producerId; });
+        // update commission values
+        $scope.fixedFee = producer ? producer.fixed_fee : 0;
+        $scope.percentFee = producer ? producer.percent_fee : 0;
+    };
+
+    // apply commissions
+    $scope.sumTotalWithFee = function(ticketType, totalBeforeFee) {
+      ticketType.price = Math.round($scope.fixedFee + totalBeforeFee * (1 + $scope.percentFee / 100));
+    };
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
