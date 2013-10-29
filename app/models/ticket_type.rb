@@ -10,7 +10,7 @@ class TicketType < ActiveRecord::Base
 
   belongs_to :event
   has_many :tickets
-  has_many :promotions
+  has_many :promotions, as: :promotable
 
   delegate :fixed_fee, to: :event, prefix: true, allow_nil: true
   delegate :percent_fee, to: :event, prefix: true, allow_nil: true
@@ -41,6 +41,14 @@ class TicketType < ActiveRecord::Base
     (self.sold_amount.to_d * self.event_percent_fee.to_d / 100.0) rescue 0.0
   end
 
+  # Returns the ticket type's price minus more convenient promotion amount
+  # If ticket type is not related with any promotion the value returned will
+  # be equals to ticket type's price.
+  # - Promotions will be evaluated if activation_code is nil
+  # - Promotions will be evaluated if promotion_type = amount_discount or percent_discount only
+  # - Event promotions for this ticket type will be evaluated too.
+  #
+  # @return [Float]
   def promotion_price
     discount = 0.0
 

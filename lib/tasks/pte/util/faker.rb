@@ -142,7 +142,7 @@ module PTE
           promotion_id: promotion.id}
 
         if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
-          promotion.promotion_type_config.times { Ticket.create(data) }
+          promotion.promotion_type_config.to_i.times { Ticket.create(data) }
           return
         end
 
@@ -150,15 +150,16 @@ module PTE
       end
 
       def self.create_ticket_types event_id
-        [*2..4].sample.times do
-          create_ticket_type(event_id)
+        type_names = ticket_type_names
+        [*1..3].sample.times do
+          create_ticket_type(event_id, type_names.pop)
         end
       end
 
-      def self.create_ticket_type event_id
+      def self.create_ticket_type event_id, ticket_type_name
         ticket_type = TicketType.create(
           event_id: event_id,
-          name: random_ticket_type_name,
+          name: ticket_type_name,
           price: [*2000..60000].sample,
           quantity: [*50..400].sample
         )
@@ -180,7 +181,8 @@ module PTE
           start_date: Date.today,
           end_date: (Date.today + [*50..150].sample.days),
           limit: [*50..500].sample,
-          ticket_type_id: ticket_type_id
+          promotable_id: ticket_type_id,
+          promotable_type: 'TicketType'
         }
 
         data[:activation_code] = ::Faker::Number.number(5).to_s if random_boolean
@@ -199,7 +201,7 @@ module PTE
 
         elsif promo_type == PTE::PromoType.nx1
           data[:promotion_type] = PTE::PromoType.nx1
-          data[:promotion_type_config] = ::Faker::Number.digit.to_i
+          data[:promotion_type_config] = (::Faker::Number.digit.to_i + 2)
 
         else
           raise Exception.new("Invalid promo type")
@@ -240,8 +242,8 @@ module PTE
         rand * (to - from) + from
       end
 
-      def self.random_ticket_type_name
-        ["Platea", "Palco", "Tribuna", "Campo", "Vip", "Popular"].sample
+      def self.ticket_type_names
+        ["Platea", "Palco", "Tribuna", "Campo", "Vip", "Popular"]
       end
     end
   end

@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   belongs_to :producer
   has_many :ticket_types, dependent: :destroy
   has_many :tickets, through: :ticket_types
-  has_many :promotions, through: :ticket_types
+  has_many :promotions, as: :promotable
   has_many :users, through: :tickets
   has_many :transactions, through: :tickets, uniq: true
 
