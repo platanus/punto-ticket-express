@@ -41,17 +41,17 @@ module FormHelper
   end
 
   def build_control f, name, type, html_options = {}
-    type = type.to_s
+    type = type.to_sym
 
-    if type == 'integer'
+    if type == :integer
       return f.text_field name, html_options.merge(:type => 'number')
 
-    elsif type == 'boolean'
+    elsif type == :boolean
+      # The following returs NestedResource.genders_to_a if:
+      # name param equals to gender
+      # f.object.class.name equals to NestedResource
+      # We need to have the genders_to_a method defined into NestedResource model.
       return f.select name,
-        # The following line returs NestedResource.genders_to_a if:
-        # name param equals to gender
-        # f.object.class.name equals to NestedResource
-        # We need to have the genders_to_a method defined into NestedResource model.
         eval("#{f.object.class.name}.#{name.to_s.pluralize}_to_a"),
         { :include_blank => true }, html_options
 
