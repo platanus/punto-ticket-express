@@ -40,14 +40,14 @@ class Event < ActiveRecord::Base
 
   after_initialize :set_default_theme
 
-  def data_to_collect=(val)
+  def data_to_collect=(values)
     result = []
 
-    val.each_with_index do |data, index|
-      attr = data["name"]
-      value = data[index.to_s].to_sym
+    values.each do |item|
+      item = item.last
+      value = item["value"].to_sym
       next if value == :none
-      result << {:name => attr, :required => (value == :required)}
+      result << {:name => item["name"], :required => (value == :required)}
     end
 
     # overwrite the attribute writer

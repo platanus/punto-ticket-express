@@ -15,12 +15,12 @@
               %tr
                 %td
                   = NestedResource.human_attribute_name(a[:attr])
-                  = hidden_field_tag 'event[data_to_collect][][name]', a[:attr]
+                  = hidden_field_tag "event[data_to_collect][#{i}][name]", a[:attr]
                 %td
-                  = radio_button_tag "event[data_to_collect][][#{i}]", 'none', true, :class => 'custom-check'
+                  = radio_button_tag "event[data_to_collect][#{i}][value]", 'none', true, :class => 'custom-check'
                 %td
-                  = radio_button_tag "event[data_to_collect][][#{i}]", 'optional', (a[:required] == false), :class => 'custom-check'
+                  = radio_button_tag "event[data_to_collect][#{i}][value]", 'optional', (a[:required] == false), :class => 'custom-check'
                 %td
-                  = radio_button_tag "event[data_to_collect][][#{i}]", 'required', a[:required], :class => 'custom-check'
+                  = radio_button_tag "event[data_to_collect][#{i}][value]", 'required', a[:required], :class => 'custom-check'
   .form-actions
     = f.submit t("buttons.save"), :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
