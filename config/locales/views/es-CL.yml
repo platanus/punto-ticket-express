@@ -97,6 +97,22 @@ es-CL:
     show:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
+    pdf:
+      event: Evento
+      order_number: Nº de orden
+      name: Nombre
+      place: Lugar
+      date: Fecha
+      sector: Sector
+      price: Precio
+      rut: Rut
+      conditions:
+        title: Este es un ticket electronico
+        sub_title: Válido para una persona y sólo para el evento y fecha indicada.
+        desc: |
+          La realización del evento está sujeta a la cancelación de éste previo aviso del organizador.<br/>
+          El portador de este boleto acepta ser revisado previo ingreso al recinto de la presentación si ello es requerido, para evitar su acceso con bebidas alcohólicas, drogas, armas, grabadoras, cámaras de cualquier tipo o cualquier otro artículo no autorizado, y está consciente que ello puede ser una condición para su ingreso al recinto. Se podrá impedir el ingreso del portador de este boleto al recinto de la presentación o, en su caso, podrá ser desalojado de dicho recinto, si portara cualquiera de los objetos antes indicados o su conducta es ofensiva o induzca al desorden. en cualquier de estos casos, dicho tenedor no será reembolsado de cantidad alguna. El tenedor de este boleto se obliga a cumplir con las normas y exigencias del recinto de presentación.<br/>
+          Punto Ticket S.A. y el administrador del recinto no se hacen responsables por los boletos no adquiridos a través del sistema de venta de entradas de Punto Ticket S.A.<br/>
   events:
     show:
       not_tickets_msg:

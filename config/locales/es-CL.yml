@@ -128,12 +128,6 @@ es-CL:
         ticket_type_id: Ticket
         ticket_type: Tipo de Ticket
       event:
-        event: Evento
-        order_number: No de orden
-        name: Nombre
-        place: Lugar
-        date: Fecha
-        sector: Sector
         address: Dirección
         description: Descripción
         custom_url: Dirección Web Personalizada
