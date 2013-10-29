@@ -28,6 +28,7 @@
           :class => 'span4',                                                                          |
           'ng-model' => 'producerId',                                                                 |
           'ng-disabled' => "{{disabled}}",                                                            |
+          'ng-change' => 'changeProducer(producerId)',                                                          |
           'form-validate' => '',                                                                      |
           'required' => ''                                                                            |
         / validation
@@ -125,13 +126,16 @@
         %span Debe crear al menos un tipo de ticket para guardar o publicar este evento.
       .control-group.text-center
         %button.btn.btn-success{"ng-click" => "addTicket()", :type => "button", 'ng-disabled' => "{{disabled}}"} Agrega un ticket
+      .control-group.text-center
+        %input{:type => "checkbox", "ng-model" => "showFee"} Agregar comisión al ticket
       %br/
       %table.table.table-bordered{"ng-animate" => "{show: 'event-show', hide: 'event-hide'}", "ng-show" => "tickets.length"}
         %thead
           %tr
             %th Nombre
-            %th Precio
             %th Cantidad
+            %th Precio
+            %th{"ng-if" => "showFee"} Precio con comisión
             %th
         %tbody
           %tr{"ng-repeat" => "ticket in tickets"}
@@ -142,18 +146,11 @@
               %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][id]", "ng-model" => "ticket.id" , :type => "text", :style => "display: none"}
               %input{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][_destroy]", "ng-model" => "ticket.destroy", :type => "text", :style => "display: none"}
               %ng-form{:name => "formInName"}
-                %input.span4{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
+                %input.span4{"form-validate" => "", "ng-class" => "{'input-large':showFee}", :name => "event[ticket_types_attributes][{{$index}}][name]", "ng-model" => "ticket.name", :required => "", :type => "text"}
                   / validation
                   .input-error{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$dirty && formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$invalid"}
                     %label{"ng-show" => "formInName['event[ticket_types_attributes][\\{\\{$index}\\}\\][name]'].$error.required"}
                       El nombre del ticket no puede estar en blanco
-            %td
-              %ng-form{:name => "formInPrice"}
-                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][price]", "ng-model" => "ticket.price", :required => "", :type => "text"}
-                  / validation
-                  .input-error{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$invalid"}
-                    %label{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$error.required"}
-                      El precio del ticket no puede estar en blanco
             %td
               %ng-form{:name => "formInQuantity"}
                 %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][quantity]", "ng-model" => "ticket.quantity", :required => "", :type => "number"}
@@ -163,6 +160,15 @@
                       La cantidad de tickets no puede estar en blanco
                     %label{"ng-show" => "formInQuantity['event[ticket_types_attributes][\\{\\{$index}\\}\\][quantity]'].$error.number"}
                       Formato no valido
+            %td{"ng-if" => "showFee"}
+              %input.input-small{:type => "text", "ng-change" => "sumTotalWithFee(ticket, totalBeforeFee)", "ng-model" => "totalBeforeFee"}
+            %td
+              %ng-form{:name => "formInPrice"}
+                %input.input-small{"form-validate" => "", :name => "event[ticket_types_attributes][{{$index}}][price]", "ng-model" => "ticket.price", :required => "", :type => "text", "ng-disabled" => "showFee"}
+                  / validation
+                  .input-error{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$invalid"}
+                    %label{"ng-show" => "formInPrice['event[ticket_types_attributes][\\{\\{$index}\\}\\][price]'].$error.required"}
+                      El precio del ticket no puede estar en blanco
             %td
               %a.close{"ng-click" => "deleteTicket($index)", "remove-nested-attribute" => ""} ×
   %fieldset
