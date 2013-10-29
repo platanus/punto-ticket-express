@@ -33,6 +33,10 @@ class TicketType < ActiveRecord::Base
     self.tickets.completed.count
   end
 
+  def sold_amount_before_fee
+    self.sold_amount - self.fixed_fee - self.percent_fee
+  end
+
   def fixed_fee
     (self.sold_tickets_count.to_d * self.event_fixed_fee.to_d) rescue 0.0
   end
@@ -72,4 +76,5 @@ class TicketType < ActiveRecord::Base
         return false
       end
     end
+
 end
