@@ -10,6 +10,7 @@ class TicketType < ActiveRecord::Base
   before_destroy :can_destroy?
 
   belongs_to :event
+  has_one :user, through: :event
   has_many :tickets
   has_many :promotions, as: :promotable
 

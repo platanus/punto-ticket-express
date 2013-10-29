@@ -1,7 +1,7 @@
 PuntoTicketExpress::Application.routes.draw do
   get "events/:id/promotions", to: 'promotions#index', as: :promotions
   post "events/:id/promotions", to: 'promotions#create'
-  get "events/:id/promotions/new", to: 'promotions#index', as: :new_promotion
+  get "events/:id/promotions/new", to: 'promotions#new', as: :new_promotion
   get "promotions/:id", to: 'promotions#show', as: :promotion
   put "promotions/:id/enable", to: 'promotions#enable', as: :enable_promotion
   put "promotions/:id/disable", to: 'promotions#disable', as: :disable_promotion

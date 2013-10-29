@@ -16,6 +16,13 @@ class Promotion < ActiveRecord::Base
 
   before_destroy :cancel_destroy
 
+  delegate :user, to: :promotable, prefix: false, allow_nil: true
+
+  def event
+    return promotable unless self.promotable_type == 'TicketType'
+    self.promotable.event
+  end
+
   def update
     raise PTE::Exceptions::PromotionError.new(
       "Promotion instance can't be updated")
