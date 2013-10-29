@@ -35,6 +35,14 @@
     %p
       %b= Producer.human_attribute_name :confirmed
       = t(@producer.confirmed.to_s)
+    %p
+      %b= t(:fee)
+      - if @producer.fixed_fee && @producer.percent_fee
+        = "#{number_to_currency(@producer.fixed_fee)} + #{@producer.percent_fee}%"
+      - if @producer.fixed_fee && !@producer.percent_fee
+        = "#{number_to_currency(@producer.fixed_fee)}"
+      - if !@producer.fixed_fee && @producer.percent_fee
+        = "#{@producer.percent_fee}%"
 
     .form-actions
       = link_to t("buttons.back"), configuration_producers_path, :class => 'btn'

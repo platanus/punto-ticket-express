@@ -49,7 +49,7 @@ class Puntopagos::TransactionsController < ApplicationController
       return
     end
 
-    render action: "new"
+    render action: "puntopagos_conn_error"
   end
 
   def show
@@ -68,7 +68,13 @@ class Puntopagos::TransactionsController < ApplicationController
 
     def create_puntopagos_transaction transaction
       request = PuntoPagos::Request.new
-      resp = request.create(transaction.id.to_s, transaction.total_amount_to_s)
+
+      if params.has_key? :payment_method
+        resp = request.create(transaction.id.to_s, transaction.total_amount_to_s, params[:payment_method])
+      else
+        resp = request.create(transaction.id.to_s, transaction.total_amount_to_s)
+      end
+
       transaction.update_attribute(:token, resp.get_token) if resp.success?
       resp
     end

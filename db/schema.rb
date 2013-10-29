@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131008124331) do
+ActiveRecord::Schema.define(:version => 20131028141731) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(:version => 20131008124331) do
     t.string   "custom_url"
     t.datetime "start"
     t.datetime "end"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
     t.integer  "user_id"
-    t.boolean  "is_published",      :default => false
+    t.boolean  "is_published",                                     :default => false
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "producer_id"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(:version => 20131008124331) do
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.string   "theme"
+    t.decimal  "fixed_fee",         :precision => 10, :scale => 0
+    t.decimal  "percent_fee",       :precision => 10, :scale => 0
+    t.boolean  "include_fee"
+  end
+
+  create_table "global_configurations", :force => true do |t|
+    t.decimal  "fixed_fee",   :precision => 10, :scale => 0
+    t.decimal  "percent_fee", :precision => 10, :scale => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "nested_resources", :force => true do |t|
@@ -81,16 +91,33 @@ ActiveRecord::Schema.define(:version => 20131008124331) do
     t.string   "contact_email"
     t.string   "description"
     t.string   "website"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.boolean  "confirmed",      :default => false
+    t.datetime "created_at",                                                       :null => false
+    t.datetime "updated_at",                                                       :null => false
+    t.boolean  "confirmed",                                     :default => false
     t.string   "corporate_name"
     t.text     "brief"
+    t.decimal  "fixed_fee",      :precision => 10, :scale => 0
+    t.decimal  "percent_fee",    :precision => 10, :scale => 0
   end
 
   create_table "producers_users", :force => true do |t|
     t.integer "user_id"
     t.integer "producer_id"
+  end
+
+  create_table "promotions", :force => true do |t|
+    t.string   "name"
+    t.string   "promotion_type"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "limit"
+    t.string   "activation_code"
+    t.decimal  "promotion_type_config", :precision => 10, :scale => 0
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
+    t.boolean  "enabled",                                              :default => true
+    t.integer  "promotable_id"
+    t.string   "promotable_type"
   end
 
   create_table "ticket_types", :force => true do |t|
@@ -107,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20131008124331) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "transaction_id"
+    t.integer  "promotion_id"
   end
 
   create_table "transactions", :force => true do |t|

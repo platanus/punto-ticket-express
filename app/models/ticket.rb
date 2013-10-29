@@ -1,8 +1,9 @@
 class Ticket < ActiveRecord::Base
-  attr_accessible :ticket_type_id, :transaction_id
+  attr_accessible :ticket_type_id, :transaction_id, :promotion_id
 
   belongs_to :ticket_type
   belongs_to :transaction
+  belongs_to :promotion
   has_one :user, through: :transaction
   has_one :event, through: :ticket_type
   has_one :nested_resource, as: :nestable
@@ -20,14 +21,28 @@ class Ticket < ActiveRecord::Base
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
   delegate :price, to: :ticket_type, prefix: true, allow_nil: true
   delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
+  delegate :fixed_fee, to: :ticket_type, prefix: true, allow_nil: true
+  delegate :percent_fee, to: :ticket_type, prefix: true, allow_nil: true
+
   delegate :user_id, to: :transaction, prefix: true, allow_nil: true
   delegate :user_email, to: :transaction, prefix: true, allow_nil: true
   delegate :payment_status, to: :transaction, prefix: false, allow_nil: true
+
   delegate :user_id, to: :event, prefix: true, allow_nil: true
   delegate :name, to: :event, prefix: true, allow_nil: true
   delegate :start_time, to: :event, prefix: true, allow_nil: true
   delegate :end_time, to: :event, prefix: true, allow_nil: true
   delegate :address, to: :event, prefix: true, allow_nil: true
+
+  alias_method :price, :ticket_type_price
+
+  def fixed_fee
+    self.ticket_type_fixed_fee.to_d rescue 0.0
+  end
+
+  def percent_fee
+    (self.price.to_d * self.ticket_type_percent_fee.to_d / 100.0) rescue 0.0
+  end
 
   private
 

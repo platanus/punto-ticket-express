@@ -66,6 +66,12 @@ es-CL:
           price: Precio
           qty: Cantidad
           amount: Total
+        not_payment_method_msg:
+          title: Mensaje
+          message: Debe escoger un método de pago
+      puntopagos_conn_error:
+        title: "Transacción terminada"
+        message: "No se pudo establecer conexión con puntopagos, por favor intente más tarde nuevamente..."
       error:
         title: Ocurrieron errores al momento de completar la transacción
       success:
@@ -140,6 +146,7 @@ es-CL:
       title: Mis Eventos
     participants:
       title: Asistentes
+      no_data_message: No se ha recolectado información sobre los asistentes en este evento...
     data_to_collect:
       title: Formulario
       subtitle: Información a Recolectar

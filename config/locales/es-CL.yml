@@ -4,7 +4,12 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  fee: "Comisión"
   pte:
+    promo_type:
+      percent_discount: "% de Descuento"
+      amount_discount: "$ de Descuento"
+      nx1: "n x 1"
     payment_status:
       processing: Procesando
       completed: Completa
@@ -33,6 +38,9 @@ es-CL:
         Importe: $%{price}
   activerecord:
     models:
+      global_configuration:
+        one: Configuración
+        other: Configuración
       admin_user:
         one: Administrador
         other: Administradores
@@ -52,6 +60,9 @@ es-CL:
         one: Usuario
         other: Usuarios
     attributes:
+      global_configuration:
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
       transaction:
         event: Evento
         payment_status: Estado pago
@@ -108,6 +119,8 @@ es-CL:
         rut: RUT
         website: Web
         confirmed: Confirmada
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
       ticket:
@@ -130,8 +143,11 @@ es-CL:
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket
+        fixed_fee: "Comisión Fija"
+        percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
+        total_fee: Comisión Total
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"

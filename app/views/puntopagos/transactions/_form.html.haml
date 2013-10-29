@@ -26,4 +26,19 @@
               %th= t(".total")
               %td.dark-orange-text= number_to_currency calculate_total @ticket_types
 
-      = f.button t("buttons.pay_puntopagos"), :class => "btn btn-large btn-success btn-total"
+        %table.table.table-bordered.table-payments
+          %thead
+            %tr
+              %th{:colspan => "2"} Seleccione un metodo de pago
+          %tbody
+            - payment_methods.each do |payment_method|
+              %tr
+                %td
+                  = f.radio_button :payment_method, payment_method[1], :class => "pull-left", "ng-model" => "paymentMethod", :style => 'display:none;'
+                  %div{:value => "#{payment_method[1]}", 'ng-model'=> "paymentMethod", :title => 'prueba', "pretty-checkable" => true}
+                  .payment-img-container
+                    = image_tag("http://www.puntopagos.com/content/mp#{payment_method[1]}.gif", :alt => payment_method[0], :class => "payment-img")
+                %td
+                  = payment_method[0]
+
+      = f.button t("buttons.pay_puntopagos"), :class => "btn btn-large btn-success btn-total", "ng-click" => "startTransaction($event)"

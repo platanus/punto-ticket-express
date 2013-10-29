@@ -1,18 +1,19 @@
 %h1= t(".title")
+%div{'ng-controller' => "TransactionNewCtrl"}
+	%table.table.table-striped.table-colored.table-shop
+		%thead
+			%tr
+				%th= t(".tickets_table.type")
+				%th= t(".tickets_table.price")
+				%th= t(".tickets_table.qty")
+				%th= t(".tickets_table.amount")
 
-%table.table.table-striped.table-colored.table-shop
-	%thead
-		%tr
-			%th= t(".tickets_table.type")
-			%th= t(".tickets_table.price")
-			%th= t(".tickets_table.qty")
-			%th= t(".tickets_table.amount")
+		- @ticket_types.each do |t|
+			%tr
+				%td= t['name']
+				%td.dark-orange-text= number_to_currency(t['price'])
+				%td.dark-orange-text= t['qty']
+				%td.dark-orange-text= number_to_currency calculate_price t
 
-	- @ticket_types.each do |t|
-		%tr
-			%td= t['name']
-			%td.dark-orange-text= number_to_currency(t['price'])
-			%td.dark-orange-text= t['qty']
-			%td.dark-orange-text= number_to_currency calculate_price t
-
-= render 'form'
+	= render 'form'
+	= render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"}
