@@ -74,6 +74,22 @@ describe TicketType do
 
   end
 
+  describe "#percent_fee_over_price" do
+
+    it "returns 200 percent_fee_over_price" do
+      expect(@ticket_type.percent_fee_over_price).to eq(200.0)
+    end
+
+  end
+
+  describe "#price_minus_fee" do
+
+    it "returns 750 as price_minus_fee" do
+      expect(@ticket_type.price_minus_fee).to eq(750.0)
+    end
+
+  end
+
   describe "#ticket_types_for_same_event?" do
 
     it "returns false when ticket types are from different events" do

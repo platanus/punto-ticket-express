@@ -53,7 +53,8 @@ class TicketType < ActiveRecord::Base
 
   def price_minus_fee
     safe_fixed_fee = self.event_fixed_fee || 0.0
-    self.price.to_d - safe_fixed_fee.to_d - self.percent_fee_over_price
+    safe_price = self.price || 0.0
+    safe_price.to_d - safe_fixed_fee.to_d - self.percent_fee_over_price
   end
 
   # Returns the ticket type's price minus more convenient promotion amount

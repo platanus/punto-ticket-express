@@ -22,6 +22,18 @@ describe Promotion do
     end
   end
 
+  describe "#event" do
+    it "returns event when promotion it's over an event" do
+      prom = create(:promotion)
+      expect(prom.event).to be_kind_of(Event)
+    end
+
+    it "returns event when promotion it's over ticket type" do
+      prom = create(:event_promotion)
+      expect(prom.event).to be_kind_of(Event)
+    end
+  end
+
   it "can't be updated" do
     expect { Promotion.update(promotion.id, name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
     expect { promotion.update_attributes(name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
