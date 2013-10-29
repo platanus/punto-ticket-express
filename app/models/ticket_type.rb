@@ -1,6 +1,7 @@
 class TicketType < ActiveRecord::Base
   attr_accessible :event_id, :name, :price, :quantity, :event_id
 
+  validate :is_min_price_valid?
   validates :event_id, presence: true
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -77,4 +78,10 @@ class TicketType < ActiveRecord::Base
       end
     end
 
+    def is_min_price_valid?
+      if self.price - (self.event_fixed_fee + (self.price.to_d * self.event_percent_fee.to_d / 100)) <= 0
+        errors.add(:price, :price_too_low)
+        return false
+      end
+    end
 end
