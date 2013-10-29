@@ -1,8 +1,34 @@
 .page-header
-	%h1= t(".title")
+  %h1= t(".title")
 
 #page_event.row{"ng-controller" => "EventNewCtrl"}
-	.span3
-		= render 'sidebar'
-	.span9
-		= render 'data_to_collect'
+  .span3
+    = render 'sidebar'
+  .span9
+    = form_for @event, html: {name: 'form', class: 'well', novalidate: true} do |f|
+      %fieldset
+        %legend= t(".subtitle")
+        .row-fluid
+          .span8.offset2
+            %table.table.table-condensed.table-bordered.table-options
+              %thead
+                %tr
+                  %th= t(".table.fields.attr")
+                  %th= t(".table.fields.none")
+                  %th= t(".table.fields.optional")
+                  %th.red-text= t(".table.fields.required")
+              %tbody
+                - @attributes.each_with_index do |a, i|
+                  %tr
+                    %td
+                      = NestedResource.human_attribute_name(a[:attr])
+                      = hidden_field_tag "event[data_to_collect][#{i}][name]", a[:attr]
+                    %td
+                      = radio_button_tag "event[data_to_collect][#{i}][value]", 'none', true, :class => 'custom-check'
+                    %td
+                      = radio_button_tag "event[data_to_collect][#{i}][value]", 'optional', (a[:required] == false), :class => 'custom-check'
+                    %td
+                      = radio_button_tag "event[data_to_collect][#{i}][value]", 'required', a[:required], :class => 'custom-check'
+      .form-actions
+        = f.submit t("buttons.save"), :name => 'publish', :class => 'btn btn-success btn-primary btn-large'
+
