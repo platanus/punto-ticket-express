@@ -3,6 +3,9 @@ module EventDecorator
   def amounts_by_type ticket_type
     {name: ticket_type.name,
      tickets_count: ticket_type.sold_tickets_count,
+     sub_total: ticket_type.sold_amount_before_fee,
+     fixed_fee_total: ticket_type.fixed_fee,
+     percent_fee_total: ticket_type.percent_fee,
      total: ticket_type.sold_amount}
   end
 
