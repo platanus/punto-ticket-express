@@ -40,6 +40,23 @@ class Event < ActiveRecord::Base
 
   after_initialize :set_default_theme
 
+  # Overrides data_to_collect method to convert the values param:
+  # {"0"=>{"name"=>"name", "value"=>"none"}, "1"=>{"name"=>"last_name", "value"=>"optional"},
+  # "2"=>{"name"=>"email", "value"=>"none"}, "3"=>{"name"=>"rut", "value"=>"optional"},
+  # "4"=>{"name"=>"phone", "value"=>"none"}, "5"=>{"name"=>"mobile_phone", "value"=>"optional"},
+  # "6"=>{"name"=>"address", "value"=>"none"}, "7"=>{"name"=>"company", "value"=>"required"},
+  # "8"=>{"name"=>"job", "value"=>"required"}, "9"=>{"name"=>"job_address", "value"=>"none"},
+  # "10"=>{"name"=>"job_phone", "value"=>"none"}, "11"=>{"name"=>"website", "value"=>"none"},
+  # "12"=>{"name"=>"gender", "value"=>"optional"}, "13"=>{"name"=>"birthday", "value"=>"none"},
+  # "14"=>{"name"=>"age", "value"=>"none"}}
+  #
+  # into:
+  # [{:name=>"last_name", :required=>false},
+  # {:name=>"rut", :required=>false}, {:name=>"mobile_phone", :required=>false},
+  # {:name=>"company", :required=>true}, {:name=>"job", :required=>true},
+  # {:name=>"gender", :required=>false}]
+  #
+  # @param values [Array]
   def data_to_collect=(values)
     result = []
 
@@ -54,6 +71,12 @@ class Event < ActiveRecord::Base
     write_attribute(:data_to_collect, result)
   end
 
+  # Returns saved attributes if each saved attribute matches with
+  # an attribute defined on NestedResource class.
+  # Returned array will be something like this:
+  # [{:name => :attr1, :required => false}, {:name => :attr2, :required => true}]
+  #
+  # @return [Array]
   def nested_attributes
     return [] unless self.data_to_collect
     attributes = []
@@ -67,14 +90,39 @@ class Event < ActiveRecord::Base
     attributes
   end
 
+  # Wrapper to get required nested attributes only
   def required_nested_attributes
-    required_values = self.nested_attributes.reject{ |attr| !attr[:required] }
-    required_values.map {|item| item[:attr] }
+    nested_attributes_to_a true
   end
 
+  # Wrapper to get optional nested attributes only
   def optional_nested_attributes
-    optional_values = self.nested_attributes.reject{ |attr| attr[:required] }
-    optional_values.map {|item| item[:attr] }
+    nested_attributes_to_a false
+  end
+
+  # Parses nested_attributes hash array and returns simple array with attribute names
+  # It transforms this:
+  # [{:attr=>:last_name, :type=>:string, :required=>false},
+  # {:attr=>:rut, :type=>:string, :required=>false}, {:attr=>:mobile_phone, :type=>:string, :required=>false},
+  # {:attr=>:company, :type=>:string, :required=>true}, {:attr=>:job, :type=>:string, :required=>true},
+  # {:attr=>:gender, :type=>:boolean, :required=>false}]
+  #
+  # into this:
+  # [:last_name, :rut, :mobile_phone, :company, :job, :gender]
+  #
+  # If required params is setted in true will return required values only. False for  optional values. Nil for all.
+  #
+  # @param required [Boolean]
+  def nested_attributes_to_a required = nil
+    values = []
+    self.nested_attributes.each do |na|
+      if required.nil? or
+        (required == true and na[:required] == true) or
+        (required == false and na[:required] == false)
+        values << na[:attr]
+      end
+    end
+    values
   end
 
   def sold_amount
