@@ -1,7 +1,7 @@
 class TicketType < ActiveRecord::Base
   attr_accessible :event_id, :name, :price, :quantity, :event_id
 
-  validate :is_min_price_valid?
+  validate :is_price_valid?
   validates :event_id, presence: true
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -35,7 +35,7 @@ class TicketType < ActiveRecord::Base
     self.tickets.completed.count
   end
 
-  def sold_amount_before_fee
+  def sold_amount_minus_fee
     self.sold_amount - self.fixed_fee - self.percent_fee
   end
 
@@ -45,6 +45,15 @@ class TicketType < ActiveRecord::Base
 
   def percent_fee
     (self.sold_amount.to_d * self.event_percent_fee.to_d / 100.0) rescue 0.0
+  end
+
+  def percent_fee_over_price
+    (self.price.to_d * self.event_percent_fee.to_d / 100.0) rescue 0.0
+  end
+
+  def price_minus_fee
+    safe_fixed_fee = self.event_fixed_fee || 0.0
+    self.price.to_d - safe_fixed_fee.to_d - self.percent_fee_over_price
   end
 
   # Returns the ticket type's price minus more convenient promotion amount
@@ -79,8 +88,8 @@ class TicketType < ActiveRecord::Base
       end
     end
 
-    def is_min_price_valid?
-      if self.price - (self.event_fixed_fee + (self.price.to_d * self.event_percent_fee.to_d / 100)) <= 0
+    def is_price_valid?
+      if self.price_minus_fee <= 0
         errors.add(:price, :price_too_low)
         return false
       end
