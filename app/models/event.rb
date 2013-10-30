@@ -91,11 +91,15 @@ class Event < ActiveRecord::Base
   end
 
   # Wrapper to get required nested attributes only
+  #
+  # @return [Array]
   def required_nested_attributes
     nested_attributes_to_a true
   end
 
   # Wrapper to get optional nested attributes only
+  #
+  # @return [Array]
   def optional_nested_attributes
     nested_attributes_to_a false
   end
@@ -113,6 +117,7 @@ class Event < ActiveRecord::Base
   # If required params is setted in true will return required values only. False for  optional values. Nil for all.
   #
   # @param required [Boolean]
+  # @return [Array]
   def nested_attributes_to_a required = nil
     values = []
     self.nested_attributes.each do |na|

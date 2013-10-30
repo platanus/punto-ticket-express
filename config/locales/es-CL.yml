@@ -155,6 +155,11 @@ es-CL:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        ticket_type:
+          has_related_tickets: Se han vendido tickets para este tipo.
+          attributes:
+            price:
+              price_too_low: es demasiado bajo.
         nested_resource:
           birth_date_greater_than_today: "debe ser menor que la fecha actual"
           invalid_date: "debe ser una fecha válida"
