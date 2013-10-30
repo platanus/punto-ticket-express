@@ -31,6 +31,28 @@ class Promotion < ActiveRecord::Base
     end
   end
 
+  # Loads discount attr based on promotion type
+  #
+  # @param price [Decimal]
+  # @return [Decimal]
+  def load_discount price = nil
+    if self.is_percent_discount?
+      self.discount = self.get_percent_discount_amount(price)
+
+    elsif self.is_amount_discount?
+      self.discount = self.get_amount_discount_amount
+
+    elsif self.is_nx1?
+      self.discount = self.get_nx1_amount(price)
+
+    else
+      raise PTE::Exceptions::PromotionError.new(
+        "Invalid promotion type given")
+    end
+
+    self.discount || 0.0
+  end
+
   # Calculates discount based on % defined by promotion and given price.
   #
   # @param price [Decimal]
@@ -70,27 +92,13 @@ class Promotion < ActiveRecord::Base
   # @param promotions [Array] Collection with Promotion objects.
   # @param price [Decimal] Price is necessary to calculate discount in some promotions
   # @return [Promotion] with loaded discount attr.
-  def self.most_convenient_promotion promotions, price
+  def self.most_convenient_promotion promotions, price = nil
     raise PTE::Exceptions::PromotionError.new("price not given") unless price
     convenient_promo = nil
 
     promotions.each do |promo|
       next unless promo.is_promo_available?
-
-      if promo.is_percent_discount?
-        promo.discount = promo.get_percent_discount_amount(price)
-
-      elsif promo.is_amount_discount?
-        promo.discount = promo.get_amount_discount_amount
-
-      elsif promo.is_nx1?
-        promo.discount = promo.get_nx1_amount(price)
-
-      else
-        raise PTE::Exceptions::PromotionError.new(
-          "Invalid promotion type given")
-      end
-
+      promo.load_discount(price)
       if convenient_promo.nil? or
         (promo.discount.to_d > convenient_promo.discount.to_d)
         convenient_promo = promo
