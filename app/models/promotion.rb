@@ -90,8 +90,12 @@ class Promotion < ActiveRecord::Base
   # @return [Event]
   def event
     return nil unless self.promotable
-    return promotable unless self.promotable.kind_of? TicketType
+    return promotable unless self.related_with_ticket_type?
     self.promotable.event
+  end
+
+  def related_with_ticket_type?
+    self.promotable.kind_of? TicketType
   end
 
   # Selects, in a group of promotions, the most convenient promo.
@@ -123,12 +127,21 @@ class Promotion < ActiveRecord::Base
   #
   # @return [Boolean]
   def is_promo_available?
-    if self.start_date and self.end_date and
-      (Date.today < self.start_date or Date.today > self.end_date)
-      return false
-    end
+    return false if self.is_out_of_range?
+    !self.is_limit_exceeded?
+  end
 
-    !self.limit or self.tickets.completed.count < self.limit
+  def is_out_of_range?
+    self.start_date and self.end_date and
+    (Date.today < self.start_date or Date.today > self.end_date)
+  end
+
+  def is_limit_exceeded?
+    self.limit and self.sold_tickets.count >= self.limit
+  end
+
+  def sold_tickets
+    self.tickets.completed
   end
 
   def update

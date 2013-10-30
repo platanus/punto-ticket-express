@@ -4,7 +4,6 @@
 es-CL:
   "true": "Sí"
   "false": "No"
-  fee: "Comisión"
   pte:
     promo_type:
       percent_discount: "%{value}%"
@@ -100,7 +99,9 @@ es-CL:
         activation_code: Código de Activación
         promotion_type_config: Valor
         enabled: Habilitado
-        available: En vigencia?
+        available: Vigente?
+        scope: Alcance
+        enabled_since: Habilitado
       nested_resource:
         address: Dirección
         age: Edad
@@ -138,6 +139,7 @@ es-CL:
         percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
+        fee: "Comisión"
       ticket:
         user_id: Participante
         ticket_type_id: Ticket

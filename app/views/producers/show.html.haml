@@ -7,7 +7,7 @@
   .span9
     %p
       %b= Producer.human_attribute_name :corporate_name
-      = @producer.rut
+      = @producer.corporate_name
     %p
       %b= Producer.human_attribute_name :rut
       = @producer.rut
@@ -36,7 +36,7 @@
       %b= Producer.human_attribute_name :confirmed
       = t(@producer.confirmed.to_s)
     %p
-      %b= t(:fee)
+      %b= Producer.human_attribute_name :fee
       - if @producer.fixed_fee && @producer.percent_fee
         = "#{number_to_currency(@producer.fixed_fee)} + #{@producer.percent_fee}%"
       - if @producer.fixed_fee && !@producer.percent_fee

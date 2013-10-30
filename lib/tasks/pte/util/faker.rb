@@ -159,7 +159,7 @@ module PTE
           event_id: event_id,
           name: ticket_type_name,
           price: [*2000..60000].sample,
-          quantity: [*50..400].sample
+          quantity: [*200..2000].sample
         )
 
         create_ticket_type_promotions(ticket_type.id)
@@ -179,16 +179,17 @@ module PTE
 
       def self.create_promotion promotable_id, promotable_type
         promo_type = PTE::PromoType::TYPES.sample.to_s
+        start = (Date.today - [*-5..5].sample.days)
 
         data = {
           name: "Promo " + ::Faker::Name.name,
-          start_date: (Date.today - [*2..10].sample.days),
-          end_date: (Date.today + [*2..10].sample.days),
-          limit: [*50..500].sample,
+          start_date: start,
+          end_date: (start + [*5..15].sample.days),
           promotable_id: promotable_id,
           promotable_type: promotable_type
         }
 
+        data[:limit] = [*50..100].sample if random_boolean
         data[:activation_code] = ::Faker::Number.number(5).to_s if random_boolean
 
         if promo_type == PTE::PromoType.percent_discount

@@ -1,2 +1,28 @@
-%h1 Promotions#show
-%p Find me in app/views/promotions/show.html.haml
+.page-header
+  %h1= t(".title", promo_name: @promotion.name)
+
+.row
+  .span3
+    = render 'events/sidebar'
+  .span9
+    %p
+      %b= Promotion.human_attribute_name :enabled_since
+      = promo_date_range_label(@promotion)
+    %p
+      %b= Promotion.human_attribute_name :limit
+      = promo_limit_label(@promotion)
+    %p
+      %b= Promotion.human_attribute_name :activation_code
+      = promo_code_label(@promotion)
+    %p
+      %b= Promotion.human_attribute_name :scope
+      = promo_enabled_for(@promotion)
+    %p
+      %b= Promotion.human_attribute_name :enabled
+      = t(@promotion.enabled.to_s)
+    %p
+      %b= Promotion.human_attribute_name :available
+      = t(@promotion.is_promo_available?.to_s)
+      - promo_no_available_reasons(@promotion)
+
+

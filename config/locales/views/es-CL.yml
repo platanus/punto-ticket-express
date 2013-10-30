@@ -96,6 +96,21 @@ es-CL:
         total: Total
         subtotal: Sub Total
   promotions:
+    show:
+      title: "Promoción: %{promo_name}"
+      labels:
+        no_date: no tiene restricción de fecha
+        start_date: "desde %{date}"
+        end_date: "hasta %{date}"
+        dates_range: "desde %{start} hasta %{end}"
+        activation_code: "no se requiere"
+        limit: "%{used}/%{total}"
+        no_limit: "sin límite de tickets"
+        event_scope: "afecta a todos los tickets del evento"
+        ticket_type_scope: "afecta a ticket \"%{ticket_type_name}\""
+        no_available_reasons: "Motivos:"
+        out_of_range: "Esta fuera de las fechas de habilitación."
+        limit_exceeded: "Se excedió el límite de tickets con este descuento."
     index:
       title: Promociones
   tickets:

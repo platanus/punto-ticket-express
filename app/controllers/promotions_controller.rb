@@ -17,6 +17,7 @@ class PromotionsController < ApplicationController
   def show
     @promotion = Promotion.find_by_id params[:id]
     authorize! :read, @promotion
+    @event = @promotion.event
   end
 
   def enable
