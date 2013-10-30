@@ -15,6 +15,7 @@ class TicketType < ActiveRecord::Base
   has_many :promotions, as: :promotable
 
   delegate :fixed_fee, to: :event, prefix: true, allow_nil: true
+  delegate :promotions, to: :event, prefix: true, allow_nil: true
   delegate :percent_fee, to: :event, prefix: true, allow_nil: true
 
   def available_tickets_count
@@ -57,6 +58,10 @@ class TicketType < ActiveRecord::Base
     safe_price.to_d - safe_fixed_fee.to_d - self.percent_fee_over_price
   end
 
+  def all_promotions
+    self.promotions + self.event_promotions
+  end
+
   # Returns the ticket type's price minus more convenient promotion amount
   # If ticket type is not related with any promotion the value returned will
   # be equals to ticket type's price.
@@ -66,17 +71,15 @@ class TicketType < ActiveRecord::Base
   #
   # @return [Float]
   def promotion_price
-    discount = 0.0
+    promos = []
 
-    self.promotions.percent.without_activation_code.each do |percent_promo|
-      percent_promo_total = (percent_promo.promotion_type_config * self.price / 100)
-      discount = percent_promo_total if percent_promo_total > discount
+    self.all_promotions.reject do |promo|
+      next if !promo.activation_code.nil? or promo.is_nx1?
+      promos << promo
     end
 
-    self.promotions.amount.without_activation_code.each do |amount_promo|
-      discount = amount_promo.promotion_type_config if amount_promo.promotion_type_config > discount
-    end
-
+    convenient_promo = Promotion.most_convenient_promotion(promos, self.price)
+    discount = convenient_promo.discount rescue 0.0
     self.price - discount
   end
 
