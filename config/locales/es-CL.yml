@@ -7,9 +7,9 @@ es-CL:
   fee: "Comisión"
   pte:
     promo_type:
-      percent_discount: "% de Descuento"
-      amount_discount: "$ de Descuento"
-      nx1: "n x 1"
+      percent_discount: "%{value}%"
+      amount_discount: "$%{value}"
+      nx1: "%{value}x1"
     payment_status:
       processing: Procesando
       completed: Completa
@@ -93,13 +93,14 @@ es-CL:
         name: Nombre
         created_at: Creado
         updated_at: Modificado
-        promotion_type: Tipo
+        promotion_type: Descuento
         start_date: Desde
         end_date: Hasta
         limit: Límite de Tickets
         activation_code: Código de Activación
         promotion_type_config: Valor
         enabled: Habilitado
+        available: En vigencia?
       nested_resource:
         address: Dirección
         age: Edad

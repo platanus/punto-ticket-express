@@ -20,7 +20,7 @@ class Promotion < ActiveRecord::Base
 
   delegate :user, to: :promotable, prefix: false, allow_nil: true
 
-  # Defines a single method with structure:
+  # Defines a single instance method with structure:
   # is_[promo_type]? Example: is_amount_discount?
   # for each type defined on TYPES array.
   PTE::PromoType::TYPES.each do |type_name|
@@ -29,6 +29,14 @@ class Promotion < ActiveRecord::Base
         eval("PTE::PromoType.#{type_name}") == self.promotion_type
       end
     end
+  end
+
+  def enable
+    self.update_column(:enabled, true)
+  end
+
+  def disable
+    self.update_column(:enabled, false)
   end
 
   # Loads discount attr based on promotion type
@@ -98,6 +106,7 @@ class Promotion < ActiveRecord::Base
 
     promotions.each do |promo|
       next unless promo.is_promo_available?
+      next unless self.enabled
       promo.load_discount(price)
       if convenient_promo.nil? or
         (promo.discount.to_d > convenient_promo.discount.to_d)
@@ -109,14 +118,11 @@ class Promotion < ActiveRecord::Base
   end
 
   # Verifies if promotions is available checking:
-  # - if promo is enabled
   # - if today is between start and end dates.
   # - if sold tickets count is lower than promotion limit.
   #
   # @return [Boolean]
   def is_promo_available?
-    return false unless self.enabled
-
     if self.start_date and self.end_date and
       (Date.today < self.start_date or Date.today > self.end_date)
       return false

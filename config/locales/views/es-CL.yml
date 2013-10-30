@@ -19,7 +19,9 @@ es-CL:
     ok: OK
     preview: vista previa
     statistics: estadisticas
-
+    enable: Habilitar
+    disable: Deshabilitar
+    new_promotion: Nueva Promoción
   home:
     index:
       title: Últimos Eventos

@@ -181,7 +181,7 @@ module PTE
         promo_type = PTE::PromoType::TYPES.sample.to_s
 
         data = {
-          name: ::Faker::Name.name,
+          name: "Promo " + ::Faker::Name.name,
           start_date: (Date.today - [*2..10].sample.days),
           end_date: (Date.today + [*2..10].sample.days),
           limit: [*50..500].sample,

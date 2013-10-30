@@ -20,4 +20,16 @@ module ApplicationHelper
     return I18n.t("gender.man") if gender
     I18n.t("gender.woman")
   end
+
+  def human_boolean value
+    icon = value ? '&#x2714;'.html_safe : '&#x2717;'.html_safe
+    haml_tag(:div) do
+      haml_concat(icon)
+    end
+  end
+
+  def line_through value
+    return if value
+    "line-through"
+  end
 end

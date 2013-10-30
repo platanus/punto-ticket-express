@@ -22,12 +22,14 @@ class PromotionsController < ApplicationController
   def enable
     @promotion = Promotion.find_by_id params[:id]
     authorize! :enable, @promotion
+    @promotion.enable
     redirect_to promotions_url(id: @promotion.event.id)
   end
 
   def disable
     @promotion = Promotion.find_by_id params[:id]
     authorize! :enable, @promotion
+    @promotion.disable
     redirect_to promotions_url(id: @promotion.event.id)
   end
 end
