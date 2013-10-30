@@ -87,7 +87,8 @@ class TicketType < ActiveRecord::Base
   def promotion_price
     convenient_promo = self.most_convenient_promotion
     discount = convenient_promo.discount rescue 0.0
-    self.price - discount
+    amount = self.price || 0.0
+    amount - discount
   end
 
   private
