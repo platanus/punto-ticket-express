@@ -20,6 +20,12 @@ describe Promotion do
       should validate_presence_of(:promotion_type_config)
       should validate_presence_of(:enabled)
     end
+
+    it "can't be updated" do
+      expect { Promotion.update(promotion.id, name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
+      expect { promotion.update_attributes(name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
+      expect { promotion.destroy }.to raise_error(PTE::Exceptions::PromotionError)
+    end
   end
 
   describe "#event" do
@@ -33,11 +39,4 @@ describe Promotion do
       expect(prom.event).to be_kind_of(Event)
     end
   end
-
-  it "can't be updated" do
-    expect { Promotion.update(promotion.id, name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
-    expect { promotion.update_attributes(name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
-    expect { promotion.destroy }.to raise_error(PTE::Exceptions::PromotionError)
-  end
-
 end

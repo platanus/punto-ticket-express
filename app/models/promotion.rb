@@ -20,6 +20,9 @@ class Promotion < ActiveRecord::Base
 
   delegate :user, to: :promotable, prefix: false, allow_nil: true
 
+  # Defines a single method with structure:
+  # is_[promo_type]? Example: is_amount_discount?
+  # for each type defined on TYPES array.
   PTE::PromoType::TYPES.each do |type_name|
     self.instance_eval do
       define_method("is_#{type_name}?") do
@@ -28,26 +31,44 @@ class Promotion < ActiveRecord::Base
     end
   end
 
+  # Calculates discount based on % defined by promotion and given price.
+  #
+  # @param price [Decimal]
+  # @return [Decimal]
   def get_percent_discount_amount price
     (self.promotion_type_config.to_d * price.to_d / 100.0) rescue 0.0
   end
 
+  # Calculates fixed discount amount defined by promotion
+  #
+  # @return [Decimal]
   def get_amount_discount_amount
     self.promotion_type_config.to_d rescue 0.0
   end
 
+  # Calculates discount dividing price with N value defined by promotion
+  #
+  # @param price [Decimal]
+  # @return [Decimal]
   def get_nx1_amount price
     (price.to_d / self.promotion_type_config.to_i) rescue 0.0
   end
 
   def event
-    return promotable unless self.promotable_type == 'TicketType'
+    return nil unless self.promotable
+    return promotable unless self.promotable.kind_of? TicketType
     self.promotable.event
   end
 
+  # Selects, in a group of promotions, the most convenient promo.
+  # The most convenient promo gives the higher discount over given price.
+  #
+  # @param promotions [Array] Collection with Promotion objects.
+  # @param price [Decimal] Price is necessary to calculate discount in some promotions
+  # @return [Promotion] with loaded discount attr.
   def self.most_convenient_promotion promotions, price
+    raise PTE::Exceptions::PromotionError.new("price not given") unless price
     convenient_promo = nil
-    # TODO: How about enabled and disabled promotions?
 
     promotions.each do |promo|
       next unless promo.is_promo_available?
@@ -75,10 +96,21 @@ class Promotion < ActiveRecord::Base
     convenient_promo
   end
 
+  # Verifies if promotions is available checking:
+  # - if promo is enabled
+  # - if today is between start and end dates.
+  # - if sold tickets count is lower than promotion limit.
+  #
+  # @return [Boolean]
   def is_promo_available?
-    # TODO: it's not available if now is lower than start date or bigger than end_date
-    # it's not available if sold tickets count with this promotion it's bigger than self.limit
-    true
+    return false unless self.enabled
+
+    if self.start_date and self.end_date and
+      !(self.start_date..self.end_date === Date.today)
+      return false
+    end
+
+    self.limit and self.tickets.completed.count >= self.limit
   end
 
   def update
