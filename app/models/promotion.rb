@@ -4,13 +4,12 @@ class Promotion < ActiveRecord::Base
 
   attr_accessor :discount
 
-  validates_presence_of :name, :promotion_type, :promotion_type_config, :enabled, :promotable_id, :promotable_type
+  validates_presence_of :name, :promotion_type, :promotion_type_config, :promotable_id, :promotable_type
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets
   has_many :transactions, through: :tickets, uniq: true
 
-  scope :enabled, where(enabled: true)
   scope :amount, where(promotion_type: :amount_discount)
   scope :percent, where(promotion_type: :percent_discount)
   scope :with_activation_code, where("activation_code IS NOT NULL OR activation_code <> ''")
@@ -110,7 +109,7 @@ class Promotion < ActiveRecord::Base
 
     promotions.each do |promo|
       next unless promo.is_promo_available?
-      next unless self.enabled
+      next unless promo.enabled
       promo.load_discount(price)
       if convenient_promo.nil? or
         (promo.discount.to_d > convenient_promo.discount.to_d)

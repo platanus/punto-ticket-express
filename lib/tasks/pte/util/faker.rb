@@ -61,8 +61,8 @@ module PTE
             rut: valid_ruts.sample,
             website: ::Faker::Internet.url,
             corporate_name: ::Faker::Name.name,
-            fixed_fee: [*1000..3000].sample,
-            percent_fee: [*10..50].sample
+            fixed_fee: [*500..800].sample,
+            percent_fee: [*10..20].sample
           )
 
           producer.users << user
@@ -80,7 +80,7 @@ module PTE
         organizer = @organizers.sample
         producer = organizer.producers.try(:sample)
 
-        evt = Event.create(
+        evt = Event.create!(
           name: "Evento " + ::Faker::Name.name,
           address: complete_address,
           description: ::Faker::Lorem.paragraphs([*2..6].sample),
@@ -127,7 +127,7 @@ module PTE
           raise Exception.new("Invalid payment type")
         end
 
-        transaction = Transaction.create(data)
+        transaction = Transaction.create!(data)
         ticket_types.each do |tt|
           [*1..5].sample.times do
             create_ticket tt, transaction
@@ -144,7 +144,7 @@ module PTE
           transaction_id: transaction.id,
           promotion_id: promotion_id}
 
-        Ticket.create(data)
+        Ticket.create!(data)
       end
 
       def self.create_ticket_types event_id
@@ -155,10 +155,10 @@ module PTE
       end
 
       def self.create_ticket_type event_id, ticket_type_name
-        ticket_type = TicketType.create(
+        ticket_type = TicketType.create!(
           event_id: event_id,
           name: ticket_type_name,
-          price: [*2000..60000].sample,
+          price: [*40000..60000].sample,
           quantity: [*200..2000].sample
         )
 
@@ -186,7 +186,8 @@ module PTE
           start_date: start,
           end_date: (start + [*5..15].sample.days),
           promotable_id: promotable_id,
-          promotable_type: promotable_type
+          promotable_type: promotable_type,
+          enabled: random_boolean
         }
 
         data[:limit] = [*50..100].sample if random_boolean
@@ -208,7 +209,7 @@ module PTE
           raise Exception.new("Invalid promo type")
         end
 
-        Promotion.create(data)
+        Promotion.create!(data)
       end
 
       def self.valid_ruts

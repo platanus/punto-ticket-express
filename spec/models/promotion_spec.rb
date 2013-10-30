@@ -18,7 +18,6 @@ describe Promotion do
       should validate_presence_of(:promotable_id)
       should validate_presence_of(:promotable_type)
       should validate_presence_of(:promotion_type_config)
-      should validate_presence_of(:enabled)
     end
 
     it "can't be updated" do
