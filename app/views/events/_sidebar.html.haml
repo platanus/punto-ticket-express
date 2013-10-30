@@ -8,19 +8,23 @@
         %i.icon-chevron-right
         = t(".headers.info.details")
     %li{:class => "#{disabled_class} #{active_if_form}"}
-      %a{:href => "#{form_event_path if !@event.new_record? }"}
+      %a{:href => "#{form_event_path unless @event.new_record? }"}
         %i.icon-chevron-right
         = t(".headers.info.form")
+    %li{:class => "#{disabled_class} #{active_if_promotion}"}
+      %a{:href => "#{promotions_path unless @event.new_record? }"}
+        %i.icon-chevron-right
+        = t(".headers.info.promotions")
 
   .sidebar-header
     %i.icon-bar-chart.icon-large
     = t(".headers.statistic.title")
   %ul.nav.nav-list.sidenav.affix-top
     %li{:class => "#{disabled_class} #{active_if_event_statistic}"}
-      %a{:href => "#{sold_tickets_event_path(@event) if !@event.new_record?}"}
+      %a{:href => "#{sold_tickets_event_path(@event) unless @event.new_record?}"}
         %i.icon-chevron-right
         = t(".headers.statistic.tickets_sold")
     %li{:class => "#{disabled_class} #{active_if_participants}"}
-      %a{:href => "#{participants_event_path if !@event.new_record?}"}
+      %a{:href => "#{participants_event_path unless @event.new_record?}"}
         %i.icon-chevron-right
         = t(".headers.statistic.participants")

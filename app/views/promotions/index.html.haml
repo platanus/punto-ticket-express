@@ -1,3 +1,13 @@
-%h1 Promotions#index
-%p Find me in app/views/promotions/index.html.haml
-= @promotions.inspect
+.page-header
+  %h1= t(".title")
+
+.row
+  .span3
+    = render 'events/sidebar'
+  .span9
+    %table{class: "table table-striped"}
+      %tr
+        %th= Promotion.human_attribute_name :created_at
+        %th= Promotion.human_attribute_name :name
+        %th= Promotion.human_attribute_name :promotion_type
+        %th

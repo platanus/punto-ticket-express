@@ -1,9 +1,9 @@
 class PromotionsController < ApplicationController
 
   def index
-    event = Event.find_by_id params[:id]
-    authorize! :read_event_promotions, event
-    @promotions = event.all_promotions
+    @event = Event.find_by_id params[:id]
+    authorize! :read_event_promotions, @event
+    @promotions = @event.all_promotions
   end
 
   def new

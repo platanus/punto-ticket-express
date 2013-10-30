@@ -36,6 +36,13 @@ module SidebarHelper
     end
   end
 
+  def active_if_promotion
+    if params[:controller].include? "promotion" or
+      params[:action] == "promotion"
+      return "active"
+    end
+  end
+
   def active_if_event_statistic
     if params[:controller].include? "events" and
       params[:action] == "sold_tickets"

@@ -47,6 +47,9 @@ es-CL:
       producer:
         one: Productora
         other: Productoras
+      promotion:
+        one: Promoción
+        one: Promociones
       ticket:
         one: Ticket
         other: Tickets
@@ -86,6 +89,17 @@ es-CL:
         created_at: Creado
         updated_at: Modificado
         role: Rol
+      promotion:
+        name: Nombre
+        created_at: Creado
+        updated_at: Modificado
+        promotion_type: Tipo
+        start_date: Desde
+        end_date: Hasta
+        limit: Límite de Tickets
+        activation_code: Código de Activación
+        promotion_type_config: Valor
+        enabled: Habilitado
       nested_resource:
         address: Dirección
         age: Edad
