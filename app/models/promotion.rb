@@ -46,12 +46,12 @@ class Promotion < ActiveRecord::Base
     self.promotion_type_config.to_d rescue 0.0
   end
 
-  # Calculates discount dividing price with N value defined by promotion
+  # Calculates discount multiping price with N value defined by promotion minus 1 x price
   #
   # @param price [Decimal]
   # @return [Decimal]
   def get_nx1_amount price
-    (price.to_d / self.promotion_type_config.to_i) rescue 0.0
+    (self.promotion_type_config.to_i * price - price) rescue 0.0
   end
 
   def event
@@ -110,7 +110,7 @@ class Promotion < ActiveRecord::Base
       return false
     end
 
-    self.limit and self.tickets.completed.count >= self.limit
+    !self.limit or self.tickets.completed.count < self.limit
   end
 
   def update

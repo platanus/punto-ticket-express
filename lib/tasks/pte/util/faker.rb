@@ -52,7 +52,7 @@ module PTE
       def self.create_producers user
         [*2..5].sample.times do
           producer = Producer.create!(
-            name: ::Faker::Name.name,
+            name: "Productora " + ::Faker::Name.name,
             address: complete_address,
             contact_email: ::Faker::Internet.email,
             contact_name: ::Faker::Name.name,
@@ -81,7 +81,7 @@ module PTE
         producer = organizer.producers.try(:sample)
 
         evt = Event.create(
-          name: ::Faker::Name.name,
+          name: "Evento " + ::Faker::Name.name,
           address: complete_address,
           description: ::Faker::Lorem.paragraphs([*2..6].sample),
           custom_url: ::Faker::Internet.url,
@@ -136,16 +136,13 @@ module PTE
       end
 
       def self.create_ticket ticket_type, transaction
-        promotion = ticket_type.promotions.sample
+        #most_convenient_promotion only uses percent and amount promotion types
+        promotion_id = ticket_type.most_convenient_promotion.id rescue nil
+
         data = {
           ticket_type_id: ticket_type.id,
           transaction_id: transaction.id,
-          promotion_id: promotion.id}
-
-        if promotion.promotion_type.to_s == PTE::PromoType.nx1.to_s
-          promotion.promotion_type_config.to_i.times { Ticket.create(data) }
-          return
-        end
+          promotion_id: promotion_id}
 
         Ticket.create(data)
       end
@@ -185,8 +182,8 @@ module PTE
 
         data = {
           name: ::Faker::Name.name,
-          start_date: Date.today,
-          end_date: (Date.today + [*50..150].sample.days),
+          start_date: (Date.today - [*2..10].sample.days),
+          end_date: (Date.today + [*2..10].sample.days),
           limit: [*50..500].sample,
           promotable_id: promotable_id,
           promotable_type: promotable_type
@@ -200,7 +197,7 @@ module PTE
 
         elsif promo_type == PTE::PromoType.amount_discount
           data[:promotion_type] = PTE::PromoType.amount_discount
-          data[:promotion_type_config] = [*2000..5000].sample
+          data[:promotion_type_config] = [*1000..1800].sample
 
         elsif promo_type == PTE::PromoType.nx1
           data[:promotion_type] = PTE::PromoType.nx1
