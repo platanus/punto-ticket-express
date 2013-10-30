@@ -12,7 +12,7 @@
         %i.icon-chevron-right
         = t(".headers.info.form")
     %li{:class => "#{disabled_class} #{active_if_promotion}"}
-      %a{:href => "#{promotions_path unless @event.new_record? }"}
+      %a{:href => "#{promotions_path(id: @event.id) unless @event.new_record? }"}
         %i.icon-chevron-right
         = t(".headers.info.promotions")
 
