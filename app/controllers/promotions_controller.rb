@@ -3,9 +3,7 @@ class PromotionsController < ApplicationController
   def index
     event = Event.find_by_id params[:id]
     authorize! :read_event_promotions, event
-    # TODO: cambiar event.promotions por un método que traiga las
-    # promociones aplicadas al evento y además, las promociones aplicadas a los tipos de evento del evento.
-    @promotions = event.ticket_types.first.promotions
+    @promotions = event.all_promotions
   end
 
   def new

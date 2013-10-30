@@ -130,6 +130,17 @@ class Event < ActiveRecord::Base
     values
   end
 
+  # Gets promotions applied to all ticket types (event's promotions)
+  # and promotions applied to each ticket type
+  #
+  # @return [Array]
+  def all_promotions
+    result = []
+    result += self.promotions
+    self.ticket_types.each { |tt| result += tt.promotions }
+    result
+  end
+
   def sold_amount
     query = self.tickets.completed
     query = query.joins([:ticket_type])
