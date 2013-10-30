@@ -95,6 +95,7 @@ module PTE
         )
 
         create_ticket_types(evt.id)
+        create_event_promotions(evt.id)
         create_transactions(evt)
         evt
       end
@@ -164,16 +165,22 @@ module PTE
           quantity: [*50..400].sample
         )
 
-        create_promotions(ticket_type.id)
+        create_ticket_type_promotions(ticket_type.id)
       end
 
-      def self.create_promotions ticket_type_id
+      def self.create_ticket_type_promotions ticket_type_id
         [*1..3].sample.times do
-          create_promotion(ticket_type_id)
+          create_promotion(ticket_type_id, 'TicketType')
         end
       end
 
-      def self.create_promotion ticket_type_id
+      def self.create_event_promotions event_id
+        [*1..3].sample.times do
+          create_promotion(event_id, 'Event')
+        end
+      end
+
+      def self.create_promotion promotable_id, promotable_type
         promo_type = PTE::PromoType::TYPES.sample.to_s
 
         data = {
@@ -181,17 +188,13 @@ module PTE
           start_date: Date.today,
           end_date: (Date.today + [*50..150].sample.days),
           limit: [*50..500].sample,
-          promotable_id: ticket_type_id,
-          promotable_type: 'TicketType'
+          promotable_id: promotable_id,
+          promotable_type: promotable_type
         }
 
         data[:activation_code] = ::Faker::Number.number(5).to_s if random_boolean
 
-        if promo_type == PTE::PromoType.code
-          data[:promotion_type] = PTE::PromoType.code
-          data[:promotion_type_config] = [*5..50].sample
-
-        elsif promo_type == PTE::PromoType.percent_discount
+        if promo_type == PTE::PromoType.percent_discount
           data[:promotion_type] = PTE::PromoType.percent_discount
           data[:promotion_type_config] = [*5..50].sample
 

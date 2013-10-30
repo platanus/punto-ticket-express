@@ -18,9 +18,33 @@ class Promotion < ActiveRecord::Base
 
   delegate :user, to: :promotable, prefix: false, allow_nil: true
 
+  PTE::PromoType::TYPES.each do |type_name|
+    self.class.class_eval do
+      define_method("#{type_name}_amount") do
+        type_name.to_s
+      end
+    end
+  end
+
+  def self.get_percent_discount
+    #TODO
+  end
+
+  def self.get_amount_discount
+    #TODO
+  end
+
+  def self.get_nx1_amount
+    #TODO
+  end
+
   def event
     return promotable unless self.promotable_type == 'TicketType'
     self.promotable.event
+  end
+
+  def self.get_most_convenient_promotion promotions, price
+    #TODO
   end
 
   def update

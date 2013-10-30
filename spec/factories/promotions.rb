@@ -11,11 +11,6 @@ FactoryGirl.define do
     promotion_type_config [*10..50].sample
     activation_code ::Faker::Number.number(5).to_s
 
-    factory :code_promotion do
-      promotion_type PTE::PromoType.code
-      promotion_type_config ::Faker::Number.number(3).to_i
-    end
-
     factory :percent_promotion do
       #just use defaults
     end
@@ -32,11 +27,6 @@ FactoryGirl.define do
 
     factory :event_promotion do
       association :promotable, factory: :event
-
-      factory :code_event_promotion do
-        promotion_type PTE::PromoType.code
-        promotion_type_config ::Faker::Number.number(3).to_i
-      end
 
       factory :percent_event_promotion do
         #just use defaults

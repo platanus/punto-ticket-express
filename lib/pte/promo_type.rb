@@ -1,6 +1,6 @@
 module PTE
   class PromoType
-    TYPES = [:percent_discount, :amount_discount, :nx1, :code]
+    TYPES = [:percent_discount, :amount_discount, :nx1]
 
     PTE::PromoType::TYPES.each do |type_name|
       self.class.class_eval do
