@@ -51,24 +51,31 @@ describe Promotion do
       expect(promotion.get_percent_discount_amount(1000)).to eq(100.0)
     end
 
-    it "returns 0 when not promotion_type_config given" do
-      promotion = create(:percent_promotion, promotion_type_config: nil)
+    it "returns 0 when promotion_type_config is invalid" do
+      promotion = create(:percent_promotion, promotion_type_config: "invalid value")
       expect(promotion.get_percent_discount_amount(1000)).to eq(0.0)
     end
   end
 
   describe "#get_amount_discount_amount" do
 
-    it "" do
-      pending
+    it "returns discount equals 200" do
+      promotion = create(:amount_promotion, promotion_type_config: 200)
+      expect(promotion.get_amount_discount_amount).to eq(200.0)
     end
 
   end
 
   describe "#get_nx1_amount" do
 
-    it "" do
-      pending
+    it "returns 0 when no price given" do
+      promotion = create(:nx1_promotion)
+      expect(promotion.get_nx1_amount(nil)).to eq(0.0)
+    end
+
+    it "returns discount equals 2000" do
+      promotion = create(:nx1_promotion, promotion_type_config: 3)
+      expect(promotion.get_nx1_amount(1000)).to eq(2000.0)
     end
 
   end
