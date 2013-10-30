@@ -39,4 +39,37 @@ describe Promotion do
       expect(prom.event).to be_kind_of(Event)
     end
   end
+
+  describe "#get_percent_discount_amount" do
+    it "returns 0 when no price given" do
+      promotion = create(:percent_promotion)
+      expect(promotion.get_percent_discount_amount(nil)).to eq(0.0)
+    end
+
+    it "returns discount equals 100" do
+      promotion = create(:percent_promotion, promotion_type_config: 10)
+      expect(promotion.get_percent_discount_amount(1000)).to eq(100.0)
+    end
+
+    it "returns 0 when not promotion_type_config given" do
+      promotion = create(:percent_promotion, promotion_type_config: nil)
+      expect(promotion.get_percent_discount_amount(1000)).to eq(0.0)
+    end
+  end
+
+  describe "#get_amount_discount_amount" do
+
+    it "" do
+      pending
+    end
+
+  end
+
+  describe "#get_nx1_amount" do
+
+    it "" do
+      pending
+    end
+
+  end
 end

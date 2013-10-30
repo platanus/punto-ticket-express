@@ -54,6 +54,10 @@ class Promotion < ActiveRecord::Base
     (self.promotion_type_config.to_i * price - price) rescue 0.0
   end
 
+  # If promotion is related with event this method will return that event
+  # If promotion is related with ticket type will return  ticket type's event
+  #
+  # @return [Event]
   def event
     return nil unless self.promotable
     return promotable unless self.promotable.kind_of? TicketType
