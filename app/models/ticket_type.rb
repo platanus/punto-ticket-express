@@ -62,15 +62,13 @@ class TicketType < ActiveRecord::Base
     self.promotions + self.event_promotions
   end
 
-  # Returns the ticket type's price minus more convenient promotion amount
-  # If ticket type is not related with any promotion the value returned will
-  # be equals to ticket type's price.
-  # - Promotions will be evaluated if activation_code is nil
-  # - Promotions will be evaluated if promotion_type = amount_discount or percent_discount only
-  # - Event promotions for this ticket type will be evaluated too.
+  # Returns the ticket type's more convenient promotion
+  # Promotions will be evaluated if activation_code is nil
+  # Promotions will be evaluated if promotion_type = amount_discount or percent_discount only
+  # Event promotions for this ticket type will be evaluated too.
   #
   # @return [Float]
-  def promotion_price
+  def most_convenient_promotion
     promos = []
 
     self.all_promotions.reject do |promo|
@@ -78,7 +76,16 @@ class TicketType < ActiveRecord::Base
       promos << promo
     end
 
-    convenient_promo = Promotion.most_convenient_promotion(promos, self.price)
+    Promotion.most_convenient_promotion(promos, self.price)
+  end
+
+  # Returns the ticket type's price minus more convenient promotion amount
+  # If ticket type is not related with any promotion the value returned will
+  # be equals to ticket type's price.
+  #
+  # @return [Float]
+  def promotion_price
+    convenient_promo = self.most_convenient_promotion
     discount = convenient_promo.discount rescue 0.0
     self.price - discount
   end

@@ -3,13 +3,14 @@
 FactoryGirl.define do
   factory :promotion do
     name Faker::Name.name
-    start_date Date.today
-    end_date Date.today + 5.days
+    start_date Date.today - 2.days
+    end_date Date.today + 2.days
     limit 500
     association :promotable, factory: :ticket_type
     promotion_type PTE::PromoType.percent_discount
     promotion_type_config [*10..50].sample
     activation_code ::Faker::Number.number(5).to_s
+    enabled true
 
     factory :percent_promotion do
       #just use defaults

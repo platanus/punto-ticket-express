@@ -106,7 +106,7 @@ class Promotion < ActiveRecord::Base
     return false unless self.enabled
 
     if self.start_date and self.end_date and
-      !(self.start_date..self.end_date === Date.today)
+      (Date.today < self.start_date or Date.today > self.end_date)
       return false
     end
 
