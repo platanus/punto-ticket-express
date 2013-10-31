@@ -99,6 +99,25 @@ es-CL:
     new:
       title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""
+      help:
+        start_date: |
+          Fecha a partir de la cual el descuento<br/>
+          podrá ser accedido por los clientes.
+        end_date: |
+          Fecha límite en la cual el descuento<br/>
+          podrá ser accedido por los clientes.
+        limit: |
+          Cantidad de tickets máxima que se<br/>
+          puede vender con este descuento.
+        activation_code: |
+          Código que los usuarios deberán ingresar<br/>
+          para acceder a este descuento.
+        scope: |
+          Define si el descuento estará disponible para todos los<br/>
+          tickets del evento o sólo para alguno.
+        promotion_type_config: |
+          Puede ser una cantidad, porcentaje o monto de dinero<br/>
+          dependiendo del tipo de descuento elegido.
     show:
       title: "Promoción"
       promo_title: "%{promo_name}"
