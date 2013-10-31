@@ -163,8 +163,6 @@ es-CL:
         producer_id: Productora
         producer: Productora
         user: Usuario
-        percent_fee_total: Comisión en porcentaje
-        fixed_fee_total: Comisión en fija
         sub_total: Sub total
         total: Total
         tickets_count: Cantidad vendida

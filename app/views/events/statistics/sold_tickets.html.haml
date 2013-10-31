@@ -5,14 +5,18 @@
   .span3
     = render 'sidebar'
   .span9
-    %table{class: "table table-striped"}
-      %tr
-        %th= Event.human_attribute_name :ticket_type
-        %th= Event.human_attribute_name :tickets_count
-        %th= Event.human_attribute_name :sub_total
-        %th= Event.human_attribute_name :fixed_fee_total
-        %th= Event.human_attribute_name :percent_fee_total
-        %th= Event.human_attribute_name :total
+    .well
+      %legend= t(".subtitle", event_name: @event.name)
+      %table{class: "table table-condensed table-bordered table-options"}
+        %thead
+          %tr
+            %th= Event.human_attribute_name :ticket_type
+            %th= Event.human_attribute_name :tickets_count
+            %th= Event.human_attribute_name :sub_total
+            %th= Event.human_attribute_name :fixed_fee
+            %th= Event.human_attribute_name :percent_fee
+            %th= Event.human_attribute_name :total
+        %tbody
         - @event.ticket_types.each do |type|
           - type_data = @event.amounts_by_type(type)
           %tr

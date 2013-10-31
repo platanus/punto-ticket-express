@@ -89,6 +89,7 @@ es-CL:
         title: "Tickets comprados el día %{time}"
       nested_resource:
         title: "Asistente"
+        subtitle: "Información recolectada"
       transactions:
         title: Información Adicional
       form:
@@ -191,6 +192,7 @@ es-CL:
     statistics:
       sold_tickets:
         title: Ventas por Ticket
+        subtitle: "Para el evento \"%{event_name}\""
     sidebar:
       headers:
         info:
@@ -209,6 +211,7 @@ es-CL:
       title: Mis Eventos
     participants:
       title: Asistentes
+      subtitle: "Del evento \"%{event_name}\""
       no_data_message: No se ha recolectado información sobre los asistentes en este evento...
     data_to_collect:
       title: Formulario
