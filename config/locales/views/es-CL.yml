@@ -113,8 +113,8 @@ es-CL:
           Código que los usuarios deberán ingresar<br/>
           para acceder a este descuento.
         scope: |
-          Define si el descuento estará disponible para todos los<br/>
-          tickets del evento o sólo para alguno.
+          Si deja en blanco, el descuento se aplicará<br/>
+          a todos los tickets del evento.
         promotion_type_config: |
           Puede ser una cantidad, porcentaje o monto de dinero<br/>
           dependiendo del tipo de descuento elegido.

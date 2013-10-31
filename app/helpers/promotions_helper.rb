@@ -5,8 +5,7 @@ module PromotionsHelper
   end
 
   def promo_scopes_for_select event
-    scopes = event.ticket_types.map { |tt| [tt.name, tt.id] }
-    scopes << [I18n.t('pte.scope.all'), :all]
+    event.ticket_types.map { |tt| [tt.name, tt.id] }
   end
 
   def short_promo_type promo
@@ -45,18 +44,18 @@ module PromotionsHelper
   end
 
   def promo_limit_label promo
-    return I18n.t("promotions.show.labels.no_limit") unless promo.limit
+    return I18n.t("promotions.show.labels.no_limit") unless promo.limit.to_s.empty?
 
     I18n.t("promotions.show.labels.limit",
       used: promo.sold_tickets.count.to_s, total: promo.limit.to_s)
   end
 
   def promo_code_label promo
-    unless promo.activation_code
-      return I18n.t("promotions.show.labels.activation_code")
+    unless promo.activation_code.to_s.empty?
+      return promo.activation_code
     end
 
-    promo.activation_code
+    I18n.t("promotions.show.labels.activation_code")
   end
 
   def promo_enabled_for promo
