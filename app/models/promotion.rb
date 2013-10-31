@@ -4,7 +4,8 @@ class Promotion < ActiveRecord::Base
 
   attr_accessor :discount
 
-  validates_presence_of :name, :promotion_type, :promotion_type_config, :promotable_id, :promotable_type
+  validates_presence_of :name, :promotion_type, :promotion_type_config,
+    :promotable_id, :promotable_type, :start_date, :end_date
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets

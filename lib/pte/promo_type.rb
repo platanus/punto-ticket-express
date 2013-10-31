@@ -18,5 +18,9 @@ module PTE
       return false if type_name.nil? or type_name.empty?
       PTE::PromoType::TYPES.include? type_name.to_sym
     end
+
+    def self.types_to_a
+      TYPES.map {|type| [human_name(type.to_s), type]}
+    end
   end
 end

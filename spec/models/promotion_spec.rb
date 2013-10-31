@@ -14,6 +14,8 @@ describe Promotion do
   describe "Validations" do
     it do
       should validate_presence_of(:name)
+      should validate_presence_of(:start_date)
+      should validate_presence_of(:end_date)
       should validate_presence_of(:promotion_type)
       should validate_presence_of(:promotable_id)
       should validate_presence_of(:promotable_type)

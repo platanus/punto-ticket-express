@@ -10,11 +10,14 @@
         .span8
           %legend= t(".promo_title", event_name: @event.name)
           = form_for(@promotion, :html => {:class => 'form-horizontal'}) do |f|
-            - control_group(f, :name, f.text_field(:name))
-            - control_group(f, :activation_code, f.text_field(:activation_code))
-            - control_group(f, :limit, f.number_field(:limit, :min => 0))
-            - control_group(f, :start_date, f.text_field(:start_date))
-            - control_group(f, :end_date, f.text_field(:end_date))
+            - control_group(f, :name, f.text_field(:name, :class => 'span5'))
+            - control_group(f, :start_date, f.text_field(:start_date, :class => 'span2'))
+            - control_group(f, :end_date, f.text_field(:end_date, :class => 'span2'))
+            - control_group(f, :limit, f.number_field(:limit, :min => 0, :class => 'span2'))
+            - control_group(f, :activation_code, f.text_field(:activation_code, :class => 'span4'))
+            - control_group(f, :promotable_id, f.select(:promotable_id, promo_scopes_for_select(@event), include_blank: true))
+            - control_group(f, :promotion_type, f.select(:promotion_type, promo_types_for_select, include_blank: true))
+            - control_group(f, :promotion_type_config, f.number_field(:promotion_type_config, :min => 0, :class => 'span2'))
             .form-actions
               = f.submit t('buttons.save'), :class => 'btn btn-success btn-primary btn-large'
               = link_to t('buttons.back'), promotions_path(id: @event.id), :class => 'btn btn-success btn-primary btn-large'

@@ -1,8 +1,17 @@
 module PromotionsHelper
 
+  def promo_types_for_select
+    PTE::PromoType.types_to_a
+  end
+
+  def promo_scopes_for_select event
+    scopes = event.ticket_types.map { |tt| [tt.name, tt.id] }
+    scopes << [I18n.t('pte.scope.all'), :all]
+  end
+
   def short_promo_type promo
     haml_tag :div, class: "promo-type #{promo.promotion_type.dasherize}" do
-      haml_concat(I18n.t("pte.promo_type.#{promo.promotion_type}",
+      haml_concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
         value: number_with_delimiter(promo.promotion_type_config)))
     end
   end
@@ -73,7 +82,7 @@ module PromotionsHelper
 
   def render_promo_box promo
     haml_tag :div, class: "promo-type type-box #{promo.promotion_type.dasherize}" do
-      haml_concat(I18n.t("pte.promo_type.#{promo.promotion_type}",
+      haml_concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
         value: number_with_delimiter(promo.promotion_type_config)))
     end
   end

@@ -195,7 +195,7 @@ module PTE
 
         if promo_type == PTE::PromoType.percent_discount
           data[:promotion_type] = PTE::PromoType.percent_discount
-          data[:promotion_type_config] = [*5..50].sample
+          data[:promotion_type_config] = [*5..25].sample
 
         elsif promo_type == PTE::PromoType.amount_discount
           data[:promotion_type] = PTE::PromoType.amount_discount

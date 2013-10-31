@@ -5,10 +5,16 @@ es-CL:
   "true": "Sí"
   "false": "No"
   pte:
+    scope:
+      all: Todos los tickets del evento
     promo_type:
-      percent_discount: "%{value}%"
-      amount_discount: "$%{value}"
-      nx1: "%{value}x1"
+      percent_discount: "% de descuento"
+      amount_discount: "$ de descuento"
+      nx1: "N(cantidad de tickets) X 1"
+      with_value:
+        percent_discount: "%{value}%"
+        amount_discount: "$%{value}"
+        nx1: "%{value}x1"
     payment_status:
       processing: Procesando
       completed: Completa
@@ -102,6 +108,7 @@ es-CL:
         available: Vigente?
         scope: Alcance
         enabled_since: Habilitado
+        promotable_id: Alcance
       nested_resource:
         address: Dirección
         age: Edad

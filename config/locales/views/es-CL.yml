@@ -97,7 +97,7 @@ es-CL:
         subtotal: Sub Total
   promotions:
     new:
-      title: "Nueva Promoción"
+      title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""
     show:
       title: "Promoción"
