@@ -7,11 +7,13 @@ class PromotionsController < ApplicationController
   end
 
   def new
+    @event = Event.find_by_id params[:id]
     @promotion = Promotion.new
   end
 
   def create
     authorize! :create, Promotion
+    redirect_to me_events_url
   end
 
   def show
