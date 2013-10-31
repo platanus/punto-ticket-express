@@ -4,12 +4,24 @@ class Promotion < ActiveRecord::Base
 
   attr_accessor :discount
 
-  validates_presence_of :name, :promotion_type, :promotion_type_config,
-    :promotable_id, :promotable_type, :start_date, :end_date
-
   belongs_to :promotable, polymorphic: true
   has_many :tickets
   has_many :transactions, through: :tickets, uniq: true
+
+  validates_presence_of :name, :promotion_type, :promotable_id,
+    :promotable_type, :start_date, :end_date, :promotion_type_config
+
+  validates :promotion_type_config, presence: true,
+    numericality: { greater_than_or_equal_to: 2, only_integer: true },
+    if: Proc.new { |promo| promo.is_nx1? }
+
+  validates :promotion_type_config, presence: true,
+    numericality: { greater_than: 0 },
+    if: Proc.new { |promo| promo.is_amount_discount? }
+
+  validates :promotion_type_config, presence: true,
+    numericality: { greater_than: 0, less_than_or_equal_to: 100 },
+    if: Proc.new { |promo| promo.is_percent_discount? }
 
   scope :amount, where(promotion_type: :amount_discount)
   scope :percent, where(promotion_type: :percent_discount)

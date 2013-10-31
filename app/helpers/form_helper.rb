@@ -4,12 +4,12 @@ module FormHelper
     	haml_concat(render_label(form, attr, options))
       haml_tag :div, class: 'controls' do
       	haml_concat(control)
+      	haml_concat(error_label(form, attr))
         if options.has_key? :help
           haml_tag :span, class: 'help-block' do
             haml_concat(options[:help])
           end
         end
-      	haml_concat(error_label(form, attr))
     	end
     end
   end
