@@ -9,7 +9,7 @@ class Promotion < ActiveRecord::Base
   has_many :transactions, through: :tickets, uniq: true
 
   validates_presence_of :name, :promotion_type, :promotable_id,
-    :promotable_type, :end_date, :start_date
+    :promotable_type, :end_date, :start_date, :promotion_type_config
 
   validates :promotion_type_config, presence: true,
     numericality: { greater_than_or_equal_to: 2, only_integer: true },

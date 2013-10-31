@@ -52,11 +52,6 @@ describe Promotion do
       expect(promotion.load_discount(1000)).to eq(100.0)
     end
 
-    it "returns 0 when promotion_type_config is invalid and type is percent" do
-      promotion = create(:percent_promotion, promotion_type_config: "invalid value")
-      expect(promotion.load_discount(1000)).to eq(0.0)
-    end
-
     it "returns discount equals 200 and type is amount" do
       promotion = create(:amount_promotion, promotion_type_config: 200)
       expect(promotion.load_discount).to eq(200.0)
