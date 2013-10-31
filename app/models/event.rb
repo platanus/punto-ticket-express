@@ -138,7 +138,7 @@ class Event < ActiveRecord::Base
     result = []
     result += self.promotions
     self.ticket_types.each { |tt| result += tt.promotions }
-    result
+    result.sort_by { |promo| promo[:created_at] }.reverse!
   end
 
   def sold_amount

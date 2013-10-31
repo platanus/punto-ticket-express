@@ -179,6 +179,15 @@ es-CL:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        promotion:
+          attributes:
+            start_date:
+              not_a_date: debe ser una fecha válida
+              after: debe ser mayor que hoy
+              before: debe ser antes que fecha de fin
+            end_date:
+              not_a_date: debe ser una fecha válida
+              after: debe ser mayor que hoy
         ticket_type:
           has_related_tickets: Se han vendido tickets para este tipo.
           attributes:

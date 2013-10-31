@@ -85,6 +85,8 @@ GEM
     columnize (0.3.6)
     commonjs (0.2.6)
     daemons (1.1.9)
+    date_validator (0.7.0)
+      activemodel (>= 3)
     debugger (1.6.1)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -341,6 +343,7 @@ DEPENDENCIES
   chronic
   coffee-rails
   colorize
+  date_validator
   debugger
   devise
   devise-i18n
