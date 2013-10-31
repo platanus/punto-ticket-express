@@ -5,25 +5,29 @@
   .span3
     = render 'events/sidebar'
   .span9
-    %table{class: "table table-striped"}
-      %tr
-        %th= Promotion.human_attribute_name :created_at
-        %th= Promotion.human_attribute_name :name
-        %th.center= Promotion.human_attribute_name :promotion_type
-        %th.center= Promotion.human_attribute_name :available
-        %th.center
-      - @promotions.each do |promo|
-        %tr
-          %td{class: line_through(promo.enabled) }
-            = l(promo.created_at, format: :short)
-          %td{class: line_through(promo.enabled) }
-            = link_to promo.name, promotion_path(promo)
-          %td{class: line_through(promo.enabled) }
-            - short_promo_type(promo)
-          %td.center
-            - human_boolean(promo.is_promo_available?)
-          %td
-            - enable_promo_link(promo)
-    .form-actions
-      = link_to t("buttons.new_promotion"), new_promotion_path(id: @event.id), :class => 'btn'
+    .well
+      %legend= t(".promo_title", event_name: @event.name)
+      %table{class: "table table-condensed table-bordered table-options"}
+        %thead
+          %tr
+            %th= Promotion.human_attribute_name :created_at
+            %th= Promotion.human_attribute_name :name
+            %th.center= Promotion.human_attribute_name :promotion_type
+            %th.center= Promotion.human_attribute_name :available
+            %th.center
+          %tbody
+          - @promotions.each do |promo|
+            %tr
+              %td{class: line_through(promo.enabled) }
+                = l(promo.created_at, format: :short)
+              %td{class: line_through(promo.enabled) }
+                = link_to promo.name, promotion_path(promo)
+              %td{class: line_through(promo.enabled) }
+                - short_promo_type(promo)
+              %td.center
+                - human_boolean(promo.is_promo_available?)
+              %td
+                - enable_promo_link(promo)
+      .form-actions
+        = link_to t("buttons.new_promotion"), new_promotion_path(id: @event.id), :class => 'btn btn-success btn-primary btn-large'
 

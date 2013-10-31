@@ -97,7 +97,8 @@ es-CL:
         subtotal: Sub Total
   promotions:
     show:
-      title: "Promoción: %{promo_name}"
+      title: "Promoción"
+      promo_title: "%{promo_name}"
       labels:
         no_date: no tiene restricción de fecha
         start_date: "desde %{date}"
@@ -113,6 +114,7 @@ es-CL:
         limit_exceeded: "Se excedió el límite de tickets con este descuento."
     index:
       title: Promociones
+      promo_title: "Para el evento \"%{event_name}\""
   tickets:
     show:
       title: Ticket
