@@ -44,7 +44,7 @@ module PromotionsHelper
   end
 
   def promo_limit_label promo
-    return I18n.t("promotions.show.labels.no_limit") unless promo.limit.to_s.empty?
+    return I18n.t("promotions.show.labels.no_limit") if promo.limit.to_s.empty?
 
     I18n.t("promotions.show.labels.limit",
       used: promo.sold_tickets.count.to_s, total: promo.limit.to_s)
