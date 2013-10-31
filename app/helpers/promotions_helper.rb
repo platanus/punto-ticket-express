@@ -70,4 +70,11 @@ module PromotionsHelper
       end
     end
   end
+
+  def render_promo_box promo
+    haml_tag :div, class: "promo-type type-box #{promo.promotion_type.dasherize}" do
+      haml_concat(I18n.t("pte.promo_type.#{promo.promotion_type}",
+        value: number_with_delimiter(promo.promotion_type_config)))
+    end
+  end
 end

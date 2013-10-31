@@ -4,7 +4,7 @@
 .row
   .span3
     = render 'events/sidebar'
-  .span9
+  .span5
     %p
       %b= Promotion.human_attribute_name :enabled_since
       = promo_date_range_label(@promotion)
@@ -24,5 +24,7 @@
       %b= Promotion.human_attribute_name :available
       = t(@promotion.is_promo_available?.to_s)
       - promo_no_available_reasons(@promotion)
+  .span4
+    - render_promo_box(@promotion)
 
 
