@@ -6,16 +6,16 @@
     = render 'configuration/sidebar'
   .span9
     = form_for(@producer, :html => {:class => 'well form-horizontal', 'ng-init' => "rut = '#{@producer.rut}'"}) do |f|
-      - control_group f, :name, f.text_field(:name)
+      - control_group f, :name, f.text_field(:name, :class => 'span5')
       - control_group f, :corporate_name, f.text_field(:corporate_name)
       - control_group f, :rut, f.text_field(:rut, {'rut' => '', 'render-on-blur' => '', 'ng-model' => 'rut'})
-      - control_group f, :address, f.text_field(:address)
+      - control_group f, :address, f.text_field(:address, :class => 'span5')
       - control_group f, :phone, f.text_field(:phone)
-      - control_group f, :contact_name, f.text_field(:contact_name)
-      - control_group f, :contact_email, f.text_field(:contact_email)
-      - control_group f, :brief, f.text_area(:brief, rows: 3)
-      - control_group f, :description, f.text_area(:description, rows: 6)
-      - control_group f, :website, f.text_field(:website)
+      - control_group f, :contact_name, f.text_field(:contact_name, :class => 'span5')
+      - control_group f, :contact_email, f.text_field(:contact_email, :class => 'span4')
+      - control_group f, :brief, f.text_area(:brief, rows: 3, :class => 'span5')
+      - control_group f, :description, f.text_area(:description, rows: 6, :class => 'span5')
+      - control_group f, :website, f.text_field(:website, :class => 'span5')
       .form-actions
         = f.submit t('buttons.save'), :class => 'btn'
         = link_to t('buttons.back'), configuration_producers_path, :class => 'btn'
