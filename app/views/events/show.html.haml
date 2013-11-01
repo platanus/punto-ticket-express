@@ -56,8 +56,3 @@
         .control-group.text-center
           %a.btn.btn-large.btn-success{:href => "{{ticketTypesAfterFilter|serailizedUrl:actionUrl:'ticket_types'}}", "ng-click" => "sendTicket($event)"}
             %h3= t("buttons.buy_now")
-    .panel
-      .panel-heading.panel-title
-        %i.icon-info-sign
-        = t(".titles.information")
-      = @event.description

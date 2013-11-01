@@ -61,8 +61,16 @@ es-CL:
       title: "Editando productora"
   puntopagos:
     transactions:
+      nested_resource_form:
+        title: Complete el formulario
+      payment_methods:
+        title: Métodos de pago
+      transaction_summary:
+        title: Detalle
+      activation_code_panel:
+        title: Tengo un código de descuento!!!
       new:
-        title: Punto Pagos
+        title: Resumen de Compra
         tickets_table:
           type: Tipo
           price: Precio

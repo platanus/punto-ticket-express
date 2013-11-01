@@ -1,0 +1,6 @@
+.payment-item
+  .check
+    = form.radio_button :payment_method, payment_method.last, :class => "pull-left", "ng-model" => "paymentMethod", :style => 'display:none;'
+    %div{:value => payment_method.last, 'ng-model'=> "paymentMethod", "pretty-checkable" => true}
+  .logo
+    = image_tag("http://www.puntopagos.com/content/mp#{payment_method.last}.gif", :alt => payment_method.first)
