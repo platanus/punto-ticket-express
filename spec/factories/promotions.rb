@@ -23,7 +23,7 @@ FactoryGirl.define do
 
     factory :nx1_promotion do
       promotion_type PTE::PromoType.nx1
-      promotion_type_config ::Faker::Number.digit.to_i
+      promotion_type_config [*2..5].sample
     end
 
     factory :event_promotion do
@@ -40,7 +40,7 @@ FactoryGirl.define do
 
       factory :nx1_event_promotion do
         promotion_type PTE::PromoType.nx1
-        promotion_type_config ::Faker::Number.digit.to_i
+        promotion_type_config [*2..5].sample
       end
     end
   end
