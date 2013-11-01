@@ -67,6 +67,16 @@ class TicketType < ActiveRecord::Base
     self.promotions + self.event_promotions
   end
 
+  def available_promotions
+    promos = []
+    self.all_promotions.reject do |promo|
+      next unless promo.is_promo_available?
+      promo.load_discount(self.price)
+      promos << promo
+    end
+    promos.sort_by { |promo| promo.discount }.reverse!
+  end
+
   # Returns the ticket type's more convenient promotion
   # Promotions will be evaluated if activation_code is nil
   # Promotions will be evaluated if promotion_type = amount_discount or percent_discount only
