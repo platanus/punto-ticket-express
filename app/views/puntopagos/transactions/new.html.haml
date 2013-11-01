@@ -4,7 +4,7 @@
   = render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"}
   = render 'transaction_summary'
   = form_for([:puntopagos, @transaction],
-    :html => {:class => 'form-shop'},
+    :html => {:class => 'form-horizontal'},
     :url => {:action => 'create',
     :ticket_types => @ticket_types}) do |f|
     - if @nested_attributes.empty?
@@ -20,7 +20,7 @@
       .row
         .span7
           = render :partial => 'activation_code_panel', :locals => { :form => f }
-          = render :partial => 'nested_resource_form'
+          = render :partial => 'nested_resource_form', :locals => { :form => f }
         .span5
           = render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f }
           = payment_button f
