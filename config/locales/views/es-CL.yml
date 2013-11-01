@@ -22,6 +22,7 @@ es-CL:
     enable: Habilitar
     disable: Deshabilitar
     new_promotion: Nueva Promoción
+    use: Usar!
   home:
     index:
       title: Últimos Eventos
@@ -68,7 +69,7 @@ es-CL:
       transaction_summary:
         title: Detalle
       activation_code_panel:
-        title: Tengo un código de descuento!!!
+        title: Tengo un código de descuento
       new:
         title: Resumen de Compra
         tickets_table:

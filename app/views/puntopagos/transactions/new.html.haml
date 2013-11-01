@@ -13,14 +13,14 @@
           = render :partial => 'payment_methods', :locals => { :payment_methods => payment_methods, :form => f }
       .row
         .span7
-          = render :partial => 'activation_code_panel'
+          = render :partial => 'activation_code_panel', :locals => { :form => f }
         .span5
           = payment_button f
     - else
       .row
         .span7
-          = render :partial => 'activation_code_panel'
+          = render :partial => 'activation_code_panel', :locals => { :form => f }
           = render :partial => 'nested_resource_form'
         .span5
-          = render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f  }
+          = render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f }
           = payment_button f
