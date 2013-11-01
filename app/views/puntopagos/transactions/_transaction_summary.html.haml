@@ -2,17 +2,10 @@
   .panel-heading.panel-title
     %i.icon-ticket
     = t(".title")
-  %table.table.table-striped.table-colored.table-shop
-    %thead
-      %tr
-        %th= t(".tickets_table.type")
-        %th= t(".tickets_table.price")
-        %th= t(".tickets_table.qty")
-        %th= t(".tickets_table.amount")
-
+  .transaction-summary
     - @ticket_types.each do |t|
-      %tr
-        %td= t['name']
-        %td.dark-orange-text= number_to_currency(t['price'])
-        %td.dark-orange-text= t['qty']
-        %td.dark-orange-text= number_to_currency calculate_price t
+      .ticket-type-row
+        .name.span7
+          = t.bought_quantity.to_s + " x " + t.name
+        .total.span4
+          = number_to_currency(t.bought_quantity_price)

@@ -15,10 +15,18 @@ module Puntopagos::TransactionsHelper
       "ng-click" => "startTransaction($event)")
   end
 
+  def ticket_types_to_params ticket_types
+    result = {}
+    ticket_types.each_with_index do |tt, idx|
+      result[idx.to_s] = {:id => tt.id, :qty => tt.bought_quantity}
+    end
+    result.to_json
+  end
+
   def payment_methods
     types = []
 
-    if Rails.env != 'production'
+    if Rails.env == 'production'
       types << ['Santander Rio', 1]
       types << ['Tarjeta Presto', 2]
       types << ['Transbank', 3]

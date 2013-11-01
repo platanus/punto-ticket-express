@@ -1,5 +1,6 @@
 class TicketType < ActiveRecord::Base
   attr_accessible :event_id, :name, :price, :quantity, :event_id
+  attr_accessor :bought_quantity
 
   validate :is_price_valid?
   validates :event_id, presence: true
@@ -26,6 +27,10 @@ class TicketType < ActiveRecord::Base
 
   def self.ticket_types_for_same_event? ticket_types
     ticket_types.map { |tt| tt.event_id }.uniq.one?
+  end
+
+  def bought_quantity_price
+    (self.bought_quantity.to_d * self.price.to_d) rescue 0.0
   end
 
   def sold_amount

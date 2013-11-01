@@ -55,7 +55,7 @@ class Transaction < ActiveRecord::Base
 
       ActiveRecord::Base.transaction do
         validate_user_existance(user_id)
-        load_ticket_types!(ticket_types)
+        validate_ticket_types(ticket_types)
         transaction.load_nested_resource(nested_resource_data)
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
@@ -207,14 +207,14 @@ class Transaction < ActiveRecord::Base
     ticket_types.each do |ticket_type|
       available_tickets = true
 
-      0..ticket_type[:qty].to_i.times do
-        ticket = Ticket.new(ticket_type_id: ticket_type[:id], transaction_id: self.id)
-        available_tickets = false unless ticket.save
+      0..ticket_type.bought_quantity.times do
+        ticket = Ticket.new(ticket_type_id: ticket_type.id, transaction_id: self.id)
+        available_tickets = ticket.save
       end
 
       unless available_tickets
         errors.add(:base, I18n.t("activerecord.errors.models.transaction.not_available_tickets",
-          ticket_type_name: ticket_type[:object].name))
+          ticket_type_name: ticket_type.name))
       end
     end
   end
@@ -224,34 +224,31 @@ class Transaction < ActiveRecord::Base
     raise_error("Invalid user given") if user.nil?
   end
 
-  # Loads a TicketType object for each row on ticket_types attribute.
-  # The initial structure of ticket_types will be:
-  #  [{id: 1, qty: 3},{id: 2, qty: 4}]
-  # The structure of ticket_types will be as the following after execute this method successfully.
-  #  [{id: 1, qty: 3, object: TicketType},{id: 2, qty: 4, object: TicketType}]
+  # Validates that each ticket type has defined bought quantity.
   #
-  # @param ticket_types [Array] with the structure:
-  def self.load_ticket_types! ticket_types
+  # @param ticket_types [Array]
+  def self.validate_ticket_types ticket_types
     if ticket_types.nil? or !ticket_types.kind_of? Array
       raise_error("Invalid ticket types array")
     end
 
     ticket_types.each do |ticket_type|
-      unless ticket_type.kind_of? Hash and
-        ticket_type.has_key? :id and ticket_type.has_key? :qty
-        raise_error("Invalid ticket type format")
+      unless ticket_type.kind_of? TicketType
+        raise_error("This is not a ticket type object")
       end
 
       type = TicketType.find_by_id ticket_type[:id]
 
-      if type
-        ticket_type[:object] = type
-      else
+      unless type
         raise_error("Inexistent ticket type")
+      end
+
+      unless ticket_type.bought_quantity
+        raise_error("bought quantity not defined for ticket type")
       end
     end
 
-    unless TicketType.ticket_types_for_same_event?(ticket_types.map{ |tt| tt[:object] })
+    unless TicketType.ticket_types_for_same_event?(ticket_types)
       raise_error("Ticket types form multiple events found")
     end
   end

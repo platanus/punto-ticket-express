@@ -80,8 +80,15 @@ class Puntopagos::TransactionsController < ApplicationController
     end
 
     def load_ticket_types
-      @ticket_types = params[:ticket_types].values rescue nil
-      @ticket_types = params[:ticket_types] if @ticket_types.nil?
+      types = ActiveSupport::JSON.decode(params[:ticket_types]) rescue nil
+      types = params[:ticket_types] unless types
+
+      @ticket_types = []
+      types.values.each do |item|
+        tt = TicketType.find_by_id(item['id'])
+        tt.bought_quantity = item['qty'].to_i
+        @ticket_types << tt
+      end
     end
 
     def load_nested_attributes

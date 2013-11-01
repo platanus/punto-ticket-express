@@ -6,7 +6,7 @@
   = form_for([:puntopagos, @transaction],
     :html => {:class => 'form-horizontal'},
     :url => {:action => 'create',
-    :ticket_types => @ticket_types}) do |f|
+    :ticket_types => ticket_types_to_params(@ticket_types)}) do |f|
     - if @nested_attributes.empty?
       .row
         .span12

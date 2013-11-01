@@ -72,11 +72,6 @@ es-CL:
         title: Tengo un código de descuento
       new:
         title: Resumen de Compra
-        tickets_table:
-          type: Tipo
-          price: Precio
-          qty: Cantidad
-          amount: Total
         not_payment_method_msg:
           title: Mensaje
           message: Debe escoger un método de pago
