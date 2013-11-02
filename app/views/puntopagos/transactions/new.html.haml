@@ -1,8 +1,8 @@
 .page-header
   %h1= t(".title")
-%div{'ng-controller' => "TransactionNewCtrl"}
+%div{'ng-controller' => "TransactionNewCtrl", "ng-init" => "init(#{raw @transaction.ticket_types_with_promotions(@ticket_types).to_json})"}
   = render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"}
-  = render 'transaction_summary'
+  = render :partial => 'transaction_summary'
   = form_for([:puntopagos, @transaction],
     :html => {:class => 'form-horizontal'},
     :url => {:action => 'create',

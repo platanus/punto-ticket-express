@@ -64,32 +64,35 @@
 
 .transaction-summary {
 
-  .ticket-type-row {
-    height: 30px;
-    font-size: 18px;
+  .summary-item {
 
-    .name {
-      display: inline-block;
+    .summary-row {
+      font-size: 18px;
+
+      .name {
+        display: inline-block;
+      }
+
+      .value {
+        display: inline-block;
+        text-align: right;
+
+        &.overline {
+          text-decoration: overline;
+          padding-bottom: 20px;
+        }
+      }
+
+      &.promo {
+        padding-top: 0;
+        color: #666666;
+        font-size: 15px;
+      }
+
+      &.total {
+
+      }
+
     }
-
-    .total {
-      display: inline-block;
-      text-align: right;
-    }
-
-  }
-
-  .promo-row {
-    height: 30px;
-
-    .name {
-      display: inline-block;
-    }
-
-    .total {
-      display: inline-block;
-      text-align: right;
-    }
-
   }
 }

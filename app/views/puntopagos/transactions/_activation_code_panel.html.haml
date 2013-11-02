@@ -3,5 +3,5 @@
     %i.icon-ticket
     = t(".title")
   .input-append
-    = text_field_tag(:activation_code, nil, :class => 'span5 code-input', :placeholder => 'Ingrese su código aquí...')
-    = submit_tag(t('buttons.use'), :class => 'btn span2 btn-success code-btn')
+    = text_field_tag(:activation_code, nil, :class => 'span5 code-input', :placeholder => 'Ingrese su código aquí...', 'ng-model' => 'data.code')
+    = submit_tag(t('buttons.use'), :class => 'btn span2 btn-success code-btn', 'ng-click' => 'usePromoCode($event)')
