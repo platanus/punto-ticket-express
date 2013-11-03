@@ -22,9 +22,7 @@ describe Promotion do
       should validate_presence_of(:promotion_type_config)
     end
 
-    it "can't be updated" do
-      expect { Promotion.update(promotion.id, name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
-      expect { promotion.update_attributes(name: "Leandro") }.to raise_error(PTE::Exceptions::PromotionError)
+    it "can't be destroyed" do
       expect { promotion.destroy }.to raise_error(PTE::Exceptions::PromotionError)
     end
   end

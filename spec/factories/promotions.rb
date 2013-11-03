@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :promotion do
     name Faker::Name.name
-    start_date Date.today
+    start_date DateTime.now
     end_date Date.today + 4.days
     limit 500
     association :promotable, factory: :ticket_type
