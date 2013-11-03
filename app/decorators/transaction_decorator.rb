@@ -7,7 +7,7 @@ module TransactionDecorator
       type = { name: ticket_type.name,
         price: ticket_type.price,
         quantity: ticket_type.quantity,
-        bought_quantity: ticket_type.quantity,
+        bought_quantity: ticket_type.bought_quantity,
         promotions: [] }
 
       ticket_type.all_promotions.each do |promo|
