@@ -1,38 +1,40 @@
 .panel.panel-primary
   .panel-heading.panel-title
-    %i.icon-ticket
+    %i.icon-shopping-cart
     = t(".title")
   .transaction-summary.row-fluid
     .details.span8
       .summary-item{ "ng-repeat" => "type in data.ticketTypes" }
         .summary-row
           .name.span7
+            %i.icon-ticket
             = "{{ type.name }}"
           .value.span4
-            = "{{ type.price | currency }}"
-        .summary-row.promo{ "ng-repeat" => "promo in type.promotions", "ng-show" => "promo.visible" }
+            = "{{ type.price | pteCurrency }}"
+        .summary-row.promo{ "ng-repeat" => "promo in type.promotions", "ng-show" => "promo.visible"}
           .name.span6.offset1{ "ng-class" => "{'line-through': !promo.available}" }
+            %i.icon-angle-right
             = "{{ promo.name }}"
           .value.span4{ "ng-class" => "{'line-through': !promo.available}" }
-            = "{{ promo.discount | currency }}"
+            = "{{ (promo.discount * -1) | pteCurrency }}"
         .summary-row
           .value.span11.overline
-            = "{{ type.promo_price | currency }}"
+            = "{{ type.promo_price | pteCurrency }}"
     .totals.span4
       .summary-item
         .summary-row.total
-          .name.span7
+          .name.span5
             = "Total General"
-          .value.span4
-            = "{{ data.total | currency }}"
-        .summary-row
-          .name.span7
-            = "Total Descuentos"
-          .value.span4
-            = "{{ data.total_discount | currency }}"
-        .summary-row
-          .name.span7
+          .value.span6
+            = "{{ data.total | pteCurrency }}"
+        .summary-row.total
+          .name.span5
+            = "Bonificado"
+          .value.span6
+            = "{{ data.total_discount | pteCurrency }}"
+        .summary-row.total.pay
+          .name.span5
             = "Total a Pagar"
-          .value.span4.overline
-            = "{{ data.total_to_pay | currency }}"
+          .value.span6.overline
+            = "{{ data.total_to_pay | pteCurrency }}"
 
