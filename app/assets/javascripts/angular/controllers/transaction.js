@@ -25,6 +25,7 @@ angular.module('puntoTicketApp.controllers')
           _promo.visible = (_promo.code == null || _promo.code == '' || _promo.code == $scope.data.code);
         });
 
+        console.log(_type.promotions);
         for(var i = _type.promotions.length - 1; i >= 0; i--) {
           if(_type.promotions[i].visible) {
             $scope.data.total_discount += _type.promotions[i].discount;
@@ -35,7 +36,7 @@ angular.module('puntoTicketApp.controllers')
         }
       });
 
-      $scope.data.total_to_pay = ($scope.data.total - $scope.data.total_discount) * -1;
+      $scope.data.total_to_pay = $scope.data.total - $scope.data.total_discount;
     };
 
     $scope.startTransaction = function($event) {
