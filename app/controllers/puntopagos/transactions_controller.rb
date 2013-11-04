@@ -69,8 +69,8 @@ class Puntopagos::TransactionsController < ApplicationController
     def create_puntopagos_transaction transaction
       request = PuntoPagos::Request.new
 
-      if params.has_key? :payment_method
-        resp = request.create(transaction.id.to_s, transaction.total_amount_to_s, params[:payment_method])
+      if params[:transaction][:payment_method]
+        resp = request.create(transaction.id.to_s, transaction.total_amount_to_s, params[:transaction][:payment_method])
       else
         resp = request.create(transaction.id.to_s, transaction.total_amount_to_s)
       end
