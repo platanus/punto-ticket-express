@@ -110,11 +110,6 @@ h1, h2, h3, h4, h5 {
 
 /* # BUTTONS
 ================================================== */
-.btn-total {
-	padding: 12px 35px;
-	width: 300px !important;
-	height: 60px;
-}
 
 .btn-succes-transaction {
 	padding: 20px 70px;
@@ -392,10 +387,14 @@ form .no-space {
   margin-left: 0 !important;
 }
 
+form .input-large {
+	width: 206px;
+}
 /* ===== Form events ===== */
 #page_event form {
 	.form-actions input {  float: left; margin-right: 8px;}
 	input[name="start_date"], input[name^="end_date"] { width: 73px; }
+	input[type="checkbox"] {margin-top: 0;}
 	select.input-mini {width: 86px;}
 	.logo-upload input {width: 160px; }
 }
@@ -452,13 +451,6 @@ form .input-error label {
 	background-color: @lightGray;
 	padding: 3px;
 	border: 1px solid @gray;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-}
-
-.payment-img {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -833,19 +825,6 @@ form .input-error label {
 	}
 }
 
-.payment-img-container {
-	overflow: hidden;
-	float: left;
-	width: 52px;
-	position: relative;
-	height: 33px;
-	display: inline-block;
-	border: 1px solid #C2C1C1;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-}
-
 /* # FOOTER
 ================================================== */
 footer {
@@ -854,4 +833,14 @@ footer {
 	background-color: #252528;
 	color: #fff;
 	padding-top: 35px;
+}
+
+/* # MISC
+================================================== */
+.center {
+  text-align: center !important;
+}
+
+.line-through {
+  text-decoration: line-through !important;
 }

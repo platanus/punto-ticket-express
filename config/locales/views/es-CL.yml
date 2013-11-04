@@ -19,7 +19,10 @@ es-CL:
     ok: OK
     preview: vista previa
     statistics: estadisticas
-
+    enable: Habilitar
+    disable: Deshabilitar
+    new_promotion: Nueva Promoción
+    use: Usar!
   home:
     index:
       title: Últimos Eventos
@@ -59,13 +62,16 @@ es-CL:
       title: "Editando productora"
   puntopagos:
     transactions:
+      nested_resource_form:
+        title: Complete el formulario
+      payment_methods:
+        title: Métodos de pago
+      transaction_summary:
+        title: Detalle
+      activation_code_panel:
+        title: Tengo un código de descuento
       new:
-        title: Punto Pagos
-        tickets_table:
-          type: Tipo
-          price: Precio
-          qty: Cantidad
-          amount: Total
+        title: Resumen de Compra
         not_payment_method_msg:
           title: Mensaje
           message: Debe escoger un método de pago
@@ -87,17 +93,78 @@ es-CL:
         title: "Tickets comprados el día %{time}"
       nested_resource:
         title: "Asistente"
+        subtitle: "Información recolectada"
       transactions:
         title: Información Adicional
       form:
         title: Complete el formulario
         total: Total
         subtotal: Sub Total
+  promotions:
+    new:
+      title: "Creando promoción"
+      promo_title: "Para el evento \"%{event_name}\""
+      help:
+        start_date: |
+          Fecha a partir de la cual el descuento<br/>
+          podrá ser accedido por los clientes.
+        end_date: |
+          Fecha límite en la cual el descuento<br/>
+          podrá ser accedido por los clientes.
+        limit: |
+          Cantidad de tickets máxima que se<br/>
+          puede vender con este descuento.
+        activation_code: |
+          Código que los usuarios deberán ingresar<br/>
+          para acceder a este descuento.
+        scope: |
+          Si deja en blanco, el descuento se aplicará<br/>
+          a todos los tickets del evento.
+        promotion_type_config: |
+          Puede ser una cantidad, porcentaje o monto de dinero<br/>
+          dependiendo del tipo de descuento elegido.
+    show:
+      title: "Promoción"
+      promo_title: "%{promo_name}"
+      labels:
+        no_date: no tiene restricción de fecha
+        start_date: "desde %{date}"
+        end_date: "hasta %{date}"
+        dates_range: "desde %{start} hasta %{end}"
+        activation_code: "no se requiere"
+        limit: "%{used}/%{total}"
+        no_limit: "sin límite de tickets"
+        event_scope: "afecta a todos los tickets del evento"
+        ticket_type_scope: "afecta a ticket \"%{ticket_type_name}\""
+        no_available_reasons: "Motivos:"
+        out_of_range: "Esta fuera de las fechas de habilitación."
+        limit_exceeded: "Se excedió el límite de tickets con este descuento."
+    index:
+      title: Promociones
+      promo_title: "Para el evento \"%{event_name}\""
   tickets:
     show:
       title: Ticket
       total_price_label: "%{ticket_type} $%{price}"
+    pdf:
+      event: Evento
+      order_number: Nº de orden
+      name: Nombre
+      place: Lugar
+      date: Fecha
+      sector: Sector
+      price: Precio
+      rut: Rut
+      conditions:
+        title: Este es un ticket electronico
+        sub_title: Válido para una persona y sólo para el evento y fecha indicada.
+        desc: |
+          La realización del evento está sujeta a la cancelación de éste previo aviso del organizador.<br/>
+          El portador de este boleto acepta ser revisado previo ingreso al recinto de la presentación si ello es requerido, para evitar su acceso con bebidas alcohólicas, drogas, armas, grabadoras, cámaras de cualquier tipo o cualquier otro artículo no autorizado, y está consciente que ello puede ser una condición para su ingreso al recinto. Se podrá impedir el ingreso del portador de este boleto al recinto de la presentación o, en su caso, podrá ser desalojado de dicho recinto, si portara cualquiera de los objetos antes indicados o su conducta es ofensiva o induzca al desorden. en cualquier de estos casos, dicho tenedor no será reembolsado de cantidad alguna. El tenedor de este boleto se obliga a cumplir con las normas y exigencias del recinto de presentación.<br/>
+          Punto Ticket S.A. y el administrador del recinto no se hacen responsables por los boletos no adquiridos a través del sistema de venta de entradas de Punto Ticket S.A.<br/>
   events:
+    edit_top_navbar:
+      title: Editando Evento
     show:
       not_tickets_msg:
         title: Mensaje
@@ -129,12 +196,14 @@ es-CL:
     statistics:
       sold_tickets:
         title: Ventas por Ticket
+        subtitle: "Para el evento \"%{event_name}\""
     sidebar:
       headers:
         info:
           title: Información del Evento
           details: Detalles y Tickets
           form: Formulario
+          promotions: Promociones
         style:
           title: Estilo
           preview: Vista Previa
@@ -146,6 +215,7 @@ es-CL:
       title: Mis Eventos
     participants:
       title: Asistentes
+      subtitle: "Del evento \"%{event_name}\""
       no_data_message: No se ha recolectado información sobre los asistentes en este evento...
     data_to_collect:
       title: Formulario

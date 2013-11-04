@@ -4,12 +4,17 @@
 es-CL:
   "true": "Sí"
   "false": "No"
-  fee: "Comisión"
   pte:
+    scope:
+      all: Todos los tickets del evento
     promo_type:
-      percent_discount: "% de Descuento"
-      amount_discount: "$ de Descuento"
-      nx1: "n x 1"
+      percent_discount: "% de descuento"
+      amount_discount: "$ de descuento"
+      nx1: "N(cantidad de tickets) X 1"
+      with_value:
+        percent_discount: "%{value}%"
+        amount_discount: "$%{value}"
+        nx1: "%{value}x1"
     payment_status:
       processing: Procesando
       completed: Completa
@@ -47,6 +52,9 @@ es-CL:
       producer:
         one: Productora
         other: Productoras
+      promotion:
+        one: Promoción
+        one: Promociones
       ticket:
         one: Ticket
         other: Tickets
@@ -86,6 +94,21 @@ es-CL:
         created_at: Creado
         updated_at: Modificado
         role: Rol
+      promotion:
+        name: Nombre
+        created_at: Creado
+        updated_at: Modificado
+        promotion_type: Descuento
+        start_date: Desde
+        end_date: Hasta
+        limit: Límite de Tickets
+        activation_code: Código de Activación
+        promotion_type_config: Valor
+        enabled: Habilitado
+        available: Vigente?
+        scope: Alcance
+        enabled_since: Habilitado
+        promotable_id: Alcance
       nested_resource:
         address: Dirección
         age: Edad
@@ -123,12 +146,12 @@ es-CL:
         percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
+        fee: "Comisión"
       ticket:
         user_id: Participante
         ticket_type_id: Ticket
         ticket_type: Tipo de Ticket
       event:
-        name: Nombre
         address: Dirección
         description: Descripción
         custom_url: Dirección Web Personalizada
@@ -140,6 +163,7 @@ es-CL:
         producer_id: Productora
         producer: Productora
         user: Usuario
+        sub_total: Sub total
         total: Total
         tickets_count: Cantidad vendida
         ticket_type: Ticket
@@ -153,6 +177,20 @@ es-CL:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
       models:
+        promotion:
+          attributes:
+            start_date:
+              not_a_date: debe ser una fecha válida
+              after: debe ser mayor que hoy
+              before: debe ser antes que fecha de fin
+            end_date:
+              not_a_date: debe ser una fecha válida
+              after: debe ser mayor que hoy
+        ticket_type:
+          has_related_tickets: Se han vendido tickets para este tipo.
+          attributes:
+            price:
+              price_too_low: es demasiado bajo.
         nested_resource:
           birth_date_greater_than_today: "debe ser menor que la fecha actual"
           invalid_date: "debe ser una fecha válida"

@@ -4,14 +4,24 @@ module Puntopagos::TransactionsHelper
 		ticket_type['price'].to_i * ticket_type['qty'].to_i
 	end
 
-	def calculate_total ticket_types
-		ticket_types.inject(0) {|sum, hash| sum + (hash['price'].to_i * hash['qty'].to_i) }
-	end
-
 	def payment_label payment_status
   	content_tag(:span, t("pte.payment_status.#{payment_status}"),
     	class: "#{payment_status}-payment-status")
 	end
+
+  def payment_button form
+    form.button(I18n.t("buttons.pay_puntopagos"),
+      :class => "btn btn-large btn-success btn-total",
+      "ng-click" => "startTransaction($event)")
+  end
+
+  def ticket_types_to_params ticket_types
+    result = {}
+    ticket_types.each_with_index do |tt, idx|
+      result[idx.to_s] = {:id => tt.id, :qty => tt.bought_quantity}
+    end
+    result.to_json
+  end
 
   def payment_methods
     types = []

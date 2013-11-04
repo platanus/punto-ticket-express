@@ -13,11 +13,24 @@ module ApplicationHelper
   end
 
   def link_to_id(text, id, css_class)
-    link_to_function text, "$('##{id}').trigger('click')", :class => css_class, :name => "publish"
+    link_to_function text, "$('##{id}').trigger('click')",
+      :class => css_class, :name => "publish"
   end
 
   def gender_label gender
     return I18n.t("gender.man") if gender
     I18n.t("gender.woman")
+  end
+
+  def human_boolean value
+    icon = value ? '&#x2714;'.html_safe : '&#x2717;'.html_safe
+    haml_tag(:div) do
+      haml_concat(icon)
+    end
+  end
+
+  def line_through value
+    return if value
+    "line-through"
   end
 end

@@ -1,0 +1,8 @@
+.panel
+  .panel-heading.panel-title
+    %i.icon-money
+    = t(".title")
+  .payment-methods-list
+    .payment-items-wrapper
+      - payment_methods.each do |payment_method|
+        = render :partial => 'payment_item', :locals => { :payment_method => payment_method, :form => form }

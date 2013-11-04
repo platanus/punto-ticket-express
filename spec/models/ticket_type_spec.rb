@@ -74,6 +74,35 @@ describe TicketType do
 
   end
 
+  describe "#percent_fee_over_price" do
+
+    it "returns 200 percent_fee_over_price" do
+      expect(@ticket_type.percent_fee_over_price).to eq(200.0)
+    end
+
+  end
+
+  describe "#price_minus_fee" do
+
+    it "returns 750 as price_minus_fee" do
+      expect(@ticket_type.price_minus_fee).to eq(750.0)
+    end
+
+  end
+
+  describe "#all_promotions" do
+
+    it "returns type and event promotions" do
+      create(:amount_promotion)
+      create(:amount_promotion, promotable: @ticket_type)
+      create(:amount_promotion, promotable: @ticket_type.event)
+      create(:percent_promotion, promotable: @ticket_type.event)
+      create(:nx1_promotion, promotable: @ticket_type)
+      expect(@ticket_type.all_promotions.count).to be(4)
+    end
+
+  end
+
   describe "#ticket_types_for_same_event?" do
 
     it "returns false when ticket types are from different events" do
@@ -91,19 +120,53 @@ describe TicketType do
 
   describe "#promotion_price" do
 
-    it "applies percent discount when percent promo is bigger than amount promo" do
+    it "applies ticket type percent discount" do
       create(:percent_promotion, promotable: @ticket_type, promotion_type_config: 20, activation_code: nil)
       create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 100, activation_code: nil)
+      create(:amount_promotion, promotable: @ticket_type.event, promotion_type_config: 150, activation_code: nil)
       expect(@ticket_type.promotion_price).to eq(800)
     end
 
-    it "applies amount discount when amount promo is bigger than discount promo" do
+    it "applies ticket type amount discount" do
       create(:percent_promotion, promotable: @ticket_type, promotion_type_config: 10, activation_code: nil)
       create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 200, activation_code: nil)
+      create(:amount_promotion, promotable: @ticket_type.event, promotion_type_config: 150, activation_code: nil)
       expect(@ticket_type.promotion_price).to eq(800)
+    end
+
+    it "applies event promotion over type promotions" do
+      create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 200, activation_code: nil)
+      create(:nx1_promotion, promotable: @ticket_type, promotion_type_config: 3, activation_code: nil)
+      create(:amount_promotion, promotable: @ticket_type.event, promotion_type_config: 300, activation_code: nil)
+      expect(@ticket_type.promotion_price).to eq(700)
     end
 
     it "applies 0 discount when no promotions given" do
+      expect(@ticket_type.promotion_price).to eq(1000)
+    end
+
+    it "ignores nx1 discount" do
+      create(:nx1_promotion, promotable: @ticket_type.event, promotion_type_config: 500, activation_code: nil)
+      expect(@ticket_type.promotion_price).to eq(1000)
+    end
+
+    it "ignores promotion with defined activation code" do
+      create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 200, activation_code: "LEANSCODE")
+      expect(@ticket_type.promotion_price).to eq(1000)
+    end
+
+    it "ignores promotions out defined date range" do
+      create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 200,
+        activation_code: nil, start_date: (Date.today + 2.days), end_date: (Date.today + 4.days))
+      expect(@ticket_type.promotion_price).to eq(1000)
+    end
+
+    it "ignores promotions with exceeded limit" do
+      promo = create(:amount_promotion, promotable: @ticket_type, promotion_type_config: 200,
+        activation_code: nil, limit: 2)
+      transaction = create(:completed_transaction)
+      create(:ticket, promotion_id: promo.id, ticket_type: @ticket_type, transaction: transaction)
+      create(:ticket, promotion_id: promo.id, ticket_type: @ticket_type, transaction: transaction)
       expect(@ticket_type.promotion_price).to eq(1000)
     end
 

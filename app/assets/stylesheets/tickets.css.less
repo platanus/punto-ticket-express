@@ -1,6 +1,6 @@
 #printable-ticket {
-  width: 210mm;
-  height: 277mm;
+  width: 190mm;
+  height: 257mm;
   overflow: hidden;
   page-break-after: always;
 
@@ -17,15 +17,20 @@
 .ticket {
 
   .ticket-wrapper {
-    border: 1px solid #DDD;
     margin: 0 0 0 20px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #F4F4F4;
+    padding-bottom: 10px;
 
-    .title h2 {
-      margin-left: 15px;
+    .printer-img {
+      margin-top: 35px;
+      width: 100%;
+    }
+
+    .order-number {
+      margin: 70px 0;
     }
 
     .hrule {
@@ -34,18 +39,37 @@
     }
 
     .printable-label-wrapper {
-      padding: 15px 0 15px 15px;
+      padding: 0 0 0 5px;
+      font-weight: bold;
+      font-size: 14px;
 
-      .printable-label {
-        color: #51A451;
-        font-size: 14px;
+      .printable-label, .printable-value {
+        display: inline-block;
+        min-height: 0px;
         padding-bottom: 10px;
       }
-
       .printable-value {
-        padding-left: 5px;
-        font-size: 16px;
+        margin-left: -5px;
       }
+    }
+
+    .conditions-wrapper {
+      .conditions-title {
+        font-size: 18px;
+        font-family:  Impact;
+        font-weight: lighter;
+      }
+      .conditions-sub-title {
+
+      }
+      .conditions-desc {
+        margin: 0 0 10px 0;
+        font-size: 11px;
+      }
+    }
+
+    .producer-wrapper {
+      margin: 100px 0 100px;
     }
   }
 }

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require underscore/underscore
+//= require momentjs/moment
 //= require unstable-angular-complete/angular
 //= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-strap/dist/angular-strap
@@ -24,6 +25,7 @@
 //= require angular-platanus-misc/src/misc
 //= require angular-platanus-misc/src/modules/render_on_blur
 //= require app.js
+//= require md5.js
 //= require_tree ./angular
 //= require home
 // require_tree .

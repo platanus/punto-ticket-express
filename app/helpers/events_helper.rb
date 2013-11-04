@@ -1,6 +1,6 @@
 module EventsHelper
   def form_url(event)
-    event.new_record? ? new_event_path : edit_event_path
+    event.new_record? ? new_event_path : edit_event_path(id: event.id)
   end
 
   def disabled_class

@@ -17,6 +17,7 @@
  *= require home
  *= require events
  *= require tickets
+ *= require promotions
  *= require qrcode
  *= require puntopagos/transactions
  *= require override_vendor

@@ -9,3 +9,102 @@
 .inactive-payment-status {
   color: #DA0601;
 }
+
+.payment-methods-list {
+  text-align:center;
+
+  .payment-items-wrapper {
+    display: inline-block;
+    margin: 0 auto;
+
+    .payment-item {
+      width: 88px;
+      display: inline-block;
+      padding: 8px 6px 8px 2px;
+
+      .check {
+        float: left;
+      }
+
+      .logo {
+        float: left;
+        overflow: hidden;
+        width: 52px;
+        position: relative;
+        height: 33px;
+        display: inline-block;
+        border: 1px solid #C2C1C1;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+      }
+    }
+  }
+}
+
+.btn-total {
+  padding: 12px 35px;
+  width: 300px !important;
+  height: 114px;
+  font-size: 28px;
+}
+
+.activation-code-panel {
+
+  .code-btn {
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .code-input {
+    height: 30px;
+    font-size: 18px;
+  }
+}
+
+.transaction-summary {
+
+  .summary-item {
+
+    .summary-row {
+      font-size: 18px;
+
+      .name {
+        display: inline-block;
+      }
+
+      .value {
+        display: inline-block;
+        text-align: right;
+
+        &.overline {
+          text-decoration: overline;
+          padding-bottom: 20px;
+        }
+      }
+
+      &.promo {
+        padding-top: 0;
+        color: #666666;
+        font-size: 15px;
+      }
+
+      &.total {
+        padding-bottom: 42px;
+
+        .name {
+          font-size: 15px;
+          text-align: right;
+          font-weight: normal;
+          color: #666666;
+        }
+
+        &.pay {
+          font-size: 22px;
+        }
+
+      }
+
+    }
+  }
+}

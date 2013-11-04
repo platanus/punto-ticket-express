@@ -1,23 +1,38 @@
 - @tickets.each do |ticket|
-  = wicked_pdf_image_tag 'punto-ticket-logo.png'
+  .row
+    .span5
+      = wicked_pdf_image_tag 'punto-ticket-logo-download.png'
+    .span4
+      .pull-right= image_tag ticket.event.logo.url(:medium), :class => 'medium-img' if ticket.event.logo.file?
   .row#printable-ticket.ticket
     .span9.ticket-wrapper#printable-ticket_wrapper
       .row
-        .span9.hrule.title
-          %h2= ticket.event_name
-      .row
-        .span5
-          - printable_ticket_label(Event.human_attribute_name(:start_time), l(ticket.event_start_time, format: :long))
-        .span4
-          - printable_ticket_label(Event.human_attribute_name(:address), ticket.event_address)
-      .row
-        .span9.hrule
-          - printable_ticket_label(Event.human_attribute_name(:end_time), l(ticket.event_end_time, format: :long))
-      .row
-        .span9.hrule
-          - printable_ticket_label(Ticket.human_attribute_name(:user_id), ticket.transaction_user_email)
-      .row
+        .span1
         .span6
-          - ticket_type_label ticket
-        .span3#qrcode
+          .order-number.printable-label-wrapper.row-fluid
+            .printable-label.span3= t('.order_number').capitalize + ": "
+            .printable-value.span9=ticket.id.to_s
+          - printable_ticket_label(t('.event'), ticket.event_name)
+          - printable_ticket_label(t('.place'), ticket.event_address)
+          - printable_ticket_label(t('.date'), l(ticket.event_start_time, format: :long))
+          - printable_ticket_label(t('.sector'), ticket.ticket_type_name)
+        .span2#qrcode
           - render_qr_code(ticket.id.to_s)
+          .pull-left.printable-label-wrapper
+            = t('.rut').capitalize + ": 77.929.090-5"
+          .pull-left.printable-label-wrapper
+            = t('.price').capitalize + ": " + number_to_currency(ticket.price)
+          .pull-left.printer-img
+            .pull-right= wicked_pdf_image_tag 'printer.png'
+      .row
+        .span9.conditions-wrapper
+          %h3.conditions-title= t('.conditions.title')
+          %h4.conditions-sub-title= t('.conditions.sub_title')
+          %p.conditions-desc= t('.conditions.desc').html_safe
+
+      .row
+        .span9.producer-wrapper.text-center
+          %div Produce
+          %h2= ticket.event_producer.name
+        .span9.footer-wrapper
+          .pull-right= wicked_pdf_image_tag 'punto-ticket-logo-download.png'

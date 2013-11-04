@@ -40,6 +40,22 @@ class Ability
       end
 
 
+      #PROMOTIONS
+      can :read_event_promotions, Event do |event|
+        event.user_id == user.id
+      end
+      can :read, Promotion do |promotion|
+        promotion.user.id == user.id
+      end
+      can :enable, Promotion do |promotion|
+        promotion.user.id == user.id
+      end
+      can :disable, Promotion do |promotion|
+        promotion.user.id == user.id
+      end
+      can :create, Promotion
+
+
       #TICKETS
       #user can see his own tickets or sold tickets for his events
       can :read, Ticket do |ticket|

@@ -1,0 +1,40 @@
+.page-header
+  %h1= t(".title")
+
+.row
+  .span3
+    = render 'events/sidebar'
+  .span9
+    .well
+      .row
+        .span8
+          %legend= t(".promo_title", promo_name: @promotion.name)
+      .row
+        .span4
+          %p
+            %b= Promotion.human_attribute_name :enabled_since
+            = promo_date_range_label(@promotion)
+          %p
+            %b= Promotion.human_attribute_name :limit
+            = promo_limit_label(@promotion)
+          %p
+            %b= Promotion.human_attribute_name :activation_code
+            = promo_code_label(@promotion)
+          %p
+            %b= Promotion.human_attribute_name :scope
+            = promo_enabled_for(@promotion)
+          %p
+            %b= Promotion.human_attribute_name :enabled
+            = t(@promotion.enabled.to_s)
+          %p
+            %b= Promotion.human_attribute_name :available
+            = t(@promotion.is_promo_available?.to_s)
+            - promo_no_available_reasons(@promotion)
+        .span4
+          - render_promo_box(@promotion)
+      .row
+        .span8
+          .form-actions
+            = link_to t("buttons.back"), promotions_path(id: @event.id), :class => 'btn btn-success btn-primary btn-large'
+
+
