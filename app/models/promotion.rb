@@ -23,8 +23,9 @@ class Promotion < ActiveRecord::Base
     numericality: { greater_than: 0, less_than_or_equal_to: 100 },
     if: Proc.new { |promo| promo.is_percent_discount? }
 
-  validates :start_date, date: { after: Proc.new { Date.yesterday }, before: :end_date }
-  validates :end_date, date: { after: Proc.new { Date.yesterday } }
+  validates :start_date, date: true
+  validates :end_date, date: true
+  validate :dates_range_valid?
 
   scope :amount, where(promotion_type: :amount_discount)
   scope :percent, where(promotion_type: :percent_discount)
@@ -163,6 +164,16 @@ class Promotion < ActiveRecord::Base
     qty = 0.0 unless qty
     return self.discount if self.is_nx1?
     self.discount * qty
+  end
+
+  def dates_range_valid?
+    if start_date < Date.today.to_time_in_current_zone.to_date
+      errors.add(:start_date, :start_date_lower_than_today)
+    end
+
+    if end_date < start_date
+      errors.add(:end_date, :end_date_lower_than_start_date)
+    end
   end
 
   def update
