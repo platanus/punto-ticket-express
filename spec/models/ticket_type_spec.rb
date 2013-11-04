@@ -25,7 +25,6 @@ describe TicketType do
 
   describe "Validations" do
     it do
-      should validate_presence_of(:event_id)
       should validate_presence_of(:name)
       should validate_presence_of(:price)
       should validate_presence_of(:quantity)

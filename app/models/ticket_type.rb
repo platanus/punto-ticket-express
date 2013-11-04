@@ -3,7 +3,6 @@ class TicketType < ActiveRecord::Base
   attr_accessor :bought_quantity
 
   validate :is_price_valid?
-  validates :event_id, presence: true
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, presence: true, numericality: { greater_than: 0 }
