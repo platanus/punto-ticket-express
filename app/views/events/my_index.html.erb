@@ -1,0 +1,31 @@
+<div class="page-header">
+	<h1>
+		<%= t(".title") %>
+	</h1>
+</div>
+<table class="table table-striped">
+	<tr>
+		<th><%= Event.human_attribute_name :name %></th>
+		<th><%= Event.human_attribute_name :address %></th>
+		<th><%= Event.human_attribute_name :description %></th>
+		<th><%= Event.human_attribute_name :start_time %></th>
+		<th><%= Event.human_attribute_name :is_published %></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @events.each do |event| %>
+		<tr>
+			<td><%= event.name %></td>
+			<td><%= event.address %></td>
+			<td><%= event.description %></td>
+			<td><%= l event.start_time, format: :short %></td>
+			<td><%= t(event.is_published.to_s) %></td>
+			<td><%= show_or_preview_button(event) %></td>
+			<td><%= statistics_or_edit_button(event) %></td>
+		</tr>
+	<% end %>
+</table>
+<br/>
+<% if can? :create, Event %>
+	<%= link_to t("buttons.new"), new_event_path, :class => 'btn btn-success' %>
+<% end %>

@@ -1,0 +1,68 @@
+<% content_for(:without_container) do %>
+	<div class="home-section">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span4 offset7 intro">
+					<h1>PUNTO TICKET</h1>
+					<h2>Puntoticket te facilita el trabajo con herramientas sencillas pero potentes para gestionar, promocionar y vender tu evento.</h2>
+					<%= link_to new_event_path, :class => "btn btn-success btn-primary btn-large" do %>
+						CREAR EVENTO
+						<i class="icon-circle-arrow-right"></i>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
+<div class="page-header home">
+	<h1>
+		<%= t(".title") %>
+	</h1>
+	<% @events.each do |event| %>
+		<div class="row-fluid line-list">
+			<div class="span1">
+				<div class="img-container">
+					<%= image_tag event.logo.url(:thumb) %>
+					<div class="icon-caret-left"></div>
+				</div>
+			</div>
+			<div class="span11 line-border info-container">
+				<div class="media-body">
+					<blockquote>
+						<h4>
+							<%= link_to event.name, event %>
+							<small>
+								<%= event.address %>
+							</small>
+						</h4>
+						<p>
+							<%= event.description %>
+						</p>
+						<div class="row-fluid">
+							<div class="span6 tablet-column-reset">
+								<span class="time">
+									Desde:
+									<strong>
+										<%= l event.start_time, format: :short %>
+									</strong>
+								</span>
+								<span class="time">
+									Hasta:
+									<strong>
+										<%= l event.end_time, format: :short %>
+									</strong>
+								</span>
+							</div>
+							<div class="span6 text-right tablet-column-reset">
+								<%= link_to event, class: 'btn btn-success btn-primary btn-large' do %>
+									Ir al evento
+									<i class="icon-chevron-right"></i>
+								<% end %>
+							</div>
+						</div>
+					</blockquote>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

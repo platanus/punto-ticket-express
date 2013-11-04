@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1><%= t(".title") %></h1>
+</div>
+<div class="row" id="page_account">
+  <div class="span3">
+    <%= render 'sidebar' %>
+  </div>
+  <div class="span9">
+    <table class="table table-striped">
+      <tr>
+        <th><%= Transaction.human_attribute_name :transaction_time %></th>
+        <th><%= Transaction.human_attribute_name :event %></th>
+        <th><%= Transaction.human_attribute_name :tickets_count %></th>
+        <th><%= Transaction.human_attribute_name :amount %></th>
+        <th></th>
+      </tr>
+      <% @transactions.each do |transaction| %>
+        <tr>
+          <td>
+            <%= l(transaction.transaction_time, format: :short) %>
+          </td>
+          <td>
+            <%= transaction.event_name %>
+          </td>
+          <td>
+            <%= transaction.tickets_quantity %>
+          </td>
+          <td>
+            <%= number_to_currency(transaction.total_amount) %>
+          </td>
+          <td>
+            <%= link_to t('buttons.show'), puntopagos_transaction_path(transaction) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

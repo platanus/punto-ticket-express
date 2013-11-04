@@ -1,0 +1,63 @@
+<div class="panel panel-primary">
+  <div class="panel-heading panel-title">
+    <i class="icon-shopping-cart"></i>
+    <%= t(".title") %>
+  </div>
+  <div class="transaction-summary row-fluid">
+    <div class="details span8">
+      <div class="summary-item" ng-repeat="type in data.ticketTypes">
+        <div class="summary-row">
+          <div class="name span7">
+            <i class="icon-ticket"></i>
+            <%= "{{ type.bought_quantity }} x {{ type.name }}" %>
+          </div>
+          <div class="value span4">
+            <%= "{{ type.price | pteCurrency }}" %>
+          </div>
+        </div>
+        <div class="summary-row promo" ng-repeat="promo in type.promotions" ng-show="promo.visible">
+          <div class="name span6 offset1" ng-class="{'line-through': !promo.available %>">
+            <i class="icon-angle-right"></i>
+            <%= "{{ promo.name }}" %>
+          </div>
+          <div class="value span4" ng-class="{'line-through': !promo.available %>">
+            <%= "{{ (promo.discount * -1) | pteCurrency }}" %>
+          </div>
+        </div>
+        <div class="summary-row">
+          <div class="value span11 overline">
+            <%= "{{ type.promo_price | pteCurrency }}" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="totals span4">
+      <div class="summary-item">
+        <div class="summary-row total">
+          <div class="name span5">
+            <%= "Total General" %>
+          </div>
+          <div class="value span6">
+            <%= "{{ data.total | pteCurrency }}" %>
+          </div>
+        </div>
+        <div class="summary-row total">
+          <div class="name span5">
+            <%= "Bonificado" %>
+          </div>
+          <div class="value span6">
+            <%= "{{ data.total_discount | pteCurrency }}" %>
+          </div>
+        </div>
+        <div class="summary-row total pay">
+          <div class="name span5">
+            <%= "Total a Pagar" %>
+          </div>
+          <div class="value span6 overline">
+            <%= "{{ data.total_to_pay | pteCurrency }}" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

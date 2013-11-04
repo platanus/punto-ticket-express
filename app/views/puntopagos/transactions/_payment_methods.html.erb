@@ -1,0 +1,13 @@
+<div class="panel">
+  <div class="panel-heading panel-title">
+    <i class="icon-money"></i>
+    <%= t(".title") %>
+  </div>
+  <div class="payment-methods-list">
+    <div class="payment-items-wrapper">
+      <% payment_methods.each do |payment_method| %>
+        <%= render :partial => 'payment_item', :locals => { :payment_method => payment_method, :form => form } %>
+      <% end %>
+    </div>
+  </div>
+</div>

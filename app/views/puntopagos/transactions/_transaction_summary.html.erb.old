@@ -1,0 +1,28 @@
+<div class="panel panel-primary">
+  <div class="panel-heading panel-title">
+    <i class="icon-ticket"></i>
+    <%= t(".title") %>
+  </div>
+  <div class="transaction-summary">
+    <% @ticket_types.each do |type| %>
+      <div class="ticket-type-row">
+        <div class="name span7">
+          <%= type.bought_quantity.to_s + " x " + type.name %>
+        </div>
+        <div class="total span4">
+          <%= number_to_currency(type.bought_quantity_price) %>
+        </div>
+      </div>
+      <% type.available_promotions.each do |promo| %>
+        <div class="promo-row">
+          <div class="name span6 offset1">
+            <%= promo.name %>
+          </div>
+          <div class="total span4">
+            <%= number_to_currency(promo.discount * -1) %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

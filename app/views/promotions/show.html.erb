@@ -1,0 +1,70 @@
+<div class="page-header">
+  <h1><%= t(".title") %></h1>
+</div>
+<div class="row">
+  <div class="span3">
+    <%= render 'events/sidebar' %>
+  </div>
+  <div class="span9">
+    <div class="well">
+      <div class="row">
+        <div class="span8">
+          <legend>
+            <%= t(".promo_title", promo_name: @promotion.name) %>
+          </legend>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :enabled_since %>
+            </b>
+            <%= promo_date_range_label(@promotion) %>
+          </p>
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :limit %>
+            </b>
+            <%= promo_limit_label(@promotion) %>
+          </p>
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :activation_code %>
+            </b>
+            <%= promo_code_label(@promotion) %>
+          </p>
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :scope %>
+            </b>
+            <%= promo_enabled_for(@promotion) %>
+          </p>
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :enabled %>
+            </b>
+            <%= t(@promotion.enabled.to_s) %>
+          </p>
+          <p>
+            <b>
+              <%= Promotion.human_attribute_name :available %>
+            </b>
+            <%= t(@promotion.is_promo_available?.to_s) %>
+            <% promo_no_available_reasons(@promotion) %>
+          </p>
+        </div>
+        <div class="span4">
+          <% render_promo_box(@promotion) %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span8">
+          <div class="form-actions">
+            <%= link_to t("buttons.back"), promotions_path(id: @event.id), :class => 'btn btn-success btn-primary btn-large' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

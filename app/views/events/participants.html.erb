@@ -1,0 +1,53 @@
+<div class="page-header">
+	<h1>
+		<%= t(".title") %>
+	</h1>
+</div>
+<div class="row">
+	<div class="span3">
+		<%= render 'sidebar' %>
+	</div>
+	<div class="span9">
+		<div class="well">
+			<legend>
+				<%= t(".subtitle", event_name: @event.name) %>
+			</legend>
+			<% if @event.participants_table_header.size.zero? %>
+				<%= t(".no_data_message") %>
+			<% else %>
+				<table class="table table-condensed table-bordered table-options">
+					<thead>
+						<tr>
+							<% @event.participants_table_header.each do |col| %>
+								<th>
+									<%= NestedResource.human_attribute_name col %>
+								</th>
+							<% end %>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @event.participants(@transactions).each do |data| %>
+							<tr>
+								<% data.each do |attr| %>
+									<% unless attr == data.last %>
+										<td>
+											<%= attr %>
+										</td>
+									<% end %>
+								<% end %>
+								<td>
+									<%= link_to t('buttons.show'), puntopagos_transaction_nested_resource_path(data.last) %>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+				<%= will_paginate @transactions %>
+				<div class="form-actions">
+					<%= link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn btn-success btn-primary btn-large' %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+<div class="page-header">
+	<h1>
+		<%= t(".title") %>
+	</h1>
+</div>
+
+<!-- angular controller-->
+<div class="row" id="page_event" ng-controller="EventNewCtrl" ng-init='init(<%= raw @event.to_json(:include => :ticket_types)  %>, <%= raw current_user.producers.to_json %>)'>
+	<div class="span3">
+		<%= render 'sidebar' %>
+	</div>
+	<div class="span9">
+		<%= render 'form' %>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h1>
+    <%= t(".title") %>
+  </h1>
+</div>
+<div class="row">
+  <div class="span3">
+    <%= render 'sidebar' %>
+  </div>
+  <div class="span9">
+    <div class="well">
+      <legend>
+        <%= t(".subtitle", event_name: @event.name) %>
+      </legend>
+      <table class="table table-condensed table-bordered table-options">
+        <thead>
+          <tr>
+            <th><%= Event.human_attribute_name :ticket_type %></th>
+            <th><%= Event.human_attribute_name :tickets_count %></th>
+            <th><%= Event.human_attribute_name :sub_total %></th>
+            <th><%= Event.human_attribute_name :fixed_fee %></th>
+            <th><%= Event.human_attribute_name :percent_fee %></th>
+            <th><%= Event.human_attribute_name :total %></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <% @event.ticket_types.each do |type| %>
+          <% type_data = @event.amounts_by_type(type) %>
+          <tr>
+            <td><%= type_data[:name] %></td>
+            <td><%= type_data[:tickets_count] %></td>
+            <td><%= number_to_currency(type_data[:sub_total]) %></td>
+            <td><%= number_to_currency(type_data[:fixed_fee_total]) %></td>
+            <td><%= number_to_currency(type_data[:percent_fee_total]) %></td>
+            <td><%= number_to_currency(type_data[:total]) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="5"></td>
+          <td>
+            <%= number_to_currency(@event.sold_amounts[:total]) %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

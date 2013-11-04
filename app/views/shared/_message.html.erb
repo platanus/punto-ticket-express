@@ -1,0 +1,13 @@
+<div close="<%= close_function %>" modal="<%= modal_name %>">
+  <div class="modal-header">
+    <h3><%= title %></h3>
+  </div>
+  <div class="modal-body">
+    <%= message.html_safe %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" ng-click="<%= close_function %>" type="button">
+      <%= t("buttons.ok") %>
+    </button>
+  </div>
+</div>

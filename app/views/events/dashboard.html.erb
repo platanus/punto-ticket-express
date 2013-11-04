@@ -1,0 +1,41 @@
+<div class="page-header">
+	<h1>Dashboard</h1>
+</div>
+<!-- angular controller
+-->
+<div class="row" id="page_event">
+	<div class="span3">
+		<%= render 'shared/sidebar' %>
+	</div>
+	<div class="span9">
+		<div class="page-header">
+			<h3>Tickets vendidos</h3>
+		</div>
+		<div class="row-fluid">
+			<div class="span4 smallstat mobileHalf box" ondesktop="span3" ontablet="span6">
+				<i class="icon-money blue"></i>
+				<span class="title">Account</span>
+				<span class="value">$19 999,99</span>
+			</div>
+			<div class="span4 smallstat box mobileHalf noMargin" ondesktop="span3" ontablet="span6">
+				<i class="icon-download-alt green"></i>
+				<span class="title">Income</span>
+				<span class="value">$1 999,99</span>
+			</div>
+			<div class="span4 smallstat mobileHalf box" ondesktop="span3" ontablet="span6">
+				<i class="icon-money red"></i>
+				<span class="title">Account</span>
+				<span class="value">$19 999,99</span>
+			</div>
+		</div>
+		<div ng-controller="EventDashboardCtrl">
+			<tabset>
+				<!-- <tab heading="Static title">Static content</tab>
+				-->
+				<tab active="tab.active" disabled="tab.disabled" heading="{{tab.title}}" ng-repeat="tab in tabs">
+					{{tab.content}}
+				</tab>
+			</tabset>
+		</div>
+	</div>
+</div>

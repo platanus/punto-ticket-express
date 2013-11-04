@@ -1,0 +1,45 @@
+<% content_for(:publish_navbar) do %>
+  <div class="navbar persistent-header navbar-static-top navbar-shadow" ng-controller="EventTopBarCtrl" ng-init='init(<%= raw PTE::Theme::types_to_a.to_json %>, "<%= @event.theme %>")'>
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="page-header">
+          <div class="row-fluid">
+            <div class="span6">
+              <div class="row-fluid">
+                <div class="span4">
+                  <%= link_to edit_event_path, :class => "btn btn-success btn-primary btn-large pull-left" do %>
+                    <i class="icon-circle-arrow-left icon-large"></i>
+                    Volver
+                  <% end %>
+                </div>
+                <div class="span8">
+                  <h3 class="text-left">Vista Previa</h3>
+                </div>
+              </div>
+            </div>
+            <div class="span6">
+              <div class="dropdown vertical-align-center pull-right">
+                <a class="btn btn-primary btn-success dropdown-toggle" href="#">
+                  Diseño
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <div class="img-container" ng-click="changeStyle(t)" ng-repeat="t in themes">
+                    <div class="{{t.name}} color-container">
+                      <div class="first-color"></div>
+                      <div class="second-color"></div>
+                    </div>
+                  </div>
+                </ul>
+              </div>
+              <%= form_tag event_path(@event, :preview => 'true'), :method => :put do %>
+                <%= hidden_field_tag 'event[theme]', '', :value => '{{theme}}' %>
+                <%= button_tag 'Guardar cambios' , class: 'btn btn-success btn-primary btn-large pull-right' , type: :submit %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

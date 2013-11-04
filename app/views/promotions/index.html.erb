@@ -1,0 +1,49 @@
+<div class="page-header">
+  <h1><%= t(".title") %></h1>
+</div>
+<div class="row">
+  <div class="span3">
+    <%= render 'events/sidebar' %>
+  </div>
+  <div class="span9">
+    <div class="well">
+      <legend>
+        <%= t(".promo_title", event_name: @event.name) %>
+      </legend>
+      <table class="table table-condensed table-bordered table-options">
+        <thead>
+          <tr>
+            <th><%= Promotion.human_attribute_name :created_at %></th>
+            <th><%= Promotion.human_attribute_name :name %></th>
+            <th class="center"><%= Promotion.human_attribute_name :promotion_type %></th>
+            <th class="center"><%= Promotion.human_attribute_name :available %></th>
+            <th class="center"></th>
+          </tr>
+          <tbody></tbody>
+          <% @promotions.each do |promo| %>
+            <tr>
+              <td class="<%= line_through(promo.enabled) %>">
+                <%= l(promo.created_at, format: :short) %>
+              </td>
+              <td class="<%= line_through(promo.enabled) %>">
+                <%= link_to promo.name, promotion_path(promo) %>
+              </td>
+              <td class="<%= line_through(promo.enabled) %>">
+                <% short_promo_type(promo) %>
+              </td>
+              <td class="center">
+                <% human_boolean(promo.is_promo_available?) %>
+              </td>
+              <td>
+                <% enable_promo_link(promo) %>
+              </td>
+            </tr>
+          <% end %>
+        </thead>
+      </table>
+      <div class="form-actions">
+        <%= link_to t("buttons.new_promotion"), new_promotion_path(id: @event.id), :class => 'btn btn-success btn-primary btn-large' %>
+      </div>
+    </div>
+  </div>
+</div>

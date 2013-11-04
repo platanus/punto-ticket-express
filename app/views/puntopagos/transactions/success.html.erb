@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h1 class="text-center"><%= t(".title") %></h1>
+</div>
+<p class="text-center">
+  <%= t(".body", transaction_id: @transaction.id).html_safe %>
+</p>
+<table class="table table-striped">
+  <tr>
+    <th><%= Transaction.human_attribute_name :type_name %></th>
+    <th><%= Transaction.human_attribute_name :tickets_count %></th>
+    <th><%= Transaction.human_attribute_name :price %></th>
+    <th><%= Transaction.human_attribute_name :amount %></th>
+    <% @transaction.tickets_data_by_type.each do |item| %>
+      <tr>
+        <td><%= item[:type_name] %></td>
+        <td><%= item[:count] %></td>
+        <td><%= number_to_currency(item[:price]) %></td>
+        <td><%= number_to_currency(item[:total]) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="3"></td>
+      <td><%= number_to_currency(@transaction.total_amount) %></td>
+    </tr>
+  </tr>
+</table>
+<div class="control-group text-center"></div>
+<%= link_to t("buttons.continue"), root_path, :class => 'btn btn-large btn-success btn-succes-transaction' %>

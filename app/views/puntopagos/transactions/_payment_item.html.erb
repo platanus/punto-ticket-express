@@ -1,0 +1,9 @@
+<div class="payment-item">
+  <div class="check">
+    <%= form.radio_button :payment_method, payment_method.last, :class => "pull-left", "ng-model" => "paymentMethod", :style => 'display:none;' %>
+    <div ng-model="paymentMethod" pretty-checkable="<%= true %>" value="<%= payment_method.last %>"></div>
+  </div>
+  <div class="logo">
+    <%= image_tag("http://www.puntopagos.com/content/mp#{payment_method.last}.gif", :alt => payment_method.first) %>
+  </div>
+</div>

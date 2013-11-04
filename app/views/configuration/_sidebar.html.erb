@@ -1,0 +1,26 @@
+<div class="sidebar">
+  <div class="first-child sidebar-header">
+    <i class="icon-cog icon-large"></i>
+    <%= t("configuration.title") %>
+  </div>
+  <ul class="nav nav-list sidenav affix-top">
+    <li class="<%= active_if_account %>">
+      <a href="<%= configuration_account_path %>">
+        <i class="icon-chevron-right"></i>
+        <%= t("configuration.account.title") %>
+      </a>
+    </li>
+    <li class="<%= active_if_transaction %>">
+      <a href="<%= configuration_transactions_path %>">
+        <i class="icon-chevron-right"></i>
+        <%= t("configuration.transactions.title") %>
+      </a>
+    </li>
+    <li class="<%= active_if_producer %>">
+      <a href="<%= configuration_producers_path %>">
+        <i class="icon-chevron-right"></i>
+        <%= t("configuration.producers.title") %>
+      </a>
+    </li>
+  </ul>
+</div>

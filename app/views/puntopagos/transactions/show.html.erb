@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1><%= @transaction.event_name %></h1>
+  <h4><%= t(".title", time: l(@transaction.transaction_time, format: :long)) %></h4>
+</div>
+<div class="row" id="page_account">
+  <div class="span3">
+    <%= render 'configuration/sidebar' %>
+  </div>
+  <div class="span9">
+    <table class="table table-striped">
+      <tr>
+        <th></th>
+        <th>
+          <%= Ticket.human_attribute_name :ticket_type %>
+        </th>
+        <th colspan="2"></th>
+        <% @transaction.tickets.each_with_index do |ticket, index| %>
+          <tr>
+            <td><%= (index += 1) %></td>
+            <td><%= ticket.ticket_type_name %></td>
+            <td><%= link_to t('buttons.show'), ticket_path(ticket) %></td>
+            <td><%= link_to t('buttons.download'), download_tickets_path(ticket_id: ticket.id, format: :pdf) %></td>
+          </tr>
+        <% end %>
+      </tr>
+    </table>
+    <div class="form-actions">
+      <%= link_to t("buttons.back"), configuration_transactions_path, :class => 'btn' %>
+      <%= link_to t("buttons.download"), download_tickets_path(ticket_ids: @transaction.ticket_ids, format: :pdf), :class => 'btn' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="page-header">
+  <h1>
+    <%= t(".title", producer_name: @producer.name) %>
+  </h1>
+</div>
+<div class="row" id="page_account">
+  <div class="span3">
+    <%= render 'configuration/sidebar' %>
+  </div>
+  <div class="span9">
+    <p>
+      <b><%= Producer.human_attribute_name :corporate_name %></b>
+      <%= @producer.corporate_name %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :rut %></b>
+      <%= @producer.rut %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :address %></b>
+      <%= @producer.address %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :phone %></b>
+      <%= @producer.phone %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :contact_name %></b>
+      <%= @producer.contact_name %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :contact_email %></b>
+      <%= @producer.contact_email %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :brief %></b>
+      <div class="pre">
+        <%= @producer.brief %>
+      </div>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :description %></b>
+      <div class="pre">
+        <%= @producer.description %>
+      </div>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :website %></b>
+      <%= @producer.website %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :confirmed %></b>
+      <%= t(@producer.confirmed.to_s) %>
+    </p>
+    <p>
+      <b><%= Producer.human_attribute_name :fee %></b>
+
+      <% if @producer.fixed_fee && @producer.percent_fee %>
+        <%= "#{number_to_currency(@producer.fixed_fee)} + #{@producer.percent_fee}%" %>
+      <% end %>
+      <% if @producer.fixed_fee && !@producer.percent_fee %>
+        <%= "#{number_to_currency(@producer.fixed_fee)}" %>
+      <% end %>
+      <% if !@producer.fixed_fee && @producer.percent_fee %>
+        <%= "#{@producer.percent_fee}%" %>
+      <% end %>
+    </p>
+    <div class="form-actions">
+      <%= link_to t("buttons.back"), configuration_producers_path, :class => 'btn' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<% @tickets.each do |ticket| %>
+  <div class="row">
+    <div class="span5">
+      <%= wicked_pdf_image_tag 'punto-ticket-logo-download.png' %>
+    </div>
+    <div class="span4">
+      <div class="pull-right">
+        <%= image_tag ticket.event.logo.url(:medium), :class => 'medium-img' if ticket.event.logo.file? %>
+      </div>
+    </div>
+  </div>
+  <div class="row ticket" id="printable-ticket">
+    <div class="span9 ticket-wrapper" id="printable-ticket_wrapper">
+      <div class="row">
+        <div class="span1"></div>
+        <div class="span6">
+          <div class="order-number printable-label-wrapper row-fluid">
+            <div class="printable-label span3">
+              <%= t('.order_number').capitalize + ": " %>
+            </div>
+            <div class="printable-value span9">
+              <%= ticket.id.to_s %>
+            </div>
+          </div>
+          <% printable_ticket_label(t('.event'), ticket.event_name) %>
+          <% printable_ticket_label(t('.place'), ticket.event_address) %>
+          <% printable_ticket_label(t('.date'), l(ticket.event_start_time, format: :long)) %>
+          <% printable_ticket_label(t('.sector'), ticket.ticket_type_name) %>
+        </div>
+        <div class="span2" id="qrcode">
+          <% render_qr_code(ticket.id.to_s) %>
+          <div class="pull-left printable-label-wrapper">
+            <%= t('.rut').capitalize + ": 77.929.090-5" %>
+          </div>
+          <div class="pull-left printable-label-wrapper">
+            <%= t('.price').capitalize + ": " + number_to_currency(ticket.price) %>
+          </div>
+          <div class="pull-left printer-img">
+            <div class="pull-right">
+              <%= wicked_pdf_image_tag 'printer.png' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span9 conditions-wrapper">
+          <h3 class="conditions-title">
+            <%= t('.conditions.title') %>
+          </h3>
+          <h4 class="conditions-sub-title">
+            <%= t('.conditions.sub_title') %>
+          </h4>
+          <p class="conditions-desc">
+            <%= t('.conditions.desc').html_safe %>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span9 producer-wrapper text-center">
+          <div>Produce</div>
+          <h2>
+            <%= ticket.event_producer.name %>
+          </h2>
+        </div>
+        <div class="span9 footer-wrapper">
+          <div class="pull-right">
+            <%= wicked_pdf_image_tag 'punto-ticket-logo-download.png' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
