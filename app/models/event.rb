@@ -11,16 +11,6 @@ class Event < ActiveRecord::Base
   # Possible attribute values are defined on NestedResource::NESTABLE_ATTRIBUTES constant
   serialize :data_to_collect, Array
 
-  validates_presence_of :address, :description, :name
-  validate :remains_published?
-  validate :is_theme_type_valid?
-  validates_attachment_content_type :logo, :content_type => /image/
-  validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
-  validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-
-  before_destroy :can_destroy?
-  before_create :set_fee_values
-
   belongs_to :user
   belongs_to :producer
   has_many :ticket_types, dependent: :destroy
@@ -28,6 +18,17 @@ class Event < ActiveRecord::Base
   has_many :promotions, as: :promotable
   has_many :users, through: :tickets
   has_many :transactions, through: :tickets, uniq: true
+
+  validates_presence_of :address, :description, :name
+  validate :remains_published?
+  validate :is_theme_type_valid?
+  validates_attachment_content_type :logo, :content_type => /image/
+  validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
+  validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validate :must_have_ticket_types
+
+  before_destroy :can_destroy?
+  before_create :set_fee_values
 
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
@@ -191,4 +192,9 @@ class Event < ActiveRecord::Base
       end
     end
 
+    def must_have_ticket_types
+      if ticket_types.empty? or ticket_types.all? {|child| child.marked_for_destruction? }
+        errors.add(:base, :must_have_ticket_types)
+      end
+    end
 end
