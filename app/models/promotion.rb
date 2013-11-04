@@ -124,8 +124,7 @@ class Promotion < ActiveRecord::Base
     convenient_promo = nil
 
     promotions.each do |promo|
-      next unless promo.is_promo_available?
-      next unless promo.enabled
+      next unless promo.is_promo_available? and promo.enabled
       promo.load_discount(price)
       if convenient_promo.nil? or
         (promo.discount.to_d > convenient_promo.discount.to_d)
@@ -157,6 +156,13 @@ class Promotion < ActiveRecord::Base
 
   def sold_tickets
     self.tickets.completed
+  end
+
+  def discount_by_quantity qty, price
+    self.load_discount(price)
+    qty = 0.0 unless qty
+    return self.discount if self.is_nx1?
+    self.discount * qty
   end
 
   def update

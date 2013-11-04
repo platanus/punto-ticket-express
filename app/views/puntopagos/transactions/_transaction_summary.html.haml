@@ -31,7 +31,7 @@
           .name.span5
             = "Bonificado"
           .value.span6
-            = "{{ data.total_discount | pteCurrency }}"
+            = "{{ (data.total_discount * -1) | pteCurrency }}"
         .summary-row.total.pay
           .name.span5
             = "Total a Pagar"

@@ -179,7 +179,7 @@ module PTE
 
       def self.create_promotion promotable_id, promotable_type
         promo_type = PTE::PromoType::TYPES.sample.to_s
-        start = (Date.today - [*-5..5].sample.days)
+        start = (DateTime.now + [*0..5].sample.days)
 
         data = {
           name: "Promo " + ::Faker::Name.name,
