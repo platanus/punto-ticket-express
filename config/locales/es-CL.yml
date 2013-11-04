@@ -107,7 +107,7 @@ es-CL:
         enabled: Habilitado
         available: Vigente?
         scope: Alcance
-        enabled_since: Habilitado
+        enabled_since: Habilitado?
         promotable_id: Alcance
       nested_resource:
         address: Dirección

@@ -16,7 +16,6 @@ module PromotionsHelper
   end
 
   def enable_promo_link promo
-    return unless promo.is_promo_available?
     label = promo.enabled ? "disable" : "enable"
     haml_tag(:div) do
       haml_concat(link_to(I18n.t("buttons.#{label}"),
