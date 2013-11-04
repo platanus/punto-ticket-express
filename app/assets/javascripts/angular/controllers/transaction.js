@@ -28,7 +28,7 @@ angular.module('puntoTicketApp.controllers')
         console.log(_type.promotions);
         for(var i = _type.promotions.length - 1; i >= 0; i--) {
           if(_type.promotions[i].visible) {
-            $scope.data.total_discount += _type.promotions[i].discount;
+            $scope.data.total_discount += parseInt(_type.promotions[i].discount);
             _type.promo_price = _type.price - _type.promotions[i].discount;
             _type.promotions[i].available = true;
             break;

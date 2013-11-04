@@ -68,6 +68,10 @@ es-CL:
         title: Métodos de pago
       transaction_summary:
         title: Detalle
+        ticket_type_label: "%{qty} x %{name} (%{price} x/ticket)"
+        percent_discount_label: "%{name} (% %{value} de descuento x ticket)"
+        amount_discount_label: "%{name} ($ %{value} de descuento x ticket)"
+        nx1_label: "%{name} (%{value} tickets al valor de 1 de descuento)"
       activation_code_panel:
         title: Tengo un código de descuento
       new:

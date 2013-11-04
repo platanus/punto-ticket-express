@@ -8,7 +8,7 @@
         .summary-row
           .name.span7
             %i.icon-ticket
-            = "{{ type.bought_quantity }} x {{ type.name }}"
+            = "{{ type.name }}"
           .value.span4
             = "{{ type.price | pteCurrency }}"
         .summary-row.promo{ "ng-repeat" => "promo in type.promotions", "ng-show" => "promo.visible"}
