@@ -32,8 +32,6 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @is_preview = params.has_key?(:preview)
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
@@ -83,9 +81,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        # if the event is published redirect to show, otherwise redirect to preview
-        path_to_redirect = @event.is_published ? @event : event_path(@event, :preview => 'true')
-        format.html { redirect_to  path_to_redirect, notice: 'Event was successfully created.' }
+        format.html { redirect_to event_path(@event) }
         format.json { render json: @event, status: :created, location: @event }
       else
         @attributes = NestedResource.nested_attributes;
@@ -99,18 +95,18 @@ class EventsController < ApplicationController
   # PUT /events/1.json
   def update
     # publishing or saving
-    params[:event][:is_published] = params[:publish] ? true : false
+    params[:event][:is_published] = true if params.has_key? :publish
     @event = Event.find(params[:id])
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
 
         format.html {
-          if params.has_key?(:preview)
-            redirect_to(:action => 'edit')
+          if @event.is_published
+            redirect_to(:action => 'show')
+
           else
-            path_to_redirect = params[:publish] ? @event : event_path(@event, :preview => 'true')
-            redirect_to path_to_redirect, notice: 'Event was successfully updated.'
+            redirect_to(:action => 'edit')
           end
         }
 

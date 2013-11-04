@@ -7,12 +7,14 @@ module EventsHelper
   	@event.new_record? ? 'disabled' : ''
   end
 
+  def disabled_if_published
+     @event.is_published? ? 'disabled' : ''
+  end
+
   def show_or_preview_button(event)
-  	if event.is_published?
-  		link_to(t("buttons.show"), event, :class => 'btn btn-mini btn-mini-in-line')
-  	else
-  		link_to(t("buttons.preview"), event_path(event, :preview => 'true'), :class => 'btn btn-mini btn-mini-in-line')
-  	end
+    label = "buttons.preview"
+    label = "buttons.show" if event.is_published?
+  	link_to(t(label), event, :class => 'btn btn-mini btn-mini-in-line')
   end
 
   def statistics_or_edit_button(event)

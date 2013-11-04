@@ -3,7 +3,7 @@
 =stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css'
 
 / static top navbar
-- if(@is_preview)
+- unless(@event.is_published)
   = render "show_top_navbar"
 
 
@@ -17,7 +17,7 @@
 / angular controller
 / passing ruby hash to javascript
 / passing puntopagos transaction path to javascript
-#page_event.row{"ng-controller" => "EventShowCtrl", "ng-init" => "init(#{raw @event.ticket_types.to_json}, '#{puntopagos_transactions_new_path}', #{@is_preview})"}
+#page_event.row{"ng-controller" => "EventShowCtrl", "ng-init" => "init(#{raw @event.ticket_types.to_json}, '#{puntopagos_transactions_new_path}', #{!@event.is_published})"}
   .span4
     .panel
       .panel-heading.panel-title

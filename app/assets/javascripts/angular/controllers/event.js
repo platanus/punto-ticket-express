@@ -25,7 +25,7 @@ angular.module('puntoTicketApp.controllers')
         $scope.$watch('submitAction', function(newValue, oldValue) {
           if(newValue !== 'save' && oldValue !== 'save') {
             $window.onbeforeunload = function(){
-              return 'Esta apunto de abandonar esta pagina sin haber guardo sus datos.';
+              return 'Esta apunto de abandonar esta pagina sin haber guardado sus datos.';
             };
           }else{
             $window.onbeforeunload = undefined;
@@ -38,17 +38,12 @@ angular.module('puntoTicketApp.controllers')
     };
 
     $scope.deleteTicket = function(index) {
-      $scope.tickets[index]["destroy"] = "1"
-    };
-
-    // triggers the method set out in the validations directive
-    $scope.allowValidation = function () {
-      $scope.$broadcast('kickOffValidations');
+      $scope.tickets[index]["destroy"] = "1";
     };
 
     $scope.changeStartTime = function (dateChange) {
       if(dateChange)
-        $scope.time.dates.endDate = $scope.time.dates.startDate
+        $scope.time.dates.endDate = $scope.time.dates.startDate;
 
       // transform the date and time selectors in date format
       var startDate = $scope.time.dates.startDate || new Date();
@@ -62,13 +57,13 @@ angular.module('puntoTicketApp.controllers')
         $scope.time.dates.endDate = startTime;
         $scope.time.times.endTime = $filter('date')(startTime, 'h:mm a');
       }
-
-
-    }
+    };
 
     // change select
     $scope.changeProducer = function(producerId) {
-        var producer = _.find($scope.producers, function(producer){ return producer.id == $scope.producerId; });
+        var producer = _.find($scope.producers, function(producer){
+          return producer.id == $scope.producerId;
+        });
         // update commission values
         $scope.fixedFee = producer ? producer.fixed_fee : 0;
         $scope.percentFee = producer ? producer.percent_fee : 0;
@@ -128,28 +123,30 @@ angular.module('puntoTicketApp.controllers')
         // set default select option
         ticketType.qty = 0;
         // rremove attrs
-        delete ticketType.created_at
-        delete ticketType.updated_at
+        delete ticketType.created_at;
+        delete ticketType.updated_at;
       });
 
-      $scope.isPreview = isPreview
+      $scope.isPreview = isPreview;
       $scope.ticketTypes = ticketTypes;
       $scope.actionUrl = url;
     };
 
     $scope.closeBuyModal = function() {
       $scope.buyModal = false;
-    }
+    };
 
     $scope.closeNoTicketsModal = function() {
       $scope.notTicketsModal = false;
-    }
+    };
 
     // removes and validates the fields of the array before being sent to the next page
     $scope.sendTicket = function($event) {
 
       // removes all ticket_types that have no amount
-      var ticketTypes = _.filter($scope.ticketTypes, function(t){ return t.qty && t.qty > 0 });
+      var ticketTypes = _.filter($scope.ticketTypes, function(t){
+        return (t.qty && t.qty > 0);
+      });
 
       // if all tickets are equal to zero is sent a warning
       if(_.size(ticketTypes) == 0) {
@@ -177,13 +174,13 @@ angular.module('puntoTicketApp.controllers')
     $scope.init = function(themes, currentTheme) {
       $scope.themes = themes;
       $scope.theme = currentTheme;
-    }
+    };
 
     // change theme
     $scope.changeStyle = function(theme) {
       document.getElementById('theme_css').href = theme.url;
       $scope.theme = theme.name;
-    }
+    };
   }
 ]);
 

@@ -3,8 +3,8 @@
     %i.icon-reorder.icon-large
     = t(".headers.info.title")
   %ul.nav.nav-list.sidenav.affix-top
-    %li{class: active_if_event}
-      %a{:href => "#{form_url @event}"}
+    %li{class: "#{disabled_if_published} #{active_if_event}"}
+      %a{:href => "#{form_url(@event) unless @event.is_published?}"}
         %i.icon-chevron-right
         = t(".headers.info.details")
     %li{:class => "#{disabled_class} #{active_if_form}"}
