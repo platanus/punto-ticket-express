@@ -23,9 +23,6 @@ class Ability
       can :update, Event do |event|
         event.user_id == user.id
       end
-      can :dashboard, Event do |event|
-        event.user_id == user.id
-      end
       can :destroy, Event do |event|
         event.user_id == user.id
       end
