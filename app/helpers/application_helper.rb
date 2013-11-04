@@ -18,8 +18,9 @@ module ApplicationHelper
   end
 
   def gender_label gender
-    return I18n.t("gender.man") if gender
-    I18n.t("gender.woman")
+    return I18n.t("gender.man") if gender == true
+    return I18n.t("gender.woman") if gender == false
+    return nil
   end
 
   def human_boolean value
