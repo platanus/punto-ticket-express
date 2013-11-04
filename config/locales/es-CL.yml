@@ -204,7 +204,6 @@ es-CL:
           has_related_event_tickets: Ha vendido tickets de sus eventos.
         event:
           has_related_tickets: Se han vendido tickets para este evento.
-          must_have_ticket_types: Debe tener al menos un tipo de ticket asociado.
           attributes:
             is_published:
               published_event_cant_be_unpublished: un evento publicado no puede volver a ser un borrador.

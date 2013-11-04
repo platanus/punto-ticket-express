@@ -61,6 +61,7 @@ module PTE
             rut: valid_ruts.sample,
             website: ::Faker::Internet.url,
             corporate_name: ::Faker::Name.name,
+            confirmed: random_boolean,
             fixed_fee: [*500..800].sample,
             percent_fee: [*10..20].sample
           )
@@ -86,7 +87,7 @@ module PTE
           description: ::Faker::Lorem.paragraphs([*2..6].sample),
           custom_url: ::Faker::Internet.url,
           user_id: organizer.id,
-          is_published: random_boolean,
+          is_published: producer.confirmed,
           producer_id: producer.id,
           start_time: start_time,
           end_time: start_time + ([*10000..30000].sample),

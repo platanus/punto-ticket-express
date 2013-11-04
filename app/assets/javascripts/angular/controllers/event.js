@@ -90,6 +90,10 @@ angular.module('puntoTicketApp.controllers')
       // reset submit action to undefined
       $scope.submitAction = undefined;
     };
+
+    $scope.closeProducerModal = function() {
+      $scope.producerModal = false;
+    };
   }
 ]);
 

@@ -25,7 +25,6 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
   validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validate :must_have_ticket_types
 
   before_destroy :can_destroy?
   before_create :set_fee_values
@@ -189,12 +188,6 @@ class Event < ActiveRecord::Base
       unless PTE::Theme::is_valid? self.theme
         self.errors.add(:theme, :invalid_theme_type)
         return false
-      end
-    end
-
-    def must_have_ticket_types
-      if ticket_types.empty? or ticket_types.all? {|child| child.marked_for_destruction? }
-        errors.add(:base, :must_have_ticket_types)
       end
     end
 end

@@ -167,6 +167,8 @@ class Promotion < ActiveRecord::Base
   end
 
   def dates_range_valid?
+    return true if start_date.nil? or end_date.nil?
+
     if start_date < Date.today.to_time_in_current_zone.to_date
       errors.add(:start_date, :start_date_lower_than_today)
     end
