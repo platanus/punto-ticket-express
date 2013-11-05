@@ -8,10 +8,9 @@ es-CL:
     scope:
       all: Todos los tickets del evento
     nested_resource_source:
-      none: "No requerir datos"
       all: "Compra y tickets"
       transaction: "Sólo compra"
-      transaction: "Sólo tickets"
+      tickets: "Sólo tickets"
     promo_type:
       percent_discount: "% de descuento"
       amount_discount: "$ de descuento"
@@ -157,6 +156,7 @@ es-CL:
         ticket_type_id: Ticket
         ticket_type: Tipo de Ticket
       event:
+        nested_resource_source: Recolectar datos por
         address: Dirección
         description: Descripción
         custom_url: Dirección Web Personalizada

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131028141731) do
+ActiveRecord::Schema.define(:version => 20131105210040) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(:version => 20131028141731) do
     t.string   "custom_url"
     t.datetime "start"
     t.datetime "end"
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
     t.integer  "user_id"
-    t.boolean  "is_published",                                     :default => false
+    t.boolean  "is_published",                                          :default => false
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "producer_id"
@@ -48,9 +48,10 @@ ActiveRecord::Schema.define(:version => 20131028141731) do
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.string   "theme"
-    t.decimal  "fixed_fee",         :precision => 10, :scale => 0
-    t.decimal  "percent_fee",       :precision => 10, :scale => 0
+    t.decimal  "fixed_fee",              :precision => 10, :scale => 0
+    t.decimal  "percent_fee",            :precision => 10, :scale => 0
     t.boolean  "include_fee"
+    t.string   "nested_resource_source"
   end
 
   create_table "global_configurations", :force => true do |t|
@@ -73,7 +74,7 @@ ActiveRecord::Schema.define(:version => 20131028141731) do
     t.string   "job_address"
     t.string   "job_phone"
     t.string   "website"
-    t.integer  "gender"
+    t.boolean  "gender"
     t.date     "birthday"
     t.integer  "age"
     t.integer  "nestable_id"

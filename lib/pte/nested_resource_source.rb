@@ -1,6 +1,6 @@
 module PTE
   class NestedResourceSource
-    TYPES = [:none, :all, :transaction, :tickets]
+    TYPES = [:all, :transaction, :tickets]
 
     PTE::NestedResourceSource::TYPES.each do |type_name|
       self.class.class_eval do

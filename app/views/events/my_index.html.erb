@@ -20,7 +20,7 @@
       			<td><%= event.name %></td>
       			<td><%= event.address %></td>
       			<td><%= l event.start_time, format: :short %></td>
-      			<td><%= human_boolean(event.is_published) %></td>
+      			<td class="center"><%= human_boolean(event.is_published) %></td>
       			<td><%= show_or_preview_button(event) %></td>
       			<td><%= statistics_or_edit_button(event) %></td>
       		</tr>
