@@ -105,7 +105,7 @@ class Puntopagos::TransactionsController < ApplicationController
           pdf: "ticket",
           template: "tickets/pdf",
           layout: "tickets/pdf",
-          handlers: ["haml"])
+          handlers: ["erb"])
 
         pdf_name = "tickets.pdf"
         pdf_path = Rails.root.join(dir, pdf_name)
