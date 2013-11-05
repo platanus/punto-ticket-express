@@ -166,6 +166,11 @@ class Promotion < ActiveRecord::Base
     self.discount * qty
   end
 
+  def hex_activation_code
+    return nil unless self.activation_code
+    Digest::MD5.hexdigest(self.activation_code)
+  end
+
   def dates_range_valid?
     return true if start_date.nil? or end_date.nil?
 

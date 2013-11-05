@@ -20,7 +20,7 @@ module TransactionDecorator
           name: I18n.t("puntopagos.transactions.transaction_summary.#{promo.promotion_type}_label",
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
           discount: promo.discount_by_quantity(ticket_type.bought_quantity, ticket_type.price),
-          code: promo.activation_code }
+          code: promo.hex_activation_code }
 
         type[:promotions].sort_by!{ |promo| promo[:discount] }
       end
