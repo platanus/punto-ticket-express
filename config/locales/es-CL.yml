@@ -172,6 +172,7 @@ es-CL:
         created_at: Fecha Creación
         updated_at: Fecha Modificación
         total_fee: Comisión Total
+        name: Nombre
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"

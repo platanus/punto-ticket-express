@@ -1,9 +1,0 @@
-/ static top navbar
-= render 'edit_top_navbar'
-
-#page_event.row{"ng-controller" => "EventNewCtrl", "style" => "margin-top: 30px;",
-	"ng-init" => "init(#{raw @event.to_json(:include => :ticket_types)}, #{raw current_user.producers.to_json})"}
-	.span3
-		= render 'sidebar'
-	.span9
-		= render 'form'

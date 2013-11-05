@@ -1,4 +1,5 @@
 <%= render :partial => "shared/message", :locals => { :message => t(".unconfirmed_producer_msg.message"), :title => t(".unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"} %>
+
 <%= form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'well', novalidate: true} do |f| %>
 	<fieldset class="form-horizontal">
 		<legend>Detalles del Evento</legend>
@@ -214,7 +215,7 @@
 							</ng-form>
 						</td>
 						<td>
-							<a class="close" ng-click="deleteTicket($index)">×</a>
+							<a class="close" ng-click="deleteTicket($index)" remove-nested-attribute>×</a>
 						</td>
 					</tr>
 				</tbody>
@@ -223,11 +224,9 @@
 	</fieldset>
 	<fieldset></fieldset>
 	<div class="form-actions control-group text-center">
-		<input class="btn btn-large btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}}" ng-show="form.$valid" type="submit">
-			<input class="btn btn-large btn-publish" ng-click="submitAction = 'save'" ng-disabled="{{disabled}}" ng-show="form.$invalid" type="button" value="<%= @event.new_record? ? "Guardar evento" : "Guardar" %>"></input>
-		</input>
+		<input class="btn btn-large btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
 		<% if !@event.new_record? %>
-			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}}", :class => 'btn btn-success btn-primary btn-large btn-publish', :style => "display:none", :value => @event.new_record? ? "Guardar evento" : "Guardar" %>
+			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}}", :class => 'btn btn-success btn-primary btn-large btn-publish', :style => "display:none" %>
 		<% end %>
 	</div>
 <% end %>
