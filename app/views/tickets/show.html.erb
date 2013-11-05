@@ -1,46 +1,66 @@
 <div class="page-header">
-  <h2><%= t(".title") %></h2>
+	<h2><%= t(".title") %></h2>
 </div>
-<div class="row">
-  <div class="span3">
-    <%= render 'configuration/sidebar' %>
-  </div>
-  <div class="span9">
-    <div class="row ticket">
-      <div class="span9 ticket-wrapper">
-        <div class="row">
-          <div class="span9 hrule title">
-            <h2><%= @ticket.event_name %></h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span5">
-            <%= printable_ticket_label(Event.human_attribute_name(:start_time), l(@ticket.event_start_time, format: :long)) %>
-          </div>
-          <div class="span4">
-            <%= printable_ticket_label(Event.human_attribute_name(:address), @ticket.event_address) %>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span9 hrule">
-            <%= printable_ticket_label(Event.human_attribute_name(:end_time), l(@ticket.event_end_time, format: :long)) %>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span9 hrule">
-            <%= printable_ticket_label(Ticket.human_attribute_name(:user_id), @ticket.transaction_user_email) %>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span9">
-            <%= ticket_type_label @ticket %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-actions">
-      <%= link_to t("buttons.back"), puntopagos_transaction_path(@ticket.transaction), :class => 'btn' %>
-      <%= link_to t("buttons.download"), download_tickets_path(ticket_id: @ticket.id, format: :pdf), :class => 'btn' %>
-    </div>
-  </div>
+<div class="row ticket">
+	<div class="span3">
+		<%= render 'configuration/sidebar' %>
+	</div>
+	<div class="span9 ticket-wrapper">
+		<div id="web-ticket">
+			<div class="row-fluid">
+				<div class="span12">
+					<%= image_tag @ticket.event.logo.url(:medium), :class => 'medium-img' if @ticket.event.logo.file? %>
+				</div>
+			</div>
+			<div class="row-fluid ticket">
+				<div class="span12">
+					<div class="row-fluid">
+						<div class="span10">
+							<%= printable_ticket_label(t('.order_number'), @ticket.id.to_s) %>
+							<%= printable_ticket_label(t('.event'), @ticket.event_name) %>
+							<%= printable_ticket_label(t('.place'), @ticket.event_address) %>
+							<%= printable_ticket_label(t('.date'), l(@ticket.event_start_time, format: :long)) %>
+							<%= printable_ticket_label(t('.sector'), @ticket.ticket_type_name) %>
+						</div>
+						<div class="span2" id="qrcode">
+							<%= render_qr_code(@ticket.id.to_s) %>
+							<div class="pull-left printable-label-wrapper">
+								<%= t('.rut').capitalize + ": 77.929.090-5" %>
+							</div>
+							<div class="pull-left printable-label-wrapper">
+								<%= t('.price').capitalize + ": " + number_to_currency(@ticket.price) %>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12 conditions-wrapper">
+							<h3 class="conditions-title">
+								<%= t('.conditions.title') %>
+							</h3>
+							<h4 class="conditions-sub-title">
+								<%= t('.conditions.sub_title') %>
+							</h4>
+							<p class="conditions-desc">
+								<%= t('.conditions.desc').html_safe %>
+							</p>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12 producer-wrapper text-center">
+							<div>Produce</div>
+							<h2>
+								<%= @ticket.event_producer.name %>
+							</h2>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="form-actions">
+      				<%= link_to t("buttons.back"), puntopagos_transaction_path(@ticket.transaction), :class => 'btn' %>
+      				<%= link_to t("buttons.download"), download_tickets_path(ticket_id: @ticket.id, format: :pdf), :class => 'btn' %>
+    				</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
