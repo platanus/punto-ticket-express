@@ -76,6 +76,13 @@ angular.module('puntoTicketApp.controllers')
 
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
+      //trigger form-validate directive
+      // this is used to implement general validations (are not directly related to a input).
+      $scope.$broadcast('formValidations');
+      if(!$scope.form.$valid) {
+        event.preventDefault();
+      }
+
       if($scope.submitAction !== 'save') {
         for(var i = 0; i < $scope.producers.length; i++ ){
           if((($scope.producers[i].id.toString() == $scope.producerId) &&

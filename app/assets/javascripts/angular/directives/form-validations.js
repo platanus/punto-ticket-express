@@ -1,5 +1,3 @@
-angular.module('platanus.validations', []);
-
 /*
 * Example:
 *
@@ -18,7 +16,7 @@ angular.module('platanus.validations', []);
 * The $focused property could be used the same way as $invalid, $pristine, etc...
 *
 */
-angular.module('platanus.validations')
+angular.module('platanus.validations', [])
   .directive('ngFocused', [function() {
     var FOCUS_CLASS = "ng-focused";
 

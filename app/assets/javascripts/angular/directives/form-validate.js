@@ -49,7 +49,7 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
           }
       }
 
-      scope.$on('kickOffValidations', validateForm);
+      scope.$on('formValidations', validateForm);
       function validateForm() {
 
         resolveValidation(ctrl.$viewValue);

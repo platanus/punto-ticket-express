@@ -46,9 +46,9 @@
 		<div class="control-group">
 			<%= f.label :name, :class => 'control-label' %>
 			<div class="controls">
-				<%= f.text_field :name, :class => 'span4', 'ng-model' => 'name', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '' %>
+				<%= f.text_field :name, :class => 'span4', 'ng-model' => 'name', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '', 'ng-focused' => '' %>
 				<!-- validation-->
-				<div class="input-error" ng-show="(form['event[name]'].$dirty && form['event[name]'].$invalid)">
+				<div class="input-error" ng-show="(form['event[name]'].$dirty && form['event[name]'].$invalid && !form['event[name]'].$focused)">
 					<label ng-show="form['event[name]'].$error.required">
 						El nombre del evento no puede estar en blanco
 					</label>
@@ -61,9 +61,9 @@
 		<div class="control-group">
 			<%= f.label :address, :class => 'control-label' %>
 			<div class="controls">
-				<%= f.text_field :address, :class => 'span4', 'ng-model' => 'address', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '' %>
+				<%= f.text_field :address, :class => 'span4', 'ng-model' => 'address', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '', 'ng-focused' => '' %>
 				<!-- validation-->
-				<div class="input-error" ng-show="(form['event[address]'].$dirty && form['event[address]'].$invalid)">
+				<div class="input-error" ng-show="(form['event[address]'].$dirty && form['event[address]'].$invalid && !form['event[address]'].$focused)">
 					<label ng-show="form['event[address]'].$error.required">
 						La dirección del evento no puede estar en blanco
 					</label>
@@ -174,9 +174,9 @@
 							<input name="event[ticket_types_attributes][{{$index}}][id]" ng-model="ticket.id" style="display: none" type="text"></input>
 							<input name="event[ticket_types_attributes][{{$index}}][_destroy]" ng-model="ticket.destroy" style="display: none" type="text"></input>
 							<ng-form name="formInName">
-								<input class="span4" name="event[ticket_types_attributes][{{$index}}][name]" ng-class="{'input-large':showFee}" ng-model="ticket.name" type="text" form-validate required>
+								<input class="span4" name="event[ticket_types_attributes][{{$index}}][name]" ng-class="{'input-large':showFee}" ng-model="ticket.name" type="text" form-validate ng-focused required>
 									<!-- validation-->
-									<div class="input-error" ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$dirty && formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$invalid">
+									<div class="input-error" ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$dirty && formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$invalid && !formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$focused">
 										<label ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$error.required">
 											El nombre del ticket no puede estar en blanco
 										</label>
@@ -186,9 +186,9 @@
 						</td>
 						<td>
 							<ng-form name="formInQuantity">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][quantity]" ng-model="ticket.quantity" type="number" form-validate required>
+								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][quantity]" ng-model="ticket.quantity" type="number" form-validate ng-focused required>
 									<!-- validation-->
-									<div class="input-error" ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$invalid">
+									<div class="input-error" ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$invalid && !formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$focused">
 										<label ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$error.required">
 											La cantidad de tickets no puede estar en blanco
 										</label>
@@ -204,9 +204,9 @@
 						</td>
 						<td>
 							<ng-form name="formInPrice">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-disabled="showFee" ng-model="ticket.price" type="text" form-validate required>
+								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-disabled="showFee" ng-model="ticket.price" type="text" form-validate ng-focused required>
 									<!-- validation-->
-									<div class="input-error" ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid">
+									<div class="input-error" ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid && !formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$focused">
 										<label ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$error.required">
 											El precio del ticket no puede estar en blanco
 										</label>
@@ -226,7 +226,7 @@
 	<div class="form-actions control-group text-center">
 		<input class="btn btn-large btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
 		<% if !@event.new_record? %>
-			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}}", :class => 'btn btn-success btn-primary btn-large btn-publish', :style => "display:none" %>
+			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}} || form.$invalid", :class => 'btn btn-success btn-primary btn-large btn-publish', :style => "display:none" %>
 		<% end %>
 	</div>
 <% end %>
