@@ -30,17 +30,22 @@
 				<div class="producer-hint" ng-show="{{disabled}}">
 					<%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
 				</div>
-				<%= f.select :producer_id, options_from_collection_for_select(current_user.producers, :id, :name, @event.producer_id), {:include_blank => true}, :class => 'span4', 'ng-model' => 'producerId', 'ng-disabled' => "{{disabled}}", 'ng-change' => 'changeProducer(producerId)', 'form-validate' => '', 'required' => '' %>
 
-				<!-- validation-->
+        <!-- producer selection -->
+        <select ng-options="p.name for p in producers track by p.id" ng-model="producer" ng-change="calculateAllTicketPrices()"
+                name="event[producer_id]" class="span4"
+                ng-disabled="{{disabled}}" form-validate required>
+        </select>
+
+				<!-- producer validation-->
 				<div class="input-error" ng-show="(form['event[producer_id]'].$dirty && form['event[producer_id]'].$invalid)">
 					<label ng-show="form['event[producer_id]'].$error.required">
 						Debe elegir una productora
 					</label>
 				</div>
-				<div class="producer-description span5" ng-hide="!producerId" ng-repeat="producer in producers | filter:{id:producerId}">
-					{{producer.description}}
-				</div>
+
+        <!-- producer description -->
+				<div class="producer-description span5">{{producer.description}}</div>
 			</div>
 		</div>
 		<div class="control-group">
@@ -117,7 +122,7 @@
 						La fecha de inicio no puede estar en blanco
 					</label>
 					<label ng-show="form.start_date.$error.date">
-						El formto de fecha es incorrecto
+						El formato de fecha es incorrecto
 					</label>
 				</div>
 				<!-- custom validation-->
@@ -150,17 +155,24 @@
 			<div class="control-group text-center">
 				<button class="btn btn-success" ng-click="addTicket()" ng-disabled="{{disabled}}" type="button">Agrega un ticket</button>
 			</div>
+
+      <!-- Include fee in ticket price -->
 			<div class="control-group text-center">
-				<input ng-model="showFee" type="checkbox">Agregar comisión al ticket</input>
+        <input name="event[include_fee]" type="hidden" value="false" />
+				<input name="event[include_fee]" type="checkbox" value="true"
+               ng-model="includeFeeInPrice">
+          Incluir comisión en el precio del ticket
+        </input>
 			</div>
+
 			<br/>
 			<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
 				<thead>
 					<tr>
 						<th>Nombre</th>
 						<th>Cantidad</th>
+            <th ng-if="includeFeeInPrice">Precio antes de comisión</th>
 						<th>Precio</th>
-						<th ng-if="showFee">Precio con comisión</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -174,7 +186,7 @@
 							<input name="event[ticket_types_attributes][{{$index}}][id]" ng-model="ticket.id" style="display: none" type="text"></input>
 							<input name="event[ticket_types_attributes][{{$index}}][_destroy]" ng-model="ticket.destroy" style="display: none" type="text"></input>
 							<ng-form name="formInName">
-								<input class="span4" name="event[ticket_types_attributes][{{$index}}][name]" ng-class="{'input-large':showFee}" ng-model="ticket.name" type="text" form-validate ng-focused required>
+								<input class="span4" name="event[ticket_types_attributes][{{$index}}][name]" ng-class="{'input-large':includeFeeInPrice}" ng-model="ticket.name" type="text" form-validate ng-focused required>
 									<!-- validation-->
 									<div class="input-error" ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$dirty && formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$invalid && !formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$focused">
 										<label ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$error.required">
@@ -199,12 +211,12 @@
 								</input>
 							</ng-form>
 						</td>
-						<td ng-if="showFee">
-							<input class="input-small" ng-change="sumTotalWithFee(ticket, totalBeforeFee)" ng-model="totalBeforeFee" type="text"></input>
+						<td ng-if="includeFeeInPrice">
+							<input class="input-small" ng-change="calculateTicketPrice(ticket)" ng-model="ticket.priceBeforeFee" type="text"></input>
 						</td>
 						<td>
 							<ng-form name="formInPrice">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-disabled="showFee" ng-model="ticket.price" type="text" form-validate ng-focused required>
+								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-disabled="includeFeeInPrice" ng-model="ticket.price" type="text" form-validate ng-focused required>
 									<!-- validation-->
 									<div class="input-error" ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid && !formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$focused">
 										<label ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$error.required">
