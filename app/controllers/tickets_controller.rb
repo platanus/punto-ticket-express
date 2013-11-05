@@ -24,7 +24,7 @@ class TicketsController < ApplicationController
         render pdf: "ticket",
           template: "tickets/pdf",
           layout: "tickets/pdf",
-          handlers: ["haml"],
+          handlers: ["erb"],
           # renders html version if you set debug=true in URL
           show_as_html: params[:debug].present?
       end
