@@ -70,6 +70,7 @@ module FormHelper
     return if value.nil? or value.to_s.empty?
     content_tag :p do
       concat(content_tag(:b){ label })
+      concat(" ")
       concat(value)
     end
   end

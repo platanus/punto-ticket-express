@@ -16,11 +16,11 @@
           </div>
         </div>
         <div class="summary-row promo" ng-repeat="promo in type.promotions" ng-show="promo.visible">
-          <div class="name span6 offset1" ng-class="{'line-through': !promo.available %>">
+          <div class="name span6 offset1" ng-class="{'line-through': !promo.available }">
             <i class="icon-angle-right"></i>
             <%= "{{ promo.name }}" %>
           </div>
-          <div class="value span4" ng-class="{'line-through': !promo.available %>">
+          <div class="value span4" ng-class="{'line-through': !promo.available }">
             <%= "{{ (promo.discount * -1) | pteCurrency }}" %>
           </div>
         </div>

@@ -1,11 +1,12 @@
 <div class="page-header">
-  <h1>
-    <%= t(".title") %>
-  </h1>
+  <h1><%= t(".title") %></h1>
 </div>
-<div ng-controller="TransactionNewCtrl" ng-init="init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>)">
+<div ng-controller="TransactionNewCtrl" ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>)'>
+
   <%= render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"} %>
+
   <%= render :partial => 'transaction_summary' %>
+
   <%= form_for([:puntopagos, @transaction], :html => {:class => 'form-horizontal'}, :url => {:action => 'create', :ticket_types => ticket_types_to_params(@ticket_types)}) do |f| %>
     <% if @nested_attributes.empty? %>
       <div class="row">
