@@ -7,6 +7,11 @@ es-CL:
   pte:
     scope:
       all: Todos los tickets del evento
+    nested_resource_source:
+      none: "No requerir datos"
+      all: "Compra y tickets"
+      transaction: "Sólo compra"
+      transaction: "Sólo tickets"
     promo_type:
       percent_discount: "% de descuento"
       amount_discount: "$ de descuento"
