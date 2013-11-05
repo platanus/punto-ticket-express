@@ -16,7 +16,7 @@ angular.module('puntoTicketApp.controllers')
     $scope.submitAction = undefined;
 
     // include fee in ticket price flag
-    $scope.includeFeeInPrice;
+    $scope.includeFeeInPrice = false;
 
     $scope.init = function(event, producers) {
       $scope.disabled = (producers.length == 0);
@@ -29,9 +29,6 @@ angular.module('puntoTicketApp.controllers')
       // define initial producer
       $scope.producer = _.findWhere(producers, { id: event.producer_id });
 
-      // value of commissions
-      $scope.fixedFee = producers[0].fixed_fee;
-      $scope.percentFee = producers[0].percent_fee;
       // call factory
       $scope.time = defineTime.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
@@ -47,6 +44,9 @@ angular.module('puntoTicketApp.controllers')
             $window.onbeforeunload = undefined;
           }
         });
+
+      // include fee property
+      $scope.includeFeeInPrice = event.include_fee;
     };
 
     $scope.addTicket = function() {
@@ -92,23 +92,6 @@ angular.module('puntoTicketApp.controllers')
       });
     };
 
-    // calculate ticket price before and after fee
-    $scope.toggleFeeMode = function() {
-      // toggle to include fee in ticket price
-      if($scope.includeFeeInPrice) {
-        _.each($scope.tickets, function(ticket) {
-          ticket.priceBeforeFee = ticket.price;
-          $scope.calculateTicketPrice(ticket);
-        });
-      }
-      // toggle to normal mode
-      else {
-        _.each($scope.tickets, function(ticket) {
-          ticket.price = ticket.priceBeforeFee;
-        });
-      }
-    };
-
     // PRODUCERS MESSAGE
     $scope.submit = function(event) {
       //trigger form-validate directive
@@ -131,6 +114,23 @@ angular.module('puntoTicketApp.controllers')
     $scope.closeProducerModal = function() {
       $scope.producerModal = false;
     };
+
+    // watch include fee property
+    $scope.$watch('includeFeeInPrice', function() {
+      // toggle to include fee in ticket price
+      if($scope.includeFeeInPrice) {
+        _.each($scope.tickets, function(ticket) {
+          ticket.priceBeforeFee = ticket.price;
+          $scope.calculateTicketPrice(ticket);
+        });
+      }
+      // toggle to normal mode
+      else {
+        _.each($scope.tickets, function(ticket) {
+          ticket.price = ticket.priceBeforeFee || ticket.price;
+        });
+      }
+    });
   }
 ]);
 

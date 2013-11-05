@@ -155,9 +155,16 @@
 			<div class="control-group text-center">
 				<button class="btn btn-success" ng-click="addTicket()" ng-disabled="{{disabled}}" type="button">Agrega un ticket</button>
 			</div>
+
+      <!-- Include fee in ticket price -->
 			<div class="control-group text-center">
-				<input ng-model="includeFeeInPrice" type="checkbox" ng-change="toggleFeeMode()">Incluir comisión al precio del ticket</input>
+        <input name="event[include_fee]" type="hidden" value="false" />
+				<input name="event[include_fee]" type="checkbox" value="true"
+               ng-model="includeFeeInPrice">
+          Incluir comisión en el precio del ticket
+        </input>
 			</div>
+
 			<br/>
 			<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
 				<thead>
