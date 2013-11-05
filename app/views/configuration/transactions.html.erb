@@ -16,21 +16,11 @@
       </tr>
       <% @transactions.each do |transaction| %>
         <tr>
-          <td>
-            <%= l(transaction.transaction_time, format: :short) %>
-          </td>
-          <td>
-            <%= transaction.event_name %>
-          </td>
-          <td>
-            <%= transaction.tickets_quantity %>
-          </td>
-          <td>
-            <%= number_to_currency(transaction.total_amount) %>
-          </td>
-          <td>
-            <%= link_to t('buttons.show'), puntopagos_transaction_path(transaction) %>
-          </td>
+          <td><%= l(transaction.transaction_time, format: :short) %></td>
+          <td><%= transaction.event_name %></td>
+          <td><%= transaction.tickets_quantity %></td>
+          <td><%= number_to_currency(transaction.total_amount) %></td>
+          <td><%= link_to t('buttons.show'), puntopagos_transaction_path(transaction) %></td>
         </tr>
       <% end %>
     </table>

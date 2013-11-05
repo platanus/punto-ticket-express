@@ -19,7 +19,7 @@
           <td><%= producer.name %></td>
           <td><%= producer.contact_name %></td>
           <td><%= producer.phone %></td>
-          <td class="center"><% human_boolean(producer.confirmed) %></td>
+          <td class="center"><%= human_boolean(producer.confirmed) %></td>
           <td><%= link_to t('buttons.show'), producer_path(producer) %></td>
           <td><%= link_to t('buttons.edit'), edit_producer_path(producer) %></td>
           <td><%= link_to t('buttons.destroy'), producer_path(producer), method: :delete %></td>

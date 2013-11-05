@@ -1,16 +1,12 @@
 module FormHelper
   def control_group form, attr, control, options = {}
-    haml_tag :div, class: "control-group #{error_for(form, attr)}" do
-    	haml_concat(render_label(form, attr, options))
-      haml_tag :div, class: 'controls' do
-      	haml_concat(control)
-      	haml_concat(error_label(form, attr))
-        if options.has_key? :help
-          haml_tag :span, class: 'help-block' do
-            haml_concat(options[:help])
-          end
-        end
-    	end
+    content_tag :div, class: "control-group #{error_for(form, attr)}" do
+    	concat(render_label(form, attr, options))
+      concat(content_tag(:div, class: 'controls'){
+      	concat(control)
+      	concat(error_label(form, attr))
+        content_tag(:span, class: 'help-block'){ concat(options[:help]) } if options.has_key? :help
+    	})
     end
   end
 
@@ -70,8 +66,8 @@ module FormHelper
   def show_item label, value
     return if value.nil? or value.to_s.empty?
     content_tag :p do
-      haml_concat(content_tag(:b){ label })
-      haml_concat(value)
+      concat(content_tag(:b){ label })
+      concat(value)
     end
   end
 end

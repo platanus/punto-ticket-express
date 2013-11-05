@@ -9,10 +9,10 @@
   </div>
   <div class="span9">
     <%= form_for(@user, :url => configuration_update_account_path, :html => { :method => :put, :class => 'well form-horizontal' }) do |f| %>
-      <% control_group f, :email, f.text_field(:email) %>
-      <% control_group f, :name, f.text_field(:name) %>
-      <% control_group f, :password, f.password_field(:password, :autocomplete => 'off'), {ignore_required: true} %>
-      <% control_group f, :password_confirmation, f.password_field(:password_confirmation, :autocomplete => 'off') %>
+      <%= control_group f, :email, f.text_field(:email) %>
+      <%= control_group f, :name, f.text_field(:name) %>
+      <%= control_group f, :password, f.password_field(:password, :autocomplete => 'off'), {ignore_required: true} %>
+      <%= control_group f, :password_confirmation, f.password_field(:password_confirmation, :autocomplete => 'off') %>
       <div class="form-actions">
         <%= f.submit t('buttons.save'), :class => 'btn' %>
       </div>

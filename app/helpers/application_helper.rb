@@ -25,9 +25,7 @@ module ApplicationHelper
 
   def human_boolean value
     icon = value ? '&#x2714;'.html_safe : '&#x2717;'.html_safe
-    haml_tag(:div) do
-      haml_concat(icon)
-    end
+    content_tag(:div){ concat(icon) }
   end
 
   def line_through value
