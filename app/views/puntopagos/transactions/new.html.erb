@@ -8,7 +8,18 @@
   <%= render :partial => 'transaction_summary' %>
 
   <%= form_for([:puntopagos, @transaction], :html => {:class => 'form-horizontal'}, :url => {:action => 'create', :ticket_types => ticket_types_to_params(@ticket_types)}) do |f| %>
-    <% if @nested_attributes.empty? %>
+    <% if show_nested_form_for_transaction? %>
+      <div class="row">
+        <div class="span8">
+          <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
+          <%= render :partial => 'nested_resource_form', :locals => { :form => f } %>
+        </div>
+        <div class="span4">
+          <%= render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
+          <%= payment_button f %>
+        </div>
+      </div>
+    <% else %>
       <div class="row">
         <div class="span12">
           <%= render :partial => 'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
@@ -19,17 +30,6 @@
           <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
         </div>
         <div class="span4">
-          <%= payment_button f %>
-        </div>
-      </div>
-    <% else %>
-      <div class="row">
-        <div class="span8">
-          <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
-          <%= render :partial => 'nested_resource_form', :locals => { :form => f } %>
-        </div>
-        <div class="span4">
-          <%= render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
           <%= payment_button f %>
         </div>
       </div>
