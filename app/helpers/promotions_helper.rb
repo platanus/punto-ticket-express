@@ -9,16 +9,16 @@ module PromotionsHelper
   end
 
   def short_promo_type promo
-    haml_tag :div, class: "promo-type #{promo.promotion_type.dasherize}" do
-      haml_concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
+    content_tag :div, class: "promo-type #{promo.promotion_type.dasherize}" do
+      concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
         value: number_with_delimiter(promo.promotion_type_config)))
     end
   end
 
   def enable_promo_link promo
     label = promo.enabled ? "disable" : "enable"
-    haml_tag(:div) do
-      haml_concat(link_to(I18n.t("buttons.#{label}"),
+    content_tag(:div) do
+      concat(link_to(I18n.t("buttons.#{label}"),
         eval("#{label}_promotion_path(id: #{promo.id})"),
         method: :put))
     end
@@ -50,10 +50,7 @@ module PromotionsHelper
   end
 
   def promo_code_label promo
-    unless promo.activation_code.to_s.empty?
-      return promo.activation_code
-    end
-
+    return promo.activation_code unless promo.activation_code.to_s.empty?
     I18n.t("promotions.show.labels.activation_code")
   end
 
@@ -69,18 +66,18 @@ module PromotionsHelper
   def promo_no_available_reasons promo
     return if promo.is_promo_available?
 
-    haml_tag :div do
-      haml_tag :label, I18n.t("promotions.show.labels.no_available_reasons")
-      haml_tag :ul do
-        haml_tag :li, I18n.t("promotions.show.labels.out_of_range") if promo.is_out_of_range?
-        haml_tag :li, I18n.t("promotions.show.labels.limit_exceeded") if promo.is_limit_exceeded?
-      end
+    content_tag :div do
+      concat(content_tag(:label, I18n.t("promotions.show.labels.no_available_reasons")))
+      concat(content_tag(:ul) {
+        concat(content_tag(:li, I18n.t("promotions.show.labels.out_of_range"))) if promo.is_out_of_range?
+        concat(content_tag(:li, I18n.t("promotions.show.labels.limit_exceeded"))) if promo.is_limit_exceeded?
+      })
     end
   end
 
   def render_promo_box promo
-    haml_tag :div, class: "promo-type type-box #{promo.promotion_type.dasherize}" do
-      haml_concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
+    content_tag :div, class: "promo-type type-box #{promo.promotion_type.dasherize}" do
+      concat(I18n.t("pte.promo_type.with_value.#{promo.promotion_type}",
         value: number_with_delimiter(promo.promotion_type_config)))
     end
   end

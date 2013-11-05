@@ -29,13 +29,13 @@
                 <%= link_to promo.name, promotion_path(promo) %>
               </td>
               <td class="<%= line_through(promo.enabled) %>">
-                <% short_promo_type(promo) %>
+                <%= short_promo_type(promo) %>
               </td>
               <td class="center">
-                <% human_boolean(promo.is_promo_available?) %>
+                <%= human_boolean(promo.is_promo_available?) %>
               </td>
               <td>
-                <% enable_promo_link(promo) %>
+                <%= enable_promo_link(promo) %>
               </td>
             </tr>
           <% end %>

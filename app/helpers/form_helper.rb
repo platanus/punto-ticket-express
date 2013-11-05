@@ -5,7 +5,10 @@ module FormHelper
       concat(content_tag(:div, class: 'controls'){
       	concat(control)
       	concat(error_label(form, attr))
-        content_tag(:span, class: 'help-block'){ concat(options[:help]) } if options.has_key? :help
+        if options.has_key? :help
+          concat(content_tag(:span, class: 'help-block'){
+            concat(options[:help].html_safe) })
+        end
     	})
     end
   end
