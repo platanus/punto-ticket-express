@@ -9,13 +9,15 @@
                 <%= t(".title") %>
               </h1>
             </div>
-            <div class="span6">
-              <%= link_to_id "Publicar evento", "publish-btn", "btn btn-primary btn-success bold pull-right" %>
-              <%= link_to event_path(:preview => 'true'), :class => "btn btn-success pull-right" do %>
-                <i class="icon-picture icon-large"></i>
-                Vista Previa
-              <% end %>
-            </div>
+            <% unless @event.is_published %>
+              <div class="span6">
+                <%= link_to_id "Publicar evento", "publish-btn", "btn btn-primary btn-success bold pull-right" %>
+                <%= link_to event_path, :class => "btn btn-success pull-right" do %>
+                  <i class="icon-picture icon-large"></i>
+                  Vista Previa
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
