@@ -12,7 +12,13 @@
     :html => {:class => 'form-horizontal'},
     :url => {:action => 'create'}) do |f| %>
 
-    <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]" value="{{type.bought_quantity}}" ng-repeat="type in data.ticketTypes"/>
+    <!-- Creates hidden fields with ticket types and more convinient promotion by type -->
+    <div ng-repeat="type in data.ticketTypes" style="display:none;">
+      <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]"
+        value="{{type.bought_quantity}}" />
+      <input type="hidden" name="promotions[{{promo.ticket_type_id}}][promotion_id]"
+        value="{{promo.id}}" ng-repeat="promo in type.promotions | filter: { best_promo: true }"/>
+    </div>
 
     <% if show_nested_form_for_transaction? %>
       <div class="row">

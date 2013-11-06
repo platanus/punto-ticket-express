@@ -75,12 +75,12 @@ class Puntopagos::TransactionsController < ApplicationController
 
     def load_ticket_types
       @ticket_types = []
-      types = params[:ticket_types] rescue nil
+      types = params[:ticket_types]
       return unless types
       types.each do |id, data|
         qty = data['bought_quantity'].to_i
         next if qty.zero?
-        tt = TicketType.find_by_id(id)
+        tt = TicketType.find(id)
         tt.bought_quantity = qty
         @ticket_types << tt
       end
@@ -88,6 +88,18 @@ class Puntopagos::TransactionsController < ApplicationController
 
     def load_event
       @event = Event.find(@ticket_types.first[:event_id])
+    end
+
+    def formatted_promotions_data
+      promos = params[:promotions]
+      return nil unless promos
+      ticket_types_promotions = []
+      promos.each do |ticket_type_id, promotion_id|
+        promo = Promotion.find(promotion_id)
+        tt = TicketType.find(ticket_type_id)
+        ticket_types_promotions << {ticket_type_id: tt.id, promotion: promo}
+      end
+      ticket_types_promotions
     end
 
     def formatted_nested_data

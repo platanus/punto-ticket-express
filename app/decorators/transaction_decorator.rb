@@ -23,6 +23,7 @@ module TransactionDecorator
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
           discount: promo.discount_by_quantity(ticket_type.bought_quantity, ticket_type.price),
           code: promo.hex_activation_code,
+          normal_code: promo.activation_code,
           ticket_type_id: ticket_type.id,
           id: promo.id,
         }

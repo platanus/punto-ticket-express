@@ -2,6 +2,7 @@ angular.module('puntoTicketApp.controllers')
   .controller('TransactionNewCtrl', ['$scope', function ($scope) {
 
     $scope.init = function(_summaryData) {
+      console.log(_summaryData)
       $scope.data = {};
       $scope.data.code = null;
       $scope.data.ticketTypes = _summaryData;
@@ -28,7 +29,7 @@ angular.module('puntoTicketApp.controllers')
         $scope.data.total += _type.price;
 
         angular.forEach(_type.promotions, function(_promo){
-          _promo.available = false;
+          _promo.best_promo = false;
           _promo.visible = (_promo.code == null || _promo.code == '' || codeMatch(_promo.code));
         });
 
@@ -36,7 +37,7 @@ angular.module('puntoTicketApp.controllers')
           if(_type.promotions[i].visible) {
             $scope.data.total_discount += parseInt(_type.promotions[i].discount);
             _type.promo_price = _type.price - _type.promotions[i].discount;
-            _type.promotions[i].available = true;
+            _type.promotions[i].best_promo = true;
             break;
           }
         }
