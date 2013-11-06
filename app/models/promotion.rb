@@ -2,7 +2,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :activation_code, :end_date, :limit, :name, :enabled,
   :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type
 
-  attr_accessor :discount
+  attr_accessor :discount, :validation_code
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets

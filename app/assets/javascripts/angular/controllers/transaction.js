@@ -6,7 +6,7 @@ angular.module('puntoTicketApp.controllers')
       $scope.code = {entered: _validPromoCode, valid: null};
       $scope.data.ticketTypes = _summaryData;
       $scope.calculateAmounts();
-      scope.paymentMethod = _paymentMethod;
+      $scope.paymentMethod = _paymentMethod;
     };
 
     $scope.usePromoCode = function($event) {

@@ -20,7 +20,7 @@
     <div ng-repeat="type in data.ticketTypes" style="display:none;">
       <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]"
         value="{{type.bought_quantity}}" />
-      <input type="hidden" name="promotions[{{promo.ticket_type_id}}][promotion_id]"
+      <input type="hidden" name="promotions[{{promo.ticket_type_id}}]"
         value="{{promo.id}}" ng-repeat="promo in type.promotions | filter: { best_promo: true }"/>
     </div>
 

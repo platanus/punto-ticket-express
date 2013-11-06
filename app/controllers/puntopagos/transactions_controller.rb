@@ -34,7 +34,17 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
+    @payment_mehtod = params[:transaction][:payment_method]
     @valid_promotion_code = params[:promotion_code]
+
+    data = {}
+    transaction_data = formatted_nested_data
+    data[:transaction_nested_resource] = transaction_data if transaction_data
+    tickets_data = formatted_tickets_data
+    data[:tickets_nested_resources] = tickets_data if tickets_data
+    promotions_data = formatted_promotions_data
+    data[:promotions] = promotions_data if promotions_data
+
     @transaction = Transaction.begin current_user.id, @ticket_types, formatted_nested_data
     authorize! :create, @transaction
 
@@ -69,7 +79,7 @@ class Puntopagos::TransactionsController < ApplicationController
 
     def create_puntopagos_transaction transaction
       request = PuntoPagos::Request.new
-      resp = request.create(transaction.id.to_s, transaction.total_amount_to_s, params[:transaction][:payment_method])
+      resp = request.create(transaction.id.to_s, transaction.total_amount_to_s, @payment_method)
       transaction.update_attribute(:token, resp.get_token) if resp.success?
       resp
     end
@@ -98,9 +108,15 @@ class Puntopagos::TransactionsController < ApplicationController
       promos.each do |ticket_type_id, promotion_id|
         promo = Promotion.find(promotion_id)
         tt = TicketType.find(ticket_type_id)
+        promo.validation_code = @valid_promotion_code
         ticket_types_promotions << {ticket_type_id: tt.id, promotion: promo}
       end
       ticket_types_promotions
+    end
+
+    def formatted_tickets_data
+      # TODO: Devolver un array con la información cargada en el formulario para cada uno de los tickets
+      nil
     end
 
     def formatted_nested_data
