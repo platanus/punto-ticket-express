@@ -1,7 +1,7 @@
 class Puntopagos::TransactionsController < ApplicationController
   before_filter :authenticate_user!, :except => [:notification, :error, :success]
   before_filter :load_ticket_types, :only => [:new, :create]
-  before_filter :load_nested_attributes, :only => [:new, :create]
+  before_filter :load_event, :only => [:new, :create]
 
   SUCCESS_CODE = "00"
   ERROR_CODE = "99"
@@ -74,20 +74,20 @@ class Puntopagos::TransactionsController < ApplicationController
     end
 
     def load_ticket_types
-      types = ActiveSupport::JSON.decode(params[:ticket_types]) rescue nil
-      types = params[:ticket_types] unless types
-
       @ticket_types = []
-      types.values.each do |item|
-        tt = TicketType.find_by_id(item['id'])
-        tt.bought_quantity = item['qty'].to_i
+      types = params[:ticket_types] rescue nil
+      return unless types
+      types.each do |id, data|
+        qty = data['bought_quantity'].to_i
+        next if qty.zero?
+        tt = TicketType.find_by_id(id)
+        tt.bought_quantity = qty
         @ticket_types << tt
       end
     end
 
-    def load_nested_attributes
+    def load_event
       @event = Event.find(@ticket_types.first[:event_id])
-      @nested_attributes = @event.nested_attributes
     end
 
     def formatted_nested_data

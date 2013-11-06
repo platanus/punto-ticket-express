@@ -155,6 +155,11 @@ es-CL:
         user_id: Participante
         ticket_type_id: Ticket
         ticket_type: Tipo de Ticket
+      ticket_type:
+        name: Nombre
+        price: Precio
+        quantity: Stock
+        bought_quantity: Cantidad a comprar
       event:
         nested_resource_source: Recolectar datos por
         address: Dirección

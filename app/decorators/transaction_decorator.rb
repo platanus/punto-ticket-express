@@ -4,7 +4,9 @@ module TransactionDecorator
     types = []
 
     ticket_types.each do |ticket_type|
-      type = { name: I18n.t("puntopagos.transactions.transaction_summary.ticket_type_label",
+      type = {
+        id: ticket_type.id,
+        name: I18n.t("puntopagos.transactions.transaction_summary.ticket_type_label",
           name: ticket_type.name, qty: ticket_type.bought_quantity,
           price: number_to_currency(ticket_type.price)),
         price: ticket_type.bought_quantity * ticket_type.price,
@@ -20,7 +22,10 @@ module TransactionDecorator
           name: I18n.t("puntopagos.transactions.transaction_summary.#{promo.promotion_type}_label",
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
           discount: promo.discount_by_quantity(ticket_type.bought_quantity, ticket_type.price),
-          code: promo.hex_activation_code }
+          code: promo.hex_activation_code,
+          ticket_type_id: ticket_type.id,
+          id: promo.id,
+        }
 
         type[:promotions].sort_by!{ |promo| promo[:discount] }
       end

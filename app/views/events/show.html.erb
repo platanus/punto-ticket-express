@@ -1,10 +1,11 @@
 <!-- load theme -->
 <!-- if there is no associated theme, load the default css -->
 <%= stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css' %>
-<!-- static top navbar -->
+
 <% unless(@event.is_published) %>
 	<%= render "show_top_navbar" %>
 <% end %>
+
 <div class="page-header">
 	<div class="row-fluid">
 		<div class="span8">
@@ -16,10 +17,8 @@
 		</div>
 	</div>
 </div>
-<!-- angular controller -->
-<!-- passing ruby hash to javascript-->
-<!-- passing puntopagos transaction path to javascript-->
-<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types.to_json %>, "<%= puntopagos_transactions_new_path %>", <%= !@event.is_published %>)'>
+
+<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types.to_json %>, <%= !@event.is_published %>)'>
 	<div class="span4">
 		<div class="panel">
 			<div class="panel-heading panel-title">
@@ -39,8 +38,11 @@
 	</div>
 	<div class="span8">
 		<%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoTicketsModal()"} %>
+
 		<%= render :partial => "shared/message", :locals => { :message => t(".prevent_buy_msg.message"), :title => t(".prevent_buy_msg.title"), :modal_name => "buyModal", :close_function => "closeBuyModal()"} %>
-		<%= form_for @event do |f| %>
+
+		<%= form_tag puntopagos_transactions_new_path, :method => :get,
+      "ng-submit" => "validateTicketTypes($event)" do |f| %>
 			<div class="panel panel-primary">
 				<div class="panel-heading panel-title">
 					<i class="icon-ticket"></i>
@@ -49,17 +51,17 @@
 				<table class="table table-striped table-colored">
 					<thead>
 						<tr>
-							<th><%= t(".tickets_table.type") %></th>
-							<th><%= t(".tickets_table.amount") %></th>
-							<th><%= t(".tickets_table.qty") %></th>
+							<th><%= TicketType.human_attribute_name(:name) %></th>
+							<th><%= TicketType.human_attribute_name(:price) %></th>
+							<th><%= TicketType.human_attribute_name(:bought_quantity) %></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="t in ticketTypes">
 							<td>{{t.name}}</td>
-							<td>{{t.price}}</td>
+							<td>{{t.price | pteCurrency}}</td>
 							<td>
-								<select class="input-small" ng-model="t.qty">
+								<select class="input-small" ng-model="t.bought_quantity">
 									<%= options_for_select((0..10).step(1), 0) %>
 								</select>
 							</td>
@@ -67,10 +69,12 @@
 					</tbody>
 				</table>
 				<legend></legend>
-				<div class="control-group text-center">
-					<a class="btn btn-large btn-success" href="{{ticketTypesAfterFilter|serailizedUrl:actionUrl:'ticket_types'}}" ng-click="sendTicket($event)">
-						<h3><%= t("buttons.buy_now") %></h3>
-					</a>
+
+        <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]" value="{{type.bought_quantity}}" ng-repeat="type in ticketTypes"/>
+
+				<div class="text-center">
+          <input type="submit" value="<%= t("buttons.buy_now") %>"
+            class="btn btn-success btn-primary buy-btn"/>
 				</div>
 			</div>
 		<% end %>

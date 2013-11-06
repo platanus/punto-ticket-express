@@ -24,13 +24,13 @@ module Puntopagos::TransactionsHelper
   end
 
   def show_nested_form_for_transaction?
-    !@nested_attributes.empty? and
+    !@event.nested_attributes.empty? and
     (@event.nested_resource_source == PTE::NestedResourceSource.all or
     @event.nested_resource_source == PTE::NestedResourceSource.transaction)
   end
 
   def show_nested_form_for_tickets?
-    !@nested_attributes.empty? and
+    !@event.nested_attributes.empty? and
     (@event.nested_resource_source == PTE::NestedResourceSource.all or
     @event.nested_resource_source == PTE::NestedResourceSource.tickets)
   end
