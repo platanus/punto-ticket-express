@@ -34,6 +34,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
+    @valid_promotion_code = params[:promotion_code]
     @transaction = Transaction.begin current_user.id, @ticket_types, formatted_nested_data
     authorize! :create, @transaction
 
