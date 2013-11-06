@@ -10,7 +10,7 @@
     "bootstrap-timepicker": "~0.2.3",
     "prettycheckable": "*",
     "bootstrap-filestyle": "~1.0.3",
-    "angular-platanus-rut": "~0.0.2",
+    "angular-rut": "~0.0.2",
     "angular-platanus-misc": "~0.0.1",
     "momentjs": "~2.3.1"
   }
