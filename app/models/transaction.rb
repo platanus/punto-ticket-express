@@ -64,6 +64,8 @@ class Transaction < ActiveRecord::Base
         transaction.load_nested_resource(optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
+        transaction.apply_promotions(optional_data[:promotions])
+
         raise ActiveRecord::Rollback if transaction.errors.any?
       end
       transaction
@@ -203,6 +205,22 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  def apply_promotions data
+    return unless data
+
+    data.each do |item|
+      if self.ticket_types.where(id: item[:ticket_type_id]).size.zero?
+        raise_error("Given ticket type not found on transaction")
+      end
+
+      type_tickets = self.tickets.where(ticket_type_id: item[:ticket_type_id])
+
+      unless item[:promotion].apply(type_tickets)
+        Transaction.raise_error("Error trying to apply promotions on tickets")
+      end
+    end
+  end
+
   # Creates Ticket objects based on id and qty keys passed on ticket_types param.
   # The ticket_types's structure is:
   #  [{id: 1, qty: 3, object: TicketType},{id: 2, qty: 4, object: TicketType}]
@@ -259,7 +277,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.log_error error_msg
-    Rails.logger.error(error_msg)
+    Rails.logger.error(error_msg.red)
   end
 
   def self.raise_error message

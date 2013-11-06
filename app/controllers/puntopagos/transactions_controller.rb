@@ -45,7 +45,7 @@ class Puntopagos::TransactionsController < ApplicationController
     promotions_data = formatted_promotions_data
     data[:promotions] = promotions_data if promotions_data
 
-    @transaction = Transaction.begin current_user.id, @ticket_types, formatted_nested_data
+    @transaction = Transaction.begin current_user.id, @ticket_types, data
     authorize! :create, @transaction
 
     if @transaction.errors.any?

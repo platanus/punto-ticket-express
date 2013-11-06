@@ -55,6 +55,46 @@ class Promotion < ActiveRecord::Base
     self.update_column(:enabled, false)
   end
 
+  def apply tickets
+    begin
+      ActiveRecord::Base.transaction do
+        raise PTE::Exceptions::PromotionError.new(
+          "no tickets given") unless tickets
+        raise PTE::Exceptions::PromotionError.new(
+          "trying to apply disabled promo on tickets") unless self.enabled
+        raise PTE::Exceptions::PromotionError.new(
+          "trying to apply unavailable promo on tickets") unless self.is_promo_available?
+        if(self.is_nx1? and (tickets.size < self.promotion_type_config.to_i))
+          raise PTE::Exceptions::PromotionError.new(
+            "tickets count lower than promotion_type_config on nx1 promo")
+        end
+        tickets.each do |ticket|
+          if self.event.id != ticket.event.id
+            raise PTE::Exceptions::PromotionError.new(
+              "promo event != ticket event")
+          end
+          if ticket.price.to_i < self.load_discount(ticket.price).to_i
+            raise PTE::Exceptions::PromotionError.new(
+              "discount cant be bigger than ticket price")
+          end
+
+          unless self.activation_code.to_s.empty? or
+            (self.activation_code.to_s == self.validation_code.to_s)
+            raise PTE::Exceptions::PromotionError.new(
+              "activation code not matching with validation code")
+          end
+          self.tickets << ticket
+        end
+      end
+
+      return true
+
+    rescue Exception => e
+      Rails.logger.error(e.message.red)
+      return false
+    end
+  end
+
   # Loads discount attr based on promotion type
   #
   # @param price [Decimal]
