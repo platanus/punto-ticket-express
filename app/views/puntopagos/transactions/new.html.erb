@@ -8,11 +8,19 @@
 
   <%= render :partial => 'transaction_summary' %>
 
+  <pre>
+    {{code}}
+  </pre>
+
   <%= form_for([:puntopagos, @transaction],
     :html => {:class => 'form-horizontal'},
     :url => {:action => 'create'}) do |f| %>
 
-    <!-- Creates hidden fields with ticket types and more convinient promotion by type -->
+    <!-- Creates hidden fields for:
+      * ticket types
+      * the most convenient promotion by ticket_type
+      * activation code entered by user (if it matches with any promotion) -->
+    <input type="hidden" name="promotion_code" value="{{code.valid}}" />
     <div ng-repeat="type in data.ticketTypes" style="display:none;">
       <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]"
         value="{{type.bought_quantity}}" />

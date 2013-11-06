@@ -2,23 +2,29 @@ angular.module('puntoTicketApp.controllers')
   .controller('TransactionNewCtrl', ['$scope', function ($scope) {
 
     $scope.init = function(_summaryData) {
-      console.log(_summaryData)
       $scope.data = {};
-      $scope.data.code = null;
+      $scope.code = {entered: null, valid: null};
       $scope.data.ticketTypes = _summaryData;
       $scope.calculateAmounts();
     };
 
     $scope.usePromoCode = function($event) {
+      $scope.code.valid = null;
       $event.preventDefault();
       $scope.calculateAmounts();
     };
 
     var codeMatch = function(_hashCode) {
-      if($scope.data.code == null || $scope.data.code == '') {
+      if($scope.code.entered == null || $scope.code.entered == '')
         return false;
+
+      var valid = (MD5($scope.code.entered) == _hashCode);
+
+      if(valid) {
+        $scope.code.valid = $scope.code.entered;
       }
-      return (MD5($scope.data.code) == _hashCode);
+
+      return valid;
     };
 
     $scope.calculateAmounts = function() {
