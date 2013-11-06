@@ -43,20 +43,25 @@ class Transaction < ActiveRecord::Base
   # Creates tickets based on ticket_types.
   #
   # @param user_id [integer]
-  # @param ticket_types [Array] each row is a hash with qty key
-  #  that represents the quantity to sell from a given ticket type
-  #  and id key corresponding with the ticket type to sell.
-  #  The param has the following structure:
-  #   [{id: 1, qty: 3},{id: 2, qty: 4}]
+  # @param ticket_types [Array] TicketTypes collection with
+  #  bought_quantity setted with an positive integer.
+  # @param optional_data [Hash] can have the following keys:
+  #  - transaction_nested_resource (to relate a NestedResource with the new transaction).
+  #    Structure example: {attrs: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}, required_attributes: [:attr1, :attr2]}
+  #  - tickets_nested_resources (to relate a NestedResource for each transaction ticket).
+  #  - promotions (Promotions collection to apply on tickets)
+  #    Structure example: {:ticket_type_id=>1, :promotion=>#<Promotion>}, {:ticket_type_id=>2, :promotion=>#<Promotion>}
   # @return [Transaction] with PTE::PaymentStatus.processing as payment_status
-  def self.begin user_id, ticket_types, nested_resource_data
+
+  def self.begin user_id, ticket_types, optional_data = nil
     begin
       transaction = Transaction.new
 
       ActiveRecord::Base.transaction do
+        optional_data = {} unless optional_data
         validate_user_existance(user_id)
         validate_ticket_types(ticket_types)
-        transaction.load_nested_resource(nested_resource_data)
+        transaction.load_nested_resource(optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         raise ActiveRecord::Rollback if transaction.errors.any?

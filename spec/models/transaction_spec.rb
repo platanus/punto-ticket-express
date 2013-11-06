@@ -63,7 +63,8 @@ describe Transaction do
     it "fails if nested resource param has invalid structure" do
       type = create(:ticket_type, id: 2, quantity: 4, bought_quantity: 2)
       invalid_nested_resource = ["attr1", "attr2"]
-      t = Transaction.begin(user.id, [type], invalid_nested_resource)
+      data = {transaction_nested_resource: invalid_nested_resource}
+      t = Transaction.begin(user.id, [type], data)
       t.errors.messages[:base].should include(general_error)
       expect(t.error).to eq("Invalid nested_resource_data structure given")
     end
@@ -71,7 +72,8 @@ describe Transaction do
     it "fails if nested resource has valid structure and invalid attr names" do
       type = create(:ticket_type, id: 2, quantity: 4, bought_quantity: 2)
       invalid_nested_resource = {attrs: {invalid_attr_name: 'value1'}, required_attributes: [:invalid_attr_name]}
-      t = Transaction.begin(user.id, [type], invalid_nested_resource)
+      data = {transaction_nested_resource: invalid_nested_resource}
+      t = Transaction.begin(user.id, [type], data)
       t.errors.messages[:base].should include(general_error)
       expect(t.error).to eq("Invalid nested_resource_data structure given")
     end
@@ -81,7 +83,8 @@ describe Transaction do
       type_one = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 5)
       type_two = create(:ticket_type, id: 3, quantity: 10, event: event, bought_quantity: 4)
       valid_nested_resource = {attrs: {last_name: 'Segovia', name: 'Leandro'}, required_attributes: [:last_name]}
-      t = Transaction.begin(user.id, [type_one, type_two], valid_nested_resource)
+      data = {transaction_nested_resource: valid_nested_resource}
+      t = Transaction.begin(user.id, [type_one, type_two], data)
       expect(t.ticket_types.size).to eq(2)
       expect(t.payment_status).to eq(PTE::PaymentStatus.processing)
       expect(t.event.id).to eq(event.id)
