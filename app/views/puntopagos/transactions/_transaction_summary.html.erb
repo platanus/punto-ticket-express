@@ -35,7 +35,7 @@
       <div class="summary-item">
         <div class="summary-row total">
           <div class="name span5">
-            <%= "Total General" %>
+            <%= t(".total_amount") %>
           </div>
           <div class="value span6">
             <%= "{{ data.total | pteCurrency }}" %>
@@ -43,7 +43,7 @@
         </div>
         <div class="summary-row total">
           <div class="name span5">
-            <%= "Bonificado" %>
+            <%= t(".discount_label") %>
           </div>
           <div class="value span6">
             <%= "{{ data.total_discount | pteCurrency }}" %>
@@ -51,7 +51,7 @@
         </div>
         <div class="summary-row total pay">
           <div class="name span5">
-            <%= "Total a Pagar" %>
+            <%= t(".total_to_pay") %>
           </div>
           <div class="value span6 overline">
             <%= "{{ data.total_to_pay | pteCurrency }}" %>

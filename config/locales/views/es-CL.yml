@@ -72,8 +72,12 @@ es-CL:
         percent_discount_label: "%{name} (% %{value} de descuento x ticket)"
         amount_discount_label: "%{name} ($ %{value} de descuento x ticket)"
         nx1_label: "%{name} (%{value} tickets al valor de 1 de descuento)"
+        discount_label: "Bonificado"
+        total_amount: "Total General"
+        total_to_pay: "Total a Pagar"
       activation_code_panel:
         title: Tengo un código de descuento
+        placeholder: "Ingrese su código aquí..."
       new:
         title: Resumen de Compra
         not_payment_method_msg:
