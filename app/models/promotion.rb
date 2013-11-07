@@ -84,8 +84,7 @@ class Promotion < ActiveRecord::Base
               "promo event != ticket event")
           end
 
-          unless self.activation_code.to_s.empty? or
-            (self.activation_code.to_s == self.validation_code.to_s)
+          unless self.is_activation_code_valid?
             raise PTE::Exceptions::PromotionError.new(
               "activation code not matching with validation code")
           end
@@ -209,6 +208,11 @@ class Promotion < ActiveRecord::Base
 
   def is_limit_exceeded?
     self.limit and self.sold_tickets.count >= self.limit
+  end
+
+  def is_activation_code_valid?
+    (self.activation_code.to_s.empty? or
+      (self.activation_code.to_s == self.validation_code.to_s))
   end
 
   def sold_tickets

@@ -30,8 +30,8 @@
             <td><%= type_data[:name] %></td>
             <td><%= type_data[:count] %></td>
             <td><%= number_to_currency(type_data[:sub_total]) %></td>
-            <td><%= number_to_currency(type_data[:fee]) %></td>
-            <td><%= number_to_currency(type_data[:discount]) %></td>
+            <td><%= number_to_currency(type_data[:fee] * -1) %></td>
+            <td><%= number_to_currency(type_data[:discount] * -1) %></td>
             <td><%= number_to_currency(type_data[:total]) %></td>
           </tr>
         <% end %>
@@ -40,8 +40,8 @@
           <td></td>
           <td><%= totals[:count] %></td>
           <td><%= number_to_currency(totals[:sub_total]) %></td>
-          <td><%= number_to_currency(totals[:discount]) %></td>
-          <td><%= number_to_currency(totals[:fee]) %></td>
+          <td><%= number_to_currency(totals[:discount] * -1) %></td>
+          <td><%= number_to_currency(totals[:fee] * -1) %></td>
           <td><%= number_to_currency(totals[:total]) %></td>
         </tr>
       </table>
