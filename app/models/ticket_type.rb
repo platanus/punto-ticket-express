@@ -36,18 +36,22 @@ class TicketType < ActiveRecord::Base
     (self.sold_tickets_count.to_d * self.price.to_d) rescue 0.0
   end
 
-  def sold_amount_with_discounts
+  def discount_amount
     self.tickets.completed.inject(0.0) do |total, ticket|
-      total += ticket.price_with_discount
+      total += ticket.discount
     end
+  end
+
+  def raised_amount
+    self.sold_amount - self.total_fee - self.discount_amount
   end
 
   def sold_tickets_count
     self.tickets.completed.count
   end
 
-  def sold_amount_minus_fee
-    self.sold_amount - self.fixed_fee - self.percent_fee
+  def total_fee
+    (self.fixed_fee + percent_fee) rescue 0.0
   end
 
   def fixed_fee

@@ -2,15 +2,19 @@
 module EventDecorator
   def amounts_by_type ticket_type
     {name: ticket_type.name,
-     tickets_count: ticket_type.sold_tickets_count,
-     sub_total: ticket_type.sold_amount_minus_fee,
-     fixed_fee_total: ticket_type.fixed_fee,
-     percent_fee_total: ticket_type.percent_fee,
-     total: ticket_type.sold_amount}
+     count: ticket_type.sold_tickets_count,
+     sub_total: ticket_type.sold_amount,
+     fee: ticket_type.total_fee,
+     discount: ticket_type.discount_amount,
+     total: ticket_type.raised_amount}
   end
 
   def sold_amounts
-    {count: self.sold_tickets_count, total: self.sold_amount}
+    {count: self.sold_tickets_count,
+     discount: self.discount_amount,
+     sub_total: self.sold_amount,
+     fee: self.total_fee,
+     total: self.raised_amount}
   end
 
   # Returns first 4 attribute names of an event's nested resource. Prioritizing mandatory fields.

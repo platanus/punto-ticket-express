@@ -147,14 +147,25 @@ class Event < ActiveRecord::Base
     query.sum("ticket_types.price")
   end
 
-  def sold_amount_with_discounts
-    self.ticket_types.inject(0) do |total, type|
-      total += type.sold_amount_with_discounts
+  def discount_amount
+    # TODO:
+    # Save discount on ticket field.
+    # Do calculations every time will not work well with many tickets
+    self.tickets.completed.inject(0.0) do |total, ticket|
+      total += ticket.discount
     end
   end
 
   def sold_tickets_count
     self.tickets.completed.count
+  end
+
+  def total_fee
+    (self.calculated_fixed_fee + calculated_percent_fee) rescue 0.0
+  end
+
+  def raised_amount
+    self.sold_amount - self.total_fee - self.discount_amount
   end
 
   def calculated_fixed_fee

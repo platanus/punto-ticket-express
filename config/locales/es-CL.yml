@@ -176,12 +176,14 @@ es-CL:
         sub_total: Sub total
         total: Total
         tickets_count: Cantidad vendida
+        total_with_discounts: Recaudado
         ticket_type: Ticket
         fixed_fee: "Comisión Fija"
         percent_fee: "Porcentaje de Comisión"
         created_at: Fecha Creación
         updated_at: Fecha Modificación
         total_fee: Comisión Total
+        total_discount: Total Descuentos
         name: Nombre
     errors:
       messages:

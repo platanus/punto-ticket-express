@@ -18,8 +18,8 @@
             <th><%= Event.human_attribute_name :ticket_type %></th>
             <th><%= Event.human_attribute_name :tickets_count %></th>
             <th><%= Event.human_attribute_name :sub_total %></th>
-            <th><%= Event.human_attribute_name :fixed_fee %></th>
-            <th><%= Event.human_attribute_name :percent_fee %></th>
+            <th><%= Event.human_attribute_name :total_discount %></th>
+            <th><%= Event.human_attribute_name :total_fee %></th>
             <th><%= Event.human_attribute_name :total %></th>
           </tr>
         </thead>
@@ -28,18 +28,21 @@
           <% type_data = @event.amounts_by_type(type) %>
           <tr>
             <td><%= type_data[:name] %></td>
-            <td><%= type_data[:tickets_count] %></td>
+            <td><%= type_data[:count] %></td>
             <td><%= number_to_currency(type_data[:sub_total]) %></td>
-            <td><%= number_to_currency(type_data[:fixed_fee_total]) %></td>
-            <td><%= number_to_currency(type_data[:percent_fee_total]) %></td>
+            <td><%= number_to_currency(type_data[:discount]) %></td>
+            <td><%= number_to_currency(type_data[:fee]) %></td>
             <td><%= number_to_currency(type_data[:total]) %></td>
           </tr>
         <% end %>
+        <% totals = @event.sold_amounts %>
         <tr>
-          <td colspan="5"></td>
-          <td>
-            <%= number_to_currency(@event.sold_amounts[:total]) %>
-          </td>
+          <td></td>
+          <td><%= totals[:count] %></td>
+          <td><%= number_to_currency(totals[:sub_total]) %></td>
+          <td><%= number_to_currency(totals[:discount]) %></td>
+          <td><%= number_to_currency(totals[:fee]) %></td>
+          <td><%= number_to_currency(totals[:total]) %></td>
         </tr>
       </table>
     </div>
