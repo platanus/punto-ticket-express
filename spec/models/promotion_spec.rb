@@ -39,30 +39,30 @@ describe Promotion do
     end
   end
 
-  describe "#load_discount" do
+  describe "#discount" do
     it "returns 0 when no price given and type is percent" do
       promotion = create(:percent_promotion)
-      expect(promotion.load_discount(nil)).to eq(0.0)
+      expect(promotion.discount(nil)).to eq(0.0)
     end
 
     it "returns discount equals 100 and type is percent" do
       promotion = create(:percent_promotion, promotion_type_config: 10)
-      expect(promotion.load_discount(1000)).to eq(100.0)
+      expect(promotion.discount(1000)).to eq(100.0)
     end
 
     it "returns discount equals 200 and type is amount" do
       promotion = create(:amount_promotion, promotion_type_config: 200)
-      expect(promotion.load_discount).to eq(200.0)
+      expect(promotion.discount).to eq(200.0)
     end
 
     it "returns 0 when no price given and type is nx1" do
       promotion = create(:nx1_promotion)
-      expect(promotion.load_discount(nil)).to eq(0.0)
+      expect(promotion.discount(nil)).to eq(0.0)
     end
 
-    it "returns discount equals 2000 and type is nx1" do
-      promotion = create(:nx1_promotion, promotion_type_config: 3)
-      expect(promotion.load_discount(1000)).to eq(2000.0)
+    it "returns discount equals 500 and type is nx1" do
+      promotion = create(:nx1_promotion, promotion_type_config: 2)
+      expect(promotion.discount(1000)).to eq(500.0)
     end
   end
 end

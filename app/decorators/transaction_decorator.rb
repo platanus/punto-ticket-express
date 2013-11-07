@@ -16,12 +16,12 @@ module TransactionDecorator
 
       ticket_type.all_promotions.each do |promo|
         next unless promo.is_promo_available? and promo.enabled
-        next if promo.is_nx1? and (ticket_type.bought_quantity < promo.promotion_type_config.to_i)
+        next unless promo.is_valid_for_qty?(ticket_type.bought_quantity)
 
         type[:promotions] << {
           name: I18n.t("puntopagos.transactions.transaction_summary.#{promo.promotion_type}_label",
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
-          discount: promo.discount_by_quantity(ticket_type.bought_quantity, ticket_type.price),
+          discount: (promo.discount(ticket_type.price) * ticket_type.bought_quantity),
           code: promo.hex_activation_code,
           normal_code: promo.activation_code,
           ticket_type_id: ticket_type.id,

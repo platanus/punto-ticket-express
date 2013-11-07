@@ -2,7 +2,7 @@ class Promotion < ActiveRecord::Base
   attr_accessible :activation_code, :end_date, :limit, :name, :enabled,
   :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type
 
-  attr_accessor :discount, :validation_code
+  attr_accessor :validation_code
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets
@@ -61,7 +61,6 @@ class Promotion < ActiveRecord::Base
   # - Tries to apply not available promo on tickets
   # - Tickets count is greater than n value defined for nx1 promotions
   # - Promo event != ticket event
-  # - Promo discount is bigger than ticket price (not for nx1)
   # - Activation code not matches with validation code.
   #
   # @param type_tickets [Array] Tickets collection
@@ -75,7 +74,7 @@ class Promotion < ActiveRecord::Base
           "trying to apply disabled promo on tickets") unless self.enabled
         raise PTE::Exceptions::PromotionError.new(
           "trying to apply unavailable promo on tickets") unless self.is_promo_available?
-        if(self.is_nx1? and (type_tickets.size < self.promotion_type_config.to_i))
+        unless self.is_valid_for_qty?(type_tickets.size)
           raise PTE::Exceptions::PromotionError.new(
             "tickets count lower than promotion_type_config on nx1 promo")
         end
@@ -84,10 +83,6 @@ class Promotion < ActiveRecord::Base
             raise PTE::Exceptions::PromotionError.new(
               "promo event != ticket event")
           end
-          if ticket.price.to_i < self.load_discount(ticket.price).to_i
-            raise PTE::Exceptions::PromotionError.new(
-              "discount cant be bigger than ticket price")
-          end unless self.is_nx1?
 
           unless self.activation_code.to_s.empty? or
             (self.activation_code.to_s == self.validation_code.to_s)
@@ -114,22 +109,24 @@ class Promotion < ActiveRecord::Base
   #
   # @param price [Decimal]
   # @return [Decimal]
-  def load_discount price = nil
+  def discount price = nil
+    result = 0.0
+
     if self.is_percent_discount?
-      self.discount = self.get_percent_discount_amount(price)
+      result = self.get_percent_discount_amount(price)
 
     elsif self.is_amount_discount?
-      self.discount = self.get_amount_discount_amount
+      result = self.get_amount_discount_amount
 
     elsif self.is_nx1?
-      self.discount = self.get_nx1_amount(price)
+      result = self.get_nx1_amount(price)
 
     else
       raise PTE::Exceptions::PromotionError.new(
         "Invalid promotion type given")
     end
 
-    self.discount || 0.0
+    result || 0.0
   end
 
   # Calculates discount based on % defined by promotion and given price.
@@ -152,7 +149,7 @@ class Promotion < ActiveRecord::Base
   # @param price [Decimal]
   # @return [Decimal]
   def get_nx1_amount price
-    (self.promotion_type_config.to_i * price - price) rescue 0.0
+    (price.to_d / self.promotion_type_config.to_d) rescue 0.0
   end
 
   # If promotion is related with event this method will return that event
@@ -181,9 +178,8 @@ class Promotion < ActiveRecord::Base
 
     promotions.each do |promo|
       next unless promo.is_promo_available? and promo.enabled
-      promo.load_discount(price)
       if convenient_promo.nil? or
-        (promo.discount.to_d > convenient_promo.discount.to_d)
+        (promo.discount.to_d > convenient_promo.discount(price))
         convenient_promo = promo
       end
     end
@@ -206,19 +202,17 @@ class Promotion < ActiveRecord::Base
     (Date.today < self.start_date or Date.today > self.end_date)
   end
 
+  def is_valid_for_qty? quantity
+    return true unless self.is_nx1?
+    (quantity >= self.promotion_type_config.to_i)
+  end
+
   def is_limit_exceeded?
     self.limit and self.sold_tickets.count >= self.limit
   end
 
   def sold_tickets
     self.tickets.completed
-  end
-
-  def discount_by_quantity qty, price
-    self.load_discount(price)
-    qty = 0.0 unless qty
-    return self.discount if self.is_nx1?
-    self.discount * qty
   end
 
   def hex_activation_code
