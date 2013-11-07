@@ -23,18 +23,6 @@ module Puntopagos::TransactionsHelper
     result.to_json
   end
 
-  def show_nested_form_for_transaction?
-    !@event.nested_attributes.empty? and
-    (@event.nested_resource_source == PTE::NestedResourceSource.all or
-    @event.nested_resource_source == PTE::NestedResourceSource.transaction)
-  end
-
-  def show_nested_form_for_tickets?
-    !@event.nested_attributes.empty? and
-    (@event.nested_resource_source == PTE::NestedResourceSource.all or
-    @event.nested_resource_source == PTE::NestedResourceSource.tickets)
-  end
-
   def payment_methods
     types = []
 

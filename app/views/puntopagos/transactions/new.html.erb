@@ -24,7 +24,7 @@
         value="{{promo.id}}" ng-repeat="promo in type.promotions | filter: { best_promo: true }"/>
     </div>
 
-    <% if show_nested_form_for_transaction? %>
+    <% if @event.require_transaction_resource? %>
       <div class="row">
         <div class="span8">
           <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
@@ -49,6 +49,14 @@
           <%= payment_button f %>
         </div>
       </div>
+    <% end %>
+    <% if @event.require_ticket_resources? %>
+      <% @ticket_resources.each do |tr| %>
+        <% tr[:nested_resources].each_with_index do |nr, idx| %>
+          <%= render :partial => 'ticket_nested_resource',
+            :locals => { :form => f, :fields => nr, :ticket_type_id => tr[:id], :type_name => tr[:name], resource_idx: idx} %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 </div>

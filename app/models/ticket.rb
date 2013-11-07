@@ -1,5 +1,5 @@
 class Ticket < ActiveRecord::Base
-  attr_accessible :ticket_type_id, :transaction_id, :promotion_id
+  attr_accessible :ticket_type_id, :transaction_id, :promotion_id, :nested_resource_attributes
 
   belongs_to :ticket_type
   belongs_to :transaction
@@ -7,6 +7,8 @@ class Ticket < ActiveRecord::Base
   has_one :user, through: :transaction
   has_one :event, through: :ticket_type
   has_one :nested_resource, as: :nestable
+
+  accepts_nested_attributes_for :nested_resource
 
   validates :ticket_type_id, presence: true
   validate :is_ticket_type_valid?

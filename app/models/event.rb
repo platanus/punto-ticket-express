@@ -131,6 +131,18 @@ class Event < ActiveRecord::Base
     values
   end
 
+  def require_transaction_resource?
+    !self.nested_attributes.empty? and
+    (self.nested_resource_source == PTE::NestedResourceSource.all or
+    self.nested_resource_source == PTE::NestedResourceSource.transaction)
+  end
+
+  def require_ticket_resources?
+    !self.nested_attributes.empty? and
+    (self.nested_resource_source == PTE::NestedResourceSource.all or
+    self.nested_resource_source == PTE::NestedResourceSource.tickets)
+  end
+
   # Gets promotions applied to all ticket types (event's promotions)
   # and promotions applied to each ticket type
   #

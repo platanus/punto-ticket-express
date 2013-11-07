@@ -31,6 +31,7 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
+    load_clean_ticket_resources
   end
 
   def create
@@ -47,6 +48,8 @@ class Puntopagos::TransactionsController < ApplicationController
 
     @transaction = Transaction.begin current_user.id, @ticket_types, data
     authorize! :create, @transaction
+
+    @ticket_resources = [] #TODO: llenar con informacion del begin. ver si lo meto en la transaccion como un attr
 
     if @transaction.errors.any?
       render action: "new"
@@ -76,6 +79,17 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   private
+
+    def load_clean_ticket_resources
+      if @event.require_ticket_resources?
+        @ticket_resources = []
+        @ticket_types.each do |tt|
+          type = {id: tt.id, name: tt.name, nested_resources: []}
+          tt.bought_quantity.times { type[:nested_resources] << @event.nested_attributes }
+          @ticket_resources << type
+        end
+      end
+    end
 
     def create_puntopagos_transaction transaction
       request = PuntoPagos::Request.new

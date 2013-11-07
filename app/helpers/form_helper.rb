@@ -58,9 +58,6 @@ module FormHelper
       return f.select name,
         eval("#{f.object.class.name}.#{name.to_s.pluralize}_to_a"),
         { :include_blank => true }, html_options
-
-    elsif name.to_s.include? 'rut'
-      return f.text_field name, html_options.merge('rut' => '', 'render-on-blue' => '', 'ng-model' => 'rut')
     end
 
     f.text_field name, html_options
@@ -73,5 +70,51 @@ module FormHelper
       concat(" ")
       concat(value)
     end
+  end
+
+  # CONTROL GROUP FOR CONTROLS WITHOUT FORM
+  def control_group_tag label, control, options = {}
+    content_tag :div, class: "control-group #{get_error_class(options[:errors])}" do
+      concat(render_label_tag(label, options))
+      concat(content_tag(:div, class: 'controls'){
+        concat(control)
+        concat(error_label_tag(options[:errors]))
+      })
+    end
+  end
+
+  def get_error_class errors
+    !errors or errors.size.zero? ? "" : "error"
+  end
+
+  def error_label_tag errors
+    return if !errors or errors.size.zero?
+    messages = errors.join("<br/>")
+    content_tag :span, class: 'help-inline' do
+      messages.html_safe
+    end
+  end
+
+  def render_label_tag label, options
+    if !options.has_key? :ignore_required and options[:required]
+      label = "#{label} *"
+    end
+
+    label_tag(nil, label, class: 'control-label')
+  end
+
+  def build_control_tag attr, value, type, html_options = {}, options = {}
+    type = type.to_sym
+    attr = "#{options[:name_prefix]}[#{attr}]" if options[:name_prefix]
+
+    if type == :integer
+      return text_field_tag(attr, value, html_options.merge(:type => 'number'))
+
+    elsif type == :boolean
+      return select_tag(attr, options_for_select(options[:select_values], value),
+        html_options.merge({ :include_blank => true }))
+    end
+
+    return text_field_tag(attr, value, html_options)
   end
 end

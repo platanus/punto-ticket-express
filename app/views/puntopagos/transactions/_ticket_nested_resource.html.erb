@@ -1,0 +1,12 @@
+<div class="panel">
+  <div class="panel-heading panel-title">
+    <i class="icon-user"></i>
+    <%= t(".title", :ticket_type_name => type_name) %>
+  </div>
+  <% fields.each do |na| %>
+    <%= control_group_tag(NestedResource.human_attribute_name(na[:attr]),
+    	build_control_tag(na[:attr], nil, na[:type], {:class => "span5"},
+    		{:name_prefix => "[client_data][#{ticket_type_id}][#{resource_idx}]", :select_values => NestedResource.genders_to_a}),
+    	{required: na[:required], :errors => []}) %>
+  <% end %>
+</div>

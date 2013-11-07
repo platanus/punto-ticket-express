@@ -64,6 +64,8 @@ es-CL:
     transactions:
       nested_resource_form:
         title: Complete el formulario
+      ticket_nested_resource:
+        title: "Complete el formulario para el asistente con ticket \"%{ticket_type_name}\""
       payment_methods:
         title: Métodos de pago
       transaction_summary:

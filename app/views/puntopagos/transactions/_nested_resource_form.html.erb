@@ -3,8 +3,8 @@
     <i class="icon-user"></i>
     <%= t(".title") %>
   </div>
-  <% @nested_resource = @transaction.nested_resource || @transaction.build_nested_resource %>
-  <%= form.fields_for :nested_resource, @nested_resource do |ff| %>
+  <% nested_resource = @transaction.nested_resource || @transaction.build_nested_resource %>
+  <%= form.fields_for :nested_resource, nested_resource do |ff| %>
     <% @event.nested_attributes.each do |na| %>
       <%= control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type], {class: "span5"}), {required: na[:required]}) %>
     <% end %>
