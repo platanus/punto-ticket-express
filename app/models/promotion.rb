@@ -144,7 +144,7 @@ class Promotion < ActiveRecord::Base
     self.promotion_type_config.to_d rescue 0.0
   end
 
-  # Calculates discount multiping price with N value defined by promotion minus 1 x price
+  # Calculates discount dividing price by N value defined by promotion
   #
   # @param price [Decimal]
   # @return [Decimal]

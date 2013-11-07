@@ -35,6 +35,8 @@ class Ticket < ActiveRecord::Base
   delegate :address, to: :event, prefix: true, allow_nil: true
   delegate :producer, to: :event, prefix: true, allow_nil: true
 
+  delegate :discount, to: :promotion, prefix: true, allow_nil: true
+
   alias_method :price, :ticket_type_price
 
   def fixed_fee
@@ -43,6 +45,14 @@ class Ticket < ActiveRecord::Base
 
   def percent_fee
     (self.price.to_d * self.ticket_type_percent_fee.to_d / 100.0) rescue 0.0
+  end
+
+  def discount
+    self.promotion_discount(self.price) || 0.0
+  end
+
+  def price_with_discount
+    (self.price.to_d - discount.to_d) rescue 0.0
   end
 
   private
