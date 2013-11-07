@@ -189,11 +189,6 @@ class Event < ActiveRecord::Base
     (self.sold_amount.to_d * self.percent_fee.to_d / 100.0) rescue 0.0
   end
 
-  def set_fee_values
-    self.fixed_fee = self.producer_fixed_fee
-    self.percent_fee = self.producer_percent_fee
-  end
-
   private
     def remains_published?
       if !self.new_record? and self.is_published_was and
@@ -216,8 +211,14 @@ class Event < ActiveRecord::Base
 
     def set_fee_if_producer_change
       if self.producer_id_was != self.producer_id
-        self.set_fee_values
+          self.fixed_fee = self.producer_fixed_fee
+          self.percent_fee = self.producer_percent_fee
       end
+    end
+
+    def set_fee_values
+      self.fixed_fee = self.producer_fixed_fee unless self.fixed_fee
+      self.percent_fee = self.producer_percent_fee unless self.percent_fee
     end
 
     def is_theme_type_valid?

@@ -41,7 +41,7 @@ class Puntopagos::TransactionsController < ApplicationController
     data = {}
     transaction_data = formatted_nested_data
     data[:transaction_nested_resource] = transaction_data if transaction_data
-    tickets_data = formatted_tickets_data
+    tickets_data = formatted_nested_tickets_data
     data[:tickets_nested_resources] = tickets_data if tickets_data
     promotions_data = formatted_promotions_data
     data[:promotions] = promotions_data if promotions_data
@@ -128,9 +128,14 @@ class Puntopagos::TransactionsController < ApplicationController
       ticket_types_promotions
     end
 
-    def formatted_tickets_data
-      # TODO: Devolver un array con la información cargada en el formulario para cada uno de los tickets
-      nil
+    def formatted_nested_tickets_data
+      data = params[:tickets_nested_resources]
+      return nil unless data
+      data.inject([]) do |result, ticket_type|
+        type_data = {ticket_type_id: ticket_type.first,
+          resources: ticket_type.last.values}
+        result << type_data
+      end
     end
 
     def formatted_nested_data

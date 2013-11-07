@@ -65,6 +65,7 @@ class Transaction < ActiveRecord::Base
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
+        load_ticket_nested_resources(optional_data[:tickets_nested_resources])
 
         raise ActiveRecord::Rollback if transaction.errors.any?
       end
@@ -130,6 +131,10 @@ class Transaction < ActiveRecord::Base
     rescue
       Transaction.raise_error("Invalid nested_resource_data structure given")
     end
+  end
+
+  def self.load_ticket_nested_resources nested_resource_data
+    return unless nested_resource_data
   end
 
   # Calculates the total amount of the transaction based on ticket prices

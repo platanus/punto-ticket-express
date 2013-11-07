@@ -44,7 +44,7 @@ describe TicketType do
   describe "#sold_amount" do
 
     it "returns 3000 as sold amount" do
-      expect(@ticket_type.sold_amount).to eq(3000)
+      expect(@ticket_type.sold_amount.to_i).to eq(3000)
     end
 
   end
@@ -60,7 +60,7 @@ describe TicketType do
   describe "#fixed_fee" do
 
     it "returns 150 as fixed_fee" do
-      expect(@ticket_type.fixed_fee).to eq(150.0)
+      expect(@ticket_type.fixed_fee.to_i).to eq(150)
     end
 
   end
@@ -68,7 +68,7 @@ describe TicketType do
   describe "#percent_fee" do
 
     it "returns 600 as percent_fee" do
-      expect(@ticket_type.percent_fee).to eq(600.0)
+      expect(@ticket_type.percent_fee.to_i).to eq(600)
     end
 
   end
@@ -76,7 +76,7 @@ describe TicketType do
   describe "#percent_fee_over_price" do
 
     it "returns 200 percent_fee_over_price" do
-      expect(@ticket_type.percent_fee_over_price).to eq(200.0)
+      expect(@ticket_type.percent_fee_over_price.to_i).to eq(200)
     end
 
   end
@@ -84,7 +84,7 @@ describe TicketType do
   describe "#price_minus_fee" do
 
     it "returns 750 as price_minus_fee" do
-      expect(@ticket_type.price_minus_fee).to eq(750.0)
+      expect(@ticket_type.price_minus_fee.to_i).to eq(750)
     end
 
   end
