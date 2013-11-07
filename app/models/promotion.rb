@@ -55,6 +55,17 @@ class Promotion < ActiveRecord::Base
     self.update_column(:enabled, false)
   end
 
+  # Assigns promotion to tickets. This method will retrun false if:
+  # - No tickets given
+  # - Tries to apply disabled promo on tickets
+  # - Tries to apply not available promo on tickets
+  # - Tickets count is greater than n value defined for nx1 promotions
+  # - Promo event != ticket event
+  # - Promo discount is bigger than ticket price (not for nx1)
+  # - Activation code not matches with validation code.
+  #
+  # @param type_tickets [Array] Tickets collection
+  # @return [Boolean]
   def apply type_tickets
     begin
       ActiveRecord::Base.transaction do
