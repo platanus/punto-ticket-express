@@ -55,20 +55,20 @@ class Promotion < ActiveRecord::Base
     self.update_column(:enabled, false)
   end
 
-  def apply tickets
+  def apply type_tickets
     begin
       ActiveRecord::Base.transaction do
         raise PTE::Exceptions::PromotionError.new(
-          "no tickets given") unless tickets
+          "no tickets given") unless type_tickets
         raise PTE::Exceptions::PromotionError.new(
           "trying to apply disabled promo on tickets") unless self.enabled
         raise PTE::Exceptions::PromotionError.new(
           "trying to apply unavailable promo on tickets") unless self.is_promo_available?
-        if(self.is_nx1? and (tickets.size < self.promotion_type_config.to_i))
+        if(self.is_nx1? and (type_tickets.size < self.promotion_type_config.to_i))
           raise PTE::Exceptions::PromotionError.new(
             "tickets count lower than promotion_type_config on nx1 promo")
         end
-        tickets.each do |ticket|
+        type_tickets.each do |ticket|
           if self.event.id != ticket.event.id
             raise PTE::Exceptions::PromotionError.new(
               "promo event != ticket event")
@@ -76,15 +76,19 @@ class Promotion < ActiveRecord::Base
           if ticket.price.to_i < self.load_discount(ticket.price).to_i
             raise PTE::Exceptions::PromotionError.new(
               "discount cant be bigger than ticket price")
-          end
+          end unless self.is_nx1?
 
           unless self.activation_code.to_s.empty? or
             (self.activation_code.to_s == self.validation_code.to_s)
             raise PTE::Exceptions::PromotionError.new(
               "activation code not matching with validation code")
           end
-          self.tickets << ticket
+          self.tickets << ticket unless self.is_nx1?
         end
+
+        type_tickets.each_with_index do |ticket, idx|
+          self.tickets << ticket if idx < promotion_type_config.to_i
+        end if self.is_nx1?
       end
 
       return true
