@@ -34,7 +34,7 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
-    @payment_mehtod = params[:transaction][:payment_method]
+    @payment_method = params[:transaction][:payment_method]
     @valid_promotion_code = params[:promotion_code]
 
     data = {}
