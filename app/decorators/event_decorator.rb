@@ -45,4 +45,15 @@ module EventDecorator
 
     value
   end
+
+  def ticket_types_for_table
+    self.ticket_types.inject([]) do |result, tt|
+      result << {
+        name: tt.name,
+        id: tt.id,
+        price: tt.price_minus_fee,
+        promotion_price: tt.promotion_price,
+        bought_quantity: 0 }
+    end
+  end
 end

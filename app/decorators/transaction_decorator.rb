@@ -8,8 +8,8 @@ module TransactionDecorator
         id: ticket_type.id,
         name: I18n.t("puntopagos.transactions.transaction_summary.ticket_type_label",
           name: ticket_type.name, qty: ticket_type.bought_quantity,
-          price: number_to_currency(ticket_type.price)),
-        price: ticket_type.bought_quantity * ticket_type.price,
+          price: number_to_currency(ticket_type.price_minus_fee)),
+        price: ticket_type.bought_quantity * ticket_type.price_minus_fee,
         quantity: ticket_type.quantity,
         bought_quantity: ticket_type.bought_quantity,
         promotions: [] }
@@ -21,7 +21,7 @@ module TransactionDecorator
         type[:promotions] << {
           name: I18n.t("puntopagos.transactions.transaction_summary.#{promo.promotion_type}_label",
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
-          discount: (promo.discount(ticket_type.price) * ticket_type.bought_quantity),
+          discount: (promo.discount(ticket_type.price_minus_fee) * ticket_type.bought_quantity),
           code: promo.hex_activation_code,
           normal_code: promo.activation_code,
           ticket_type_id: ticket_type.id,

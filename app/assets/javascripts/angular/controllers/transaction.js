@@ -33,7 +33,7 @@ angular.module('puntoTicketApp.controllers')
       $scope.data.total_discount = 0;
 
       angular.forEach($scope.data.ticketTypes, function(_type){
-        $scope.data.total += _type.price;
+        $scope.data.total += parseInt(_type.price);
 
         console.log(_type.promotions)
         angular.forEach(_type.promotions, function(_promo){

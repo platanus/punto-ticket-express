@@ -18,7 +18,7 @@
 	</div>
 </div>
 
-<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types.to_json %>, <%= !@event.is_published %>)'>
+<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>)'>
 	<div class="span4">
 		<div class="panel">
 			<div class="panel-heading panel-title">
@@ -53,13 +53,21 @@
 						<tr>
 							<th><%= TicketType.human_attribute_name(:name) %></th>
 							<th><%= TicketType.human_attribute_name(:price) %></th>
+              <th><%= TicketType.human_attribute_name(:discount) %></th>
 							<th><%= TicketType.human_attribute_name(:bought_quantity) %></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="t in ticketTypes">
 							<td>{{t.name}}</td>
-							<td>{{t.price | pteCurrency}}</td>
+							<td ng-class="{'line-through':t.promotion_price != t.price}">
+                {{t.price | pteCurrency}}
+              </td>
+              <td>
+                <div ng-show="{{t.promotion_price != t.price}}">
+                  {{t.promotion_price | pteCurrency}}
+                </div>
+              </td>
 							<td>
 								<select class="input-small" ng-model="t.bought_quantity">
 									<%= options_for_select((0..10).step(1), 0) %>

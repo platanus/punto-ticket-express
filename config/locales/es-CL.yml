@@ -158,6 +158,7 @@ es-CL:
       ticket_type:
         name: Nombre
         price: Precio
+        discount: Precio con descuento
         quantity: Stock
         bought_quantity: Cantidad a comprar
       event:
