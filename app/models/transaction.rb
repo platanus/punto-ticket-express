@@ -65,7 +65,7 @@ class Transaction < ActiveRecord::Base
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
-        load_ticket_nested_resources(optional_data[:tickets_nested_resources])
+        transaction.load_ticket_nested_resources(optional_data[:tickets_nested_resources])
 
         raise ActiveRecord::Rollback if transaction.errors.any?
       end
@@ -133,8 +133,20 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def self.load_ticket_nested_resources nested_resource_data
+  def load_ticket_nested_resources nested_resource_data
     return unless nested_resource_data
+    nested_resource_data.each do |tt|
+      type_tickets = self.ticket_type_tickets(tt[:ticket_type_id])
+      if(tt[:resources].size != type_tickets.size)
+        raise_error("type tickets size and resources size are not the same")
+      end
+      type_tickets.each_with_index do |ticket, idx|
+        nr = NestedResource.new(tt[:resources][idx])
+        ticket.nested_resource = nr
+        result = ticket.save!
+        puts "#{result}".yellow * 10
+      end
+    end
   end
 
   # Calculates the total amount of the transaction based on ticket prices
@@ -219,16 +231,19 @@ class Transaction < ActiveRecord::Base
     return unless data
 
     data.each do |item|
-      if self.ticket_types.where(id: item[:ticket_type_id]).size.zero?
-        raise_error("Given ticket type not found on transaction")
-      end
-
-      type_tickets = self.tickets.where(ticket_type_id: item[:ticket_type_id])
-
+      type_tickets = self.ticket_type_tickets(item[:ticket_type_id])
       unless item[:promotion].apply(type_tickets)
         self.errors.add(:base, I18n.t("activerecord.errors.models.transaction.promotion_error"))
       end
     end
+  end
+
+  def ticket_type_tickets ticket_type_id
+    if self.ticket_types.where(id: ticket_type_id).size.zero?
+      raise_error("Given ticket type not found on transaction")
+    end
+
+    self.tickets.where(ticket_type_id: ticket_type_id)
   end
 
   # Creates Ticket objects based on id and qty keys passed on ticket_types param.
