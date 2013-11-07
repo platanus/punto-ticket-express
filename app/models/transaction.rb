@@ -50,7 +50,7 @@ class Transaction < ActiveRecord::Base
   #    Structure example: {attrs: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}, required_attributes: [:attr1, :attr2]}
   #  - tickets_nested_resources (to relate a NestedResource for each transaction ticket).
   #  - promotions (Promotions collection to apply on tickets)
-  #    Structure example: {:ticket_type_id=>1, :promotion=>#<Promotion>}, {:ticket_type_id=>2, :promotion=>#<Promotion>}
+  #    Structure example: [{:ticket_type_id=>1, :promotion=>#<Promotion>}, {:ticket_type_id=>2, :promotion=>#<Promotion>}]
   # @return [Transaction] with PTE::PaymentStatus.processing as payment_status
 
   def self.begin user_id, ticket_types, optional_data = nil
@@ -205,6 +205,11 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  # Applies a single promotion to tickets of each ticket type given
+  #
+  # @param data [Array] with structure:
+  # [{:ticket_type_id=>1, :promotion=>#<Promotion>},
+  # {:ticket_type_id=>2, :promotion=>#<Promotion>}]
   def apply_promotions data
     return unless data
 
@@ -216,7 +221,7 @@ class Transaction < ActiveRecord::Base
       type_tickets = self.tickets.where(ticket_type_id: item[:ticket_type_id])
 
       unless item[:promotion].apply(type_tickets)
-        Transaction.raise_error("Error trying to apply promotions on tickets")
+        self.errors.add(:base, I18n.t("activerecord.errors.models.transaction.promotion_error"))
       end
     end
   end

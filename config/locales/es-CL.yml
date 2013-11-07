@@ -210,6 +210,7 @@ es-CL:
         transaction:
           not_available_tickets: "No quedan tickets para el tipo %{ticket_type_name}"
           unknown_error: "Ocurrió un error desconocido y la transacción fue cancelada"
+          promotion_error: "Las promociones han cambiado."
         user:
           has_related_tickets: Ha comprado tickets.
           has_related_event_tickets: Ha vendido tickets de sus eventos.
