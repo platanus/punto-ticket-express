@@ -39,7 +39,7 @@ class Puntopagos::TransactionsController < ApplicationController
     @valid_promotion_code = params[:promotion_code]
 
     data = {}
-    transaction_data = formatted_nested_data
+    transaction_data = params[:transaction][:nested_resource_attributes]
     data[:transaction_nested_resource] = transaction_data if transaction_data
     tickets_data = formatted_nested_tickets_data
     data[:tickets_nested_resources] = tickets_data if tickets_data
@@ -136,13 +136,6 @@ class Puntopagos::TransactionsController < ApplicationController
           resources: ticket_type.last.values}
         result << type_data
       end
-    end
-
-    def formatted_nested_data
-      nested_resource_attrs = params[:transaction][:nested_resource_attributes] rescue nil
-      return {attrs: nested_resource_attrs,
-        required_attributes: @event.required_nested_attributes
-      } if nested_resource_attrs
     end
 
     def send_completed_payment_mail transaction

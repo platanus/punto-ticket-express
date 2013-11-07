@@ -71,7 +71,7 @@ describe Transaction do
 
     it "fails if nested resource has valid structure and invalid attr names" do
       type = create(:ticket_type, id: 2, quantity: 4, bought_quantity: 2)
-      invalid_nested_resource = {attrs: {invalid_attr_name: 'value1'}, required_attributes: [:invalid_attr_name]}
+      invalid_nested_resource = {invalid_attr_name: 'value1'}
       data = {transaction_nested_resource: invalid_nested_resource}
       t = Transaction.begin(user.id, [type], data)
       t.errors.messages[:base].should include(general_error)
@@ -80,9 +80,11 @@ describe Transaction do
 
     it "creates transaction for given ticket types and valid nested resource" do
       event = create(:event, id: 1)
+      event.data_to_collect = {"0"=>{"name"=>"last_name", "value"=>"required"}}
+      event.save
       type_one = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 5)
       type_two = create(:ticket_type, id: 3, quantity: 10, event: event, bought_quantity: 4)
-      valid_nested_resource = {attrs: {last_name: 'Segovia', name: 'Leandro'}, required_attributes: [:last_name]}
+      valid_nested_resource = {last_name: 'Segovia', name: 'Leandro'}
       data = {transaction_nested_resource: valid_nested_resource}
       t = Transaction.begin(user.id, [type_one, type_two], data)
       expect(t.ticket_types.size).to eq(2)

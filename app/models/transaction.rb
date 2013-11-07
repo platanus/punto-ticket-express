@@ -47,7 +47,7 @@ class Transaction < ActiveRecord::Base
   #  bought_quantity setted with an positive integer.
   # @param optional_data [Hash] can have the following keys:
   #  - transaction_nested_resource (to relate a NestedResource with the new transaction).
-  #    Structure example: {attrs: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}, required_attributes: [:attr1, :attr2]}
+  #    Structure example: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}
   #  - tickets_nested_resources (to relate a NestedResource for each transaction ticket).
   #  - promotions (Promotions collection to apply on tickets)
   #    Structure example: [{:ticket_type_id=>1, :promotion=>#<Promotion>}, {:ticket_type_id=>2, :promotion=>#<Promotion>}]
@@ -61,10 +61,10 @@ class Transaction < ActiveRecord::Base
         optional_data = {} unless optional_data
         validate_user_existance(user_id)
         validate_ticket_types(ticket_types)
-        transaction.load_nested_resource(optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
+        transaction.load_nested_resource(optional_data[:transaction_nested_resource])
         transaction.load_ticket_nested_resources(optional_data[:tickets_nested_resources])
 
         raise ActiveRecord::Rollback if transaction.errors.any?
@@ -120,13 +120,13 @@ class Transaction < ActiveRecord::Base
 
   # Loads NestedResource instance into transaction
   # @param [Hash] The structure of nested_resource_data param must be:
-  #  {attrs: {attr1: 'value1', attr2: 'value1', attr3: 'value3'}, required_attributes: [:attr1, :attr2]}
+  #  {attr1: 'value1', attr2: 'value1', attr3: 'value3'}
   def load_nested_resource nested_resource_data
     return unless nested_resource_data
 
     begin
-      nr = NestedResource.new(nested_resource_data[:attrs])
-      nr.required_attributes = nested_resource_data[:required_attributes]
+      nr = NestedResource.new(nested_resource_data)
+      nr.required_attributes = self.event.required_nested_attributes
       self.nested_resource = nr
     rescue
       Transaction.raise_error("Invalid nested_resource_data structure given")
@@ -135,17 +135,25 @@ class Transaction < ActiveRecord::Base
 
   def load_ticket_nested_resources nested_resource_data
     return unless nested_resource_data
-    nested_resource_data.each do |tt|
-      type_tickets = self.ticket_type_tickets(tt[:ticket_type_id])
-      if(tt[:resources].size != type_tickets.size)
-        raise_error("type tickets size and resources size are not the same")
+    begin
+      nested_resource_data.each do |tt|
+        type_tickets = self.ticket_type_tickets(tt[:ticket_type_id])
+        if(tt[:resources].size != type_tickets.size)
+          raise_error("type tickets size and resources size are not the same")
+        end
+        type_tickets.each_with_index do |ticket, idx|
+          nr = NestedResource.new(tt[:resources][idx])
+          nr.required_attributes = self.event.required_nested_attributes
+
+          if nr.valid?
+            ticket.nested_resource = nr
+          else
+            #TODO: persistir con los errores para devolver al cliente
+          end
+        end
       end
-      type_tickets.each_with_index do |ticket, idx|
-        nr = NestedResource.new(tt[:resources][idx])
-        ticket.nested_resource = nr
-        result = ticket.save!
-        puts "#{result}".yellow * 10
-      end
+    rescue
+      Transaction.raise_error("Problem saving ticket_nested_resources")
     end
   end
 
