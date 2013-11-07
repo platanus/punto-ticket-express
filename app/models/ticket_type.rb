@@ -100,8 +100,8 @@ class TicketType < ActiveRecord::Base
   # @return [Float]
   def promotion_price
     convenient_promo = self.most_convenient_promotion
-    discount = convenient_promo.discount(self.price) rescue 0.0
-    amount = self.price || 0.0
+    discount = convenient_promo.discount(self.price_minus_fee) rescue 0.0
+    amount = self.price_minus_fee || 0.0
     amount - discount
   end
 

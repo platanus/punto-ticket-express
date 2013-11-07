@@ -18,8 +18,8 @@
             <th><%= Event.human_attribute_name :ticket_type %></th>
             <th><%= Event.human_attribute_name :tickets_count %></th>
             <th><%= Event.human_attribute_name :sub_total %></th>
-            <th><%= Event.human_attribute_name :total_discount %></th>
             <th><%= Event.human_attribute_name :total_fee %></th>
+            <th><%= Event.human_attribute_name :total_discount %></th>
             <th><%= Event.human_attribute_name :total %></th>
           </tr>
         </thead>
@@ -30,8 +30,8 @@
             <td><%= type_data[:name] %></td>
             <td><%= type_data[:count] %></td>
             <td><%= number_to_currency(type_data[:sub_total]) %></td>
-            <td><%= number_to_currency(type_data[:discount]) %></td>
             <td><%= number_to_currency(type_data[:fee]) %></td>
+            <td><%= number_to_currency(type_data[:discount]) %></td>
             <td><%= number_to_currency(type_data[:total]) %></td>
           </tr>
         <% end %>
