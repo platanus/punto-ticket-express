@@ -36,6 +36,12 @@ class TicketType < ActiveRecord::Base
     (self.sold_tickets_count.to_d * self.price.to_d) rescue 0.0
   end
 
+  def sold_amount_with_discounts
+    self.tickets.completed.inject(0.0) do |total, ticket|
+      total += ticket.price_with_discount
+    end
+  end
+
   def sold_tickets_count
     self.tickets.completed.count
   end
@@ -90,7 +96,7 @@ class TicketType < ActiveRecord::Base
   # @return [Float]
   def promotion_price
     convenient_promo = self.most_convenient_promotion
-    discount = convenient_promo.discount rescue 0.0
+    discount = convenient_promo.discount(self.price) rescue 0.0
     amount = self.price || 0.0
     amount - discount
   end

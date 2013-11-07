@@ -147,6 +147,12 @@ class Event < ActiveRecord::Base
     query.sum("ticket_types.price")
   end
 
+  def sold_amount_with_discounts
+    self.ticket_types.inject(0) do |total, type|
+      total += type.sold_amount_with_discounts
+    end
+  end
+
   def sold_tickets_count
     self.tickets.completed.count
   end
