@@ -9,8 +9,8 @@ es-CL:
       all: Todos los tickets del evento
     nested_resource_source:
       all: "Compra y tickets"
-      transaction: "Sólo compra"
-      tickets: "Sólo tickets"
+      transaction: "sólo para el comprador"
+      tickets: "cada ticket"
     promo_type:
       percent_discount: "% de descuento"
       amount_discount: "$ de descuento"
@@ -162,7 +162,7 @@ es-CL:
         quantity: Stock
         bought_quantity: Cantidad a comprar
       event:
-        nested_resource_source: Recolectar datos por
+        nested_resource_source: Recolectar datos
         address: Dirección
         description: Descripción
         custom_url: Dirección Web Personalizada
