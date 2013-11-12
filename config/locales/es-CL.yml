@@ -211,6 +211,7 @@ es-CL:
           invalid_rut_format: "debe tener el siguiente formato: XXXXXXXX-X donde X es un número entre 0 y 9 ó K."
           invalid_verification_digit: "tiene el dígito verificador incorrecto."
         transaction:
+          ticket_nested_resource_error: "Se han encontrado errores en los formularios de participantes."
           not_available_tickets: "No quedan tickets para el tipo %{ticket_type_name}"
           unknown_error: "Ocurrió un error desconocido y la transacción fue cancelada"
           promotion_error: "Las promociones han cambiado."

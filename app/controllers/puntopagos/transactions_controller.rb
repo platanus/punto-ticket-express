@@ -31,7 +31,7 @@ class Puntopagos::TransactionsController < ApplicationController
   def new
     authorize! :create, Transaction
     @transaction = Transaction.new
-    load_clean_ticket_resources
+    load_ticket_resources_from_types
   end
 
   def create
@@ -49,9 +49,9 @@ class Puntopagos::TransactionsController < ApplicationController
     @transaction = Transaction.begin current_user.id, @ticket_types, data
     authorize! :create, @transaction
 
-    @ticket_resources = [] #TODO: llenar con informacion del begin. ver si lo meto en la transaccion como un attr
-
     if @transaction.errors.any?
+      load_ticket_resources_from_transaction
+      puts @ticket_resources.to_s.yellow
       render action: "new"
       return
     end
@@ -80,14 +80,52 @@ class Puntopagos::TransactionsController < ApplicationController
 
   private
 
-    def load_clean_ticket_resources
+    def load_ticket_resources_from_types
       if @event.require_ticket_resources?
         @ticket_resources = []
         @ticket_types.each do |tt|
           type = {id: tt.id, name: tt.name, nested_resources: []}
-          tt.bought_quantity.times { type[:nested_resources] << @event.nested_attributes }
+          tt.bought_quantity.times do
+            type[:nested_resources] << @event.nested_attributes
+          end
           @ticket_resources << type
         end
+      end
+    end
+
+    def load_ticket_resources_from_transaction
+      @ticket_resources = []
+      @transaction.tickets_nested_resources.each do |tt|
+        ticket_type = TicketType.find(tt[:ticket_type_id])
+        type = {id: ticket_type.id, name: ticket_type.name, nested_resources: []}
+        resource = []
+        tt[:resources].each do |resource_data|
+          attrs = resource_data[:resource].keys
+          attrs.each do |attr|
+            item = {}
+
+            @event.nested_attributes.each do |event_attr|
+              if event_attr[:attr].to_s == attr.to_s
+                item = event_attr
+                break
+              end
+            end
+
+            item[:value] = resource_data[:resource][attr]
+
+            resource_data[:errors].each do |error|
+              attr_with_error = error.keys.first
+              if attr_with_error == attr
+                item[:errors] = error[attr_with_error]
+              end
+            end
+
+            resource << item
+          end
+        end
+
+        type[:nested_resources] << resource
+        @ticket_resources << type
       end
     end
 

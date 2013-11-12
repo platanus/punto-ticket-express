@@ -7,6 +7,6 @@
     <%= control_group_tag(NestedResource.human_attribute_name(na[:attr]),
     	build_control_tag(na[:attr], nil, na[:type], {:class => "span5"},
     		{:name_prefix => "[tickets_nested_resources][#{ticket_type_id}][#{resource_idx}]", :select_values => NestedResource.genders_to_a}),
-    	{required: na[:required], :errors => []}) %>
+    	{required: na[:required], :errors => na[:errors]}) %>
   <% end %>
 </div>

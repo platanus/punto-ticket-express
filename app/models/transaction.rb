@@ -1,6 +1,6 @@
 class Transaction < ActiveRecord::Base
   attr_accessible :amount, :details, :payment_status, :token, :transaction_time, :user_id, :nested_resource_attributes, :error
-  attr_accessor :payment_method
+  attr_accessor :payment_method, :tickets_nested_resources
 
   belongs_to :user
   has_many :tickets
@@ -59,13 +59,16 @@ class Transaction < ActiveRecord::Base
 
       ActiveRecord::Base.transaction do
         optional_data = {} unless optional_data
+        transaction.prepare_tickets_nested_resources(
+          optional_data[:tickets_nested_resources])
         validate_user_existance(user_id)
         validate_ticket_types(ticket_types)
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
-        transaction.load_nested_resource(optional_data[:transaction_nested_resource])
-        transaction.load_ticket_nested_resources(optional_data[:tickets_nested_resources])
+        transaction.load_nested_resource(
+          optional_data[:transaction_nested_resource])
+        transaction.load_ticket_nested_resources
 
         raise ActiveRecord::Rollback if transaction.errors.any?
       end
@@ -133,21 +136,33 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def load_ticket_nested_resources nested_resource_data
-    return unless nested_resource_data
+  def prepare_tickets_nested_resources nested_resource_data
+    self.tickets_nested_resources = []
+
+    nested_resource_data.each do |tt|
+      format_resources = []
+      tt[:resources].each do |resource|
+        format_resources << {resource: resource, errors: []}
+      end
+      tt[:resources] = format_resources
+    end
+
+    self.tickets_nested_resources = nested_resource_data
+  end
+
+  def load_ticket_nested_resources
     begin
-      nested_resource_data.each do |tt|
-        type_tickets = self.ticket_type_tickets(tt[:ticket_type_id])
-        if(tt[:resources].size != type_tickets.size)
-          raise_error("type tickets size and resources size are not the same")
-        end
+      tickets_nested_resources.each do |tt|
+        type_tickets = ticket_type_tickets tt[:ticket_type_id]
         type_tickets.each_with_index do |ticket, idx|
-          nr = NestedResource.new(tt[:resources][idx])
+          nr = NestedResource.new(tt[:resources][idx][:resource])
           nr.required_attributes = self.event.required_nested_attributes
 
           if nr.valid?
             ticket.nested_resource = nr
           else
+            self.errors.add(:base, I18n.t('activerecord.errors.models.transaction.ticket_nested_resource_error'))
+            #tt[:resources][idx][:errors] = [{'attr1' => ['Error 1', 'Error 2']}, {'attr2' => ['Error 1']}]
             #TODO: persistir con los errores para devolver al cliente
           end
         end
