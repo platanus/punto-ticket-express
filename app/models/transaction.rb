@@ -162,7 +162,7 @@ class Transaction < ActiveRecord::Base
             ticket.nested_resource = nr
           else
             self.errors.add(:base, I18n.t('activerecord.errors.models.transaction.ticket_nested_resource_error'))
-            #tt[:resources][idx][:errors] = [{'attr1' => ['Error 1', 'Error 2']}, {'attr2' => ['Error 1']}]
+            tt[:resources][idx][:errors] = [{'name' => ['Error 1', 'Error 2']}, {'last_name' => ['Error 1']}]
             #TODO: persistir con los errores para devolver al cliente
           end
         end

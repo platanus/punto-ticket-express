@@ -51,7 +51,6 @@ class Puntopagos::TransactionsController < ApplicationController
 
     if @transaction.errors.any?
       load_ticket_resources_from_transaction
-      puts @ticket_resources.to_s.yellow
       render action: "new"
       return
     end
@@ -98,9 +97,10 @@ class Puntopagos::TransactionsController < ApplicationController
       @transaction.tickets_nested_resources.each do |tt|
         ticket_type = TicketType.find(tt[:ticket_type_id])
         type = {id: ticket_type.id, name: ticket_type.name, nested_resources: []}
-        resource = []
         tt[:resources].each do |resource_data|
+          resource = []
           attrs = resource_data[:resource].keys
+
           attrs.each do |attr|
             item = {}
 
@@ -122,9 +122,10 @@ class Puntopagos::TransactionsController < ApplicationController
 
             resource << item
           end
+
+          type[:nested_resources] << resource
         end
 
-        type[:nested_resources] << resource
         @ticket_resources << type
       end
     end
