@@ -132,6 +132,7 @@ class Transaction < ActiveRecord::Base
       nr.required_attributes = self.event.required_nested_attributes
       self.nested_resource = nr
     rescue
+      #TODO: this is failing: ActiveRecord::RecordNotSaved: Failed to save the new associated nested resource
       Transaction.raise_error("Invalid nested_resource_data structure given")
     end
   end
@@ -139,15 +140,17 @@ class Transaction < ActiveRecord::Base
   def prepare_tickets_nested_resources nested_resource_data
     self.tickets_nested_resources = []
 
-    nested_resource_data.each do |tt|
-      format_resources = []
-      tt[:resources].each do |resource|
-        format_resources << {resource: resource, errors: []}
+    if nested_resource_data
+      nested_resource_data.each do |tt|
+        format_resources = []
+        tt[:resources].each do |resource|
+          format_resources << {resource: resource, errors: {}}
+        end
+        tt[:resources] = format_resources
       end
-      tt[:resources] = format_resources
-    end
 
-    self.tickets_nested_resources = nested_resource_data
+      self.tickets_nested_resources = nested_resource_data
+    end
   end
 
   def load_ticket_nested_resources
@@ -162,8 +165,7 @@ class Transaction < ActiveRecord::Base
             ticket.nested_resource = nr
           else
             self.errors.add(:base, I18n.t('activerecord.errors.models.transaction.ticket_nested_resource_error'))
-            tt[:resources][idx][:errors] = [{'name' => ['Error 1', 'Error 2']}, {'last_name' => ['Error 1']}]
-            #TODO: persistir con los errores para devolver al cliente
+            tt[:resources][idx][:errors] = nr.errors.messages
           end
         end
       end
