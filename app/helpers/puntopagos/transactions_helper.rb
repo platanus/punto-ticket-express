@@ -23,7 +23,9 @@ module Puntopagos::TransactionsHelper
   end
 
   def transaction_errors_hash
-    errors_on = {:transaction => false, :participants_data => false}
+    errors_on = {
+      :transaction => @transaction.with_errors?,
+      :participants_data => false }
 
     @ticket_resources.each do |tr|
       tr[:nested_resources].each do |nr|

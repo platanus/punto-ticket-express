@@ -162,6 +162,7 @@ class Transaction < ActiveRecord::Base
 
   def load_ticket_nested_resources
     begin
+      errors_found = 0
       tickets_nested_resources.each do |tt|
         type_tickets = ticket_type_tickets tt[:ticket_type_id]
         type_tickets.each_with_index do |ticket, idx|
@@ -171,10 +172,14 @@ class Transaction < ActiveRecord::Base
           if nr.valid?
             ticket.nested_resource = nr
           else
-            self.errors.add(:base, I18n.t('activerecord.errors.models.transaction.ticket_nested_resource_error'))
+            errors_found += 1
             tt[:resources][idx][:errors] = nr.errors.messages
           end
         end
+      end
+
+      unless errors_found.zero?
+        self.errors.add(:base, I18n.t('activerecord.errors.models.transaction.ticket_nested_resource_error'))
       end
     rescue
       Transaction.raise_error("Problem saving ticket_nested_resources")
