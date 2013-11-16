@@ -47,6 +47,11 @@ class Ticket < ActiveRecord::Base
     self.promotion_discount(self.price_minus_fee) || 0.0
   end
 
+  def price_minus_discount
+    pmf = self.price_minus_fee || 0.0
+    pmf - self.discount
+  end
+
   private
 
     def available_tickets?
