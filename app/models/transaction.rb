@@ -63,11 +63,12 @@ class Transaction < ActiveRecord::Base
           optional_data[:tickets_nested_resources])
         validate_user_existance(user_id)
         validate_ticket_types(ticket_types)
+        transaction_event = ticket_types.first.event
+        transaction.load_nested_resource(transaction_event,
+          optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
-        transaction.load_nested_resource(
-          optional_data[:transaction_nested_resource])
         transaction.load_ticket_nested_resources
 
         raise ActiveRecord::Rollback if transaction.errors.any?
@@ -128,14 +129,13 @@ class Transaction < ActiveRecord::Base
   # Loads NestedResource instance into transaction
   # @param [Hash] The structure of nested_resource_data param must be:
   #  {attr1: 'value1', attr2: 'value1', attr3: 'value3'}
-  def load_nested_resource nested_resource_data
+  def load_nested_resource transaction_event, nested_resource_data
     begin
       return unless nested_resource_data
       nr = NestedResource.new(nested_resource_data)
-      nr.required_attributes = self.event.required_nested_attributes
+      nr.required_attributes = transaction_event.required_nested_attributes
       self.nested_resource = nr
     rescue
-      #TODO: this is failing: ActiveRecord::RecordNotSaved: Failed to save the new associated nested resource
       Transaction.raise_error("Invalid nested_resource_data structure given")
     end
   end
