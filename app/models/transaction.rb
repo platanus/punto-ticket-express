@@ -118,6 +118,10 @@ class Transaction < ActiveRecord::Base
   end
 
   def with_errors?
+    self.errors.any?
+  end
+
+  def with_irrecoverable_errors?
     !self.error.nil?
   end
 
@@ -125,9 +129,8 @@ class Transaction < ActiveRecord::Base
   # @param [Hash] The structure of nested_resource_data param must be:
   #  {attr1: 'value1', attr2: 'value1', attr3: 'value3'}
   def load_nested_resource nested_resource_data
-    return unless nested_resource_data
-
     begin
+      return unless nested_resource_data
       nr = NestedResource.new(nested_resource_data)
       nr.required_attributes = self.event.required_nested_attributes
       self.nested_resource = nr
@@ -138,18 +141,22 @@ class Transaction < ActiveRecord::Base
   end
 
   def prepare_tickets_nested_resources nested_resource_data
-    self.tickets_nested_resources = []
+    begin
+      self.tickets_nested_resources = []
 
-    if nested_resource_data
-      nested_resource_data.each do |tt|
-        format_resources = []
-        tt[:resources].each do |resource|
-          format_resources << {resource: resource, errors: {}}
+      if nested_resource_data
+        nested_resource_data.each do |tt|
+          format_resources = []
+          tt[:resources].each do |resource|
+            format_resources << {resource: resource, errors: {}}
+          end
+          tt[:resources] = format_resources
         end
-        tt[:resources] = format_resources
-      end
 
-      self.tickets_nested_resources = nested_resource_data
+        self.tickets_nested_resources = nested_resource_data
+      end
+    rescue
+      Transaction.raise_error("Problem triyng to prepare tickets nested resources")
     end
   end
 

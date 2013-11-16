@@ -109,7 +109,7 @@ describe Transaction do
       expect(t.id).to be_nil
       t.errors.messages[:base].should include(general_error)
       expect(t.payment_status).to be_nil
-      expect(t.with_errors?).to be_true
+      expect(t.with_irrecoverable_errors?).to be_true
     end
 
     it "fails when non existent token given" do
@@ -118,7 +118,7 @@ describe Transaction do
       expect(t.id).to be_nil
       t.errors.messages[:base].should include(general_error)
       expect(t.payment_status).to be_nil
-      expect(t.with_errors?).to be_true
+      expect(t.with_irrecoverable_errors?).to be_true
     end
 
     it "fails when transaction was processed already" do
@@ -126,20 +126,20 @@ describe Transaction do
       t = Transaction.finish("COMPLETEDTOKEN")
       expect(t.error).to eq("Transaction with given token was processed already")
       expect(t.id).to be_nil
-      expect(t.with_errors?).to be_true
+      expect(t.with_irrecoverable_errors?).to be_true
       t.errors.messages[:base].should include(general_error)
       create(:inactive_transaction, token: "INACTIVETOKEN")
       t = Transaction.finish("INACTIVETOKEN")
       expect(t.error).to eq("Transaction with given token was processed already")
       expect(t.id).to be_nil
-      expect(t.with_errors?).to be_true
+      expect(t.with_irrecoverable_errors?).to be_true
       t.errors.messages[:base].should include(general_error)
     end
 
     it "ends transaction" do
       create(:transaction, token: "PROCCESSTOKEN")
       t = Transaction.finish("PROCCESSTOKEN")
-      expect(t.with_errors?).not_to be_true
+      expect(t.with_irrecoverable_errors?).not_to be_true
       expect(t.payment_status).to eq(PTE::PaymentStatus.completed)
       expect(t.token).to eq("PROCCESSTOKEN")
       expect(t.error).to be_nil

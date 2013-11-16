@@ -10,7 +10,7 @@ class Puntopagos::TransactionsController < ApplicationController
     notification = PuntoPagos::Notification.new
     transaction = Transaction.finish(params[:token])
 
-    if notification.valid?(request.headers, params) and !transaction.with_errors?
+    if notification.valid?(request.headers, params) and !transaction.with_irrecoverable_errors?
        render json: {
         respuesta: SUCCESS_CODE,
         token: params[:token]}
@@ -49,7 +49,12 @@ class Puntopagos::TransactionsController < ApplicationController
     @transaction = Transaction.begin current_user.id, @ticket_types, data
     authorize! :create, @transaction
 
-    if @transaction.errors.any?
+    if @transaction.with_irrecoverable_errors?
+      render action: "irrecoverable_error"
+      return
+    end
+
+    if @transaction.with_errors?
       load_ticket_resources_from_transaction
       render action: "new"
       return

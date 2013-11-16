@@ -94,7 +94,11 @@ es-CL:
         title: "Transacción terminada"
         message: "No se pudo establecer conexión con puntopagos, por favor intente más tarde nuevamente..."
       error:
-        title: Ocurrieron errores al momento de completar la transacción
+        title: Transacción no exitosa
+        message: Ocurrieron errores al momento de completar la transacción.
+      irrecoverable_error:
+        title: Transacción no exitosa
+        message: "Ocurrieron errores al intentar completar la transacción. Por favor, intente nuevamente más tarde..."
       success:
         title: Transacción exitosa
         body: |
