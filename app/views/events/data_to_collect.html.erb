@@ -13,7 +13,7 @@
 				</legend>
 				<div class="row-fluid">
 					<div class="span8 offset2">
-            <%= control_group(f, :nested_resource_source, f.select(:nested_resource_source, options_for_select(PTE::NestedResourceSource.types_to_a(), @event.nested_resource_source), :include_blank => true, :class => 'span4')) %>
+            <%= control_group(f, :nested_resource_source, f.select(:nested_resource_source, options_for_select(PTE::NestedResourceSource.types_to_a([:all]), @event.nested_resource_source), :include_blank => true, :class => 'span4')) %>
 						<table class="table table-condensed table-bordered table-options">
 							<thead>
 								<tr>
