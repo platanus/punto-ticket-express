@@ -69,7 +69,7 @@ class Transaction < ActiveRecord::Base
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
-        transaction.load_ticket_nested_resources
+        transaction.load_ticket_nested_resources(transaction_event)
 
         raise ActiveRecord::Rollback if transaction.errors.any?
       end
@@ -160,14 +160,14 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def load_ticket_nested_resources
+  def load_ticket_nested_resources transaction_event
     begin
       errors_found = 0
       tickets_nested_resources.each do |tt|
         type_tickets = ticket_type_tickets tt[:ticket_type_id]
         type_tickets.each_with_index do |ticket, idx|
           nr = NestedResource.new(tt[:resources][idx][:resource])
-          nr.required_attributes = self.event.required_nested_attributes
+          nr.required_attributes = transaction_event.required_nested_attributes
 
           if nr.valid?
             ticket.nested_resource = nr
