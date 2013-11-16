@@ -1,0 +1,22 @@
+<div class="row-fluid">
+  <div class="span8 offset2 brief">
+    <%= t(".brief") %>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span8 offset2" ng-switch on="activeTicketForm">
+    <% if @event.require_ticket_resources? %>
+      <% @ticket_resources.each do |tr| %>
+        <% tr[:nested_resources].each_with_index do |nr, idx| %>
+          <%= render :partial => 'ticket_nested_resource',
+            :locals => { :form => f, :fields => nr, :ticket_type_id => tr[:id], :type_name => tr[:name], resource_idx: idx} %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="ticket-form-buttons">
+  <button class="btn btn-success btn-large" ng-click="goToSummary($event)">
+    <%= t("buttons.continue") %>
+  </button>
+</div>

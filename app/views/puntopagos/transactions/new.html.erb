@@ -1,21 +1,19 @@
 <div class="page-header">
-  <h1><%= t(".title") %></h1>
+  <h3><%= t(".title", :event_name => @event.name) %></h3>
 </div>
 <div ng-controller="TransactionNewCtrl"
-  ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", "<%= @payment_method %>")'>
+  ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", "<%= @payment_method %>", <%= @event.require_ticket_resources? %>)'>
 
   <%= render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"} %>
-
-  <%= render :partial => 'transaction_summary' %>
 
   <%= form_for([:puntopagos, @transaction],
     :html => {:class => 'form-horizontal'},
     :url => {:action => 'create'}) do |f| %>
 
     <!-- Creates hidden fields for:
-      * ticket types
-      * the most convenient promotion by ticket_type
-      * activation code entered by user (if it matches with any promotion) -->
+    * ticket types
+    * the most convenient promotion by ticket_type
+    * activation code entered by user (if it matches with any promotion) -->
     <input type="hidden" name="promotion_code" value="{{code.valid}}" />
     <div ng-repeat="type in data.ticketTypes" style="display:none;">
       <input type="hidden" name="ticket_types[{{type.id}}][bought_quantity]"
@@ -24,39 +22,11 @@
         value="{{promo.id}}" ng-repeat="promo in type.promotions | filter: { best_promo: true }"/>
     </div>
 
-    <% if @event.require_transaction_resource? %>
-      <div class="row">
-        <div class="span8">
-          <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
-          <%= render :partial => 'nested_resource_form', :locals => { :form => f } %>
-        </div>
-        <div class="span4">
-          <%= render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
-          <%= payment_button f %>
-        </div>
-      </div>
-    <% else %>
-      <div class="row">
-        <div class="span12">
-          <%= render :partial => 'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span8">
-          <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
-        </div>
-        <div class="span4">
-          <%= payment_button f %>
-        </div>
-      </div>
-    <% end %>
-    <% if @event.require_ticket_resources? %>
-      <% @ticket_resources.each do |tr| %>
-        <% tr[:nested_resources].each_with_index do |nr, idx| %>
-          <%= render :partial => 'ticket_nested_resource',
-            :locals => { :form => f, :fields => nr, :ticket_type_id => tr[:id], :type_name => tr[:name], resource_idx: idx} %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <div ng-show="showSummary">
+      <%= render :partial => "summary_view", :locals => {:f => f} %>
+    </div>
+    <div ng-hide="showSummary" id="ticket-forms-view">
+      <%= render :partial => "ticket_forms_view", :locals => {:f => f} %>
+    </div>
   <% end %>
 </div>

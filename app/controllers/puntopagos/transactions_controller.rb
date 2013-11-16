@@ -35,11 +35,11 @@ class Puntopagos::TransactionsController < ApplicationController
   end
 
   def create
-    @payment_method = params[:transaction][:payment_method]
+    @payment_method = params[:transaction][:payment_method] rescue nil
     @valid_promotion_code = params[:promotion_code]
 
     data = {}
-    transaction_data = params[:transaction][:nested_resource_attributes]
+    transaction_data = params[:transaction][:nested_resource_attributes] rescue nil
     data[:transaction_nested_resource] = transaction_data if transaction_data
     tickets_data = formatted_nested_tickets_data
     data[:tickets_nested_resources] = tickets_data if tickets_data

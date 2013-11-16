@@ -1,0 +1,28 @@
+<%= render :partial => 'transaction_summary' %>
+
+<% if @event.require_transaction_resource? %>
+  <div class="row">
+    <div class="span8">
+      <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
+      <%= render :partial => 'nested_resource_form', :locals => { :form => f } %>
+    </div>
+    <div class="span4">
+      <%= render :partial =>  'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
+      <%= payment_button f %>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="span12">
+      <%= render :partial => 'payment_methods', :locals => { :payment_methods => payment_methods, :form => f } %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <%= render :partial => 'activation_code_panel', :locals => { :form => f } %>
+    </div>
+    <div class="span4">
+      <%= payment_button f %>
+    </div>
+  </div>
+<% end %>

@@ -1,12 +1,19 @@
 angular.module('puntoTicketApp.controllers')
   .controller('TransactionNewCtrl', ['$scope', function ($scope) {
 
-    $scope.init = function(_summaryData, _validPromoCode, _paymentMethod) {
+    $scope.init = function(_summaryData, _validPromoCode, _paymentMethod, _requiredTicketForms) {
       $scope.data = {};
       $scope.code = {entered: _validPromoCode, valid: null};
       $scope.data.ticketTypes = _summaryData;
       $scope.calculateAmounts();
       $scope.paymentMethod = _paymentMethod;
+      $scope.requiredTicketForms = _requiredTicketForms;
+      $scope.showSummary = !$scope.requiredTicketForms;
+    };
+
+    $scope.goToSummary = function($event) {
+      $event.preventDefault();
+      $scope.showSummary = true;
     };
 
     $scope.usePromoCode = function($event) {
@@ -52,13 +59,6 @@ angular.module('puntoTicketApp.controllers')
       });
 
       $scope.data.total_to_pay = $scope.data.total - $scope.data.total_discount;
-    };
-
-    $scope.startTransaction = function($event) {
-      if(!$scope.paymentMethod) {
-        $event.preventDefault();
-        $scope.notPaymentModal = true;
-      }
     };
 
     $scope.closeNoPaymentModal = function() {

@@ -23,6 +23,8 @@ es-CL:
     disable: Deshabilitar
     new_promotion: Nueva Promoción
     use: Usar!
+    continue: Continuar
+    cancel: Cancelar
   home:
     index:
       title: Últimos Eventos
@@ -65,7 +67,7 @@ es-CL:
       nested_resource_form:
         title: Complete el formulario
       ticket_nested_resource:
-        title: "Complete el formulario para el asistente con ticket \"%{ticket_type_name}\""
+        title: "Asistente con ticket \"%{ticket_type_name}\""
       payment_methods:
         title: Métodos de pago
       transaction_summary:
@@ -77,11 +79,13 @@ es-CL:
         discount_label: "Bonificado"
         total_amount: "Total General"
         total_to_pay: "Total a Pagar"
+      ticket_forms_view:
+        brief: "Este evento requiere que ingrese, de cada uno de los asistentes, la siguiente información antes de completar la compra."
       activation_code_panel:
         title: Tengo un código de descuento
         placeholder: "Ingrese su código aquí..."
       new:
-        title: Resumen de Compra
+        title: "Transacción de compra para el evento \"%{event_name}\""
         not_payment_method_msg:
           title: Mensaje
           message: Debe escoger un método de pago
