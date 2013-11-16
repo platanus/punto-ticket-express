@@ -1,7 +1,7 @@
 <div class="panel">
   <div class="panel-heading panel-title">
     <i class="icon-user"></i>
-    <%= t(".title", :ticket_type_name => type_name) %>
+    <%= t(".title", :ticket_type_name => type_name, :participant_number => participant_number) %>
   </div>
   <% fields.each do |na| %>
     <%= control_group_tag(NestedResource.human_attribute_name(na[:attr]),
