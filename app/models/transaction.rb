@@ -190,8 +190,8 @@ class Transaction < ActiveRecord::Base
   #
   # @return [Fixnum]
   def total_amount
-    tickets_data_by_type.inject(0) do |amount, type_data|
-      amount += type_data[:total]
+    self.tickets.inject(0) do |amount, ticket|
+      amount += ticket.price_minus_discount
     end
   end
 
@@ -238,25 +238,6 @@ class Transaction < ActiveRecord::Base
 
   def save_finished_status
     self.update_attribute(:payment_status, PTE::PaymentStatus.completed)
-  end
-
-  # Returns transaction's data grouped by ticket type.
-  # By type it returns tickets count, type price and count x price.
-  # Response example:
-  #  [{count: 3, price: 200, total: 600}, {count: 2, price: 100, total: 200}]
-  #
-  # @return [Array]
-  def tickets_data_by_type
-    self.ticket_types.inject([]) do |result, ticket_type|
-      query = self.tickets.where(["tickets.ticket_type_id = ?", ticket_type.id])
-      result << {
-        tickets: nil,
-        type_name: ticket_type.name,
-        count: query.count,
-        price: ticket_type.price,
-        total: (query.count * ticket_type.price)
-      }
-    end
   end
 
   # Applies a single promotion to tickets of each ticket type given

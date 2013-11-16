@@ -36,4 +36,26 @@ module TransactionDecorator
 
     types
   end
+
+  # Returns transaction's data grouped by ticket type.
+  # By type it returns tickets count, type price and count x price.
+  # Response example:
+  #  [{count: 3, type_name: "Vip", total: 600},
+  #   {count: 2, type_name: "Campo", total: 200}]
+  #
+  # @return [Array]
+  def tickets_data_by_type
+    self.ticket_types.inject([]) do |result, ticket_type|
+      tickets = self.tickets.where(["tickets.ticket_type_id = ?", ticket_type.id])
+      total = tickets.inject(0) do |amount, ticket|
+        amount += ticket.price_minus_discount
+      end
+
+      result << {
+        type_name: ticket_type.name,
+        count: tickets.count,
+        total: total
+      }
+    end
+  end
 end
