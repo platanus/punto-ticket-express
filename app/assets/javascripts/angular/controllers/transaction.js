@@ -57,12 +57,11 @@ angular.module('puntoTicketApp.controllers')
       $scope.showSummary = !_isParticipantsDataRequired;
     };
 
-    $scope.init = function(_summaryData, _validPromoCode, _paymentMethod, _isParticipantsDataRequired, _errors) {
+    $scope.init = function(_summaryData, _validPromoCode, _isParticipantsDataRequired, _errors) {
       $scope.data = {};
       $scope.code = {entered: _validPromoCode, valid: null};
       $scope.data.ticketTypes = _summaryData;
       calculateAmounts();
-      $scope.paymentMethod = _paymentMethod;
       changeView(_isParticipantsDataRequired, _errors);
     };
 
