@@ -22,6 +22,20 @@ module Puntopagos::TransactionsHelper
     result.to_json
   end
 
+  def transaction_errors_hash
+    errors_on = {:transaction => false, :participants_data => false}
+
+    @ticket_resources.each do |tr|
+      tr[:nested_resources].each do |nr|
+        nr.each do |attr|
+          errors_on[:participants_data] = true if attr[:errors] and attr[:errors].size > 0
+        end
+      end
+    end if @event.require_ticket_resources?
+
+    errors_on.to_json
+  end
+
   def payment_methods
     types = []
 

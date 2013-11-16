@@ -81,6 +81,7 @@ es-CL:
         total_to_pay: "Total a Pagar"
       ticket_forms_view:
         brief: "Este evento requiere que ingrese, de cada uno de los asistentes, la siguiente información antes de completar la compra."
+        error_message: "Hay errores en la información ingresada, por favor, revise los datos..."
       activation_code_panel:
         title: Tengo un código de descuento
         placeholder: "Ingrese su código aquí..."

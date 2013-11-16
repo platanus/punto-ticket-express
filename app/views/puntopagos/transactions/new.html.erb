@@ -2,9 +2,7 @@
   <h3><%= t(".title", :event_name => @event.name) %></h3>
 </div>
 <div ng-controller="TransactionNewCtrl"
-  ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", "<%= @payment_method %>", <%= @event.require_ticket_resources? %>)'>
-
-  <%= render :partial => "shared/message", :locals => { :message => t(".not_payment_method_msg.message"), :title => t(".not_payment_method_msg.title"), :modal_name => "notPaymentModal", :close_function => "closeNoPaymentModal()"} %>
+  ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", "<%= @payment_method %>", <%= @event.require_ticket_resources? %>, <%= transaction_errors_hash %>)'>
 
   <%= form_for([:puntopagos, @transaction],
     :html => {:class => 'form-horizontal'},

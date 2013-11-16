@@ -1,27 +1,6 @@
 angular.module('puntoTicketApp.controllers')
   .controller('TransactionNewCtrl', ['$scope', function ($scope) {
 
-    $scope.init = function(_summaryData, _validPromoCode, _paymentMethod, _requiredTicketForms) {
-      $scope.data = {};
-      $scope.code = {entered: _validPromoCode, valid: null};
-      $scope.data.ticketTypes = _summaryData;
-      $scope.calculateAmounts();
-      $scope.paymentMethod = _paymentMethod;
-      $scope.requiredTicketForms = _requiredTicketForms;
-      $scope.showSummary = !$scope.requiredTicketForms;
-    };
-
-    $scope.goToSummary = function($event) {
-      $event.preventDefault();
-      $scope.showSummary = true;
-    };
-
-    $scope.usePromoCode = function($event) {
-      $scope.code.valid = null;
-      $event.preventDefault();
-      $scope.calculateAmounts();
-    };
-
     var codeMatch = function(_hashCode) {
       if($scope.code.entered == null || $scope.code.entered == '')
         return false;
@@ -35,7 +14,7 @@ angular.module('puntoTicketApp.controllers')
       return valid;
     };
 
-    $scope.calculateAmounts = function() {
+    var calculateAmounts = function() {
       $scope.data.total = 0;
       $scope.data.total_discount = 0;
 
@@ -61,8 +40,41 @@ angular.module('puntoTicketApp.controllers')
       $scope.data.total_to_pay = $scope.data.total - $scope.data.total_discount;
     };
 
-    $scope.closeNoPaymentModal = function() {
-      $scope.notPaymentModal = false;
+    var changeView = function(_isParticipantsDataRequired, _errors) {
+      $scope.hasParticipantsDataErrors = _errors.participants_data;
+      $scope.hasTransactionErrors = _errors.transaction;
+
+      if($scope.hasParticipantsDataErrors) {
+        $scope.showSummary = false;
+        return;
+      }
+
+      if($scope.hasTransactionErrors) {
+        $scope.showSummary = true;
+        return;
+      }
+
+      $scope.showSummary = !_isParticipantsDataRequired;
+    };
+
+    $scope.init = function(_summaryData, _validPromoCode, _paymentMethod, _isParticipantsDataRequired, _errors) {
+      $scope.data = {};
+      $scope.code = {entered: _validPromoCode, valid: null};
+      $scope.data.ticketTypes = _summaryData;
+      calculateAmounts();
+      $scope.paymentMethod = _paymentMethod;
+      changeView(_isParticipantsDataRequired, _errors);
+    };
+
+    $scope.goToSummary = function($event) {
+      $event.preventDefault();
+      $scope.showSummary = true;
+    };
+
+    $scope.usePromoCode = function($event) {
+      $scope.code.valid = null;
+      $event.preventDefault();
+      calculateAmounts();
     };
   }
 ]);
