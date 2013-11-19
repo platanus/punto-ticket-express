@@ -14,7 +14,7 @@ PuntoTicketExpress::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
@@ -38,4 +38,20 @@ PuntoTicketExpress::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.delivery_method = :letter_opener
+
+  # Mail config
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: ENV["MAIL_ADDRESS"],
+    port: ENV["MAIL_PORT"],
+    domain: ENV["MAIL_DOMAIN"],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["MAIL_USERNAME"],
+    password: ENV["MAIL_PASSWORD"]
+  }
+
+  config.action_mailer.default_url_options = { :host => ENV["HOST_NAME"] }
+
 end
