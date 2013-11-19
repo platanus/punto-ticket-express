@@ -64,6 +64,8 @@ class Transaction < ActiveRecord::Base
         validate_user_existance(user_id)
         validate_ticket_types(ticket_types)
         transaction_event = ticket_types.first.event
+        #load resource BEFORE save_beginning_status
+        #AFTER, ActiveRecord::RecordNotSaved will be dispached
         transaction.load_nested_resource(transaction_event,
           optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
@@ -264,9 +266,9 @@ class Transaction < ActiveRecord::Base
     self.tickets.where(ticket_type_id: ticket_type_id)
   end
 
-  # Creates Ticket objects based on id and qty keys passed on ticket_types param.
+  # Creates Ticket objects based on bought_quantity attr passed on ticket_types param.
   # The ticket_types's structure is:
-  #  [{id: 1, qty: 3, object: TicketType},{id: 2, qty: 4, object: TicketType}]
+  #  [#<TicketType ...bought_quantity: 3>, #<TicketType ...bought_quantity: 2>]
   #
   # @param ticket_types [Array]
   def load_tickets ticket_types
@@ -282,6 +284,11 @@ class Transaction < ActiveRecord::Base
         errors.add(:base, I18n.t("activerecord.errors.models.transaction.not_available_tickets",
           ticket_type_name: ticket_type.name))
       end
+    end
+
+    sell_limit = self.event.sell_limit || GlobalConfiguration.sell_limit
+    if self.tickets.count > sell_limit
+      raise_error("Sell limit has been exceeded")
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131105210040) do
+ActiveRecord::Schema.define(:version => 20131119172830) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -52,13 +52,15 @@ ActiveRecord::Schema.define(:version => 20131105210040) do
     t.decimal  "percent_fee",            :precision => 10, :scale => 0
     t.boolean  "include_fee"
     t.string   "nested_resource_source"
+    t.integer  "sell_limit"
   end
 
   create_table "global_configurations", :force => true do |t|
     t.decimal  "fixed_fee",   :precision => 10, :scale => 0
     t.decimal  "percent_fee", :precision => 10, :scale => 0
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+    t.integer  "sell_limit",                                 :default => 50
   end
 
   create_table "nested_resources", :force => true do |t|

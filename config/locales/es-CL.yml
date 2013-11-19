@@ -75,6 +75,7 @@ es-CL:
       global_configuration:
         fixed_fee: "Comisión Fija"
         percent_fee: "Porcentaje de Comisión"
+        sell_limit: Límite tickets por cliente
       transaction:
         event: Evento
         payment_status: Estado pago
@@ -186,6 +187,7 @@ es-CL:
         total_fee: Comisión Total
         total_discount: Total Descuentos
         name: Nombre
+        sell_limit: Límite tickets por cliente
     errors:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"

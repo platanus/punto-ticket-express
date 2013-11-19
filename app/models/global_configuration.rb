@@ -10,6 +10,10 @@ class GlobalConfiguration < ActiveRecord::Base
     self.first || self.create({fixed_fee: 0.0, percent_fee: 0.0})
   end
 
+  def self.sell_limit
+    self.config.sell_limit
+  end
+
   def self.fixed_fee
     self.config.fixed_fee
   end
