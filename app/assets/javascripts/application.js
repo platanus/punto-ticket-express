@@ -20,7 +20,7 @@
 //= require bootstrap-datepicker/js/bootstrap-datepicker
 //= require bootstrap-timepicker/js/bootstrap-timepicker
 //= require bootstrap-filestyle/src/bootstrap-filestyle
-//= require prettycheckable/prettyCheckable
+//= require prettycheckable/dist/prettyCheckable.min
 //= require angular-rut/src/rut
 //= require angular-platanus-misc/src/misc
 //= require angular-platanus-misc/src/modules/render_on_blur
