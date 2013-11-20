@@ -81,7 +81,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to event_path(@event) }
+        format.html { redirect_to event_path(@event), notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @event, status: :created, location: @event }
       else
         @attributes = NestedResource.nested_attributes;
@@ -103,16 +103,16 @@ class EventsController < ApplicationController
 
         format.html {
           if @event.is_published
-            redirect_to(:action => 'show')
+            redirect_to @event, notice: I18n.t("controller.messages.create_success")
 
           else
-            redirect_to(:action => 'edit')
+            redirect_to edit_event_path, notice: I18n.t("controller.messages.update_success")
           end
         }
 
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "edit", :alert => "Something serious happened"  }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
