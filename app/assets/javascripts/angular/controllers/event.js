@@ -22,6 +22,7 @@ angular.module('puntoTicketApp.controllers')
       $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
       $scope.address = event.address;
+      $scope.sellLimit = event.sell_limit
 
       // set producers
       $scope.producers = producers;
