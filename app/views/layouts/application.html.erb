@@ -13,6 +13,9 @@
     <%= yield(:publish_navbar) %>
     <%= yield(:without_container) %>
     <div class="container">
+      <!-- Start flash message -->
+      <%= render 'shared/flash_messages' %>
+      <!-- End flash message -->
       <%= yield %>
     </div>
     <%= render "shared/footer" %>
