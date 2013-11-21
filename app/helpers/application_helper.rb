@@ -41,4 +41,24 @@ module ApplicationHelper
     return if value
     "line-through"
   end
+
+  def errors_to_flash object
+    return unless object.errors.any?
+    html = errors_to_html(object).html_safe
+    flash[:error] = html if html
+  end
+
+  def errors_to_html object
+    return unless object.errors.any?
+    content_tag(:div) do
+      concat(content_tag(:h4, "Ocurrieron los siguientes errores:"))
+      object.errors.keys.each do |attr|
+        attr_label = "#{object.class.human_attribute_name(attr)}: "
+        concat(content_tag(:p) do
+         concat(content_tag(:strong, attr_label)) unless attr == :base
+         concat(object.errors[attr].join(", "))
+        end)
+      end
+    end
+  end
 end
