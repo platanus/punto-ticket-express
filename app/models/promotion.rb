@@ -220,7 +220,7 @@ class Promotion < ActiveRecord::Base
   end
 
   def hex_activation_code
-    return nil unless self.activation_code
+    return nil if self.activation_code.to_s.empty?
     Digest::MD5.hexdigest(self.activation_code)
   end
 
