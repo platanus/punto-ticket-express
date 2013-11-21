@@ -53,7 +53,7 @@
 					<tr>
 						<th><%= TicketType.human_attribute_name(:name) %></th>
 						<th><%= TicketType.human_attribute_name(:price) %></th>
-						<th><%= TicketType.human_attribute_name(:discount) %></th>
+						<th ng-show="anyPromo"><%= TicketType.human_attribute_name(:discount) %></th>
 						<th><%= TicketType.human_attribute_name(:bought_quantity) %></th>
 					</tr>
 				</thead>
@@ -63,7 +63,7 @@
 						<td ng-class="{'line-through':t.promotion_price != t.price}">
 							{{t.price | pteCurrency}}
 						</td>
-						<td>
+						<td ng-show="anyPromo">
 							<div ng-show="{{t.promotion_price != t.price}}">
 								{{t.promotion_price | pteCurrency}}
 							</div>

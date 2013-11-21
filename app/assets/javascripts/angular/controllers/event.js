@@ -146,13 +146,19 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.init = function(ticketTypes, isPreview) {
       // eliminates unnecessary attributes
+      var sumPrice = 0;
+      var sumPromoPrice = 0;
       _.each(ticketTypes, function(ticketType){
+        sumPrice += parseInt(ticketType.price);
+        sumPromoPrice += parseInt(ticketType.promotion_price);
         // set default select option
         ticketType.bought_quantity = 0;
         // rremove attrs
         delete ticketType.created_at;
         delete ticketType.updated_at;
       });
+
+      $scope.anyPromo = ((sumPrice - sumPromoPrice) != 0);
 
       $scope.isPreview = isPreview;
       $scope.ticketTypes = ticketTypes;
