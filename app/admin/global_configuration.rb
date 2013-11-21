@@ -1,7 +1,7 @@
 ActiveAdmin.register GlobalConfiguration do
   actions :show, :edit, :update
 
-  show :title => GlobalConfiguration.config.display_name do
+  show :title => I18n.t("activerecord.models.global_configuration.one") do
     attributes_table do
       row :sell_limit
 	    row :fixed_fee
