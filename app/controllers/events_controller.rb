@@ -96,6 +96,12 @@ class EventsController < ApplicationController
   def update
     # publishing or saving
     params[:event][:is_published] = true if params.has_key? :publish
+
+    # prepare event params
+    # parsing dates and times from Javascript to Rails
+    params[:event][:start_time] = Chronic.parse "#{params[:start_date]} #{params[:start_time]}"
+    params[:event][:end_time] = Chronic.parse "#{params[:end_date]} #{params[:end_time]}"
+
     @event = Event.find(params[:id])
 
     respond_to do |format|
