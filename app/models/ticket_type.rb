@@ -86,7 +86,7 @@ class TicketType < ActiveRecord::Base
     promos = []
 
     self.all_promotions.reject do |promo|
-      next if !promo.activation_code.nil? or promo.is_nx1?
+      next if !promo.activation_code.to_s.empty? or promo.is_nx1?
       promos << promo
     end
 

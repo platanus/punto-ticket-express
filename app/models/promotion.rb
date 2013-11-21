@@ -30,7 +30,7 @@ class Promotion < ActiveRecord::Base
   scope :amount, where(promotion_type: :amount_discount)
   scope :percent, where(promotion_type: :percent_discount)
   scope :with_activation_code, where("activation_code IS NOT NULL OR activation_code <> ''")
-  scope :without_activation_code, where(activation_code: nil)
+  scope :without_activation_code, where("activation_code IS NULL OR activation_code = ''")
 
   before_destroy :cancel_destroy
 
