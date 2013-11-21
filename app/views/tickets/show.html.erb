@@ -15,15 +15,15 @@
 			<div class="row-fluid ticket">
 				<div class="span12">
 					<div class="row-fluid">
-						<div class="span10">
+						<div class="span9">
 							<%= printable_ticket_label(t('.order_number'), @ticket.id.to_s) %>
 							<%= printable_ticket_label(t('.event'), @ticket.event_name) %>
 							<%= printable_ticket_label(t('.place'), @ticket.event_address) %>
 							<%= printable_ticket_label(t('.date'), l(@ticket.event_start_time, format: :long)) %>
 							<%= printable_ticket_label(t('.sector'), @ticket.ticket_type_name) %>
 						</div>
-						<div class="span2" id="qrcode">
-							<%= render_qr_code(@ticket.id.to_s) %>
+						<div class="span3" id="qrcode">
+							<%= render_qr_code(@ticket.identifier.to_s) %>
 							<div class="pull-left printable-label-wrapper">
 								<%= t('.rut').capitalize + ": 77.929.090-5" %>
 							</div>

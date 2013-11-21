@@ -2,6 +2,7 @@ module QrcodeHelper
 	require 'rqrcode'
 
 	def render_qr_code text, size = 3
+    return if text.to_s.empty?
 		qr = RQRCode::QRCode.new(text)
 		sizeStyle = "width: #{size}px; height: #{size}px;"
 

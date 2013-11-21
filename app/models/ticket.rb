@@ -14,6 +14,8 @@ class Ticket < ActiveRecord::Base
   validate :is_ticket_type_valid?
   validate :available_tickets?
 
+  after_create :set_identifier
+
   scope :processing, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.processing])
   scope :completed, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.completed])
   scope :inactives, joins(:transaction).where(["transactions.payment_status = ?", PTE::PaymentStatus.inactive])
@@ -66,5 +68,9 @@ class Ticket < ActiveRecord::Base
         self.errors.add(:ticket_type_id, :invalid_ticket_type_given)
         return false
       end
+    end
+
+    def set_identifier
+      self.update_column(:identifier, DateTime.now.utc.to_i.to_s + self.id.to_s)
     end
 end

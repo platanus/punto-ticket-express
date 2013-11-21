@@ -28,7 +28,7 @@
           <%= printable_ticket_label(t('.sector'), ticket.ticket_type_name) %>
         </div>
         <div class="span2" id="qrcode">
-          <%= render_qr_code(ticket.id.to_s) %>
+          <%= render_qr_code(ticket.identifier.to_s) %>
           <div class="pull-left printable-label-wrapper">
             <%= t('.rut').capitalize + ": 77.929.090-5" %>
           </div>
