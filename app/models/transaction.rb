@@ -69,7 +69,7 @@ class Transaction < ActiveRecord::Base
         transaction.load_nested_resource(transaction_event,
           optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
-        transaction.load_tickets(ticket_types)
+        transaction.load_tickets(transaction_event, ticket_types)
         transaction.apply_promotions(optional_data[:promotions])
         transaction.load_ticket_nested_resources(transaction_event)
 
@@ -271,7 +271,7 @@ class Transaction < ActiveRecord::Base
   #  [#<TicketType ...bought_quantity: 3>, #<TicketType ...bought_quantity: 2>]
   #
   # @param ticket_types [Array]
-  def load_tickets ticket_types
+  def load_tickets transaction_event, ticket_types
     ticket_types.each do |ticket_type|
       available_tickets = true
 
@@ -286,7 +286,7 @@ class Transaction < ActiveRecord::Base
       end
     end
 
-    sell_limit = self.event.sell_limit || GlobalConfiguration.sell_limit
+    sell_limit = transaction_event.sell_limit || GlobalConfiguration.sell_limit
     if self.tickets.count > sell_limit
       raise_error("Sell limit has been exceeded")
     end
