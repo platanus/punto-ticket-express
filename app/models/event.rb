@@ -157,7 +157,7 @@ class Event < ActiveRecord::Base
   def sold_amount
     query = self.tickets.completed
     query = query.joins([:ticket_type])
-    query.sum("ticket_types.price")
+    query.sum("ticket_types.price").to_d
   end
 
   def discount_amount
