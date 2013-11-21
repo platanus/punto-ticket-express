@@ -41,7 +41,7 @@
             <%= "{{ data.total | pteCurrency }}" %>
           </div>
         </div>
-        <div class="summary-row total">
+        <div class="summary-row total" ng-show="discountApplied()">
           <div class="name span5">
             <%= t(".discount_label") %>
           </div>

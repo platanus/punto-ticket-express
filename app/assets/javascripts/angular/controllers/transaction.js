@@ -57,6 +57,11 @@ angular.module('puntoTicketApp.controllers')
       $scope.showSummary = !_isParticipantsDataRequired;
     };
 
+    $scope.discountApplied = function() {
+      if(!$scope.data || !$scope.data.total_discount) return false;
+      return (parseInt($scope.data.total_discount) != 0)
+    }
+
     $scope.init = function(_summaryData, _validPromoCode, _isParticipantsDataRequired, _errors) {
       $scope.data = {};
       $scope.code = {entered: _validPromoCode, valid: null};
