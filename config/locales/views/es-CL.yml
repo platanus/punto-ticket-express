@@ -200,6 +200,7 @@ es-CL:
     edit_top_navbar:
       title: Editando Evento
     show:
+      empty_stock_message: "¡Agotado!"
       not_tickets_msg:
         title: Mensaje
         message: No puede comprar 0 tickets!

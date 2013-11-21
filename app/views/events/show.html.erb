@@ -59,17 +59,20 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="t in ticketTypes">
-						<td>{{t.name}}</td>
-						<td ng-class="{'line-through':t.promotion_price != t.price}">
+						<td class="stock-empty">
+              <div ng-class="{'line-through':stockEmpty(t)}" class="type-label">{{t.name}}</div>
+              <div ng-show="stockEmpty(t)" class="empty-label"><%= t(".empty_stock_message") %></div>
+            </td>
+						<td ng-class="{'line-through':typeWithPromo(t) || stockEmpty(t) }">
 							{{t.price | pteCurrency}}
 						</td>
 						<td ng-show="anyPromo">
-							<div ng-show="{{t.promotion_price != t.price}}">
+							<div ng-show="typeWithPromo(t)">
 								{{t.promotion_price | pteCurrency}}
 							</div>
 						</td>
 						<td>
-							<select class="input-small" ng-model="t.bought_quantity">
+							<select class="input-small" ng-model="t.bought_quantity" ng-disabled="stockEmpty(t)">
 							<%= options_for_select((0..@event.sell_limit || GlobalConfiguration.sell_limit).step(1), 0) %>
 							</select>
 						</td>

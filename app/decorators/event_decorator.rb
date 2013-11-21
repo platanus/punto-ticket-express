@@ -52,6 +52,7 @@ module EventDecorator
         name: tt.name,
         id: tt.id,
         price: tt.price_minus_fee,
+        stock: tt.available_tickets_count,
         promotion_price: tt.promotion_price,
         bought_quantity: 0 }
     end

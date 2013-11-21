@@ -172,6 +172,14 @@ angular.module('puntoTicketApp.controllers')
       $scope.notTicketsModal = false;
     };
 
+    $scope.stockEmpty = function(ticketType) {
+      return (ticketType.stock == 0);
+    };
+
+    $scope.typeWithPromo = function(ticketType) {
+      return (ticketType.promotion_price != ticketType.price);
+    };
+
     // removes and validates the fields of the array before being sent to the next page
     $scope.validateTicketTypes = function($event) {
 
