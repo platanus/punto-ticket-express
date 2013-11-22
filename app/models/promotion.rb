@@ -1,6 +1,6 @@
 class Promotion < ActiveRecord::Base
   attr_accessible :activation_code, :end_date, :limit, :name, :enabled,
-  :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type
+  :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type, :promotable
 
   attr_accessor :validation_code
 
@@ -226,10 +226,6 @@ class Promotion < ActiveRecord::Base
 
   def dates_range_valid?
     return true if start_date.nil? or end_date.nil?
-
-    if start_date < Date.today.to_time_in_current_zone.to_date
-      errors.add(:start_date, :start_date_lower_than_today)
-    end
 
     if end_date < start_date
       errors.add(:end_date, :end_date_lower_than_start_date)

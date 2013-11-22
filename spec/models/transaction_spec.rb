@@ -78,15 +78,19 @@ describe Transaction do
       expect(t.error).to eq("Invalid nested_resource_data structure given")
     end
 
-    it "creates transaction for given ticket types and valid nested resource" do
+    it "fails if options[:promotions] has invalid structure" do
+      type = create(:ticket_type, id: 2, quantity: 4, bought_quantity: 2)
+      invalid_promotions_param = [{ticket_type_id: 1, promotion: nil}]
+      data = promotions = {promotions: invalid_promotions_param}
+      t = Transaction.begin(user.id, [type], data)
+      expect(t.error).to eq("Problem applying promotions")
+    end
+
+    it "creates transaction for given ticket types" do
       event = create(:event, id: 1)
-      event.data_to_collect = {"0"=>{"name"=>"last_name", "value"=>"required"}}
-      event.save
       type_one = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 5)
       type_two = create(:ticket_type, id: 3, quantity: 10, event: event, bought_quantity: 4)
-      valid_nested_resource = {last_name: 'Segovia', name: 'Leandro'}
-      data = {transaction_nested_resource: valid_nested_resource}
-      t = Transaction.begin(user.id, [type_one, type_two], data)
+      t = Transaction.begin(user.id, [type_one, type_two], nil)
       expect(t.ticket_types.size).to eq(2)
       expect(t.payment_status).to eq(PTE::PaymentStatus.processing)
       expect(t.event.id).to eq(event.id)
@@ -95,10 +99,57 @@ describe Transaction do
       expect(t.ticket_types.last.tickets.size).to eq(4)
       expect(type_one.available_tickets_count).to eq(5)
       expect(type_two.available_tickets_count).to eq(6)
+    end
+
+    it "creates transaction with given promotions" do
+      event = create(:event)
+
+      type_one = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 2, price: 1000)
+      type_two = create(:ticket_type, id: 3, quantity: 10, event: event, bought_quantity: 2, price: 500)
+      type_three = create(:ticket_type, id: 4, quantity: 10, event: event, bought_quantity: 3, price: 200)
+      type_four = create(:ticket_type, id: 5, quantity: 10, event: event, bought_quantity: 1, price: 1000)
+
+      promo_one = create(:percent_promotion, promotion_type_config: 20, promotable: type_one, activation_code: nil)
+      promo_two = create(:amount_promotion, promotion_type_config: 200, promotable: type_two, activation_code: nil)
+      promo_three = create(:nx1_promotion, promotion_type_config: 2, promotable: type_three, activation_code: nil)
+      promo_four = create(:percent_promotion, promotion_type_config: 60, promotable: type_four,
+          activation_code: "LEANSCODE", validation_code: "LEANSCODE")
+
+      promotions = [
+        {ticket_type_id: 2, promotion: promo_one},
+        {ticket_type_id: 3, promotion: promo_two},
+        {ticket_type_id: 4, promotion: promo_three},
+        {ticket_type_id: 5, promotion: promo_four}]
+      data = {promotions: promotions}
+
+      t = Transaction.begin(user.id, [type_one, type_two, type_three, type_four], data)
+      expect(t.total_amount.to_i).to eq(3000) #price with all discounts applied
+      expect(t.ticket_types.first.tickets.first.promotion.id).to eq(promo_one.id)
+      expect(t.ticket_types.first.tickets.last.promotion.id).to eq(promo_one.id)
+      expect(t.ticket_types[1].tickets.first.promotion.id).to eq(promo_two.id)
+      expect(t.ticket_types[1].tickets.last.promotion.id).to eq(promo_two.id)
+      expect(t.ticket_types[2].tickets.first.promotion.id).to eq(promo_three.id)
+      expect(t.ticket_types[2].tickets[1].promotion.id).to eq(promo_three.id)
+      expect(t.ticket_types[2].tickets.last.promotion).to be_nil
+      expect(t.ticket_types.last.tickets.first.promotion.id).to eq(promo_four.id)
+    end
+
+    it "creates transaction with valid nested resource" do
+      event = create(:event, id: 1)
+      event.data_to_collect = {"0"=>{"name"=>"last_name", "value"=>"required"}}
+      event.save
+      type = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 5)
+      valid_nested_resource = {last_name: 'Segovia', name: 'Leandro'}
+      data = {transaction_nested_resource: valid_nested_resource}
+      t = Transaction.begin(user.id, [type], data)
       expect(t.nested_resource).not_to be_nil
       expect(t.nested_resource.name).to eq('Leandro')
       expect(t.nested_resource.last_name).to eq('Segovia')
       expect(t.nested_resource.required_attributes.include?(:last_name)).to be_true
+    end
+
+    it "creates transaction with valid tickets_nested_resources" do
+      pending
     end
   end
 

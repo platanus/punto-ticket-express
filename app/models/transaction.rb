@@ -248,13 +248,18 @@ class Transaction < ActiveRecord::Base
   # [{:ticket_type_id=>1, :promotion=>#<Promotion>},
   # {:ticket_type_id=>2, :promotion=>#<Promotion>}]
   def apply_promotions data
-    return unless data
+    begin
+      return unless data
 
-    data.each do |item|
-      type_tickets = self.ticket_type_tickets(item[:ticket_type_id])
-      unless item[:promotion].apply(type_tickets)
-        self.errors.add(:base, I18n.t("activerecord.errors.models.transaction.promotion_error"))
+      data.each do |item|
+        type_tickets = self.ticket_type_tickets(item[:ticket_type_id])
+
+        unless item[:promotion].apply(type_tickets)
+          self.errors.add(:base, I18n.t("activerecord.errors.models.transaction.promotion_error"))
+        end
       end
+    rescue
+      Transaction.raise_error("Problem applying promotions")
     end
   end
 
