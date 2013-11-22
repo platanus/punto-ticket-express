@@ -120,10 +120,17 @@ class Transaction < ActiveRecord::Base
     raise_error("Invalid token given") if(!token or token.to_s.empty?)
   end
 
+  # Returns true when transaction has expected errors like
+  # "no tickets left", or "errors on nested resources".
+  #
+  # @return [Boolean]
   def with_errors?
     self.errors.any?
   end
 
+  # Returns true when irrecoverable errors occurs
+  #
+  # @return [Boolean]
   def with_irrecoverable_errors?
     !self.error.nil?
   end
@@ -171,7 +178,7 @@ class Transaction < ActiveRecord::Base
   #      :errors=>{}}]
   #  }]
   #
-  # @param [Array]
+  # @param nested_resource_data [Array]
   def prepare_tickets_nested_resources nested_resource_data
     begin
       self.tickets_nested_resources = []
@@ -192,6 +199,15 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  # Relates tickets with resources_data in tickets_nested_resources attr
+  # If a nested resource has errors, these will be loaded on errors attr of that resource.
+  # For example:
+  # {:ticket_type_id=>"2",
+  #  :resources=>[
+  #    {:resource=>{"name"=>"", "last_name"=>"Last Name participant 1"},
+  #     :errors=>{:name=>["no puede estar en blanco"]}}
+  #
+  # @param transaction_event [Event]
   def load_ticket_nested_resources transaction_event
     begin
       errors_found = 0
@@ -268,6 +284,7 @@ class Transaction < ActiveRecord::Base
     self.save
   end
 
+  # @return [Boolean]
   def save_finished_status
     self.update_attribute(:payment_status, PTE::PaymentStatus.completed)
   end
@@ -293,6 +310,10 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  # Returns tickets for this transaction for the given ticket type
+  #
+  # @param ticket_type_id [Integer]
+  # @return [ActiveRelation]
   def ticket_type_tickets ticket_type_id
     if self.ticket_types.where(id: ticket_type_id).size.zero?
       raise_error("Given ticket type not found on transaction")
