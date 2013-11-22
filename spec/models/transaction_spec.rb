@@ -149,7 +149,27 @@ describe Transaction do
     end
 
     it "creates transaction with valid tickets_nested_resources" do
-      pending
+      event = create(:event, id: 1)
+      event.data_to_collect = {
+        "0"=>{"name"=>"name", "value"=>"required"},
+        "1"=>{"name"=>"last_name", "value"=>"optional"},
+      }
+      event.save
+      type_one = create(:ticket_type, id: 2, quantity: 10, event: event, bought_quantity: 2)
+      type_two = create(:ticket_type, id: 3, quantity: 10, event: event, bought_quantity: 2)
+
+      tickets_nested_resources = [
+        {:ticket_type_id=>"2", :resources=>[
+          {"name"=>"Name participant 1", "last_name"=>"Last Name participant 1"},
+          {"name"=>"Name participant 2", "last_name"=>""}]},
+        {:ticket_type_id=>"3", :resources=>[
+          {"name"=>"Name participant 3", "last_name"=>"Last Name participant 3"},
+          {"name"=>"Name participant 4", "last_name"=>""}]}]
+
+      data = {tickets_nested_resources: tickets_nested_resources}
+      t = Transaction.begin(user.id, [type_one, type_two], data)
+      expect(t.ticket_types.first.tickets.first.nested_resource).not_to be_nil
+      expect(t.ticket_types.first.tickets.last.nested_resource).not_to be_nil
     end
   end
 
