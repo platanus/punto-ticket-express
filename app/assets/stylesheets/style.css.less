@@ -408,7 +408,21 @@ form .input-large {
 	input[name="start_date"], input[name^="end_date"] { width: 73px; }
 	input[type="checkbox"] {margin-top: 0;}
 	select.input-mini {width: 86px;}
-	.logo-upload input {width: 160px; }
+	.logo-upload {
+		.logo-container {
+			position: relative;
+			input {
+				width: 110px;
+				margin-left: 60px;
+			}
+			img {
+				left: 0;
+				width: 54px;
+				top: -25px;
+				position: absolute;
+			}
+		}
+	}
 	.icon-calendar {line-height: inherit;}
 }
 
@@ -487,6 +501,11 @@ form .input-error label {
 	top: 0;
 	bottom: 0;
 	margin: auto;
+}
+
+.small-img{
+	border: 1px solid @gray;
+
 }
 
 /* # PANELS
