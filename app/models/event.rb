@@ -33,6 +33,8 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
   scope :published, where(is_published: true)
+  scope :with_valid_date, where(['end_time >= ?', DateTime.now])
+  scope :desc, order("events.created_at DESC")
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
   delegate :description, to: :producer, prefix: true, allow_nil: true

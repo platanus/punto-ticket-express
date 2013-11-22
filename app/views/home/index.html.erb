@@ -18,7 +18,7 @@
 	<h1>
 		<%= t(".title") %>
 	</h1>
-	<% @events.each do |event| %>
+	<% @events.with_valid_date.desc.each do |event| %>
 		<div class="row-fluid line-list">
 			<div class="span1">
 				<div class="img-container">
