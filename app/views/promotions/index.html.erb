@@ -13,7 +13,6 @@
       <table class="table table-condensed table-bordered table-options">
         <thead>
           <tr>
-            <th><%= Promotion.human_attribute_name :created_at %></th>
             <th><%= Promotion.human_attribute_name :name %></th>
             <th class="center"><%= Promotion.human_attribute_name :promotion_type %></th>
             <th class="center"><%= Promotion.human_attribute_name :available %></th>
@@ -22,9 +21,6 @@
           <tbody></tbody>
           <% @promotions.each do |promo| %>
             <tr>
-              <td class="<%= line_through(promo.enabled) %>">
-                <%= l(promo.created_at, format: :short) %>
-              </td>
               <td class="<%= line_through(promo.enabled) %>">
                 <%= link_to promo.name, promotion_path(promo) %>
               </td>
