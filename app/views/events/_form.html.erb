@@ -1,6 +1,6 @@
 <%= render :partial => "shared/message", :locals => { :message => t(".unconfirmed_producer_msg.message"), :title => t(".unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"} %>
 
-<%= form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'well', novalidate: true} do |f| %>
+<%= form_for @event, html: {name: 'form', "ng-submit" => "submit($event)", class: 'form-event well', novalidate: true} do |f| %>
 	<fieldset class="form-horizontal">
 		<legend>Detalles del Evento</legend>
 		<% if @event.errors.any? %>
@@ -20,7 +20,8 @@
 		<% end %>
 		<div class="control-group logo-upload">
 			<%= f.label :logo, :class => 'control-label' %>
-			<div class="controls">
+			<div class="controls logo-container">
+				<%= image_tag @event.logo.url(:thumb), :class => 'small-img' %>
 				<%= f.file_field :logo, :html => {'data-buttonText' => 'Find file'} %>
 			</div>
 		</div>
