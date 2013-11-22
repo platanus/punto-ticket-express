@@ -142,6 +142,36 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  # Loads tickets_nested_resources attr transforming nested_resource_data param
+  # with this example structure:
+  #
+  #  [{:ticket_type_id=>"2",
+  #    :resources=>[
+  #      {"name"=>"Name participant 1", "last_name"=>"Last Name participant 1"},
+  #      {"name"=>"Name participant 2", "last_name"=>""}]
+  #   },{:ticket_type_id=>"3",
+  #    :resources=>[
+  #      {"name"=>"Name participant 3", "last_name"=>"Last Name participant 3"},
+  #      {"name"=>"Name participant 4", "last_name"=>""}]
+  #  }]
+  #
+  # into this:
+  #
+  #  [{:ticket_type_id=>"2",
+  #    :resources=>[
+  #      {:resource=>{"name"=>"Name participant 1", "last_name"=>"Last Name participant 1"},
+  #       :errors=>{}},
+  #      {:resource=>{"name"=>"Name participant 2", "last_name"=>""},
+  #      :errors=>{}}]
+  #  },{:ticket_type_id=>"3",
+  #    :resources=>[
+  #      {:resource=>{"name"=>"Name participant 3", "last_name"=>"Last Name participant 3"},
+  #      :errors=>{}},
+  #      {:resource=>{"name"=>"Name participant 4", "last_name"=>""},
+  #      :errors=>{}}]
+  #  }]
+  #
+  # @param [Array]
   def prepare_tickets_nested_resources nested_resource_data
     begin
       self.tickets_nested_resources = []
