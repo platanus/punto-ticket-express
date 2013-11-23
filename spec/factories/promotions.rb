@@ -9,7 +9,7 @@ FactoryGirl.define do
     association :promotable, factory: :ticket_type
     promotion_type PTE::PromoType.percent_discount
     promotion_type_config [*10..50].sample
-    activation_code ::Faker::Number.number(5).to_s
+    activation_code nil
     enabled true
 
     factory :percent_promotion do

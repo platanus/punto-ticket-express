@@ -115,5 +115,73 @@ describe Promotion do
       expect(promotion.apply([ticket_one, ticket_two])).to be_false
       expect(promotion.tickets.size).to eq(0)
     end
+
+    it "returns false when today is lower than start_date" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, start_date: Date.today + 4.days, end_date: Date.today + 8.days, activation_code: nil, enabled: true, promotion_type_config: 20, promotable: type)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_false
+      expect(promotion.tickets.size).to eq(0)
+    end
+
+    it "returns false when exceded limit" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      transaction = create(:transaction, payment_status: PTE::PaymentStatus.completed)
+      promotion = create(:percent_promotion, activation_code: nil, limit: 2, enabled: true, promotion_type_config: 20, promotable: type)
+      ticket_one = create(:ticket, ticket_type: type, transaction: transaction, promotion: promotion)
+      ticket_two = create(:ticket, ticket_type: type, transaction: transaction, promotion: promotion)
+      ticket_three = create(:ticket, ticket_type: type)
+      expect(promotion.apply([ticket_three])).to be_false
+      expect(promotion.tickets.size).to eq(2)
+    end
+
+    it "returns true when activation code matches with validation code" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, id: 1, activation_code: "CODE", validation_code: "CODE", enabled: true, promotion_type_config: 20, promotable: type)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_true
+      expect(ticket_one.promotion.id).to eq(promotion.id)
+      expect(ticket_two.promotion.id).to eq(promotion.id)
+    end
+
+    it "returns true when uses nx1 promotion with right config" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      ticket_three = create(:ticket, ticket_type: type)
+      promotion = create(:nx1_promotion, enabled: true, promotion_type_config: 2, promotable: type, activation_code: nil)
+      expect(promotion.apply([ticket_one, ticket_two, ticket_three])).to be_true #3 tickets with n = 2
+      expect(ticket_one.promotion.id).to eq(promotion.id)
+      expect(ticket_two.promotion.id).to eq(promotion.id)
+      expect(ticket_three.promotion).to be_nil
+    end
+
+    it "returns true when uses percent promo" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, id: 1, activation_code: nil, enabled: true, promotion_type_config: 20, promotable: type)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_true
+      expect(ticket_one.promotion.id).to eq(promotion.id)
+      expect(ticket_two.promotion.id).to eq(promotion.id)
+    end
+
+    it "returns true when uses amount promo" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:amount_promotion, id: 1, activation_code: nil, enabled: true, promotion_type_config: 200, promotable: type)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_true
+      expect(ticket_one.promotion.id).to eq(promotion.id)
+      expect(ticket_two.promotion.id).to eq(promotion.id)
+    end
   end
 end

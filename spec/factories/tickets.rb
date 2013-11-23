@@ -6,6 +6,5 @@ FactoryGirl.define do
 
     association :ticket_type, factory: :ticket_type
     association :transaction, factory: :transaction
-    association :promotion, factory: :promotion
   end
 end
