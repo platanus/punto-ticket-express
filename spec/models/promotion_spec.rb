@@ -65,4 +65,55 @@ describe Promotion do
       expect(promotion.discount(1000)).to eq(500.0)
     end
   end
+
+  describe "#apply" do
+
+    it "returns false with no tickets given" do
+      promotion = create(:promotion)
+      expect(promotion.apply(nil)).to be_false
+      expect(promotion.tickets.size).to eq(0)
+    end
+
+    it "returns false when tries to apply disabled promo on tickets" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, enabled: false, promotion_type_config: 20, promotable: type, activation_code: nil)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_false
+      expect(promotion.tickets.size).to eq(0)
+    end
+
+    it "returns false when tickets count is lower than n value defined for nx1 promotions" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:nx1_promotion, enabled: true, promotion_type_config: 3, promotable: type, activation_code: nil)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_false #2 tickets with n = 3
+      expect(promotion.tickets.size).to eq(0)
+    end
+
+    it "returns false when promo event != ticket event" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      event_two = create(:event)
+      type_two = create(:ticket_type, quantity: 10, event: event_two, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type_two)
+      promotion = create(:percent_promotion, enabled: true, promotion_type_config: 20, promotable: type, activation_code: nil)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_false
+      expect(promotion.tickets.size).to eq(0)
+    end
+
+    it "returns false when activation code not matches with validation code" do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, activation_code: "CODE", validation_code: "DIFFERENTCODE", enabled: true, promotion_type_config: 20, promotable: type)
+      expect(promotion.apply([ticket_one, ticket_two])).to be_false
+      expect(promotion.tickets.size).to eq(0)
+    end
+  end
 end

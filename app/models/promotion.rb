@@ -59,7 +59,7 @@ class Promotion < ActiveRecord::Base
   # - No tickets given
   # - Tries to apply disabled promo on tickets
   # - Tries to apply not available promo on tickets
-  # - Tickets count is greater than n value defined for nx1 promotions
+  # - Tickets count is lower than n value defined for nx1 promotions
   # - Promo event != ticket event
   # - Activation code not matches with validation code.
   #
