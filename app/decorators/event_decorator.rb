@@ -27,9 +27,9 @@ module EventDecorator
     columns = self.participants_table_header
     transactions_with_resources = self.transactions.completed.joins([:nested_resource])
     tickets_with_resources = self.tickets.completed.joins([:nested_resource])
-    resources = transactions_with_resources + tickets_with_resources
+    nestable_objects = transactions_with_resources + tickets_with_resources
 
-    resources.inject([]) { |result, nestable|
+    nestable_objects.inject([]) { |result, nestable|
       nr = nestable.nested_resource
       row = columns.inject([]) { |data, attr| data << get_attr_value(nr, attr) }
       row << get_resource_show_path(nestable)

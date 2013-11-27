@@ -7,9 +7,13 @@ module PTE
         xls = PTE::Xls.new
         file_name = I18n.t("xls.participants.file_name")
         zip_file_name = I18n.t("xls.participants.zip_file_name")
-        transactions = event.transactions.completed
+
+        transactions_with_resources = event.transactions.completed.joins([:nested_resource])
+        tickets_with_resources = event.tickets.completed.joins([:nested_resource])
+        nestable_objects = transactions_with_resources + tickets_with_resources
+
         sheet = xls.add_sheet I18n.t("xls.participants.sheet_name")
-        load_participants_sheet xls, sheet, transactions
+        load_participants_sheet xls, sheet, nestable_objects
         xls.generate_book file_name, PARTICIPANTS_DIRECTORY_NAME#, zip_file_name #uncomment to download a zip file instead xlsx
       end
 
@@ -20,10 +24,11 @@ module PTE
 
       private
 
-        def self.load_participants_sheet xls, sheet, transactions
+        def self.load_participants_sheet xls, sheet, nestable_objects
           sheet_data = []
 
           xls_header = [
+            Ticket.human_attribute_name(:identifier),
             NestedResource.human_attribute_name(:name),
             NestedResource.human_attribute_name(:last_name),
             NestedResource.human_attribute_name(:rut),
@@ -43,10 +48,11 @@ module PTE
 
           sheet_data << xls_header
 
-          transactions.each do |transaction|
-            next unless transaction.nested_resource
-            nested_resource = transaction.nested_resource
+          nestable_objects.each do |nestable|
+            nested_resource = nestable.nested_resource
+
             sheet_data << [
+              get_identifier(nestable),
               safe_resource_value(nested_resource, :name),
               safe_resource_value(nested_resource, :last_name),
               safe_resource_value(nested_resource, :rut),
@@ -65,6 +71,10 @@ module PTE
             ]
           end
           xls.load_data sheet, sheet_data
+        end
+
+        def self.get_identifier nestable
+          return nestable.identifier if nestable.kind_of? Ticket
         end
 
         def self.safe_gender_value nested_resource
