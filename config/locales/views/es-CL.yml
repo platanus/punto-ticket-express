@@ -115,6 +115,7 @@ es-CL:
           luego en la opción "Tickets" del menú de la izquierda.
       show:
         title: "Tickets comprados el día %{time}"
+        subtitle: "Tickets"
       transactions:
         title: Información Adicional
       form:

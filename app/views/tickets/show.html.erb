@@ -19,7 +19,7 @@
 							<%= printable_ticket_label(t('.order_number'), @ticket.id.to_s) %>
 							<%= printable_ticket_label(t('.event'), @ticket.event_name) %>
 							<%= printable_ticket_label(t('.place'), @ticket.event_address) %>
-							<%= printable_ticket_label(t('.date'), l(@ticket.event_start_time, format: :long)) %>
+							<%= printable_ticket_label(t('.date'), l(@ticket.event_start_time, format: :long)) if @ticket.event_start_time %>
 							<%= printable_ticket_label(t('.sector'), @ticket.ticket_type_name) %>
 						</div>
 						<div class="span3" id="qrcode">
@@ -55,8 +55,8 @@
 					</div>
 					<div class="row-fluid">
 						<div class="form-actions">
-      				<%= link_to t("buttons.back"), puntopagos_transaction_path(@ticket.transaction), :class => 'btn' %>
-      				<%= link_to t("buttons.download"), download_tickets_path(ticket_id: @ticket.id, format: :pdf), :class => 'btn' %>
+              <%= link_to t("buttons.download"), download_tickets_path(ticket_id: @ticket.id, format: :pdf), :class => 'btn btn-success btn-large' %>
+      				<%= link_to t("buttons.back"), puntopagos_transaction_path(@ticket.transaction), :class => 'btn btn-large' %>
     				</div>
 					</div>
 				</div>

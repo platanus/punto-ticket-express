@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-	load_and_authorize_resource only: [:index]
+	load_and_authorize_resource except: [:nested_resource, :download]
 
   def index
     @tickets = current_user.tickets
