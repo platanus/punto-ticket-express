@@ -23,7 +23,7 @@
             <%= control_group(f, :promotion_type_config, f.number_field(:promotion_type_config, :min => 0, :class => 'span2'), {:help => t('.help.promotion_type_config')}) %>
             <div class="form-actions">
               <%= f.submit t('buttons.save'), :class => 'btn btn-success btn-primary btn-large' %>
-              <%= link_to t('buttons.back'), promotions_path(id: @event.id), :method => :get, :class => 'btn btn-success btn-primary btn-large' %>
+              <%= link_to t('buttons.back'), promotions_path(id: @event.id), :method => :get, :class => 'btn btn-large' %>
             </div>
           <% end %>
         </div>
