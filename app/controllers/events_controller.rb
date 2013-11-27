@@ -1,4 +1,4 @@
-require 'chronic'
+
 
 class EventsController < ApplicationController
   load_and_authorize_resource
@@ -73,8 +73,8 @@ class EventsController < ApplicationController
 
     # prepare event params
     # parsing dates and times from Javascript to Rails
-    params[:event][:start_time] = Chronic.parse "#{params[:start_date]} #{params[:start_time]}"
-    params[:event][:end_time] = Chronic.parse "#{params[:end_date]} #{params[:end_time]}"
+    params[:event][:start_time] = "#{params[:start_date]} #{params[:start_time]}".to_datetime
+    params[:event][:end_time] = "#{params[:end_date]} #{params[:end_time]}".to_datetime
 
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
@@ -99,8 +99,8 @@ class EventsController < ApplicationController
 
     # prepare event params
     # parsing dates and times from Javascript to Rails
-    params[:event][:start_time] = Chronic.parse "#{params[:start_date]} #{params[:start_time]}"
-    params[:event][:end_time] = Chronic.parse "#{params[:end_date]} #{params[:end_time]}"
+    params[:event][:start_time] = "#{params[:start_date]} #{params[:start_time]}".to_datetime
+    params[:event][:end_time] = "#{params[:end_date]} #{params[:end_time]}".to_datetime
 
     @event = Event.find(params[:id])
 
