@@ -248,6 +248,7 @@ es-CL:
           participants: Lista de Asistentes
     my_index:
       title: Mis Eventos
+      new_event_btn: Nuevo Evento
     participants:
       title: Asistentes
       subtitle: "Del evento \"%{event_name}\""

@@ -17,9 +17,9 @@
       <%= control_group f, :brief, f.text_area(:brief, rows: 3, :class => 'span5') %>
       <%= control_group f, :description, f.text_area(:description, rows: 6, :class => 'span5') %>
       <%= control_group f, :website, f.text_field(:website, :class => 'span5') %>
-      <div class="form-actions">
-        <%= f.submit t('buttons.save'), :class => 'btn' %>
-        <%= link_to t('buttons.back'), configuration_producers_path, :class => 'btn' %>
+      <div class="form-actions control-group text-center ">
+        <%= f.submit t('buttons.save'), :class => 'btn btn-success btn-large' %>
+        <%= link_to t('buttons.back'), configuration_producers_path, :class => 'btn btn-large' %>
       </div>
     <% end %>
   </div>

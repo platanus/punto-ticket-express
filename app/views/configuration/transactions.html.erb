@@ -6,23 +6,27 @@
     <%= render 'sidebar' %>
   </div>
   <div class="span9">
-    <table class="table table-striped">
-      <tr>
-        <th><%= Transaction.human_attribute_name :transaction_time %></th>
-        <th><%= Transaction.human_attribute_name :event %></th>
-        <th><%= Transaction.human_attribute_name :tickets_count %></th>
-        <th><%= Transaction.human_attribute_name :amount %></th>
-        <th></th>
-      </tr>
-      <% @transactions.each do |transaction| %>
+    <table class="table table-striped table-colored">
+      <thead>
         <tr>
-          <td><%= l(transaction.transaction_time, format: :short) %></td>
-          <td><%= transaction.event_name %></td>
-          <td><%= transaction.tickets_quantity %></td>
-          <td><%= number_to_currency(transaction.total_amount) %></td>
-          <td><%= link_to t('buttons.show'), puntopagos_transaction_path(transaction) %></td>
+          <th><%= Transaction.human_attribute_name :transaction_time %></th>
+          <th><%= Transaction.human_attribute_name :event %></th>
+          <th><%= Transaction.human_attribute_name :tickets_count %></th>
+          <th><%= Transaction.human_attribute_name :amount %></th>
+          <th></th>
         </tr>
-      <% end %>
+      </thead>
+      <tbody>
+        <% @transactions.each do |transaction| %>
+          <tr>
+            <td><%= l(transaction.transaction_time, format: :short) %></td>
+            <td><%= transaction.event_name %></td>
+            <td><%= transaction.tickets_quantity %></td>
+            <td><%= number_to_currency(transaction.total_amount) %></td>
+            <td><%= link_to t('buttons.show'), puntopagos_transaction_path(transaction) %></td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
 </div>

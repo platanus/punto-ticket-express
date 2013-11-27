@@ -3,7 +3,7 @@
 </div>
 <div class="row">
   <div class="span12">
-    <table class="table table-striped">
+    <table class="table table-striped table-colored">
       <thead>
       	<tr>
       		<th><%= Event.human_attribute_name :name %></th>
@@ -27,8 +27,10 @@
       	<% end %>
       </tbody>
     </table>
-    <div class="form-actions">
-      <%= link_to t("buttons.new"), new_event_path, :class => 'btn btn-success' %>
+    <div class="form-actions control-group text-center table-action">
+      <%= link_to new_event_path, :class => "btn btn-success btn-large" do %>
+            <%= t(".new_event_btn") %>
+          <% end %>
     </div>
   </div>
 </div>
