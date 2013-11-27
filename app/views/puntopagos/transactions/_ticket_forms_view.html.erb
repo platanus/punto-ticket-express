@@ -1,12 +1,4 @@
 <div class="row-fluid">
-  <div class="span8 offset2 brief">
-    <div class="alert alert-error" ng-show="hasParticipantsDataErrors">
-      <strong>Error!</strong> <%= t(".error_message") %>
-    </div>
-    <%= t(".brief") %>
-  </div>
-</div>
-<div class="row-fluid">
   <div class="span8 offset2" ng-switch on="activeTicketForm">
     <% if @event.require_ticket_resources? %>
       <% participant_number = 1 %>
