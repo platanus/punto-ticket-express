@@ -27,7 +27,7 @@ es-CL:
     cancel: Cancelar
   home:
     index:
-      title: Últimos Eventos
+      title: Próximos Eventos
   devise:
     registrations:
       new:
