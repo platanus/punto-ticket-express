@@ -24,4 +24,8 @@ module EventsHelper
   		link_to t("buttons.edit"), edit_event_path(event)
   	end
   end
+
+  def tickets_limit
+    @event.sell_limit || GlobalConfiguration.sell_limit
+  end
 end

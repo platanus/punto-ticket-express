@@ -18,7 +18,7 @@
 	</div>
 </div>
 
-<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>)'>
+<div class="row" id="page_event" ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>, <%= tickets_limit %>)'>
 	<div class="span4">
 		<div class="panel">
 			<div class="panel-heading panel-title">
@@ -41,6 +41,8 @@
 		<%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoTicketsModal()"} %>
 
 		<%= render :partial => "shared/message", :locals => { :message => t(".prevent_buy_msg.message"), :title => t(".prevent_buy_msg.title"), :modal_name => "buyModal", :close_function => "closeBuyModal()"} %>
+
+    <%= render :partial => "shared/message", :locals => { :message => t(".limit_exceeded_msg.message", qty: tickets_limit), :title => t(".limit_exceeded_msg.title"), :modal_name => "limitModal", :close_function => "closeLimitModal()"} %>
 
 		<%= form_tag puntopagos_transactions_new_path, :method => :get,
 		"ng-submit" => "validateTicketTypes($event)" do |f| %>
@@ -74,7 +76,7 @@
 						</td>
 						<td>
 							<select class="input-small" ng-model="t.bought_quantity" ng-disabled="stockEmpty(t)">
-							<%= options_for_select((0..@event.sell_limit || GlobalConfiguration.sell_limit).step(1), 0) %>
+							<%= options_for_select((0..tickets_limit).step(1), 0) %>
 							</select>
 						</td>
 					</tr>

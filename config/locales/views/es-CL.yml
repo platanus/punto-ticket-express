@@ -204,6 +204,9 @@ es-CL:
       not_tickets_msg:
         title: Mensaje
         message: No puede comprar 0 tickets!
+      limit_exceeded_msg:
+        title: Mensaje
+        message: "Puede comprar %{qty} tickets como máximo."
       prevent_buy_msg:
         title: Mensaje
         message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.

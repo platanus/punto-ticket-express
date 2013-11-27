@@ -144,7 +144,7 @@ angular.module('puntoTicketApp.controllers')
     // initialization tasks to be executed before the template enters execution mode
     // used to ruby data parsed into a JavaScript object
 
-    $scope.init = function(ticketTypes, isPreview) {
+    $scope.init = function(ticketTypes, isPreview, ticketsLimit) {
       // eliminates unnecessary attributes
       var sumPrice = 0;
       var sumPromoPrice = 0;
@@ -162,10 +162,15 @@ angular.module('puntoTicketApp.controllers')
 
       $scope.isPreview = isPreview;
       $scope.ticketTypes = ticketTypes;
+      $scope.ticketsLimit = ticketsLimit;
     };
 
     $scope.closeBuyModal = function() {
       $scope.buyModal = false;
+    };
+
+    $scope.closeLimitModal = function() {
+      $scope.limitModal = false;
     };
 
     $scope.closeNoTicketsModal = function() {
@@ -180,6 +185,15 @@ angular.module('puntoTicketApp.controllers')
       return (ticketType.promotion_price != ticketType.price);
     };
 
+    var buyLimitExceeded = function() {
+      var totalQty = 0;
+      angular.forEach($scope.ticketTypes, function(ticketType){
+        totalQty += parseInt(ticketType.bought_quantity);
+      });
+
+      return (totalQty > $scope.ticketsLimit);
+    };
+
     // removes and validates the fields of the array before being sent to the next page
     $scope.validateTicketTypes = function($event) {
 
@@ -188,14 +202,17 @@ angular.module('puntoTicketApp.controllers')
         return (t.bought_quantity && t.bought_quantity > 0);
       });
 
-      // if all tickets are equal to zero is sent a warning
-      if(_.size(ticketTypes) == 0) {
+      if($scope.isPreview) {
+        $event.preventDefault();
+        $scope.buyModal = true;
+
+      } else if(_.size(ticketTypes) == 0) {
         $event.preventDefault();
         $scope.notTicketsModal = true;
 
-      } else if($scope.isPreview) {
+      } else if(buyLimitExceeded()) {
         $event.preventDefault();
-        $scope.buyModal = true;
+        $scope.limitModal = true;
       }
     };
   }
