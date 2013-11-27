@@ -49,6 +49,7 @@ es-CL:
     title: Configuración
     account:
       title: Mi Cuenta
+      subtitle:  Información personal
       successfully_updated_message: Sus datos se actualizaron correctamente
     producers:
       title: Productoras
