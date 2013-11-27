@@ -15,7 +15,7 @@
 			<% if @event.participants_table_header.size.zero? %>
 				<%= t(".no_data_message") %>
 			<% else %>
-				<table class="table table-condensed table-bordered table-options">
+				<table class="table table-condensed table-bordered pte-table">
 					<thead>
 						<tr>
 							<% @event.participants_table_header.each do |col| %>
