@@ -56,6 +56,7 @@ es-CL:
       new_producer_btn: Nueva Productora
     transactions:
       title: Tickets
+      subtitle: Cantidad de tickets por evento
   producers:
     show:
       title: "Productora: %{producer_name}"
