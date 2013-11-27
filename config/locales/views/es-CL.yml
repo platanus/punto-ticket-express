@@ -60,7 +60,8 @@ es-CL:
       subtitle: Cantidad de tickets comprados por evento
   producers:
     show:
-      title: "Productora: %{producer_name}"
+      title: "Productora"
+      subtitle: "%{producer_name}"
     new:
       title: "Creando productora"
     edit:
