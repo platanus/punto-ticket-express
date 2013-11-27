@@ -53,6 +53,7 @@ es-CL:
       successfully_updated_message: Sus datos se actualizaron correctamente
     producers:
       title: Productoras
+      subtitle: Productoras registradas
       new_producer_btn: Nueva Productora
     transactions:
       title: Tickets
@@ -64,6 +65,8 @@ es-CL:
       title: "Creando productora"
     edit:
       title: "Editando productora"
+    form:
+      subtitle: "Complete con los datos de la productora"
   nested_resources:
     title: "Asistente"
     subtitle: "Información recolectada"

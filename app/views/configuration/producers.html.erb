@@ -6,32 +6,39 @@
     <%= render 'sidebar' %>
   </div>
   <div class="span9">
-    <table class="table table-striped table-colored">
-      <thead>
-        <tr>
-          <th><%= Producer.human_attribute_name :name %></th>
-          <th><%= Producer.human_attribute_name :contact_name %></th>
-          <th><%= Producer.human_attribute_name :phone %></th>
-          <th><%= Producer.human_attribute_name :confirmed %></th>
-          <th colspan="3"></th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @producers.each do |producer| %>
-        <tr>
-          <td><%= producer.name %></td>
-          <td><%= producer.contact_name %></td>
-          <td><%= producer.phone %></td>
-          <td class="center"><%= human_boolean(producer.confirmed) %></td>
-          <td><%= link_to t('buttons.show'), producer_path(producer) %></td>
-          <td><%= link_to t('buttons.edit'), edit_producer_path(producer) %></td>
-          <td><%= link_to t('buttons.destroy'), producer_path(producer), method: :delete %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <div class="form-actions control-group text-center table-actions">
-      <%= link_to t(".new_producer_btn"), new_producer_path, :class => 'btn btn-success btn-large' %>
+    <div class="well">
+      <legend>
+        <%= t(".subtitle") %>
+      </legend>
+      <table class="table table-condensed table-bordered pte-table">
+        <thead>
+          <tr>
+            <th><%= Producer.human_attribute_name :name %></th>
+            <th><%= Producer.human_attribute_name :contact_name %></th>
+            <th><%= Producer.human_attribute_name :phone %></th>
+            <th><%= Producer.human_attribute_name :confirmed %></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @producers.each do |producer| %>
+          <tr>
+            <td><%= producer.name %></td>
+            <td><%= producer.contact_name %></td>
+            <td><%= producer.phone %></td>
+            <td class="center"><%= human_boolean(producer.confirmed) %></td>
+            <td><%= link_to t('buttons.show'), producer_path(producer) %></td>
+            <td><%= link_to t('buttons.edit'), edit_producer_path(producer) %></td>
+            <td><%= link_to t('buttons.destroy'), producer_path(producer), method: :delete %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <%= link_to t(".new_producer_btn"), new_producer_path, :class => 'btn btn-success btn-large' %>
+      </div>
     </div>
   </div>
 </div>
