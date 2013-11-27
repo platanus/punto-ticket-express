@@ -241,11 +241,10 @@
 			</table>
 		</form-validate>
 	</fieldset>
-	<fieldset></fieldset>
-	<div class="form-actions control-group text-center">
-		<input class="btn btn-large btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
+	<div class="form-actions text-center">
+		<input class="btn btn-large btn-success btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
 		<% if !@event.new_record? %>
-			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}} || form.$invalid", :class => 'btn btn-success btn-primary btn-large btn-publish', :style => "display:none" %>
+			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}} || form.$invalid", :style => "display:none" %>
 		<% end %>
 	</div>
 <% end %>
