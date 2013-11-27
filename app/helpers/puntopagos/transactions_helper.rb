@@ -41,7 +41,16 @@ module Puntopagos::TransactionsHelper
   def payment_methods
     types = []
 
-    if Rails.env == 'production'
+    if ENV['PUNTOPAGOS_ENV'] == 'sandbox'
+      types << ['Presto', 2]
+      types << ['WebPay', 3]
+      types << ['Ripley', 10]
+      types << ['BBVA', 16]
+      #types << ['Cencosud', 17]
+      #types << ['Paris', 18]
+      #types << ['Jumbo', 19]
+      #types << ['Easy', 20]
+    else
       types << ['Santander Rio', 1]
       types << ['Tarjeta Presto', 2]
       types << ['Transbank', 3]
@@ -51,15 +60,6 @@ module Puntopagos::TransactionsHelper
       types << ['Banco Estado', 7]
       types << ['Ripley', 10]
       types << ['Paypal', 15]
-    else
-      types << ['Presto', 2]
-      types << ['WebPay', 3]
-      types << ['Ripley', 10]
-      types << ['BBVA', 16]
-      #types << ['Cencosud', 17]
-      #types << ['Paris', 18]
-      #types << ['Jumbo', 19]
-      #types << ['Easy', 20]
     end
   end
 end
