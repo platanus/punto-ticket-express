@@ -21,16 +21,17 @@
       			<td><%= event.address %></td>
       			<td><%= l(event.start_time, format: :short) if event.start_time %></td>
       			<td class="center"><%= human_boolean(event.is_published) %></td>
-      			<td><%= show_or_preview_button(event) %></td>
-      			<td><%= statistics_or_edit_button(event) %></td>
+      			<td style="width: 100px;"><%= show_or_preview_button(event) %></td>
+      			<td style="width: 100px;"><%= statistics_or_edit_button(event) %></td>
       		</tr>
       	<% end %>
       </tbody>
     </table>
-    <div class="form-actions control-group text-center table-action">
-      <%= link_to new_event_path, :class => "btn btn-success btn-large" do %>
-            <%= t(".new_event_btn") %>
-          <% end %>
+    <div class="text-center">
+      <%= will_paginate @events %>
+    </div>
+    <div class="table-actions">
+      <%= link_to t(".new_event_btn"), new_event_path, :class => "btn btn-success btn-large"%>
     </div>
   </div>
 </div>
