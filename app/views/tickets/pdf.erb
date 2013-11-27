@@ -24,7 +24,7 @@
           </div>
           <%= printable_ticket_label(t('.event'), ticket.event_name) %>
           <%= printable_ticket_label(t('.place'), ticket.event_address) %>
-          <%= printable_ticket_label(t('.date'), l(ticket.event_start_time, format: :long)) %>
+          <%= printable_ticket_label(t('.date'), l(ticket.event_start_time, format: :long)) if ticket.event_start_time %>
           <%= printable_ticket_label(t('.sector'), ticket.ticket_type_name) %>
         </div>
         <div class="span2" id="qrcode">

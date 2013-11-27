@@ -46,6 +46,8 @@ PuntoTicketExpress::Application.routes.draw do
     end
   end
 
+  get "tickets/:id/extra_data", to: 'tickets#nested_resource', as: :ticket_nested_resource
+
   # PRODUCERS
   resources :producers, except: [:index]
 

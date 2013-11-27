@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    <%= t(".title") %>
+    <%= t("nested_resources.title") %>
   </h1>
 </div>
 <div class="row" id="page_account">
@@ -10,7 +10,7 @@
   <div class="span9">
     <div class="well">
       <legend>
-        <%= t(".subtitle") %>
+        <%= t("nested_resources.subtitle") %>
       </legend>
       <%= show_item NestedResource.human_attribute_name(:name), @nested_resource.name %>
       <%= show_item NestedResource.human_attribute_name(:last_name), @nested_resource.last_name %>

@@ -23,16 +23,18 @@ module EventDecorator
     (self.required_nested_attributes + self.optional_nested_attributes)[0..3]
   end
 
-  def participants transactions
+  def participants
     columns = self.participants_table_header
-    transactions.inject([]) do |result, transaction|
-      nr = transaction.nested_resource
-      row = columns.inject([]) do |data, attr|
-        data << get_attr_value(nr, attr)
-      end
-      row << transaction.id
+    transactions_with_resources = self.transactions.completed.joins([:nested_resource])
+    tickets_with_resources = self.tickets.completed.joins([:nested_resource])
+    resources = transactions_with_resources + tickets_with_resources
+
+    resources.inject([]) { |result, nestable|
+      nr = nestable.nested_resource
+      row = columns.inject([]) { |data, attr| data << get_attr_value(nr, attr) }
+      row << get_resource_show_path(nestable)
       result << row
-    end
+    }.paginate(:page => params[:page], :per_page => 15)
   end
 
   def get_attr_value nested_resource, attr
@@ -44,6 +46,17 @@ module EventDecorator
     end
 
     value
+  end
+
+  def get_resource_show_path nestable
+    if nestable.kind_of? Transaction
+      return puntopagos_transaction_nested_resource_path(nestable.id)
+
+    elsif nestable.kind_of? Ticket
+      return ticket_nested_resource_path(nestable.id)
+    end
+
+    return "#"
   end
 
   def ticket_types_for_table

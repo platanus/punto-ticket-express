@@ -58,6 +58,11 @@ class NestedResource < ActiveRecord::Base
     end
   end
 
+  # Validates gender. Must be:
+  #  - true for woman
+  #  - false for man
+  #
+  # @return [Boolean]
   def validate_gender
     return true if self.gender.to_s.blank?
 
@@ -69,6 +74,11 @@ class NestedResource < ActiveRecord::Base
     return true
   end
 
+  # Validates birthdate. Returns false if:
+  #  - Given date greater than today.
+  #  - Given date lower than year 1900
+  #
+  # @return [Boolean]
   def validate_birthdate
     return true if self.birthday.to_s.blank?
 
@@ -85,7 +95,9 @@ class NestedResource < ActiveRecord::Base
     return true
   end
 
-  #Validates RUT using Module 11 algorithm
+  # Validates RUT using Module 11 algorithm
+  #
+  # @return [Boolean]
   def validate_rut
     return true if self.rut.to_s.blank?
 

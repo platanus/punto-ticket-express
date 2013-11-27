@@ -27,7 +27,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<% @event.participants(@transactions).each do |data| %>
+            <% participants = @event.participants %>
+						<% participants.each do |data| %>
 							<tr>
 								<% data.each do |attr| %>
 									<% unless attr == data.last %>
@@ -37,13 +38,13 @@
 									<% end %>
 								<% end %>
 								<td>
-									<%= link_to t('buttons.show'), puntopagos_transaction_nested_resource_path(data.last) %>
+									<%= link_to t('buttons.show'), data.last %>
 								</td>
 							</tr>
 						<% end %>
 					</tbody>
 				</table>
-				<%= will_paginate @transactions %>
+				<%= will_paginate participants %>
 				<div class="form-actions">
 					<%= link_to t("buttons.download"), participants_event_path(@event, format: :xls), :class => 'btn btn-success btn-primary btn-large' %>
 				</div>

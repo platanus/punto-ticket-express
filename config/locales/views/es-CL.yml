@@ -62,6 +62,9 @@ es-CL:
       title: "Creando productora"
     edit:
       title: "Editando productora"
+  nested_resources:
+    title: "Asistente"
+    subtitle: "Información recolectada"
   puntopagos:
     transactions:
       nested_resource_form:
@@ -110,9 +113,6 @@ es-CL:
           luego en la opción "Tickets" del menú de la izquierda.
       show:
         title: "Tickets comprados el día %{time}"
-      nested_resource:
-        title: "Asistente"
-        subtitle: "Información recolectada"
       transactions:
         title: Información Adicional
       form:

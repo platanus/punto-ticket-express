@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-	load_and_authorize_resource except: [:download]
+	load_and_authorize_resource only: [:index]
 
   def index
     @tickets = current_user.tickets
@@ -8,6 +8,14 @@ class TicketsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @events }
     end
+  end
+
+  def nested_resource
+    @ticket = Ticket.find(params[:id])
+    authorize! :read, @ticket
+    @nested_resource = @ticket.nested_resource
+    @event = @ticket.event
+    render :template => "nested_resources/show"
   end
 
   def download

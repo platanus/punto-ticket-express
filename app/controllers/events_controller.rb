@@ -15,9 +15,6 @@ class EventsController < ApplicationController
 
   def participants
     @event = Event.find(params[:id])
-    @transactions = @event.transactions.
-      completed.joins([:nested_resource]).
-      paginate(:page => params[:page], :per_page => 15)
 
     respond_to do |format|
       format.html

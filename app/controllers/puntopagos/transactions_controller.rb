@@ -80,6 +80,7 @@ class Puntopagos::TransactionsController < ApplicationController
     authorize! :read, @transaction
     @nested_resource = @transaction.nested_resource
     @event = @transaction.event
+    render :template => "nested_resources/show"
   end
 
   private
