@@ -88,7 +88,14 @@
 		<div class="control-group">
 			<%= f.label :description, :class => 'control-label' %>
 			<div class="controls">
-				<%= f.text_area :description, :rows => '3', :class => 'span4', 'ng-disabled' => "{{disabled}}" %>
+				<%= f.text_area :description, :rows => '3', :class => 'span4', 'ng-model' => 'description','ng-disabled' => "{{disabled}}" , 'form-validate' => '', 'required' => '', 'ng-focused' => ''%>
+
+				<!-- validation-->
+				<div class="input-error" ng-show="(form['event[description]'].$dirty && form['event[description]'].$invalid && !form['event[description]'].$focused)">
+					<label ng-show="form['event[description]'].$error.required">
+						La descripción del evento no puede estar en blanco
+					</label>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">
