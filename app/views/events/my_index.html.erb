@@ -15,7 +15,7 @@
       	</tr>
       </thead>
       <tbody>
-      	<% @events.each do |event| %>
+      	<% @events.with_valid_date.order('start_time DESC').each do |event| %>
       		<tr>
       			<td><%= event.name %></td>
       			<td><%= event.address %></td>
