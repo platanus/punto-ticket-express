@@ -163,6 +163,10 @@ es-CL:
         discount: Precio con descuento
         quantity: Stock
         bought_quantity: Cantidad a comprar
+      event/ticket_types:
+        name: El nombre de uno de los tickets
+        price: El precio de uno de los tickets
+        quantity: La cantidad de uno de los tickets
       event:
         nested_resource_source: Recolectar datos
         address: Dirección
