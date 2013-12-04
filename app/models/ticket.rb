@@ -24,7 +24,6 @@ class Ticket < ActiveRecord::Base
   delegate :name, to: :ticket_type, prefix: true, allow_nil: true
   delegate :quantity, to: :ticket_type, prefix: true, allow_nil: true
   delegate :price, to: :ticket_type, prefix: true, allow_nil: true
-  delegate :price_minus_fee, to: :ticket_type, prefix: true, allow_nil: true
   delegate :available_tickets_count, to: :ticket_type, prefix: false, allow_nil: true
   delegate :fixed_fee, to: :ticket_type, prefix: true, allow_nil: true
   delegate :percent_fee, to: :ticket_type, prefix: true, allow_nil: true
@@ -43,14 +42,13 @@ class Ticket < ActiveRecord::Base
   delegate :discount, to: :promotion, prefix: true, allow_nil: true
 
   alias_method :price, :ticket_type_price
-  alias_method :price_minus_fee, :ticket_type_price_minus_fee
 
   def discount
-    self.promotion_discount(self.price_minus_fee) || 0.0
+    self.promotion_discount(self.price) || 0.0
   end
 
   def price_minus_discount
-    pmf = self.price_minus_fee || 0.0
+    pmf = self.price || 0.0
     pmf - self.discount
   end
 

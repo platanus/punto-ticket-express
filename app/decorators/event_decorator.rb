@@ -64,7 +64,7 @@ module EventDecorator
       result << {
         name: tt.name,
         id: tt.id,
-        price: tt.price_minus_fee,
+        price: tt.price,
         stock: tt.available_tickets_count,
         promotion_price: tt.promotion_price,
         bought_quantity: 0 }
