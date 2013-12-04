@@ -14,7 +14,8 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
       // });
 
       scope.$watch(attrs.ngModel, function(before, after) {
-        if(before !== after){
+
+        if(before !== after) {
           resolveValidation(after);
           validateForm();
         }
@@ -28,21 +29,12 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
             break;
           case "starttime":
 
-            if(!viewValue.dates.startDate) {
-              scope.isValid = 'valid';
-              break outside;
-            }
-
             var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
             var currentTime = new Date();
             scope.isValid = startTime > currentTime ? 'valid' : undefined;
             break;
           case "startgreaterend":
 
-            if(!viewValue.dates.startDate || !viewValue.dates.endDate) {
-              scope.isValid = 'valid';
-              break outside;
-            }
             var startTime = new Date (viewValue.dates.startDate.toDateString() + ' ' + viewValue.times.startTime);
             var endTime = new Date (viewValue.dates.endDate.toDateString() + ' ' + viewValue.times.endTime);
             scope.isValid = startTime - endTime < 0 ? 'valid' : undefined;
@@ -51,8 +43,7 @@ angular.module('puntoTicketApp.directives').directive('formValidate', function()
 
       scope.$on('formValidations', validateForm);
       function validateForm() {
-
-        resolveValidation(ctrl.$viewValue);
+        resolveValidation(scope[attrs.ngModel]);
         ctrl.$dirty = true;
         scope.$dirty = true;
 

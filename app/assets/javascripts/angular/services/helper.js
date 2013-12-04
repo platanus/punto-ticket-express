@@ -9,7 +9,7 @@ angular.module('puntoTicketApp.services').factory('defineTime',[ '$filter',
 					// if there are no start and end dates, taking the current time
 					// var nowDate = new Date();
 					// var nowTime = $filter('date')(nowDate, 'h:mm a');
-					startDate = endDate = '';
+					startDate = endDate = new Date();
 					startTime = endTime = '12:00 AM';
 
 				} else {
