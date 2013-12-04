@@ -59,8 +59,8 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.discountApplied = function() {
       if(!$scope.data || !$scope.data.total_discount) return false;
-      return (parseInt($scope.data.total_discount) != 0)
-    }
+      return (parseInt($scope.data.total_discount) != 0);
+    };
 
     $scope.init = function(_summaryData, _validPromoCode, _isParticipantsDataRequired, _errors) {
       $scope.data = {};
@@ -75,10 +75,18 @@ angular.module('puntoTicketApp.controllers')
       $scope.showSummary = true;
     };
 
+    $scope.closeInvalidCodeModal = function() {
+      $scope.invalidCodeModal = false;
+    };
+
     $scope.usePromoCode = function($event) {
       $scope.code.valid = null;
       $event.preventDefault();
       calculateAmounts();
+
+      if(!$scope.code.valid) {
+        $scope.invalidCodeModal = true;
+      }
     };
   }
 ]);

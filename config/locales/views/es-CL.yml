@@ -94,6 +94,9 @@ es-CL:
       activation_code_panel:
         title: Tengo un código de descuento
         placeholder: "Ingrese su código aquí..."
+        invalid_code_msg:
+          title: Mensaje
+          message: El código ingresado es inválido.
       new:
         title: "Transacción de compra para el evento \"%{event_name}\""
         not_payment_method_msg:
