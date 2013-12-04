@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   skip_filter :authenticate_user!, only: :show
 
   def my_index
-    @events = current_user.events.order(:start_time).paginate(:page => params[:page], :per_page => 10)
+    @events = current_user.events.order("start_time desc").paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
