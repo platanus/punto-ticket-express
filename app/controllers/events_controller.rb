@@ -70,8 +70,9 @@ class EventsController < ApplicationController
 
     # prepare event params
     # parsing dates and times from Javascript to Rails
-    params[:event][:start_time] = "#{params[:start_date]} #{params[:start_time]}".to_datetime
-    params[:event][:end_time] = "#{params[:end_date]} #{params[:end_time]}".to_datetime
+    zone = ActiveSupport::TimeZone['Santiago']
+    params[:event][:start_time] = zone.parse("#{params[:start_date]} #{params[:start_time]}")
+    params[:event][:end_time] = zone.parse("#{params[:end_date]} #{params[:end_time]}")
 
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
@@ -96,8 +97,9 @@ class EventsController < ApplicationController
 
     # prepare event params
     # parsing dates and times from Javascript to Rails
-    params[:event][:start_time] = "#{params[:start_date]} #{params[:start_time]}".to_datetime
-    params[:event][:end_time] = "#{params[:end_date]} #{params[:end_time]}".to_datetime
+    zone = ActiveSupport::TimeZone['Santiago']
+    params[:event][:start_time] = zone.parse("#{params[:start_date]} #{params[:start_time]}")
+    params[:event][:end_time] = zone.parse("#{params[:end_date]} #{params[:end_time]}")
 
     @event = Event.find(params[:id])
 

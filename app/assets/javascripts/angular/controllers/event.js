@@ -1,6 +1,6 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNewCtrl', ['$scope', '$filter', 'defineTime', '$window', function ($scope, $filter, defineTime, $window) {
+  .controller('EventNewCtrl', ['$scope', '$filter', 'timeHelper', '$window', function ($scope, $filter, timeHelper, $window) {
 
     // all producers
     $scope.producers = [];
@@ -32,7 +32,7 @@ angular.module('puntoTicketApp.controllers')
       $scope.producer = _.findWhere(producers, { id: event.producer_id });
 
       // call factory
-      $scope.time = defineTime.time(event.start_time, event.end_time);
+      $scope.time = timeHelper.time(event.start_time, event.end_time);
       $scope.tickets = event.ticket_types;
 
       // it warns not to leave the form without saving data
@@ -72,7 +72,7 @@ angular.module('puntoTicketApp.controllers')
       if(startTime >= endTime){
         // add one hour to end time
         startTime.setHours(startTime.getHours() + 1);
-        $scope.time.dates.endDate = startTime;
+        $scope.time.dates.endDate = new Date(startTime.toDateString());
         $scope.time.times.endTime = $filter('date')(startTime, 'h:mm a');
       }
     };

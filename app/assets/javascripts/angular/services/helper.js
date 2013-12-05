@@ -1,4 +1,4 @@
-angular.module('puntoTicketApp.services').factory('defineTime',[ '$filter',
+angular.module('puntoTicketApp.services').factory('timeHelper',[ '$filter',
 	function($filter) {
 		// generates a new date if the event does not exist,
 		// otherwise it transforms the rails date format to javascript format
@@ -14,10 +14,14 @@ angular.module('puntoTicketApp.services').factory('defineTime',[ '$filter',
 
 				} else {
 					// convert string to dates
-					startDate = new Date(start);
-					endDate  = new Date(end);
-					startTime = $filter('date')(startDate, 'h:mm a');
-					endTime = $filter('date')(endDate, 'h:mm a');
+					serverStartDate = new Date(start);
+					serverEndDate = new Date(end);
+					// takes only the date (for datapicker)
+					startDate = new Date(serverStartDate.toDateString());
+					endDate  = new Date(serverEndDate.toDateString());
+					// takes only the time (for timepicker)
+					startTime = $filter('date')(serverStartDate, 'h:mm a');
+					endTime = $filter('date')(serverEndDate, 'h:mm a');
 				}
 
 				return {
@@ -26,11 +30,19 @@ angular.module('puntoTicketApp.services').factory('defineTime',[ '$filter',
 			}
 		}
 
+		// changes tamezone to GTM+00:00
+		function readjustTimeZone(date) {
+			date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+			return date;
+		}
+
 		return {
 			time : function(start, end){
 				return resolveTime(start, end);
+			},
+			readjustTimeZone: function(date){
+				return readjustTimeZone(date);
 			}
-			}
-		return resolveTime();
+		}
 	}
 ]);
