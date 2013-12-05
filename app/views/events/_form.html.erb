@@ -232,7 +232,7 @@
 						</td>
 						<td>
 							<ng-form name="formInPrice">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-disabled="includeFeeInPrice" ng-model="ticket.price" type="text" form-validate ng-focused required>
+								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-readonly="includeFeeInPrice" ng-model="ticket.price" type="text" form-validate ng-focused required>
 									<!-- validation-->
 									<div class="input-error" ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid && !formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$focused">
 										<label ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$error.required">
