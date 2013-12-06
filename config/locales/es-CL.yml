@@ -4,6 +4,9 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  time:
+    formats:
+      pte: ! '%d de %B de %Y %I:%M %p'
   pte:
     scope:
       all: Todos los tickets del evento
