@@ -1,53 +1,55 @@
-<%= render partial: 'events/edit_top_navbar', locals: {title: t('.title'), show_buttons: [:preview, :publish]} %>
+<div ng-controller="EventNestedResourceCtrl" ng-init='init(<%= raw @event.producer.to_json %>)'>
+  <%= render partial: 'events/edit_top_navbar', locals: {title: t('.title'), show_buttons: [:preview, :publish]} %>
 
-<div class="row" id="page_event" style="margin-top: 30px;" ng-controller="FormEventCtrl">
-	<div class="span3">
-		<%= render 'sidebar' %>
-	</div>
-	<div class="span9">
-		<%= form_for @event, html: {name: 'form', class: 'well form-horizontal', novalidate: true} do |f| %>
-			<fieldset>
-				<legend>
-					<%= t(".subtitle") %>
-				</legend>
-				<div class="row-fluid">
-					<div class="span8 offset2">
-            <%= control_group(f, :nested_resource_source, f.select(:nested_resource_source, options_for_select(PTE::NestedResourceSource.types_to_a([:all]), @event.nested_resource_source), :include_blank => true, :class => 'span4')) %>
-						<table class="table table-condensed table-bordered pte-table">
-							<thead>
-								<tr>
-									<th><%= t(".table.fields.attr") %></th>
-									<th><%= t(".table.fields.none") %></th>
-									<th><%= t(".table.fields.optional") %></th>
-									<th class="red-text"><%= t(".table.fields.required") %></th>
-								</tr>
-							</thead>
-							<tbody>
-								<% @attributes.each_with_index do |a, i| %>
-									<tr>
-										<td>
-											<%= NestedResource.human_attribute_name(a[:attr]) %>
-											<%= hidden_field_tag "event[data_to_collect][#{i}][name]", a[:attr] %>
-										</td>
-										<td>
-											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'none', true, :class => 'custom-check' %>
-										</td>
-										<td>
-											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'optional', (a[:required] == false), :class => 'custom-check' %>
-										</td>
-										<td>
-											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'required', a[:required], :class => 'custom-check' %>
-										</td>
-									</tr>
-								<% end %>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</fieldset>
-			<div class="form-actions text-center">
-				<%= f.submit t("buttons.save"), :class => 'btn btn-large btn-success' %>
-			</div>
-		<% end %>
-	</div>
+  <div class="row" id="page_event" style="margin-top: 30px;" ng-controller="FormEventCtrl">
+  	<div class="span3">
+  		<%= render 'sidebar' %>
+  	</div>
+  	<div class="span9">
+  		<%= form_for @event, html: {name: 'form', class: 'well form-horizontal', novalidate: true} do |f| %>
+  			<fieldset>
+  				<legend>
+  					<%= t(".subtitle") %>
+  				</legend>
+  				<div class="row-fluid">
+  					<div class="span8 offset2">
+              <%= control_group(f, :nested_resource_source, f.select(:nested_resource_source, options_for_select(PTE::NestedResourceSource.types_to_a([:all]), @event.nested_resource_source), :include_blank => true, :class => 'span4')) %>
+  						<table class="table table-condensed table-bordered pte-table">
+  							<thead>
+  								<tr>
+  									<th><%= t(".table.fields.attr") %></th>
+  									<th><%= t(".table.fields.none") %></th>
+  									<th><%= t(".table.fields.optional") %></th>
+  									<th class="red-text"><%= t(".table.fields.required") %></th>
+  								</tr>
+  							</thead>
+  							<tbody>
+  								<% @attributes.each_with_index do |a, i| %>
+  									<tr>
+  										<td>
+  											<%= NestedResource.human_attribute_name(a[:attr]) %>
+  											<%= hidden_field_tag "event[data_to_collect][#{i}][name]", a[:attr] %>
+  										</td>
+  										<td>
+  											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'none', true, :class => 'custom-check' %>
+  										</td>
+  										<td>
+  											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'optional', (a[:required] == false), :class => 'custom-check' %>
+  										</td>
+  										<td>
+  											<%= radio_button_tag "event[data_to_collect][#{i}][value]", 'required', a[:required], :class => 'custom-check' %>
+  										</td>
+  									</tr>
+  								<% end %>
+  							</tbody>
+  						</table>
+  					</div>
+  				</div>
+  			</fieldset>
+  			<div class="form-actions text-center">
+  				<%= f.submit t("buttons.save"), :class => 'btn btn-large btn-success' %>
+  			</div>
+  		<% end %>
+  	</div>
+  </div>
 </div>

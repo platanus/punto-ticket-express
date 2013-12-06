@@ -1,4 +1,4 @@
-// EVENTS/NEW
+// EVENTS/NEW and EDIT
 angular.module('puntoTicketApp.controllers')
   .controller('FormEventCtrl', ['$scope', '$filter', 'timeHelper', '$window', function ($scope, $filter, timeHelper, $window) {
 
@@ -94,13 +94,6 @@ angular.module('puntoTicketApp.controllers')
       });
     };
 
-    $scope.onPublishEventClick = function(event) {
-      if($scope.producer && !$scope.producer.confirmed) {
-        event.preventDefault();
-        $scope.producerModal = true;
-      }
-    };
-
     $scope.onSaveEventClick = function(event) {
       //trigger form-validate directive
       // this is used to implement general validations (are not directly related to a input).
@@ -112,10 +105,6 @@ angular.module('puntoTicketApp.controllers')
 
       // reset submit action to undefined
       $scope.submitAction = undefined;
-    };
-
-    $scope.closeProducerModal = function() {
-      $scope.producerModal = false;
     };
 
     // watch include fee property
@@ -228,4 +217,37 @@ angular.module('puntoTicketApp.controllers')
   }
 ]);
 
+//EVENTS/EDIT_TOP_NAVBAR
+angular.module('puntoTicketApp.controllers')
+  .controller('EventEditTopNavbarCtrl', ['$scope', function ($scope) {
+    $scope.onPublishEventClick = function(_event) {
+      if($scope.producer && !$scope.producer.confirmed) {
+        _event.preventDefault();
+        $scope.producerModal = true;
+      }
+    };
 
+    $scope.closeProducerModal = function() {
+      $scope.producerModal = false;
+    };
+  }
+]);
+
+//EVENTS/PROMOTIONS
+angular.module('puntoTicketApp.controllers')
+  .controller('EventPromotionsCtrl', ['$scope', function ($scope) {
+    $scope.init = function(_eventProducer) {
+      $scope.producer = _eventProducer;
+    };
+  }
+]);
+
+
+//EVENTS/PROMOTIONS
+angular.module('puntoTicketApp.controllers')
+  .controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
+    $scope.init = function(_eventProducer) {
+      $scope.producer = _eventProducer;
+    };
+  }
+]);
