@@ -140,12 +140,12 @@ angular.module('puntoTicketApp.controllers')
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
   .controller('EventShowCtrl', ['$scope', function ($scope) {
-
+    $scope.themes = [];
     $scope.ticketTypes = [];
     // initialization tasks to be executed before the template enters execution mode
     // used to ruby data parsed into a JavaScript object
 
-    $scope.init = function(ticketTypes, isPreview, ticketsLimit) {
+    $scope.init = function(ticketTypes, isPreview, ticketsLimit, themes, currentTheme) {
       // eliminates unnecessary attributes
       var sumPrice = 0;
       var sumPromoPrice = 0;
@@ -164,6 +164,9 @@ angular.module('puntoTicketApp.controllers')
       $scope.isPreview = isPreview;
       $scope.ticketTypes = ticketTypes;
       $scope.ticketsLimit = ticketsLimit;
+
+      $scope.themes = themes;
+      $scope.theme = currentTheme;
     };
 
     $scope.closeBuyModal = function() {
@@ -184,6 +187,11 @@ angular.module('puntoTicketApp.controllers')
 
     $scope.typeWithPromo = function(ticketType) {
       return (ticketType.promotion_price != ticketType.price);
+    };
+
+    $scope.changeStyle = function(theme) {
+      document.getElementById('theme_css').href = theme.url;
+      $scope.theme = theme.name;
     };
 
     var buyLimitExceeded = function() {
@@ -218,25 +226,5 @@ angular.module('puntoTicketApp.controllers')
     };
   }
 ]);
-
-// EVENTS TOPBAR
-angular.module('puntoTicketApp.controllers')
-  .controller('EventTopBarCtrl', ['$scope', function ($scope) {
-
-    $scope.themes = [];
-
-    $scope.init = function(themes, currentTheme) {
-      $scope.themes = themes;
-      $scope.theme = currentTheme;
-    };
-
-    // change theme
-    $scope.changeStyle = function(theme) {
-      document.getElementById('theme_css').href = theme.url;
-      $scope.theme = theme.name;
-    };
-  }
-]);
-
 
 
