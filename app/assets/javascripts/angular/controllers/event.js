@@ -1,6 +1,6 @@
 // EVENTS/NEW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNewCtrl', ['$scope', '$filter', 'timeHelper', '$window', function ($scope, $filter, timeHelper, $window) {
+  .controller('FormEventCtrl', ['$scope', '$filter', 'timeHelper', '$window', function ($scope, $filter, timeHelper, $window) {
 
     // all producers
     $scope.producers = [];
