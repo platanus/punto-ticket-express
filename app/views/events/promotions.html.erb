@@ -1,7 +1,6 @@
-<div class="page-header">
-  <h1><%= t(".title") %></h1>
-</div>
-<div class="row">
+<%= render partial: 'events/edit_top_navbar', locals: {title: t('.title'), show_buttons: [:preview, :publish]} %>
+
+<div class="row" style="margin-top: 30px;">
   <div class="span3">
     <%= render 'events/sidebar' %>
   </div>

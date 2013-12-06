@@ -38,7 +38,7 @@ module SidebarHelper
 
   def active_if_promotion
     if params[:controller].include? "promotion" or
-      params[:action] == "promotion"
+      params[:action].include? "promotion"
       return "active"
     end
   end

@@ -3,12 +3,16 @@ module EventsHelper
     event.new_record? ? new_event_path : edit_event_path(id: event.id)
   end
 
-  def disabled_class
+  def disabled_class_if_new_event
   	@event.new_record? ? 'disabled' : ''
   end
 
-  def disabled_if_published
+  def disabled_if_published_event
      @event.is_published? ? 'disabled' : ''
+  end
+
+  def disabled_if_new_or_unpublished_event
+     (@event.new_record? || !@event.is_published?) ? 'disabled' : ''
   end
 
   def show_or_preview_button(event)

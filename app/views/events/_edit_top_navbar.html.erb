@@ -1,24 +1,34 @@
-<div class="navbar persistent-header navbar-static-top">
-  <div class="persistent-header-inner">
-    <div class="container">
-      <div class="page-header">
-        <div class="row-fluid">
-          <div class="span6">
-            <h1>
-              <%= t(".title") %>
-            </h1>
-          </div>
-          <% unless @event.is_published %>
+<% if @event.is_published or !defined? show_buttons %>
+  <div class="page-header">
+    <div class="row-fluid">
+      <div class="span12">
+        <h1>
+          <%= title %>
+        </h1>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="navbar persistent-header navbar-static-top">
+    <div class="persistent-header-inner">
+      <div class="container">
+        <div class="page-header">
+          <div class="row-fluid">
+            <div class="span6">
+              <h1>
+                <%= title %>
+              </h1>
+            </div>
             <div class="span6">
               <%= link_to_id "Publicar evento", "publish-btn", "btn btn-primary btn-success bold pull-right" %>
               <%= link_to event_path, :class => "btn btn-success pull-right" do %>
                 <i class="icon-picture icon-large"></i>
                 Vista Previa
-              <% end %>
+              <% end if show_buttons.include? :preview %>
             </div>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

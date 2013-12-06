@@ -4,19 +4,19 @@
     <%= t(".headers.info.title") %>
   </div>
   <ul class="nav nav-list sidenav affix-top">
-    <li class="<%= disabled_if_published %> <%= active_if_event %>">
+    <li class="<%= disabled_if_published_event %> <%= active_if_event %>">
       <a href="<%= form_url @event unless @event.is_published? %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.info.details") %>
       </a>
     </li>
-    <li class="<%= disabled_class %> <%= active_if_form %>">
+    <li class="<%= disabled_class_if_new_event %> <%= active_if_form %>">
       <a href="<%= form_event_path(id: @event.id) unless @event.new_record?  %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.info.form") %>
       </a>
     </li>
-    <li class="<%= disabled_class %> <%= active_if_promotion %>">
+    <li class="<%= disabled_class_if_new_event %> <%= active_if_promotion %>">
       <a href="<%= promotions_path(id: @event.id) unless @event.new_record?  %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.info.promotions") %>
@@ -28,13 +28,13 @@
     <%= t(".headers.statistic.title") %>
   </div>
   <ul class="nav nav-list sidenav affix-top">
-    <li class="<%= disabled_class %> <%= active_if_event_statistic %>">
+    <li class="<%= disabled_if_new_or_unpublished_event %> <%= active_if_event_statistic %>">
       <a href="<%= sold_tickets_event_path(@event) unless @event.new_record? %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.statistic.tickets_sold") %>
       </a>
     </li>
-    <li class="<%= disabled_class %> <%= active_if_participants %>">
+    <li class="<%= disabled_if_new_or_unpublished_event %> <%= active_if_participants %>">
       <a href="<%= participants_event_path unless @event.new_record? %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.statistic.participants") %>
