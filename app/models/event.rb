@@ -37,6 +37,7 @@ class Event < ActiveRecord::Base
   scope :desc, order("events.created_at DESC")
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
+  delegate :confirmed, to: :producer, prefix: true, allow_nil: true
   delegate :description, to: :producer, prefix: true, allow_nil: true
   delegate :fixed_fee, to: :producer, prefix: true, allow_nil: true
   delegate :percent_fee, to: :producer, prefix: true, allow_nil: true
