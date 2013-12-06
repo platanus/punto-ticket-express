@@ -2,9 +2,7 @@
 <!-- if there is no associated theme, load the default css -->
 <%= stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css' %>
 
-<% unless(@event.is_published) %>
-<%= render "show_top_navbar" %>
-<% end %>
+<%= render "show_top_navbar" unless(@event.is_published) %>
 
 <div class="page-header">
 	<div class="row-fluid">

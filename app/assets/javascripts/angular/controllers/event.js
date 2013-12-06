@@ -139,7 +139,7 @@ angular.module('puntoTicketApp.controllers')
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventShowCtrl', ['$scope', '$parse', function ($scope, $parse) {
+  .controller('EventShowCtrl', ['$scope', function ($scope) {
 
     $scope.ticketTypes = [];
     // initialization tasks to be executed before the template enters execution mode
@@ -221,7 +221,7 @@ angular.module('puntoTicketApp.controllers')
 
 // EVENTS TOPBAR
 angular.module('puntoTicketApp.controllers')
-  .controller('EventTopBarCtrl', ['$scope', '$parse', function ($scope) {
+  .controller('EventTopBarCtrl', ['$scope', function ($scope) {
 
     $scope.themes = [];
 

@@ -1,10 +1,12 @@
-<%= render 'edit_top_navbar' %>
+<div ng-controller="EventNewCtrl" ng-init='init(<%= raw @event.to_json(:include => :ticket_types) %>, <%= raw current_user.producers.to_json %>)'>
+  <%= render 'edit_top_navbar' %>
 
-<div class="row" id="page_event" ng-controller="EventNewCtrl" ng-init='init(<%= raw @event.to_json(:include => :ticket_types) %>, <%= raw current_user.producers.to_json %>)' style="margin-top: 30px;">
-	<div class="span3">
-		<%= render 'sidebar' %>
-	</div>
-	<div class="span9">
-		<%= render 'form' %>
-	</div>
+  <div class="row" id="page_event" style="margin-top: 30px;">
+  	<div class="span3">
+  		<%= render 'sidebar' %>
+  	</div>
+  	<div class="span9">
+  		<%= render 'form' %>
+  	</div>
+  </div>
 </div>
