@@ -234,6 +234,9 @@ es-CL:
           La productora que ha seleccionado se encuentra pendiente de aprobación.<br/>
           Esta debe ser verificada por un administrador<br/>
           antes de la publicación del evento.
+      modified_event_data_msg:
+        title: Mensaje
+        message: Debe guardar los datos del evento antes de proceder a su publicación.
     edit:
       title: Editando evento
     new:

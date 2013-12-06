@@ -12,6 +12,8 @@
   <div ng-controller="EventEditTopNavbarCtrl">
     <%= render :partial => "shared/message", :locals => { :message => t("events.form.unconfirmed_producer_msg.message"), :title => t("events.form.unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"} %>
 
+    <%= render :partial => "shared/message", :locals => { :message => t("events.form.modified_event_data_msg.message"), :title => t("events.form.modified_event_data_msg.title"), :modal_name => "modifiedEventDataModal", :close_function => "closeModifiedEventDataModal()"} %>
+
     <div class="navbar persistent-header navbar-static-top">
       <div class="persistent-header-inner">
         <div class="container">

@@ -18,6 +18,10 @@ angular.module('puntoTicketApp.controllers')
     // include fee in ticket price flag
     $scope.includeFeeInPrice = false;
 
+    $scope.$watch('form.$dirty', function(_newValue, _oldValue) {
+      $scope.isEventDataModified = _newValue;
+    });
+
     $scope.init = function(event, producers) {
       $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
@@ -221,14 +225,25 @@ angular.module('puntoTicketApp.controllers')
 angular.module('puntoTicketApp.controllers')
   .controller('EventEditTopNavbarCtrl', ['$scope', function ($scope) {
     $scope.onPublishEventClick = function(_event) {
+      if($scope.isEventDataModified) {
+        _event.preventDefault();
+        $scope.modifiedEventDataModal = true;
+        return;
+      }
+
       if($scope.producer && !$scope.producer.confirmed) {
         _event.preventDefault();
         $scope.producerModal = true;
+        return;
       }
     };
 
     $scope.closeProducerModal = function() {
       $scope.producerModal = false;
+    };
+
+    $scope.closeModifiedEventDataModal = function() {
+      $scope.modifiedEventDataModal = false;
     };
   }
 ]);
