@@ -191,7 +191,7 @@ es-CL:
         updated_at: Fecha Modificación
         total_fee: Comisión Total
         total_discount: Total Descuentos
-        name: Nombre
+        name: Nombre de Evento
         sell_limit: Límite tickets por cliente
     errors:
       messages:
