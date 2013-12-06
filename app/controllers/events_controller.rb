@@ -112,7 +112,7 @@ class EventsController < ApplicationController
 
         format.html {
           if @event.is_published
-            redirect_to @event, notice: I18n.t("controller.messages.create_success")
+            redirect_to @event, notice: I18n.t("controller.messages.update_success")
 
           else
             redirect_to edit_event_path, notice: I18n.t("controller.messages.update_success")

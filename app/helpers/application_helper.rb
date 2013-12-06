@@ -56,7 +56,6 @@ module ApplicationHelper
   def errors_to_html object
     return unless object.errors.any?
     content_tag(:div) do
-      concat(content_tag(:h4, "Ocurrieron los siguientes errores:"))
       object.errors.keys.each do |attr|
         attr_label = "#{object.class.human_attribute_name(attr)}: "
         concat(content_tag(:p) do
