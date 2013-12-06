@@ -9,6 +9,8 @@
     </div>
   </div>
 <% else %>
+  <%= render :partial => "shared/message", :locals => { :message => t("events.form.unconfirmed_producer_msg.message"), :title => t("events.form.unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"} %>
+
   <div class="navbar persistent-header navbar-static-top">
     <div class="persistent-header-inner">
       <div class="container">
@@ -20,7 +22,7 @@
               </h1>
             </div>
             <div class="span6">
-              <%= form_tag publish_event_path(@event), :method => :put, :style => "margin: 0px;" do %>
+              <%= form_tag publish_event_path(@event), :method => :put, :style => "margin: 0px;", "ng-submit" => "onPublishEventClick($event)" do %>
                 <%= button_tag 'Publicar evento' , class: 'btn btn-success btn-primary pull-right' , type: :submit %>
               <% end if show_buttons.include? :publish %>
               <%= link_to event_path, :class => "btn btn-success pull-right" do %>

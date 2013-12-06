@@ -94,19 +94,20 @@ angular.module('puntoTicketApp.controllers')
       });
     };
 
-    // PRODUCERS MESSAGE
-    $scope.submit = function(event) {
+    $scope.onPublishEventClick = function(event) {
+      if($scope.producer && !$scope.producer.confirmed) {
+        event.preventDefault();
+        $scope.producerModal = true;
+      }
+    };
+
+    $scope.onSaveEventClick = function(event) {
       //trigger form-validate directive
       // this is used to implement general validations (are not directly related to a input).
       $scope.$broadcast('formValidations');
 
       if(!$scope.form.$valid) {
         event.preventDefault();
-      }
-
-      if($scope.submitAction !== 'save' && $scope.producer && !$scope.producer.confirmed) {
-        event.preventDefault();
-        $scope.producerModal = true;
       }
 
       // reset submit action to undefined
