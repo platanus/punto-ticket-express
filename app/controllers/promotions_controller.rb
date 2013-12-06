@@ -1,11 +1,5 @@
 class PromotionsController < ApplicationController
 
-  def index
-    @event = Event.find_by_id params[:id]
-    authorize! :read_event_promotions, @event
-    @promotions = @event.all_promotions
-  end
-
   def new
     @event = Event.find_by_id params[:id]
     @promotion = Promotion.new
@@ -28,7 +22,7 @@ class PromotionsController < ApplicationController
 
     respond_to do |format|
       if @promotion.save
-        format.html { redirect_to promotions_url(id: @event.id), notice: I18n.t("controller.messages.create_success") }
+        format.html { redirect_to promotions_event_url(@event), notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @promotion, status: :created, location: @promotion }
 
       else

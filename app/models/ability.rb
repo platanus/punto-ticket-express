@@ -32,15 +32,15 @@ class Ability
       can :data_to_collect, Event do |event|
         event.user_id == user.id
       end
+      can :promotions, Event do |event|
+        event.user_id == user.id
+      end
       can :sold_tickets, Event do |event|
         event.user_id == user.id
       end
 
 
       #PROMOTIONS
-      can :read_event_promotions, Event do |event|
-        event.user_id == user.id
-      end
       can :read, Promotion do |promotion|
         promotion.user.id == user.id
       end

@@ -168,9 +168,6 @@ es-CL:
         no_available_reasons: "Motivos:"
         out_of_range: "Esta fuera de las fechas de habilitación."
         limit_exceeded: "Se excedió el límite de tickets con este descuento."
-    index:
-      title: Promociones
-      promo_title: "Para el evento \"%{event_name}\""
   tickets:
     show:
       title: Ticket
@@ -266,6 +263,9 @@ es-CL:
       title: Asistentes
       subtitle: "Del evento \"%{event_name}\""
       no_data_message: No se ha recolectado información sobre los asistentes en este evento...
+    promotions:
+      title: Promociones
+      promo_title: "Para el evento \"%{event_name}\""
     data_to_collect:
       title: Formulario
       subtitle: Información a Recolectar

@@ -56,6 +56,10 @@ class EventsController < ApplicationController
   def edit
   end
 
+  def promotions
+    @promotions = @event.all_promotions
+  end
+
   def data_to_collect
     array = NestedResource.nested_attributes + @event.nested_attributes
     @attributes = (array).group_by { |h|

@@ -38,7 +38,7 @@
         </thead>
       </table>
       <div class="form-actions">
-        <%= link_to t("buttons.new_promotion"), new_promotion_path(id: @event.id), :class => 'btn btn-success btn-large' %>
+        <%= link_to t("buttons.new_promotion"), new_promotion_path(@event), :class => 'btn btn-success btn-large' %>
       </div>
     </div>
   </div>
