@@ -9,6 +9,15 @@ module ApplicationHelper
     end
   end
 
+  def flash_title(level)
+    case level
+    when :notice then "Mensaje"
+    when :alert then "Error!"
+    when :warning then "Advertencia"
+    when :error then "Error!"
+    end
+  end
+
   def current_user_identifier
     return @current_user_identifier if @current_user_identifier
     @current_user_identifier =  User.find_by_id(current_user.id).identifier
