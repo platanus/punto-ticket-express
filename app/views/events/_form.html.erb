@@ -251,8 +251,6 @@
 		</form-validate>
 	</fieldset>
 	<div class="form-actions text-center">
-		<% if !@event.new_record? %>
-			<%= f.submit 'Publicar evento', :id => "publish-btn", :name => 'publish', 'ng-disabled' => "{{disabled}} || form.$invalid", :style => "display:none" %>
-		<% end %>
+		<input class="btn btn-large btn-success btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
 	</div>
 <% end %>
