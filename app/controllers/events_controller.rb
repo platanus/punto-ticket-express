@@ -127,6 +127,20 @@ class EventsController < ApplicationController
     end
   end
 
+  def publish
+    @event = Event.find(params[:id])
+
+    respond_to do |format|
+      if @event.publish
+        format.html { redirect_to @event, notice: I18n.t("controller.messages.event_published") }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @event, alert: I18n.t("controller.messages.error_publishing_event")   }
+        format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy

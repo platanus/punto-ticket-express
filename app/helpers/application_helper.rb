@@ -3,8 +3,9 @@ module ApplicationHelper
   def flash_class(level)
     case level
     when :notice then "success"
+    when :alert then "error"
+    when :warning then "warning"
     when :error then "error"
-    when :alert then "warning"
     end
   end
 
@@ -19,11 +20,6 @@ module ApplicationHelper
     content_tag(:li, :class => class_name) do
       link_to link_text, link_path
     end
-  end
-
-  def link_to_id(text, id, css_class)
-    link_to_function text, "$('##{id}').trigger('click')",
-      :class => css_class, :name => "publish"
   end
 
   def gender_label gender

@@ -171,6 +171,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def publish
+    self.update_attributes({is_published: true})
+  end
+
   def available_tickets_count
     self.ticket_types.inject(0){ |count, tt| count += tt.available_tickets_count }
   end

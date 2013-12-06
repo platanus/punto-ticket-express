@@ -34,6 +34,8 @@ es-CL:
     messages:
       create_success: "La creación fue exitosa"
       update_success: "La actualización fue exitosa"
+      event_published: "Su evento ha sido publicado!"
+      error_publishing_event: "Se produjo un error al intentar publicar su evento."
   xls:
     participants:
       file_name: participantes.xls
