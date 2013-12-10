@@ -13,5 +13,8 @@
     "angular-platanus-misc": "~0.0.1",
     "momentjs": "~2.3.1",
     "prettycheckable": "2865ec36afac7e34530a48140491f4bd00331ad3"
+  },
+  "resolutions": {
+    "bootstrap": ">=2.0.4 <3.0"
   }
 }
