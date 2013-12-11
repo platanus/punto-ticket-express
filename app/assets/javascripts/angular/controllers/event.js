@@ -22,7 +22,8 @@ angular.module('puntoTicketApp.controllers')
       $scope.isEventDataModified = _newValue;
     });
 
-    $scope.init = function(event, producers) {
+    $scope.init = function(event, producers, isPastEvt) {
+      $scope.isPastEvent = isPastEvt;
       $scope.disabled = (producers.length == 0);
       $scope.name = event.name;
       $scope.address = event.address;
@@ -231,6 +232,12 @@ angular.module('puntoTicketApp.controllers')
         return;
       }
 
+      if($scope.isPastEvent) {
+        _event.preventDefault();
+        $scope.pastEventModal = true;
+        return;
+      }
+
       if($scope.producer && !$scope.producer.confirmed) {
         _event.preventDefault();
         $scope.producerModal = true;
@@ -242,6 +249,10 @@ angular.module('puntoTicketApp.controllers')
       $scope.producerModal = false;
     };
 
+    $scope.closePastEventModal = function() {
+      $scope.pastEventModal = false;
+    };
+
     $scope.closeModifiedEventDataModal = function() {
       $scope.modifiedEventDataModal = false;
     };
@@ -251,8 +262,9 @@ angular.module('puntoTicketApp.controllers')
 //EVENTS/PROMOTIONS
 angular.module('puntoTicketApp.controllers')
   .controller('EventPromotionsCtrl', ['$scope', function ($scope) {
-    $scope.init = function(_eventProducer) {
+    $scope.init = function(_eventProducer, _isPastEvent) {
       $scope.producer = _eventProducer;
+      $scope.isPastEvent = _isPastEvent;
     };
   }
 ]);
@@ -261,8 +273,9 @@ angular.module('puntoTicketApp.controllers')
 //EVENTS/PROMOTIONS
 angular.module('puntoTicketApp.controllers')
   .controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
-    $scope.init = function(_eventProducer) {
+    $scope.init = function(_eventProducer, _isPastEvent) {
       $scope.producer = _eventProducer;
+      $scope.isPastEvent = _isPastEvent;
     };
   }
 ]);

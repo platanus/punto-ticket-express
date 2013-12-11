@@ -237,6 +237,9 @@ es-CL:
       modified_event_data_msg:
         title: Mensaje
         message: Debe guardar los datos del evento antes de proceder a su publicación.
+      past_event_msg:
+        title: Mensaje
+        message: No puede publicar un evento con fecha anterior a la fecha actual.
     edit:
       title: Editando evento
     new:

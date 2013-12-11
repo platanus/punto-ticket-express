@@ -157,6 +157,9 @@ class Event < ActiveRecord::Base
     result.sort_by { |promo| promo[:created_at] }.reverse!
   end
 
+  # Gets event total amount from tickets with completed payment status
+  #
+  # @return [Decimal]
   def sold_amount
     query = self.tickets.completed
     query = query.joins([:ticket_type])
@@ -170,6 +173,11 @@ class Event < ActiveRecord::Base
     self.tickets.completed.inject(0.0) do |total, ticket|
       total += ticket.discount
     end
+  end
+
+  def is_past_event?
+    return false unless self.start_time
+    self.start_time <= DateTime.now
   end
 
   def publish

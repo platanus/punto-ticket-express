@@ -1,4 +1,4 @@
-<div ng-controller="EventPromotionsCtrl" ng-init='init(<%= raw @event.producer.to_json %>)'>
+<div ng-controller="EventPromotionsCtrl" ng-init='init(<%= raw @event.producer.to_json %>, <%= @event.is_past_event? %>)'>
   <%= render partial: 'events/edit_top_navbar', locals: {title: t('.title'), show_buttons: [:preview, :publish]} %>
 
   <div class="row-fluid" style="margin-top: 30px;">
