@@ -2,7 +2,7 @@
   "name": "PuntoTicketExpress",
   "version": "1.0.0",
   "dependencies": {
-    "unstable-angular-complete": "1.2.0rc1",
+    "angular": "1.2.1",
     "underscore": "1.5.1",
     "angular-bootstrap": "0.5",
     "angular-strap": "~0.7.5",
@@ -12,7 +12,8 @@
     "angular-rut": "~0.0.2",
     "angular-platanus-misc": "~0.0.1",
     "momentjs": "~2.3.1",
-    "prettycheckable": "2865ec36afac7e34530a48140491f4bd00331ad3"
+    "prettycheckable": "2865ec36afac7e34530a48140491f4bd00331ad3",
+    "angular-validate": "~0.1.0"
   },
   "resolutions": {
     "bootstrap": ">=2.0.4 <3.0"
