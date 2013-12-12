@@ -54,7 +54,7 @@
 	<div class="form-actions text-center">
 		<input name="commit" type="submit" value="Guardar"
 		class="btn btn-large btn-success btn-publish"
-    ng-click="onSaveButtonClick()"
+    ng-click="onSaveButtonClick($event)"
 		ng-disabled="{{disabled}} || form.$invalid" />
 	</div>
 <% end %>

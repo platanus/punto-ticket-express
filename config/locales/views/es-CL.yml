@@ -230,6 +230,9 @@ es-CL:
     form_ticket_types:
       title: Crea los Tickets
       include_fee_message: Incluir comisión en el precio del ticket
+      not_tickets_msg:
+        title: Mensaje
+        message: Debe agregar al menos un ticket antes de continuar.
     form:
       title: Detalles del Evento
       no_producers_hint: "Antes de crear un evento debes <b><a href='%{new_producer_url}'>Registrar una productora</a></b>"

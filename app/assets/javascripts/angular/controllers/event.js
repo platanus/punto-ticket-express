@@ -21,6 +21,14 @@ angular.module('puntoTicketApp.controllers')
 			$scope.producer = _.findWhere($scope.producers, {id: $scope.event.producerId});
 		};
 
+		var ticketsAdded = function() {
+			_.each($scope.tickets, function(_ticket) {
+				if(!_ticket.destroy) return true;
+			});
+
+			return false;
+		};
+
 		var watchFormDirty = function() {
 			$scope.$watch('form.$dirty', function(_newValue, _oldValue) {
 				$scope.isEventDataModified = _newValue;
@@ -82,8 +90,18 @@ angular.module('puntoTicketApp.controllers')
 			$scope.tickets[index]["destroy"] = "1";
 		};
 
-		$scope.onSaveButtonClick = function() {
+		$scope.onSaveButtonClick = function(_event) {
+			if(!ticketsAdded()) {
+				_event.preventDefault();
+				$scope.notTicketsModal = true;
+				return;
+			}
+
 			$scope.leavePageReason = 'formSubmit';
+		};
+
+		$scope.closeNoTicketsModal = function() {
+			$scope.notTicketsModal = false;
 		};
 
 		// set calculated ticket price depending on producer fees and ticket price before fee
