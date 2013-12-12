@@ -15,7 +15,7 @@ angular.module('puntoTicketApp.directives')
 					<div class="controls">\
 						<span ng-transclude></span>\
 						<span ng-if="help && !error" class="help-inline">{{help}}</span>\
-						<span ng-if="error" class="help-inline">{{error}}</span>\
+						<div ng-if="error" class="input-error">{{error}}</div>\
 					</div>\
 				</div>',
 			replace: true,
