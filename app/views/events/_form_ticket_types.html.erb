@@ -21,18 +21,31 @@
 			<tr>
 				<th><%= TicketType.human_attribute_name :name %></th>
 				<th><%= TicketType.human_attribute_name :quantity %></th>
-				<th ng-if="includeFeeInPrice"><%= TicketType.human_attribute_name :price_before_fee %></th>
+				<th ng-if="fee.include"><%= TicketType.human_attribute_name :price_before_fee %></th>
 				<th><%= TicketType.human_attribute_name :price %></th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="ticket in tickets">
-				<td></td>
-				<td></td>
-				<td ng-if="fee.include"></td>
-				<td></td>
-				<td></td>
+				<td>
+					<input ng-model="ticket.name" type="text"
+						ng-class="{'input-large': fee.include}" class="span4" required />
+				</td>
+				<td>
+					<input ng-model="ticket.quantity" type="text" class="input-small" required />
+				</td>
+				<td ng-if="fee.include">
+					<input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
+						ng-change="calculateTicketPrice(ticket)" />
+				</td>
+				<td>
+					<input ng-model="ticket.price" type="text"
+						class="input-small" ng-readonly="fee.include" required />
+				</td>
+				<td>
+					<a class="close" ng-click="deleteTicket($index)" remove-nested-attribute>×</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

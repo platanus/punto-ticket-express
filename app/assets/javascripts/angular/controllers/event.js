@@ -1,10 +1,6 @@
 //EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
 	.controller('FormEventCtrl', ['$scope', function ($scope) {
-		$scope.$watch('fee.include', function() {
-			$scope.calculateAllTicketPrices();
-		});
-
 		var loadEventObject = function(_event) {
 			$scope.event = {};
 			$scope.event.name = _event.name;
@@ -30,20 +26,45 @@ angular.module('puntoTicketApp.controllers')
 			$scope.disabled = ($scope.producers.length == 0);
 		};
 
-		$scope.calculateAllTicketPrices = function() {
-			if($scope.fee.include) {
-				angular.forEach($scope.tickets, function(_ticket) {
-					var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
-					var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;
-					_ticket.price = Math.round(fixedFee + _ticket.priceBeforeFee * (1 + percentFee / 100));
-				});
-			}
+		$scope.addTicket = function() {
+			$scope.tickets.push({name:"", price:"", quantity:0});
+		};
 
-			else {
-				angular.forEach($scope.tickets, function(_ticket) {
-					_ticket.price = _ticket.priceBeforeFee || _ticket.price;
+		$scope.deleteTicket = function(index) {
+			$scope.tickets[index]["destroy"] = "1";
+		};
+
+		// watch include fee property
+		$scope.$watch('fee.include', function() {
+			// toggle to include fee in ticket price
+			if($scope.fee.include) {
+				_.each($scope.tickets, function(_ticket) {
+					_ticket.priceBeforeFee = _ticket.price;
+					$scope.calculateTicketPrice(_ticket);
 				});
 			}
+			// toggle to normal mode
+			else {
+				_.each($scope.tickets, function(_ticket) {
+					 _ticket.price = _ticket.priceBeforeFee || _ticket.price;
+				});
+			}
+		});
+
+		// set calculated ticket price depending on producer fees and ticket price before fee
+		$scope.calculateTicketPrice = function(_ticket) {
+			if($scope.fee.include) {
+				var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
+				var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;
+				_ticket.price = Math.round(fixedFee + _ticket.priceBeforeFee * (1 + percentFee / 100));
+			}
+		};
+
+		// re-calculate all ticket prices
+		$scope.calculateAllTicketPrices = function() {
+			_.each($scope.tickets, function(_ticket) {
+				$scope.calculateTicketPrice(_ticket);
+			});
 		};
 	}
 ]);
