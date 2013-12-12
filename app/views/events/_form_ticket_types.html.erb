@@ -15,4 +15,25 @@
 	<bs:control-group>
 		<input type="checkbox" ng-model="fee.include"><%= t(".include_fee_message") %></input>
 	</bs:control-group>
+
+	<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
+		<thead>
+			<tr>
+				<th><%= TicketType.human_attribute_name :name %></th>
+				<th><%= TicketType.human_attribute_name :quantity %></th>
+				<th ng-if="includeFeeInPrice"><%= TicketType.human_attribute_name :price_before_fee %></th>
+				<th><%= TicketType.human_attribute_name :price %></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ticket in tickets">
+				<td></td>
+				<td></td>
+				<td ng-if="fee.include"></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 </fieldset>

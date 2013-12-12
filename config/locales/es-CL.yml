@@ -167,6 +167,7 @@ es-CL:
         price: Precio
         discount: Precio con descuento
         quantity: Stock
+        price_before_fee: "Precio antes de comisión"
         bought_quantity: Cantidad a comprar
       event/ticket_types:
         name: El nombre de uno de los tickets
