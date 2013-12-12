@@ -1,14 +1,17 @@
 //EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
-	.controller('FormEventCtrl', ['$scope', function ($scope) {
+	.controller('FormEventCtrl', ['$scope', '$window', function ($scope, $window) {
 		var loadEventObject = function(_event) {
-			$scope.event = {};
-			$scope.event.name = _event.name;
-			$scope.event.producerId = _event.producer_id;
-			$scope.event.address = _event.address;
-			$scope.event.sellLimit = _event.sell_limit;
-			$scope.event.description = _event.description;
-			$scope.event.customUrl = _event.custom_url;
+			$scope.event = {
+				id: _event.id,
+				isPublished: _event.is_published,
+				name: _event.name,
+				producerId: _event.producer_id,
+				address: _event.address,
+				sellLimit: _event.sell_limit,
+				description: _event.description,
+				customUrl: _event.custom_url
+			}
 
 			$scope.tickets = _event.ticket_types;
 		};
@@ -18,9 +21,54 @@ angular.module('puntoTicketApp.controllers')
 			$scope.producer = _.findWhere($scope.producers, {id: $scope.event.producerId});
 		};
 
+		var watchFormDirty = function() {
+			$scope.$watch('form.$dirty', function(_newValue, _oldValue) {
+				$scope.isEventDataModified = _newValue;
+			});
+		};
+
+		var watchFeeInclude = function() {
+			// watch include fee property
+			$scope.$watch('fee.include', function() {
+				// toggle to include fee in ticket price
+				if($scope.fee.include) {
+					_.each($scope.tickets, function(_ticket) {
+						_ticket.priceBeforeFee = _ticket.price;
+						$scope.calculateTicketPrice(_ticket);
+					});
+				}
+				// toggle to normal mode
+				else {
+					_.each($scope.tickets, function(_ticket) {
+						 _ticket.price = _ticket.priceBeforeFee || _ticket.price;
+					});
+				}
+			});
+		};
+
+		var watchSubmitAction = function() {
+			$scope.leavePageReason = undefined;
+
+			if(!$scope.isPublished && !$scope.event.id) {
+				$scope.$watch('leavePageReason', function(newValue, oldValue) {
+					if(newValue !== 'formSubmit') {
+						$window.onbeforeunload = function(){
+							return 'Esta apunto de abandonar esta pagina sin haber guardado sus datos.';
+						};
+
+					} else {
+						$window.onbeforeunload = undefined;
+					}
+				});
+			}
+		};
+
 		$scope.init = function(_event, _producers, _isPastEvent) {
 			loadEventObject(_event);
 			loadProducersData(_producers);
+			watchFormDirty();
+			watchFeeInclude();
+			watchSubmitAction();
 			$scope.fee = {include: false};
 			$scope.isPastEvent = _isPastEvent;
 			$scope.disabled = ($scope.producers.length == 0);
@@ -34,22 +82,9 @@ angular.module('puntoTicketApp.controllers')
 			$scope.tickets[index]["destroy"] = "1";
 		};
 
-		// watch include fee property
-		$scope.$watch('fee.include', function() {
-			// toggle to include fee in ticket price
-			if($scope.fee.include) {
-				_.each($scope.tickets, function(_ticket) {
-					_ticket.priceBeforeFee = _ticket.price;
-					$scope.calculateTicketPrice(_ticket);
-				});
-			}
-			// toggle to normal mode
-			else {
-				_.each($scope.tickets, function(_ticket) {
-					 _ticket.price = _ticket.priceBeforeFee || _ticket.price;
-				});
-			}
-		});
+		$scope.onSaveButtonClick = function() {
+			$scope.leavePageReason = 'formSubmit';
+		};
 
 		// set calculated ticket price depending on producer fees and ticket price before fee
 		$scope.calculateTicketPrice = function(_ticket) {
