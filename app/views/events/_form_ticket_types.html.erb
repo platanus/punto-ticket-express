@@ -1,0 +1,9 @@
+<fieldset class="form-horizontal">
+	<legend><%= t(".title") %></legend>
+
+	<bs:control-group bound-cg label="<%= Event.human_attribute_name :sell_limit %>">
+		<input type="number" name="event[sell_limit]" ng-model="event.sellLimit"
+			ng-disabled="{{disabled}}" class="span4"
+			dirty-on-blur min="0"/>
+	</bs:control-group>
+</fieldset>
