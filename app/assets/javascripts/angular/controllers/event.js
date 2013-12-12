@@ -1,7 +1,7 @@
 //EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
 	.controller('FormEventCtrl', ['$scope', function ($scope) {
-		$scope.$watch('includeFeeInPrice', function() {
+		$scope.$watch('fee.include', function() {
 			$scope.calculateAllTicketPrices();
 		});
 
@@ -13,7 +13,6 @@ angular.module('puntoTicketApp.controllers')
 			$scope.event.sellLimit = _event.sell_limit;
 			$scope.event.description = _event.description;
 			$scope.event.customUrl = _event.custom_url;
-			$scope.event.includeFee = _event.include_fee;
 
 			$scope.tickets = _event.ticket_types;
 		};
@@ -26,22 +25,13 @@ angular.module('puntoTicketApp.controllers')
 		$scope.init = function(_event, _producers, _isPastEvent) {
 			loadEventObject(_event);
 			loadProducersData(_producers);
+			$scope.fee = {include: false};
 			$scope.isPastEvent = _isPastEvent;
 			$scope.disabled = ($scope.producers.length == 0);
-			$scope.includeFeeInPrice = $scope.event.includeFee;
-		};
-
-		$scope.calculateTicketPrice = function(ticket) {
-			if($scope.includeFeeInPrice) {
-			var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
-			var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;
-
-			ticket.price = Math.round(fixedFee + ticket.priceBeforeFee * (1 + percentFee / 100));
-			}
 		};
 
 		$scope.calculateAllTicketPrices = function() {
-			if($scope.includeFeeInPrice) {
+			if($scope.fee.include) {
 				angular.forEach($scope.tickets, function(_ticket) {
 					var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
 					var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;

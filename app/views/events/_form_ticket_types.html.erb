@@ -6,4 +6,13 @@
 			ng-disabled="{{disabled}}" class="span4"
 			dirty-on-blur min="0"/>
 	</bs:control-group>
+
+	<bs:control-group>
+		<button type="button" class="btn btn-success"
+			ng-click="addTicket()" ng-disabled="{{disabled}}"><%= t("buttons.add_ticket") %></button>
+	</bs:control-group>
+
+	<bs:control-group>
+		<input type="checkbox" ng-model="fee.include"><%= t(".include_fee_message") %></input>
+	</bs:control-group>
 </fieldset>

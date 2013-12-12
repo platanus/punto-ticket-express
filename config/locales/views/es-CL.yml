@@ -4,6 +4,7 @@ es-CL:
     next_label: "Siguiente &#8594;"
     page_gap: "&hellip;"
   buttons:
+    add_ticket: Agrega un ticket
     create: Crear
     save: Guardar
     show: Ver
@@ -228,6 +229,7 @@ es-CL:
         qty: Cantidad
     form_ticket_types:
       title: Crea los Tickets
+      include_fee_message: Incluir comisión en el precio del ticket
     form:
       title: Detalles del Evento
       no_producers_hint: "Antes de crear un evento debes <b><a href='%{new_producer_url}'>Registrar una productora</a></b>"
