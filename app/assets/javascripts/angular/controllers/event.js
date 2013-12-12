@@ -22,11 +22,14 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		var ticketsAdded = function() {
+			var result = false
+
 			_.each($scope.tickets, function(_ticket) {
-				if(!_ticket.destroy) return true;
+				if(!_ticket.destroy)
+					result = true;
 			});
 
-			return false;
+			return result;
 		};
 
 		var watchFormDirty = function() {
