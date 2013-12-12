@@ -1,60 +1,58 @@
 <%= form_for @event, :html => {name: 'form', class: 'well', novalidate: true} do |f| %>
-	<fieldset class="form-horizontal">
-		<legend><%= t(".title") %></legend>
+  <fieldset class="form-horizontal">
+    <legend><%= t(".title") %></legend>
 
-		<% if @event.logo.file? %>
-			<bs:control-group>
-				<%= image_tag @event.logo.url(:medium) %>
-			</bs:control-group>
-		<% end %>
+    <div class="control-group logo-upload">
+      <%= f.label :logo, :class => 'control-label' %>
+      <div class="controls logo-container">
+        <%= image_tag @event.logo.url(:thumb), :class => 'small-img' %>
+        <input type="file" name="event[logo]" ng-model="event.logo" />
+      </div>
+    </div>
 
-		<bs:control-group>
-			<input type="file" name="event[logo]" ng-model="event.logo" />
-		</bs:control-group>
+    <bs:control-group bound-cg>
+      <div class="producer-hint" ng-show="{{disabled}}">
+        <%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
+      </div>
+      <select name="event[producer_id]" ng-model="producer"
+        ng-options="p.name for p in producers track by p.id"
+        ng-change="calculateAllTicketPrices()"
+        class="span4" ng-disabled="{{disabled}}"
+        dirty-on-blur required>
+      </select>
+      <div class="producer-description span5">{{producer.description}}</div>
+    </bs:control-group>
 
-		<bs:control-group bound-cg>
-			<div class="producer-hint" ng-show="{{disabled}}">
-				<%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
-			</div>
-			<select name="event[producer_id]" ng-model="producer"
-			  ng-options="p.name for p in producers track by p.id"
-				ng-change="calculateAllTicketPrices()"
-				class="span4" ng-disabled="{{disabled}}"
-				dirty-on-blur required>
-			</select>
-			<div class="producer-description span5">{{producer.description}}</div>
-		</bs:control-group>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">
+      <input type="text" name="event[name]" ng-model="event.name"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur required ng-minlength="3"/>
+    </bs:control-group>
 
-		<bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">
-			<input type="text" name="event[name]" ng-model="event.name"
-				ng-disabled="{{disabled}}" class="span4"
-				dirty-on-blur required ng-minlength="3"/>
-		</bs:control-group>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :address %>">
+      <input type="text" name="event[address]" ng-model="event.address"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur required />
+    </bs:control-group>
 
-		<bs:control-group bound-cg label="<%= Event.human_attribute_name :address %>">
-			<input type="text" name="event[address]" ng-model="event.address"
-				ng-disabled="{{disabled}}" class="span4"
-				dirty-on-blur required />
-		</bs:control-group>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">
+      <textarea name="event[description]" ng-model="event.description"
+        ng-disabled="{{disabled}}" class="span4" rows="3"
+        dirty-on-blur required></textarea>
+    </bs:control-group>
 
-		<bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">
-			<textarea name="event[description]" ng-model="event.description"
-				ng-disabled="{{disabled}}" class="span4" rows="3"
-				dirty-on-blur required></textarea>
-		</bs:control-group>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
+      <input type="text" name="event[custom_url]" ng-model="event.customUrl"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur required /><!-- TODO: agregar Validator para validar urls-->
+    </bs:control-group>
+  </fieldset>
 
-		<bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
-			<input type="text" name="event[custom_url]" ng-model="event.customUrl"
-				ng-disabled="{{disabled}}" class="span4"
-				dirty-on-blur required /><!-- TODO: agregar Validator para validar urls-->
-		</bs:control-group>
-	</fieldset>
-
-	<%= render :partial => "form_ticket_types" %>
-	<div class="form-actions text-center">
-		<input name="commit" type="submit" value="Guardar"
-		class="btn btn-large btn-success btn-publish"
+  <%= render :partial => "form_ticket_types" %>
+  <div class="form-actions text-center">
+    <input name="commit" type="submit" value="Guardar"
+    class="btn btn-large btn-success btn-publish"
     ng-click="onSaveButtonClick($event)"
-		ng-disabled="{{disabled}} || form.$invalid" />
-	</div>
+    ng-disabled="{{disabled}} || form.$invalid" />
+  </div>
 <% end %>
