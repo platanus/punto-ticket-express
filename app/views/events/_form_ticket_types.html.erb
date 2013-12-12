@@ -7,15 +7,16 @@
 			dirty-on-blur min="0"/>
 	</bs:control-group>
 
-	<div class="control-group text-center">
+	<div class="control-group center">
 		<button type="button" class="btn btn-success"
 			ng-click="addTicket()" ng-disabled="{{disabled}}"><%= t("buttons.add_ticket") %></button>
 	</div>
 
-	<div class="control-group text-center">
+	<div class="control-group center">
 		<input type="checkbox" ng-model="fee.include"><%= t(".include_fee_message") %></input>
 	</div>
-
+</fieldset>
+<fieldset>
 	<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
 		<thead>
 			<tr>
@@ -28,28 +29,35 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="ticket in tickets">
-				<td>
+				<td class="w200">
 					<input name="event[ticket_types_attributes][{{$index}}][id]"
 					  ng-model="ticket.id" type="text" style="display: none"></input>
 					<input name="event[ticket_types_attributes][{{$index}}][_destroy]"
 					  ng-model="ticket.destroy" type="text" style="display: none"></input>
 
-					<input name="event[ticket_types_attributes][{{$index}}][name]"
-					  ng-model="ticket.name" type="text"
-						ng-class="{'input-large': fee.include}" class="span4" required />
+					<bs:control-group bound-cg class="no-margin">
+						<input name="event[ticket_types_attributes][{{$index}}][name]"
+					  	ng-model="ticket.name" type="text" dirty-on-blur
+							ng-class="{'input-large': fee.include}" class="span4" required />
+					</bs:control-group>
 				</td>
 				<td>
-					<input name="event[ticket_types_attributes][{{$index}}][quantity]"
-					  ng-model="ticket.quantity" type="text" class="input-small" required />
+					<bs:control-group bound-cg class="no-margin">
+						<input name="event[ticket_types_attributes][{{$index}}][quantity]"
+					  	ng-model="ticket.quantity" type="number" class="input-small"
+					  	dirty-on-blur min="0" required />
+					</bs:control-group>
 				</td>
 				<td ng-if="fee.include">
 					<input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
 						ng-change="calculateTicketPrice(ticket)" />
 				</td>
 				<td>
-					<input name="event[ticket_types_attributes][{{$index}}][price]"
-					  ng-model="ticket.price" type="text"
-						class="input-small" ng-readonly="fee.include" required />
+					<bs:control-group bound-cg class="no-margin">
+						<input name="event[ticket_types_attributes][{{$index}}][price]"
+					  	ng-model="ticket.price" type="number" dirty-on-blur min="0"
+							class="input-small" ng-readonly="fee.include" required />
+					</bs:control-group>
 				</td>
 				<td>
 					<a class="close" ng-click="deleteTicket($index)"
