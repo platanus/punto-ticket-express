@@ -7,14 +7,14 @@
 			dirty-on-blur min="0"/>
 	</bs:control-group>
 
-	<bs:control-group>
+	<div class="control-group text-center">
 		<button type="button" class="btn btn-success"
 			ng-click="addTicket()" ng-disabled="{{disabled}}"><%= t("buttons.add_ticket") %></button>
-	</bs:control-group>
+	</div>
 
-	<bs:control-group>
+	<div class="control-group text-center">
 		<input type="checkbox" ng-model="fee.include"><%= t(".include_fee_message") %></input>
-	</bs:control-group>
+	</div>
 
 	<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
 		<thead>
@@ -29,22 +29,31 @@
 		<tbody>
 			<tr ng-repeat="ticket in tickets">
 				<td>
-					<input ng-model="ticket.name" type="text"
+					<input name="event[ticket_types_attributes][{{$index}}][id]"
+					  ng-model="ticket.id" type="text" style="display: none"></input>
+					<input name="event[ticket_types_attributes][{{$index}}][_destroy]"
+					  ng-model="ticket.destroy" type="text" style="display: none"></input>
+
+					<input name="event[ticket_types_attributes][{{$index}}][name]"
+					  ng-model="ticket.name" type="text"
 						ng-class="{'input-large': fee.include}" class="span4" required />
 				</td>
 				<td>
-					<input ng-model="ticket.quantity" type="text" class="input-small" required />
+					<input name="event[ticket_types_attributes][{{$index}}][quantity]"
+					  ng-model="ticket.quantity" type="text" class="input-small" required />
 				</td>
 				<td ng-if="fee.include">
 					<input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
 						ng-change="calculateTicketPrice(ticket)" />
 				</td>
 				<td>
-					<input ng-model="ticket.price" type="text"
+					<input name="event[ticket_types_attributes][{{$index}}][price]"
+					  ng-model="ticket.price" type="text"
 						class="input-small" ng-readonly="fee.include" required />
 				</td>
 				<td>
-					<a class="close" ng-click="deleteTicket($index)" remove-nested-attribute>×</a>
+					<a class="close" ng-click="deleteTicket($index)"
+					remove-nested-attribute>×</a>
 				</td>
 			</tr>
 		</tbody>
