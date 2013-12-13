@@ -90,7 +90,14 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		$scope.deleteTicket = function(index) {
-			$scope.tickets[index]["destroy"] = "1";
+			console.log($scope.tickets[index].id);
+
+			if($scope.tickets[index].id) {
+				$scope.tickets[index]["destroy"] = "1";
+			} else {
+				$scope.tickets.splice(index,1);
+			}
+
 		};
 
 		$scope.onSaveButtonClick = function(_event) {
