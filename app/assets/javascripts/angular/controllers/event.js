@@ -52,7 +52,7 @@ angular.module('puntoTicketApp.controllers')
 				// toggle to normal mode
 				else {
 					_.each($scope.tickets, function(_ticket) {
-						ticket.price = _ticket.priceBeforeFee || _ticket.price;
+						_ticket.price = _ticket.priceBeforeFee || _ticket.price;
 					});
 				}
 			});
