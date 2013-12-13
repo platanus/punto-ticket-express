@@ -1,71 +1,74 @@
 <%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoTicketsModal()"} %>
 
 <fieldset class="form-horizontal">
-	<legend><%= t(".title") %></legend>
+  <legend><%= t(".title") %></legend>
 
-	<bs:control-group bound-cg label="<%= Event.human_attribute_name :sell_limit %>">
-		<input type="number" name="event[sell_limit]" ng-model="event.sellLimit"
-			ng-disabled="{{disabled}}" class="span4"
-			dirty-on-blur min="0"/>
-	</bs:control-group>
+  <bs:control-group bound-cg label="<%= Event.human_attribute_name :sell_limit %>">
+    <input type="number" name="event[sell_limit]" ng-model="event.sellLimit"
+      ng-disabled="{{disabled}}" class="span4"
+      dirty-on-blur min="0"/>
+  </bs:control-group>
 
-	<div class="control-group center">
-		<button type="button" class="btn btn-success"
-			ng-click="addTicket()" ng-disabled="{{disabled}}"><%= t("buttons.add_ticket") %></button>
-	</div>
+  <div class="control-group center">
+    <button type="button" class="btn btn-success"
+      ng-click="addTicket()" ng-disabled="{{disabled}}"><%= t("buttons.add_ticket") %></button>
+  </div>
 
-	<div class="control-group center">
-		<input type="checkbox" ng-model="fee.include"><%= t(".include_fee_message") %></input>
-	</div>
+  <div class="control-group center">
+    <input name="event[include_fee]" type="checkbox" value="true" ng-model="fee.include">
+      <%= t(".include_fee_message") %></input>
+  </div>
 </fieldset>
 <fieldset>
-	<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
-		<thead>
-			<tr>
-				<th><%= TicketType.human_attribute_name :name %></th>
-				<th><%= TicketType.human_attribute_name :quantity %></th>
-				<th ng-if="fee.include"><%= TicketType.human_attribute_name :price_before_fee %></th>
-				<th><%= TicketType.human_attribute_name :price %></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="ticket in tickets">
-				<td class="w200">
-					<input name="event[ticket_types_attributes][{{$index}}][id]"
-					  ng-model="ticket.id" type="text" style="display: none"></input>
-					<input name="event[ticket_types_attributes][{{$index}}][_destroy]"
-					  ng-model="ticket.destroy" type="text" style="display: none"></input>
+  <table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
+    <thead>
+      <tr>
+        <th><%= TicketType.human_attribute_name :name %></th>
+        <th><%= TicketType.human_attribute_name :quantity %></th>
+        <th ng-if="fee.include"><%= TicketType.human_attribute_name :price_before_fee %></th>
+        <th><%= TicketType.human_attribute_name :price %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="ticket in tickets">
+        <td class="w200">
+          <input name="event[ticket_types_attributes][{{$index}}][id]"
+            ng-model="ticket.id" type="text" style="display: none"></input>
+          <input name="event[ticket_types_attributes][{{$index}}][_destroy]"
+            ng-model="ticket.destroy" type="text" style="display: none"></input>
 
-					<bs:control-group bound-cg class="no-margin">
-						<input name="event[ticket_types_attributes][{{$index}}][name]"
-					  	ng-model="ticket.name" type="text" dirty-on-blur
-							ng-class="{'input-large': fee.include}" class="span4" required />
-					</bs:control-group>
-				</td>
-				<td>
-					<bs:control-group bound-cg class="no-margin">
-						<input name="event[ticket_types_attributes][{{$index}}][quantity]"
-					  	ng-model="ticket.quantity" type="number" class="input-small"
-					  	dirty-on-blur min="0" required />
-					</bs:control-group>
-				</td>
-				<td ng-if="fee.include">
-					<input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
-						ng-change="calculateTicketPrice(ticket)" />
-				</td>
-				<td>
-					<bs:control-group bound-cg class="no-margin">
-						<input name="event[ticket_types_attributes][{{$index}}][price]"
-					  	ng-model="ticket.price" type="number" dirty-on-blur min="0"
-							class="input-small" ng-readonly="fee.include" required />
-					</bs:control-group>
-				</td>
-				<td>
-					<a class="close" ng-click="deleteTicket($index)"
-					remove-nested-attribute ng-model="ticket">×</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+          <bs:control-group bound-cg class="no-margin">
+            <input name="event[ticket_types_attributes][{{$index}}][name]"
+              ng-model="ticket.name" type="text" dirty-on-blur
+              ng-class="{'input-large': fee.include}" class="span4" required />
+          </bs:control-group>
+        </td>
+        <td>
+          <bs:control-group bound-cg class="no-margin">
+            <input name="event[ticket_types_attributes][{{$index}}][quantity]"
+              ng-model="ticket.quantity" type="number" class="input-small"
+              dirty-on-blur min="0" required />
+          </bs:control-group>
+        </td>
+        <td ng-if="fee.include">
+          <bs:control-group bound-cg class="no-margin">
+            <input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
+              ng-change="calculateTicketPrice(ticket)" />
+          </bs:control-group>
+        </td>
+        <td>
+          <bs:control-group bound-cg class="no-margin">
+            <input name="event[ticket_types_attributes][{{$index}}][price]"
+              ng-model="ticket.price" type="number" dirty-on-blur min="0"
+              class="input-small" ng-readonly="fee.include" required />
+          </bs:control-group>
+        </td>
+        <td>
+          <a class="close" ng-click="deleteTicket($index)"
+          remove-nested-attribute ng-model="ticket">×</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </fieldset>

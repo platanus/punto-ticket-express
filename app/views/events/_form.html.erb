@@ -14,13 +14,13 @@
       <div class="producer-hint" ng-show="{{disabled}}">
         <%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
       </div>
-      <select name="event[producer_id]" ng-model="producer"
+      <select name="event[producer_id]" ng-model="event.producer"
         ng-options="p.name for p in producers track by p.id"
         ng-change="calculateAllTicketPrices()"
         class="span4" ng-disabled="{{disabled}}"
         dirty-on-blur required>
       </select>
-      <div class="producer-description span5">{{producer.description}}</div>
+      <div class="producer-description span5">{{event.producer.description}}</div>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">

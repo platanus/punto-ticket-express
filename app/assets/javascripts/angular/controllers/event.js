@@ -10,19 +10,20 @@ angular.module('puntoTicketApp.controllers')
 				address: _event.address,
 				sellLimit: _event.sell_limit,
 				description: _event.description,
-				customUrl: _event.custom_url
-			}
+				customUrl: _event.custom_url,
+				producer: null
+			};
 
 			$scope.tickets = _event.ticket_types;
 		};
 
 		var loadProducersData = function(_producers) {
 			$scope.producers = _producers;
-			$scope.producer = _.findWhere($scope.producers, {id: $scope.event.producerId});
+			$scope.event.producer = _.findWhere($scope.producers, {id: $scope.event.producerId});
 		};
 
 		var ticketsAdded = function() {
-			var result = false
+			var result = false;
 
 			_.each($scope.tickets, function(_ticket) {
 				if(!_ticket.destroy)
@@ -51,7 +52,7 @@ angular.module('puntoTicketApp.controllers')
 				// toggle to normal mode
 				else {
 					_.each($scope.tickets, function(_ticket) {
-						 _ticket.price = _ticket.priceBeforeFee || _ticket.price;
+						ticket.price = _ticket.priceBeforeFee || _ticket.price;
 					});
 				}
 			});
@@ -61,8 +62,8 @@ angular.module('puntoTicketApp.controllers')
 			$scope.leavePageReason = undefined;
 
 			if(!$scope.isPublished && !$scope.event.id) {
-				$scope.$watch('leavePageReason', function(newValue, oldValue) {
-					if(newValue !== 'formSubmit') {
+				$scope.$watch('leavePageReason', function(_newValue, _oldValue) {
+					if(_newValue !== 'formSubmit') {
 						$window.onbeforeunload = function(){
 							return 'Esta apunto de abandonar esta pagina sin haber guardado sus datos.';
 						};
@@ -90,8 +91,6 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		$scope.deleteTicket = function(index) {
-			console.log($scope.tickets[index].id);
-
 			if($scope.tickets[index].id) {
 				$scope.tickets[index]["destroy"] = "1";
 			} else {
@@ -117,8 +116,8 @@ angular.module('puntoTicketApp.controllers')
 		// set calculated ticket price depending on producer fees and ticket price before fee
 		$scope.calculateTicketPrice = function(_ticket) {
 			if($scope.fee.include) {
-				var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
-				var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;
+				var fixedFee = $scope.event.producer ? $scope.event.producer.fixed_fee : 0;
+				var percentFee = $scope.event.producer ? $scope.event.producer.percent_fee : 0;
 				_ticket.price = Math.round(fixedFee + _ticket.priceBeforeFee * (1 + percentFee / 100));
 			}
 		};
@@ -238,7 +237,7 @@ angular.module('puntoTicketApp.controllers')
 				return;
 			}
 
-			if($scope.producer && !$scope.producer.confirmed) {
+			if($scope.event.producer && !$scope.event.producer.confirmed) {
 				_event.preventDefault();
 				$scope.producerModal = true;
 				return;
@@ -263,7 +262,7 @@ angular.module('puntoTicketApp.controllers')
 angular.module('puntoTicketApp.controllers')
 	.controller('EventPromotionsCtrl', ['$scope', function ($scope) {
 		$scope.init = function(_eventProducer, _isPastEvent) {
-			$scope.producer = _eventProducer;
+			$scope.event.producer = _eventProducer;
 			$scope.isPastEvent = _isPastEvent;
 		};
 	}
@@ -273,7 +272,7 @@ angular.module('puntoTicketApp.controllers')
 angular.module('puntoTicketApp.controllers')
 	.controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
 		$scope.init = function(_eventProducer, _isPastEvent) {
-			$scope.producer = _eventProducer;
+			$scope.event.producer = _eventProducer;
 			$scope.isPastEvent = _isPastEvent;
 		};
 	}
