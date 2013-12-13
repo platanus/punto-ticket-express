@@ -44,7 +44,7 @@
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
       <input type="text" name="event[custom_url]" ng-model="event.customUrl"
         ng-disabled="{{disabled}}" class="span4"
-        dirty-on-blur required /><!-- TODO: agregar Validator para validar urls-->
+        dirty-on-blur validate="required, url" />
     </bs:control-group>
   </fieldset>
 

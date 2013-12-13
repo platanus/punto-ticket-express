@@ -14,7 +14,8 @@ angular.module('puntoTicketApp.directives')
 							chilean_mobile: 'El teléfono móvil ingresado es inválido',
 							job_start_today: 'La fecha de inicio debe ser mayor o igual a la fecha actual',
 							job_end_after_start: 'La fecha de termino debe ser mayor o igual a la de inicio.',
-							min: 'Debe ingresar un valor mayor'
+							min: 'Debe ingresar un valor mayor',
+							url: 'La url ingesada es inválida'
 						}
 					}
 				},
