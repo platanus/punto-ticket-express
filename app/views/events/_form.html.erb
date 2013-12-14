@@ -46,6 +46,30 @@
         ng-disabled="{{disabled}}" class="span4"
         dirty-on-blur validate="required, url" />
     </bs:control-group>
+
+    <bs:control-group bound-cg label="Fecha Inicio">
+      <input type="text" class="input-small" ng-model="dates.startDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker
+        validate="required, date-greater-than-today" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </bs:control-group>
+
+    <bs:control-group bound-cg label="Fecha Fin">
+      <input type="text" class="input-small" ng-model="dates.endDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker
+        validate="required, date-greater-than-today" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </bs:control-group>
+
+    <pre>event start: {{event.startTime}}</pre>
+    <pre>event end: {{event.endTime}}</pre>
+
+    <pre>startDate: {{dates.startDate}}</pre>
+    <pre>startTime: {{dates.startTime}}</pre>
+    <pre>startDateTime: {{dates.startDateTime}}</pre>
+    <pre>endDate: {{dates.endDate}}</pre>
+    <pre>endTime: {{dates.endTime}}</pre>
+    <pre>endDateTime: {{dates.endDateTime}}</pre>
   </fieldset>
 
   <%= render :partial => "form_ticket_types" %>

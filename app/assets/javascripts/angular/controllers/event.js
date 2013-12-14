@@ -1,6 +1,6 @@
 //EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
-	.controller('FormEventCtrl', ['$scope', '$window', function ($scope, $window) {
+	.controller('FormEventCtrl', ['$scope', '$window', 'DateUtils', function ($scope, $window, DateUtils) {
 		var loadEventObject = function(_event) {
 			$scope.event = {
 				id: _event.id,
@@ -11,10 +11,13 @@ angular.module('puntoTicketApp.controllers')
 				sellLimit: _event.sell_limit,
 				description: _event.description,
 				customUrl: _event.custom_url,
+				startTime: _event.start_time,
+				endTime: _event.end_time,
 				producer: null
 			};
 
 			$scope.tickets = _event.ticket_types;
+			loadEventDates();
 		};
 
 		var loadProducersData = function(_producers) {
@@ -31,6 +34,49 @@ angular.module('puntoTicketApp.controllers')
 			});
 
 			return result;
+		};
+
+		var loadEventDates = function() {
+			$scope.dates = {};
+
+			if(!$scope.event.startTime || !$scope.event.endTime) {
+				$scope.dates.startDate = DateUtils.tomorrow();
+				$scope.dates.startTime = 0;
+				$scope.dates.endDate = DateUtils.tomorrow();
+				$scope.dates.endTime = 0;
+
+			} else {
+				$scope.dates.startDate = DateUtils.toDate($scope.event.startTime);
+				$scope.dates.startTime = DateUtils.timePartToSecs($scope.event.startTime);
+				$scope.dates.endDate = DateUtils.toDate($scope.event.endTime);
+				$scope.dates.endTime = DateUtils.timePartToSecs($scope.event.endTime);
+			}
+		};
+
+		var buildStartDatetime = function() {
+			//TODO: usar fecha y tiempo de inicio para armar el datetime para mandar al server
+		};
+
+		var buildEndDatetime = function() {
+			//TODO: usar fecha y tiempo de fin para armar el datetime para mandar al server
+		};
+
+		var watchEventDates = function() {
+			$scope.$watch('event.startDate', function(_newValue, _oldValue) {
+				buildStartDatetime();
+			});
+
+			$scope.$watch('event.startTime', function(_newValue, _oldValue) {
+				buildStartDatetime();
+			});
+
+			$scope.$watch('event.endDate', function(_newValue, _oldValue) {
+				buildEndDatetime();
+			});
+
+			$scope.$watch('event.endTime', function(_newValue, _oldValue) {
+				buildEndDatetime();
+			});
 		};
 
 		var watchFormDirty = function() {
@@ -81,6 +127,7 @@ angular.module('puntoTicketApp.controllers')
 			watchFormDirty();
 			watchFeeInclude();
 			watchSubmitAction();
+			watchEventDates();
 			$scope.fee = {include: false};
 			$scope.isPastEvent = _isPastEvent;
 			$scope.disabled = ($scope.producers.length == 0);
@@ -96,7 +143,6 @@ angular.module('puntoTicketApp.controllers')
 			} else {
 				$scope.tickets.splice(index,1);
 			}
-
 		};
 
 		$scope.onSaveButtonClick = function(_event) {

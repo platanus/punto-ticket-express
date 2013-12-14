@@ -5,3 +5,8 @@ angular.module('puntoTicketApp.validators')
 			return (!_value || _value.search(regexp) != -1);
 		};
 	})
+  .factory('DateGreaterThanTodayValidator', [ 'DateUtils', function(DateUtils) {
+    return function(_date) {
+      return (_date > DateUtils.today());
+    };
+  }])
