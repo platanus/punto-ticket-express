@@ -1,11 +1,11 @@
 angular.module('puntoTicketApp.directives')
 	// Exposes an element's ngModel as a variable in the current scope.
-	.directive('ksModelAs', ['$parse', function($parse) {
+	.directive('modelAs', ['$parse', function($parse) {
 		return {
 			restrict: 'A',
 			require: 'ngModel',
 			link: function(_scope, _element, _attrs, _ctrl) {
-				$parse(_attrs.ksModelAs).assign(_scope.$parent, _ctrl);
+				$parse(_attrs.modelAs).assign(_scope.$parent, _ctrl);
 			}
 		};
 	}])

@@ -48,16 +48,16 @@
     </bs:control-group>
 
     <bs:control-group bound-cg label="Fecha Inicio">
-      <input type="text" class="input-small" ng-model="dates.startDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker
-        validate="required, date-greater-than-today" />
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startModel"
+        validate="required, date-greater-than-today, date-compare: [endModel.$viewValue, 'LE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
     <bs:control-group bound-cg label="Fecha Fin">
-      <input type="text" class="input-small" ng-model="dates.endDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker
-        validate="required, date-greater-than-today" />
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endModel"
+        validate="required, date-greater-than-today, date-compare: [startModel.$viewValue, 'GE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 

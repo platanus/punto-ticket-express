@@ -16,7 +16,8 @@ angular.module('puntoTicketApp.directives')
 							job_end_after_start: 'La fecha de termino debe ser mayor o igual a la de inicio.',
 							min: 'Debe ingresar un valor mayor',
 							url: 'La url ingesada es inválida',
-              date_greater_than_today: 'Debe ser mayor que el día de hoy'
+              date_greater_than_today: 'Debe ser mayor que el día de hoy',
+              event_end_after_start: 'La fecha de inicio debe ser menor que la de fin'
 						}
 					}
 				},
