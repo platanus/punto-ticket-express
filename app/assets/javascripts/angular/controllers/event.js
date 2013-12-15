@@ -139,6 +139,10 @@ angular.module('puntoTicketApp.controllers')
 			$scope.disabled = ($scope.producers.length == 0);
 		};
 
+		$scope.onStartDateChange = function() {
+			//TODO: angular.copy($scope.dates.endDate, $scope.dates.startDate);
+		};
+
 		$scope.addTicket = function() {
 			$scope.tickets.push({name:"", price:"", quantity:0});
 		};

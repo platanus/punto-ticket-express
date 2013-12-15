@@ -52,7 +52,7 @@
 
     <bs:control-group bound-cg label="Fecha Inicio">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
         validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
