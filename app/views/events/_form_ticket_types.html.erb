@@ -32,7 +32,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="ticket in tickets">
-        <td class="w200">
+        <td>
           <input name="event[ticket_types_attributes][{{$index}}][id]"
             ng-model="ticket.id" type="text" style="display: none"></input>
           <input name="event[ticket_types_attributes][{{$index}}][_destroy]"

@@ -5,7 +5,7 @@ angular.module('puntoTicketApp.directives')
 
 		return {
 			template:
-				'<select ng-options="time | pteTime for time in times"></select>',
+				'<select style="width: 102px;" ng-options="time | pteTime for time in times"></select>',
 
 			restrict: 'E',
 			replace: true,

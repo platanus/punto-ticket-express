@@ -46,48 +46,38 @@
         ng-disabled="{{disabled}}" class="span4"
         dirty-on-blur validate="required, url" />
     </bs:control-group>
+  </fieldset>
+  <fieldset class="form-horizontal">
+    <legend><%= t(".when_title") %></legend>
+    <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
+    <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
-    <input type="text" style="display: none" name="event[start_time]"
-      ng-model="dates.startDateTime" />
-
-    <bs:control-group bound-cg label="Fecha Inicio">
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
         validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="Hora Inicio">
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_time %>">
       <pte-time-picker class="input-small" validation-group="eventDates"
       ng-model="dates.startTime" model-as="startTimeModel"  dirty-on-blur
       validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
     </bs:control-group>
 
-    <input type="text" style="display: none" name="event[end_time]"
-      ng-model="dates.endDateTime" />
-
-    <bs:control-group bound-cg label="Fecha Fin">
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel"
         validate="required, date-greater-than-today, date-compare: [startDateModel.$viewValue, 'GE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="Hora Fin">
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_time %>">
       <pte-time-picker class="input-small" validation-group="eventDates"
       ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
       validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
     </bs:control-group>
 
-    <pre>event start: {{event.startTime}}</pre>
-    <pre>event end: {{event.endTime}}</pre>
-
-    <pre>startDate: {{dates.startDate}}</pre>
-    <pre>startTime: {{dates.startTime}}</pre>
-    <pre>startDateTime: {{dates.startDateTime}}</pre>
-    <pre>endDate: {{dates.endDate}}</pre>
-    <pre>endTime: {{dates.endTime}}</pre>
-    <pre>endDateTime: {{dates.endDateTime}}</pre>
   </fieldset>
 
   <%= render :partial => "form_ticket_types" %>

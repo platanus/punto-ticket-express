@@ -182,7 +182,10 @@ es-CL:
         start_time: Fecha Inicio
         end_time: Fecha Fin
         start_time: Inicio
-        end_time: Fin
+        start_part_date: Fecha inicio
+        start_part_time: Hora inicio
+        end_part_date: Fecha fin
+        end_part_time: Hora fin
         producer_id: Productora
         producer: Productora
         user: Usuario
