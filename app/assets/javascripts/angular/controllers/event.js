@@ -43,7 +43,7 @@ angular.module('puntoTicketApp.controllers')
 				$scope.dates.startDate = DateUtils.tomorrow();
 				$scope.dates.startTime = 0;
 				$scope.dates.endDate = DateUtils.tomorrow();
-				$scope.dates.endTime = 0;
+				$scope.dates.endTime = 3600;
 
 			} else {
 				$scope.dates.startDate = DateUtils.toDate($scope.event.startTime);
@@ -54,27 +54,33 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		var buildStartDatetime = function() {
-			//TODO: usar fecha y tiempo de inicio para armar el datetime para mandar al server
+			if(!$scope.dates.startDate || !$scope.dates.startTime)
+				$scope.dates.startDateTime = null;
+			$scope.dates.startDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
 		};
 
 		var buildEndDatetime = function() {
-			//TODO: usar fecha y tiempo de fin para armar el datetime para mandar al server
+			if(!$scope.dates.endDateTime || !$scope.dates.endTime)
+				$scope.dates.endDateTime = null;
+			$scope.dates.endDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
 		};
 
 		var watchEventDates = function() {
-			$scope.$watch('event.startDate', function(_newValue, _oldValue) {
+			$scope.$watch('dates.startDate', function(_newValue, _oldValue) {
 				buildStartDatetime();
 			});
 
-			$scope.$watch('event.startTime', function(_newValue, _oldValue) {
+			$scope.$watch('dates.startTime', function(_newValue, _oldValue) {
 				buildStartDatetime();
 			});
 
-			$scope.$watch('event.endDate', function(_newValue, _oldValue) {
+			$scope.$watch('dates.endDate', function(_newValue, _oldValue) {
 				buildEndDatetime();
 			});
 
-			$scope.$watch('event.endTime', function(_newValue, _oldValue) {
+			$scope.$watch('dates.endTime', function(_newValue, _oldValue) {
 				buildEndDatetime();
 			});
 		};

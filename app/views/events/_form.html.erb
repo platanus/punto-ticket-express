@@ -47,6 +47,8 @@
         dirty-on-blur validate="required, url" />
     </bs:control-group>
 
+    <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
+
     <bs:control-group bound-cg label="Fecha Inicio">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startModel"
@@ -58,6 +60,8 @@
       <pte-time-picker class="input-small" ng-model="dates.startTime"
       validate="required"></pte-time-picker>
     </bs:control-group>
+
+    <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
     <bs:control-group bound-cg label="Fecha Fin">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"

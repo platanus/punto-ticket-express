@@ -69,15 +69,6 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    # publishing or saving
-    params[:event][:is_published] = params[:publish] ? true : false
-
-    # prepare event params
-    # parsing dates and times from Javascript to Rails
-    zone = ActiveSupport::TimeZone['Santiago']
-    params[:event][:start_time] = zone.parse("#{params[:start_date]} #{params[:start_time]}")
-    params[:event][:end_time] = zone.parse("#{params[:end_date]} #{params[:end_time]}")
-
     # creates the object and reference the current user
     @event = current_user.events.build(params[:event])
 
@@ -96,15 +87,6 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    # publishing or saving
-    params[:event][:is_published] = true if params.has_key? :publish
-
-    # prepare event params
-    # parsing dates and times from Javascript to Rails
-    zone = ActiveSupport::TimeZone['Santiago']
-    params[:event][:start_time] = zone.parse("#{params[:start_date]} #{params[:start_time]}")
-    params[:event][:end_time] = zone.parse("#{params[:end_date]} #{params[:end_time]}")
-
     @event = Event.find(params[:id])
 
     respond_to do |format|

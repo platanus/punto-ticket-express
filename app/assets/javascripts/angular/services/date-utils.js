@@ -16,6 +16,12 @@ angular.module('puntoTicketApp.services')
       },
       toDate: function(_date) {
         return moment(_date).local().startOf('day').toDate();
+      },
+      addSeconds: function(_date, _seconds) {
+        return moment(_date).startOf('day').add('seconds', _seconds);
+      },
+      toRailsDate: function(_moment) {
+        return _moment.local().format("YYYY-MM-DD HH:mm:ss ZZ")
       }
 		};
 
