@@ -47,32 +47,36 @@
         dirty-on-blur validate="required, url" />
     </bs:control-group>
 
-    <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
+    <input type="text" style="display: none" name="event[start_time]"
+      ng-model="dates.startDateTime" />
 
     <bs:control-group bound-cg label="Fecha Inicio">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startModel"
-        validate="required, date-greater-than-today, date-compare: [endModel.$viewValue, 'LE'] as eventEndAfterStart" />
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel"
+        validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
     <bs:control-group bound-cg label="Hora Inicio">
-      <pte-time-picker class="input-small" ng-model="dates.startTime"
-      validate="required"></pte-time-picker>
+      <pte-time-picker class="input-small" validation-group="eventDates"
+      ng-model="dates.startTime" model-as="startTimeModel"  dirty-on-blur
+      validate="time-compare: [endTimeModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
     </bs:control-group>
 
-    <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
+    <input type="text" style="display: none" name="event[end_time]"
+      ng-model="dates.endDateTime" />
 
     <bs:control-group bound-cg label="Fecha Fin">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endModel"
-        validate="required, date-greater-than-today, date-compare: [startModel.$viewValue, 'GE'] as eventEndAfterStart" />
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel"
+        validate="required, date-greater-than-today, date-compare: [startDateModel.$viewValue, 'GE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
     <bs:control-group bound-cg label="Hora Fin">
-      <pte-time-picker class="input-small" ng-model="dates.endTime"
-      validate="required"></pte-time-picker>
+      <pte-time-picker class="input-small" validation-group="eventDates"
+      ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
+      validate="time-compare: [startTimeModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
     </bs:control-group>
 
     <pre>event start: {{event.startTime}}</pre>

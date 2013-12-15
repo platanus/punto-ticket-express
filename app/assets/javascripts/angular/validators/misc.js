@@ -12,10 +12,7 @@ angular.module('puntoTicketApp.validators')
 	}])
 	.factory('DateCompareValidator', ['DateUtils', function(DateUtils) {
 		return function(_date, _other, _criteria) {
-			console.log("entro aca?", _date, _other);
 			if(!_date || !_other) return true;
-			console.log("date", _date);
-			console.log("other", _other);
 
 			switch(_criteria) {
 			case 'L': return _date < _other;
@@ -23,6 +20,18 @@ angular.module('puntoTicketApp.validators')
 			case 'E': return _date == _other;
 			case 'GE': return _date >= _other;
 			case 'G': return _date > _other;
+			default: return false;
+			}
+		};
+	}])
+	.factory('TimeCompareValidator', ['DateUtils', function(DateUtils) {
+		return function(_time, _otherTime, _criteria) {
+			switch(_criteria) {
+			case 'L': return _time < _otherTime;
+			case 'LE': return _time <= _otherTime;
+			case 'E': return _time == _otherTime;
+			case 'GE': return _time >= _otherTime;
+			case 'G': return _time > _otherTime;
 			default: return false;
 			}
 		};
