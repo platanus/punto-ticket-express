@@ -54,11 +54,21 @@
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
+    <bs:control-group bound-cg label="Hora Inicio">
+      <pte-time-picker class="input-small" ng-model="dates.startTime"
+      validate="required"></pte-time-picker>
+    </bs:control-group>
+
     <bs:control-group bound-cg label="Fecha Fin">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endModel"
         validate="required, date-greater-than-today, date-compare: [startModel.$viewValue, 'GE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </bs:control-group>
+
+    <bs:control-group bound-cg label="Hora Fin">
+      <pte-time-picker class="input-small" ng-model="dates.endTime"
+      validate="required"></pte-time-picker>
     </bs:control-group>
 
     <pre>event start: {{event.startTime}}</pre>
