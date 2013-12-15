@@ -60,7 +60,7 @@
     <bs:control-group bound-cg label="Hora Inicio">
       <pte-time-picker class="input-small" validation-group="eventDates"
       ng-model="dates.startTime" model-as="startTimeModel"  dirty-on-blur
-      validate="time-compare: [endTimeModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
+      validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
     </bs:control-group>
 
     <input type="text" style="display: none" name="event[end_time]"
@@ -76,7 +76,7 @@
     <bs:control-group bound-cg label="Hora Fin">
       <pte-time-picker class="input-small" validation-group="eventDates"
       ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
-      validate="time-compare: [startTimeModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
+      validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
     </bs:control-group>
 
     <pre>event start: {{event.startTime}}</pre>

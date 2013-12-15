@@ -10,7 +10,7 @@ angular.module('puntoTicketApp.validators')
 			return (_date > DateUtils.today());
 		};
 	}])
-	.factory('DateCompareValidator', ['DateUtils', function(DateUtils) {
+	.factory('DateCompareValidator', function(DateUtils) {
 		return function(_date, _other, _criteria) {
 			if(!_date || !_other) return true;
 
@@ -23,9 +23,11 @@ angular.module('puntoTicketApp.validators')
 			default: return false;
 			}
 		};
-	}])
-	.factory('TimeCompareValidator', ['DateUtils', function(DateUtils) {
-		return function(_time, _otherTime, _criteria) {
+	})
+	.factory('TimeCompareValidator', function(DateUtils) {
+		return function(_time, _otherTime, _date, _otherDate, _criteria) {
+			if(!moment(_date).isSame(moment(_otherDate), 'day')) return true;
+
 			switch(_criteria) {
 			case 'L': return _time < _otherTime;
 			case 'LE': return _time <= _otherTime;
@@ -35,4 +37,4 @@ angular.module('puntoTicketApp.validators')
 			default: return false;
 			}
 		};
-	}]);
+	});
