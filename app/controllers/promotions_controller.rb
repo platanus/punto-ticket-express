@@ -22,7 +22,7 @@ class PromotionsController < ApplicationController
 
     respond_to do |format|
       if @promotion.save
-        format.html { redirect_to promotions_event_url(@event), notice: I18n.t("controller.messages.create_success") }
+        format.html { redirect_to promotions_url(@event), notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @promotion, status: :created, location: @promotion }
 
       else
