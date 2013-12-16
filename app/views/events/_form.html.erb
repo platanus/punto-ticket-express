@@ -52,10 +52,6 @@
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
     <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
-    <pre>
-    {{dates | json}}
-    </pre>
-
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
@@ -64,9 +60,9 @@
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_time %>">
-      <pte-time-picker class="input-small" validation-group="eventDates"
-      ng-model="dates.startTime" model-as="startTimeModel"  dirty-on-blur
-      validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
+      <pte-time-picker validation-group="eventDates"
+      validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart"
+      ng-model="dates.startTime" model-as="startTimeModel" dirty-on-blur/>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_date %>">
@@ -77,9 +73,9 @@
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_time %>">
-      <pte-time-picker class="input-small" validation-group="eventDates"
-      ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
-      validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
+      <pte-time-picker validation-group="eventDates"
+      validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"
+      ng-model="dates.endTime" model-as="endTimeModel" dirty-on-blur />
     </bs:control-group>
   </fieldset>
 

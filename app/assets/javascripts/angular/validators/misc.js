@@ -23,7 +23,7 @@ angular.module('puntoTicketApp.validators')
 			return (_date > DateUtils.today());
 		};
 	}])
-	.factory('DateCompareValidator', function(DateUtils) {
+	.factory('DateCompareValidator', function() {
 		return function(_date, _other, _criteria) {
 			if(!_date || !_other) return true;
 			return compare(_date, _other, _criteria);
@@ -31,6 +31,8 @@ angular.module('puntoTicketApp.validators')
 	})
 	.factory('TimeCompareValidator', function(DateUtils) {
 		return function(_time, _otherTime, _date, _otherDate, _criteria) {
+      _time = parseInt(_time);
+      _otherTime = parseInt(_otherTime);
 			if(!moment(_date).isSame(moment(_otherDate), 'day')) return true;
 			return compare(_time, _otherTime, _criteria);
 		};

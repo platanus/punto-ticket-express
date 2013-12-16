@@ -3,52 +3,18 @@ angular.module('puntoTicketApp.directives')
 		var SECONDS_STEP = 1800; //30 minutes
 		var TOTAL_SECS_DAY = 86400; //24 hours,
 
-		return {
-			template:
-				'<select style="width: 102px;" ng-options="time for time in times"></select>',
+		template = function() {
+			html = '<select style="width: 102px;">';
+			for(var i = 0; i < TOTAL_SECS_DAY; i += SECONDS_STEP)
+				html += '<option value=' + i + '>{{' + i + ' | pteTime}}</option>';
+			html += '</select>';
+			return html;
+		}
 
+		return {
+			template: template(),
 			restrict: 'E',
 			replace: true,
-			transclude: true,
-			require: 'ngModel',
-
-			link: function(_scope, _element, _attrs, _ngModel) {
-				_scope.times = [];
-
-				var loadSelectOptions = function() {
-					for(var i = 0; i < TOTAL_SECS_DAY; i += SECONDS_STEP) {
-						_scope.times.push(i);
-					}
-				};
-
-				var setSeconds = function(_seconds) {
-					for(var i = 0; i < TOTAL_SECS_DAY; i += SECONDS_STEP) {
-						var from = i;
-						var to = i + SECONDS_STEP;
-						if(_seconds >= from && _seconds < to) {
-							if(_seconds >= (to - SECONDS_STEP / 2))
-								return to;
-							else
-								return from;
-						}
-					}
-
-					return 0;
-				};
-
-				loadSelectOptions();
-
-				_ngModel.$formatters.unshift(function(_modelValue) {
-					console.log('formatters', _modelValue);
-					_ngModel.$setViewValue(_modelValue);
-					return setSeconds(_modelValue);
-				});
-
-				_ngModel.$parsers.push(function(_viewValue) {
-					//if(_viewValue === undefined) return _viewValue;
-					console.log('parsers', _viewValue);
-					return setSeconds(_viewValue);
-				});
-			}
+			require: 'ngModel'
 		};
 	})
