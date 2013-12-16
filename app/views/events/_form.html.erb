@@ -1,254 +1,91 @@
-<%= form_for @event, html: {name: 'form', "ng-submit" => "onSaveEventClick($event)", class: 'form-event well', novalidate: true} do |f| %>
-	<fieldset class="form-horizontal">
-		<legend>Detalles del Evento</legend>
-		<% if @event.errors.any? %>
-			<div class="alert alert-error" id="error_explanation">
-				<h4 class="alert-heading">
-					Se han producido errores al intentar guardar el evento:
-				</h4>
-				<br/>
-				<ul>
-					<% @event.errors.full_messages.each do |msg| %>
-						<li>
-							<%= msg %>
-						</li>
-					<% end %>
-				</ul>
-			</div>
-		<% end %>
-		<div class="control-group logo-upload">
-			<%= f.label :logo, :class => 'control-label' %>
-			<div class="controls logo-container">
-				<%= image_tag @event.logo.url(:thumb), :class => 'small-img' %>
-				<%= f.file_field :logo, :html => {'data-buttonText' => 'Find file'} %>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label :producer_id, :class => 'control-label' %>
-			<div class="controls">
-				<div class="producer-hint" ng-show="{{disabled}}">
-					<%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
-				</div>
+<%= form_for @event, :html => {name: 'form', class: 'well', novalidate: true} do |f| %>
+  <fieldset class="form-horizontal">
+    <legend><%= t(".title") %></legend>
 
-        <!-- producer selection -->
-        <select ng-options="p.name for p in producers track by p.id" ng-model="producer" ng-change="calculateAllTicketPrices()"
-                name="event[producer_id]" class="span4"
-                ng-disabled="{{disabled}}" form-validate required>
-        </select>
+    <div class="control-group logo-upload">
+      <%= f.label :logo, :class => 'control-label' %>
+      <div class="controls logo-container">
+        <%= image_tag @event.logo.url(:thumb), :class => 'small-img' %>
+        <input type="file" name="event[logo]" ng-model="event.logo" />
+      </div>
+    </div>
 
-				<!-- producer validation-->
-				<div class="input-error" ng-show="(form['event[producer_id]'].$dirty && form['event[producer_id]'].$invalid)">
-					<label ng-show="form['event[producer_id]'].$error.required">
-						Debe elegir una productora
-					</label>
-				</div>
+    <bs:control-group bound-cg>
+      <div class="producer-hint" ng-show="{{disabled}}">
+        <%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
+      </div>
+      <select name="event[producer_id]" ng-model="event.producer"
+        ng-options="p.name for p in producers track by p.id"
+        ng-change="calculateAllTicketPrices()"
+        class="span4" ng-disabled="{{disabled}}"
+        dirty-on-blur required>
+      </select>
+      <div class="producer-description span5">{{event.producer.description}}</div>
+    </bs:control-group>
 
-        <!-- producer description -->
-				<div class="producer-description span5">{{producer.description}}</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label :name, :class => 'control-label' %>
-			<div class="controls">
-				<%= f.text_field :name, :class => 'span4', 'ng-model' => 'name', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '', 'ng-focused' => '' %>
-				<!-- validation-->
-				<div class="input-error" ng-show="(form['event[name]'].$dirty && form['event[name]'].$invalid && !form['event[name]'].$focused)">
-					<label ng-show="form['event[name]'].$error.required">
-						El nombre del evento no puede estar en blanco
-					</label>
-					<label ng-show="form['event[name]'].$error.minlength">
-						El nombre del evento debe tener al menos 3 caracteres
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label :address, :class => 'control-label' %>
-			<div class="controls">
-				<%= f.text_field :address, :class => 'span4', 'ng-model' => 'address', 'ng-minlength' => '3', 'ng-disabled' => "{{disabled}}", 'form-validate' => '', 'required' => '', 'ng-focused' => '' %>
-				<!-- validation-->
-				<div class="input-error" ng-show="(form['event[address]'].$dirty && form['event[address]'].$invalid && !form['event[address]'].$focused)">
-					<label ng-show="form['event[address]'].$error.required">
-						La dirección del evento no puede estar en blanco
-					</label>
-					<label ng-show="form['event[address]'].$error.minlength">
-						La dirección del evento debe tener al menos 3 caracteres
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label :description, :class => 'control-label' %>
-			<div class="controls">
-				<%= f.text_area :description, :rows => '3', :class => 'span4', 'ng-model' => 'description','ng-disabled' => "{{disabled}}" , 'form-validate' => '', 'required' => '', 'ng-focused' => ''%>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">
+      <input type="text" name="event[name]" ng-model="event.name"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur required ng-minlength="3"/>
+    </bs:control-group>
 
-				<!-- validation-->
-				<div class="input-error" ng-show="(form['event[description]'].$dirty && form['event[description]'].$invalid && !form['event[description]'].$focused)">
-					<label ng-show="form['event[description]'].$error.required">
-						La descripción del evento no puede estar en blanco
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label :custom_url, :class => 'control-label' %>
-			<div class="controls">
-				<%= f.text_field :custom_url, :class => 'span4', 'ng-disabled' => "{{disabled}}" %>
-			</div>
-		</div>
-		<div class="control-group">
-			<%= f.label 'Fecha y Horario', :class => 'control-label' %>
-			<div class="controls">
-				<div class="input-append">
-					<input bs-datepicker="" class="input-small" data-date-format="dd/mm/yyyy" data-model-ref="time" name="start_date" ng-change="changeStartTime(true)" ng-disabled="{{disabled}}" ng-model="time.dates.startDate" type="text">/</input>
-					<button class="btn" data-toggle="datepicker" type="button">
-						<i class="icon-calendar"></i>
-					</button>
-				</div>
-				<div class="input-append">
-					<select class="input-mini form-control" ng-change="changeStartTime(false)" ng-model="time.times.startTime" ng-options="t as t for t in [] | timeInterval:0:24"></select>
-					<input name="start_time" style="display: none" type="text" value="{{time.times.startTime}}"></input>
-				</div>
-				-
-				<div class="input-append">
-					<input bs-datepicker="" class="input-small" data-date-format="dd/mm/yyyy" name="end_date" ng-disabled="{{disabled}}" ng-model="time.dates.endDate" type="text">
-						<button class="btn" data-toggle="datepicker" type="button">
-							<i class="icon-calendar"></i>
-						</button>
-					</input>
-				</div>
-				<div class="input-append">
-					<select class="input-mini form-control" ng-model="time.times.endTime" ng-options="t as t for t in [] | timeInterval:0:24"></select>
-					<input name="end_time" style="display: none" type="text" value="{{time.times.endTime}}"></input>
-				</div>
-				<!-- you must define a filter to accept more than one validation-->
-				<!-- custom validation-->
-				<div class="input-error" ng-show="form.start_date.$dirty && form.start_date.$invalid">
-					<label ng-show="form.start_date.$error.required">
-						La fecha de inicio no puede estar en blanco
-					</label>
-					<label ng-show="form.start_date.$error.date">
-						El formato de fecha es incorrecto
-					</label>
-				</div>
-				<!-- custom validation-->
-				<form-validate name="timesStart" ng-model="time" validate-type="starttime">
-					<form-validate name="timesEnd" ng-model="time" validate-type="startgreaterend">
-						<div class="row-fluid">
-							<div class="input-error span6 no-space" ng-show="form.timesStart.$error.starttime">
-								<label>
-									El comienzo del evento no puede ser menor que la fecha actual
-								</label>
-							</div>
-							<div class="input-error span6 no-space" ng-show="form.timesEnd.$error.startgreaterend">
-								<label>
-									El comienzo del evento no puede ser mayor o igual que el final
-								</label>
-							</div>
-						</div>
-					</form-validate>
-				</form-validate>
-			</div>
-		</div>
-	</fieldset>
-	<fieldset class="form-horizontal">
-		<legend>Crea los Tickets</legend>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :address %>">
+      <input type="text" name="event[address]" ng-model="event.address"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur required />
+    </bs:control-group>
 
-		<div class="control-group">
-			<%= f.label :sell_limit, :class => 'control-label' %>
-			<div class="controls">
-				<%= f.number_field :sell_limit, :class => 'span4', 'ng-model' => 'sellLimit', 'ng-disabled' => "{{disabled}}", 'only-numbers' => true %>
-			</div>
-		</div>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">
+      <textarea name="event[description]" ng-model="event.description"
+        ng-disabled="{{disabled}}" class="span4" rows="3"
+        dirty-on-blur required></textarea>
+    </bs:control-group>
 
-		<!-- custom validation-->
-		<form-validate name="events" ng-model="tickets" validate-type="minrepeat">
-			<div class="alert alert-error" ng-show="form.events.$error.minrepeat">
-				<span>Debe crear al menos un tipo de ticket para guardar o publicar este evento.</span>
-			</div>
-			<div class="control-group text-center">
-				<button class="btn btn-success" ng-click="addTicket()" ng-disabled="{{disabled}}" type="button">Agrega un ticket</button>
-			</div>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
+      <input type="text" name="event[custom_url]" ng-model="event.customUrl"
+        ng-disabled="{{disabled}}" class="span4"
+        dirty-on-blur validate="required, url" />
+    </bs:control-group>
+  </fieldset>
+  <fieldset class="form-horizontal">
+    <legend><%= t(".when_title") %></legend>
+    <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
+    <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
-      <!-- Include fee in ticket price -->
-			<div class="control-group text-center">
-        <input name="event[include_fee]" type="hidden" value="false" />
-				<input name="event[include_fee]" type="checkbox" value="true"
-               ng-model="includeFeeInPrice">
-          Incluir comisión en el precio del ticket
-        </input>
-			</div>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
+        validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </bs:control-group>
 
-			<br/>
-			<table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Cantidad</th>
-            <th ng-if="includeFeeInPrice">Precio antes de comisión</th>
-						<th>Precio</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="ticket in tickets">
-						<!--
-							do not use only ng-for because not only need a dynamic name for validations,
-							also need a specific structure for rails
-						-->
-						<td>
-							<input name="event[ticket_types_attributes][{{$index}}][id]" ng-model="ticket.id" style="display: none" type="text"></input>
-							<input name="event[ticket_types_attributes][{{$index}}][_destroy]" ng-model="ticket.destroy" style="display: none" type="text"></input>
-							<ng-form name="formInName">
-								<input class="span4" name="event[ticket_types_attributes][{{$index}}][name]" ng-class="{'input-large':includeFeeInPrice}" ng-model="ticket.name" type="text" form-validate ng-focused required>
-									<!-- validation-->
-									<div class="input-error" ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$dirty && formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$invalid && !formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$focused">
-										<label ng-show="formInName['event[ticket_types_attributes][\{\{$index}\}\][name]'].$error.required">
-											El nombre del ticket no puede estar en blanco
-										</label>
-									</div>
-								</input>
-							</ng-form>
-						</td>
-						<td>
-							<ng-form name="formInQuantity">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][quantity]" ng-model="ticket.quantity" type="number" form-validate ng-focused required>
-									<!-- validation-->
-									<div class="input-error" ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$dirty && formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$invalid && !formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$focused">
-										<label ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$error.required">
-											La cantidad de tickets no puede estar en blanco
-										</label>
-										<label ng-show="formInQuantity['event[ticket_types_attributes][\{\{$index}\}\][quantity]'].$error.number">
-											Formato no valido
-										</label>
-									</div>
-								</input>
-							</ng-form>
-						</td>
-						<td ng-if="includeFeeInPrice">
-							<input class="input-small" ng-change="calculateTicketPrice(ticket)" ng-model="ticket.priceBeforeFee" type="text"></input>
-						</td>
-						<td>
-							<ng-form name="formInPrice">
-								<input class="input-small" name="event[ticket_types_attributes][{{$index}}][price]" ng-readonly="includeFeeInPrice" ng-model="ticket.price" type="text" form-validate ng-focused required>
-									<!-- validation-->
-									<div class="input-error" ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$dirty && formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$invalid && !formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$focused">
-										<label ng-show="formInPrice['event[ticket_types_attributes][\{\{$index}\}\][price]'].$error.required">
-											El precio del ticket no puede estar en blanco
-										</label>
-									</div>
-								</input>
-							</ng-form>
-						</td>
-						<td>
-							<a class="close" ng-click="deleteTicket($index)" remove-nested-attribute>×</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form-validate>
-	</fieldset>
-	<div class="form-actions text-center">
-		<input class="btn btn-large btn-success btn-publish" name="commit" ng-click="submitAction = 'save'" ng-disabled="{{disabled}} || form.$invalid" type="submit" value="Guardar"/>
-	</div>
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_time %>">
+      <pte-time-picker class="input-small" validation-group="eventDates"
+      ng-model="dates.startTime" model-as="startTimeModel"  dirty-on-blur
+      validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart" ></pte-time-picker>
+    </bs:control-group>
+
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_date %>">
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel"
+        validate="required, date-greater-than-today, date-compare: [startDateModel.$viewValue, 'GE'] as eventEndAfterStart" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </bs:control-group>
+
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_time %>">
+      <pte-time-picker class="input-small" validation-group="eventDates"
+      ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
+      validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
+    </bs:control-group>
+
+  </fieldset>
+
+  <%= render :partial => "form_ticket_types" %>
+
+  <div class="form-actions text-center">
+    <input name="commit" type="submit" value="Guardar"
+    class="btn btn-large btn-success btn-publish"
+    ng-click="onSaveButtonClick($event)"
+    ng-disabled="{{disabled}} || form.$invalid" />
+  </div>
 <% end %>

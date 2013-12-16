@@ -1,281 +1,335 @@
-// EVENTS/NEW and EDIT
+//EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
-  .controller('FormEventCtrl', ['$scope', '$filter', 'timeHelper', '$window', function ($scope, $filter, timeHelper, $window) {
+	.controller('FormEventCtrl', ['$scope', '$window', 'DateUtils', function ($scope, $window, DateUtils) {
+		var loadEventObject = function(_event) {
+			$scope.event = {
+				id: _event.id,
+				isPublished: _event.is_published,
+				name: _event.name,
+				producerId: _event.producer_id,
+				address: _event.address,
+				sellLimit: _event.sell_limit,
+				description: _event.description,
+				customUrl: _event.custom_url,
+				startTime: _event.start_time,
+				endTime: _event.end_time,
+				producer: null
+			};
 
-    // all producers
-    $scope.producers = [];
+			$scope.tickets = _event.ticket_types;
+			loadEventDates();
+		};
 
-    // selected producer
-    $scope.producer = {};
+		var loadProducersData = function(_producers) {
+			$scope.producers = _producers;
+			$scope.event.producer = _.findWhere($scope.producers, {id: $scope.event.producerId});
+		};
 
-    // ticket types
-    $scope.tickets = [];
+		var ticketsAdded = function() {
+			var result = false;
 
-    // Defines the reason for submiting the form
-    // 'save' is for saving the event
-    $scope.submitAction = undefined;
+			_.each($scope.tickets, function(_ticket) {
+				if(!_ticket.destroy)
+					result = true;
+			});
 
-    // include fee in ticket price flag
-    $scope.includeFeeInPrice = false;
+			return result;
+		};
 
-    $scope.$watch('form.$dirty', function(_newValue, _oldValue) {
-      $scope.isEventDataModified = _newValue;
-    });
+		var loadEventDates = function() {
+			$scope.dates = {};
 
-    $scope.init = function(event, producers, isPastEvt) {
-      $scope.isPastEvent = isPastEvt;
-      $scope.disabled = (producers.length == 0);
-      $scope.name = event.name;
-      $scope.address = event.address;
-      $scope.sellLimit = event.sell_limit;
-      $scope.description = event.description;
+			if(!$scope.event.startTime || !$scope.event.endTime) {
+				$scope.dates.startDate = DateUtils.tomorrow();
+				$scope.dates.startTime = 0;
+				$scope.dates.endDate = DateUtils.tomorrow();
+				$scope.dates.endTime = 3600;
 
-      // set producers
-      $scope.producers = producers;
+			} else {
+				$scope.dates.startDate = DateUtils.toDate($scope.event.startTime);
+				$scope.dates.startTime = DateUtils.timePartToSecs($scope.event.startTime);
+				$scope.dates.endDate = DateUtils.toDate($scope.event.endTime);
+				$scope.dates.endTime = DateUtils.timePartToSecs($scope.event.endTime);
+			}
+		};
 
-      // define initial producer
-      $scope.producer = _.findWhere(producers, { id: event.producer_id });
+		var buildStartDatetime = function() {
+			if(!$scope.dates.startDate || !$scope.dates.startTime)
+				$scope.dates.startDateTime = null;
+			$scope.dates.startDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
+		};
 
-      // call factory
-      $scope.time = timeHelper.time(event.start_time, event.end_time);
-      $scope.tickets = event.ticket_types;
+		var buildEndDatetime = function() {
+			if(!$scope.dates.endDateTime || !$scope.dates.endTime)
+				$scope.dates.endDateTime = null;
+			$scope.dates.endDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
+		};
 
-      // it warns not to leave the form without saving data
-      if(!event.is_published && !event.id)
-        $scope.$watch('submitAction', function(newValue, oldValue) {
-          if(newValue !== 'save' && oldValue !== 'save') {
-            $window.onbeforeunload = function(){
-              return 'Esta apunto de abandonar esta pagina sin haber guardado sus datos.';
-            };
-          }else{
-            $window.onbeforeunload = undefined;
-          }
-        });
+		var watchEventDates = function() {
+			$scope.$watch('dates.startDate', function(_newValue, _oldValue) {
+				buildStartDatetime();
+			});
 
-      // include fee property
-      $scope.includeFeeInPrice = event.include_fee;
-    };
+			$scope.$watch('dates.startTime', function(_newValue, _oldValue) {
+				buildStartDatetime();
+			});
 
-    $scope.addTicket = function() {
-      $scope.tickets.push({name:"", price:"", quantity:0});
-    };
+			$scope.$watch('dates.endDate', function(_newValue, _oldValue) {
+				buildEndDatetime();
+			});
 
-    $scope.deleteTicket = function(index) {
-      $scope.tickets[index]["destroy"] = "1";
-    };
+			$scope.$watch('dates.endTime', function(_newValue, _oldValue) {
+				buildEndDatetime();
+			});
+		};
 
-    $scope.changeStartTime = function (dateChange) {
-      if(dateChange)
-        $scope.time.dates.endDate = $scope.time.dates.startDate;
+		var watchFormDirty = function() {
+			$scope.$watch('form.$dirty', function(_newValue, _oldValue) {
+				$scope.isEventDataModified = _newValue;
+			});
+		};
 
-      // transform the date and time selectors in date format
-      var startDate = $scope.time.dates.startDate || new Date();
-      var endDate = $scope.time.dates.endDate || new Date();
-      startTime = new Date (startDate.toDateString() + ' ' + $scope.time.times.startTime);
-      endTime = new Date (endDate.toDateString() + ' ' + $scope.time.times.endTime);
+		var watchFeeInclude = function() {
+			// watch include fee property
+			$scope.$watch('fee.include', function() {
+				// toggle to include fee in ticket price
+				if($scope.fee.include) {
+					_.each($scope.tickets, function(_ticket) {
+						_ticket.priceBeforeFee = _ticket.price;
+						$scope.calculateTicketPrice(_ticket);
+					});
+				}
+				// toggle to normal mode
+				else {
+					_.each($scope.tickets, function(_ticket) {
+						_ticket.price = _ticket.priceBeforeFee || _ticket.price;
+					});
+				}
+			});
+		};
 
-      if(startTime >= endTime){
-        // add one hour to end time
-        startTime.setHours(startTime.getHours() + 1);
-        $scope.time.dates.endDate = new Date(startTime.toDateString());
-        $scope.time.times.endTime = $filter('date')(startTime, 'h:mm a');
-      }
-    };
+		var watchSubmitAction = function() {
+			$scope.leavePageReason = undefined;
 
-    // set calculated ticket price depending on producer fees and ticket price before fee
-    $scope.calculateTicketPrice = function(ticket) {
-      if($scope.includeFeeInPrice) {
-        var fixedFee = $scope.producer ? $scope.producer.fixed_fee : 0;
-        var percentFee = $scope.producer ? $scope.producer.percent_fee : 0;
+			if(!$scope.isPublished && !$scope.event.id) {
+				$scope.$watch('leavePageReason', function(_newValue, _oldValue) {
+					if(_newValue !== 'formSubmit') {
+						$window.onbeforeunload = function(){
+							return 'Esta apunto de abandonar esta pagina sin haber guardado sus datos.';
+						};
 
-        ticket.price = Math.round(fixedFee + ticket.priceBeforeFee * (1 + percentFee / 100));
-      }
-    };
+					} else {
+						$window.onbeforeunload = undefined;
+					}
+				});
+			}
+		};
 
-    // re-calculate all ticket prices
-    $scope.calculateAllTicketPrices = function() {
-      _.each($scope.tickets, function(ticket) {
-        $scope.calculateTicketPrice(ticket);
-      });
-    };
+		$scope.init = function(_event, _producers, _isPastEvent) {
+			loadEventObject(_event);
+			loadProducersData(_producers);
+			watchFormDirty();
+			watchFeeInclude();
+			watchSubmitAction();
+			watchEventDates();
+			$scope.fee = {include: false};
+			$scope.isPastEvent = _isPastEvent;
+			$scope.disabled = ($scope.producers.length == 0);
+		};
 
-    $scope.onSaveEventClick = function(event) {
-      //trigger form-validate directive
-      // this is used to implement general validations (are not directly related to a input).
-      $scope.$broadcast('formValidations');
+		$scope.onStartDateChange = function() {
+			//TODO: angular.copy($scope.dates.endDate, $scope.dates.startDate);
+		};
 
-      if(!$scope.form.$valid) {
-        event.preventDefault();
-      }
+		$scope.addTicket = function() {
+			$scope.tickets.push({name:"", price:"", quantity:0});
+		};
 
-      // reset submit action to undefined
-      $scope.submitAction = undefined;
-    };
+		$scope.deleteTicket = function(index) {
+			if($scope.tickets[index].id) {
+				$scope.tickets[index]["destroy"] = "1";
+			} else {
+				$scope.tickets.splice(index,1);
+			}
+		};
 
-    // watch include fee property
-    $scope.$watch('includeFeeInPrice', function() {
-      // toggle to include fee in ticket price
-      if($scope.includeFeeInPrice) {
-        _.each($scope.tickets, function(ticket) {
-          ticket.priceBeforeFee = ticket.price;
-          $scope.calculateTicketPrice(ticket);
-        });
-      }
-      // toggle to normal mode
-      else {
-        _.each($scope.tickets, function(ticket) {
-          ticket.price = ticket.priceBeforeFee || ticket.price;
-        });
-      }
-    });
-  }
+		$scope.onSaveButtonClick = function(_event) {
+			if(!ticketsAdded()) {
+				_event.preventDefault();
+				$scope.notTicketsModal = true;
+				return;
+			}
+
+			$scope.leavePageReason = 'formSubmit';
+		};
+
+		$scope.closeNoTicketsModal = function() {
+			$scope.notTicketsModal = false;
+		};
+
+		// set calculated ticket price depending on producer fees and ticket price before fee
+		$scope.calculateTicketPrice = function(_ticket) {
+			if($scope.fee.include) {
+				var fixedFee = $scope.event.producer ? $scope.event.producer.fixed_fee : 0;
+				var percentFee = $scope.event.producer ? $scope.event.producer.percent_fee : 0;
+				_ticket.price = Math.round(fixedFee + _ticket.priceBeforeFee * (1 + percentFee / 100));
+			}
+		};
+
+		// re-calculate all ticket prices
+		$scope.calculateAllTicketPrices = function() {
+			_.each($scope.tickets, function(_ticket) {
+				$scope.calculateTicketPrice(_ticket);
+			});
+		};
+	}
 ]);
-
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
-  .controller('EventShowCtrl', ['$scope', function ($scope) {
-    $scope.themes = [];
-    $scope.ticketTypes = [];
-    // initialization tasks to be executed before the template enters execution mode
-    // used to ruby data parsed into a JavaScript object
+	.controller('EventShowCtrl', ['$scope', function ($scope) {
+		$scope.themes = [];
+		$scope.ticketTypes = [];
+		// initialization tasks to be executed before the template enters execution mode
+		// used to ruby data parsed into a JavaScript object
 
-    $scope.init = function(ticketTypes, isPreview, ticketsLimit, themes, currentTheme) {
-      // eliminates unnecessary attributes
-      var sumPrice = 0;
-      var sumPromoPrice = 0;
-      _.each(ticketTypes, function(ticketType){
-        sumPrice += parseInt(ticketType.price);
-        sumPromoPrice += parseInt(ticketType.promotion_price);
-        // set default select option
-        ticketType.bought_quantity = 0;
-        // rremove attrs
-        delete ticketType.created_at;
-        delete ticketType.updated_at;
-      });
+		$scope.init = function(ticketTypes, isPreview, ticketsLimit, themes, currentTheme) {
+			// eliminates unnecessary attributes
+			var sumPrice = 0;
+			var sumPromoPrice = 0;
+			_.each(ticketTypes, function(ticketType){
+				sumPrice += parseInt(ticketType.price);
+				sumPromoPrice += parseInt(ticketType.promotion_price);
+				// set default select option
+				ticketType.bought_quantity = 0;
+				// rremove attrs
+				delete ticketType.created_at;
+				delete ticketType.updated_at;
+			});
 
-      $scope.anyPromo = ((sumPrice - sumPromoPrice) != 0);
+			$scope.anyPromo = ((sumPrice - sumPromoPrice) != 0);
 
-      $scope.isPreview = isPreview;
-      $scope.ticketTypes = ticketTypes;
-      $scope.ticketsLimit = ticketsLimit;
+			$scope.isPreview = isPreview;
+			$scope.ticketTypes = ticketTypes;
+			$scope.ticketsLimit = ticketsLimit;
 
-      $scope.themes = themes;
-      $scope.theme = currentTheme;
-    };
+			$scope.themes = themes;
+			$scope.theme = currentTheme;
+		};
 
-    $scope.closeBuyModal = function() {
-      $scope.buyModal = false;
-    };
+		$scope.closeBuyModal = function() {
+			$scope.buyModal = false;
+		};
 
-    $scope.closeLimitModal = function() {
-      $scope.limitModal = false;
-    };
+		$scope.closeLimitModal = function() {
+			$scope.limitModal = false;
+		};
 
-    $scope.closeNoTicketsModal = function() {
-      $scope.notTicketsModal = false;
-    };
+		$scope.closeNoTicketsModal = function() {
+			$scope.notTicketsModal = false;
+		};
 
-    $scope.stockEmpty = function(ticketType) {
-      return (ticketType.stock == 0);
-    };
+		$scope.stockEmpty = function(ticketType) {
+			return (ticketType.stock == 0);
+		};
 
-    $scope.typeWithPromo = function(ticketType) {
-      return (ticketType.promotion_price != ticketType.price);
-    };
+		$scope.typeWithPromo = function(ticketType) {
+			return (ticketType.promotion_price != ticketType.price);
+		};
 
-    $scope.changeStyle = function(theme) {
-      document.getElementById('theme_css').href = theme.url;
-      $scope.theme = theme.name;
-    };
+		$scope.changeStyle = function(theme) {
+			document.getElementById('theme_css').href = theme.url;
+			$scope.theme = theme.name;
+		};
 
-    var buyLimitExceeded = function() {
-      var totalQty = 0;
-      angular.forEach($scope.ticketTypes, function(ticketType){
-        totalQty += parseInt(ticketType.bought_quantity);
-      });
+		var buyLimitExceeded = function() {
+			var totalQty = 0;
+			angular.forEach($scope.ticketTypes, function(ticketType){
+				totalQty += parseInt(ticketType.bought_quantity);
+			});
 
-      return (totalQty > $scope.ticketsLimit);
-    };
+			return (totalQty > $scope.ticketsLimit);
+		};
 
-    // removes and validates the fields of the array before being sent to the next page
-    $scope.validateTicketTypes = function($event) {
+		// removes and validates the fields of the array before being sent to the next page
+		$scope.validateTicketTypes = function($event) {
 
-      // removes all ticket_types that have no amount
-      var ticketTypes = _.filter($scope.ticketTypes, function(t){
-        return (t.bought_quantity && t.bought_quantity > 0);
-      });
+			// removes all ticket_types that have no amount
+			var ticketTypes = _.filter($scope.ticketTypes, function(t){
+				return (t.bought_quantity && t.bought_quantity > 0);
+			});
 
-      if($scope.isPreview) {
-        $event.preventDefault();
-        $scope.buyModal = true;
+			if($scope.isPreview) {
+				$event.preventDefault();
+				$scope.buyModal = true;
 
-      } else if(_.size(ticketTypes) == 0) {
-        $event.preventDefault();
-        $scope.notTicketsModal = true;
+			} else if(_.size(ticketTypes) == 0) {
+				$event.preventDefault();
+				$scope.notTicketsModal = true;
 
-      } else if(buyLimitExceeded()) {
-        $event.preventDefault();
-        $scope.limitModal = true;
-      }
-    };
-  }
+			} else if(buyLimitExceeded()) {
+				$event.preventDefault();
+				$scope.limitModal = true;
+			}
+		};
+	}
 ]);
 
 //EVENTS/EDIT_TOP_NAVBAR
 angular.module('puntoTicketApp.controllers')
-  .controller('EventEditTopNavbarCtrl', ['$scope', function ($scope) {
-    $scope.onPublishEventClick = function(_event) {
-      if($scope.isEventDataModified) {
-        _event.preventDefault();
-        $scope.modifiedEventDataModal = true;
-        return;
-      }
+	.controller('EventEditTopNavbarCtrl', ['$scope', function ($scope) {
+		$scope.onPublishEventClick = function(_event) {
+			if($scope.isEventDataModified) {
+				_event.preventDefault();
+				$scope.modifiedEventDataModal = true;
+				return;
+			}
 
-      if($scope.isPastEvent) {
-        _event.preventDefault();
-        $scope.pastEventModal = true;
-        return;
-      }
+			if($scope.isPastEvent) {
+				_event.preventDefault();
+				$scope.pastEventModal = true;
+				return;
+			}
 
-      if($scope.producer && !$scope.producer.confirmed) {
-        _event.preventDefault();
-        $scope.producerModal = true;
-        return;
-      }
-    };
+			if($scope.event.producer && !$scope.event.producer.confirmed) {
+				_event.preventDefault();
+				$scope.producerModal = true;
+				return;
+			}
+		};
 
-    $scope.closeProducerModal = function() {
-      $scope.producerModal = false;
-    };
+		$scope.closeProducerModal = function() {
+			$scope.producerModal = false;
+		};
 
-    $scope.closePastEventModal = function() {
-      $scope.pastEventModal = false;
-    };
+		$scope.closePastEventModal = function() {
+			$scope.pastEventModal = false;
+		};
 
-    $scope.closeModifiedEventDataModal = function() {
-      $scope.modifiedEventDataModal = false;
-    };
-  }
+		$scope.closeModifiedEventDataModal = function() {
+			$scope.modifiedEventDataModal = false;
+		};
+	}
 ]);
 
 //EVENTS/PROMOTIONS
 angular.module('puntoTicketApp.controllers')
-  .controller('EventPromotionsCtrl', ['$scope', function ($scope) {
-    $scope.init = function(_eventProducer, _isPastEvent) {
-      $scope.producer = _eventProducer;
-      $scope.isPastEvent = _isPastEvent;
-    };
-  }
+	.controller('EventPromotionsCtrl', ['$scope', function ($scope) {
+		$scope.init = function(_eventProducer, _isPastEvent) {
+			$scope.event.producer = _eventProducer;
+			$scope.isPastEvent = _isPastEvent;
+		};
+	}
 ]);
-
 
 //EVENTS/PROMOTIONS
 angular.module('puntoTicketApp.controllers')
-  .controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
-    $scope.init = function(_eventProducer, _isPastEvent) {
-      $scope.producer = _eventProducer;
-      $scope.isPastEvent = _isPastEvent;
-    };
-  }
+	.controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
+		$scope.init = function(_eventProducer, _isPastEvent) {
+			$scope.event.producer = _eventProducer;
+			$scope.isPastEvent = _isPastEvent;
+		};
+	}
 ]);

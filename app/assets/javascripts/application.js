@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require underscore/underscore
 //= require momentjs/moment
-//= require unstable-angular-complete/angular
+//= require angular/angular
 //= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-strap/dist/angular-strap
 //= require bootstrap-datepicker/js/bootstrap-datepicker
@@ -22,6 +22,8 @@
 //= require bootstrap-filestyle/src/bootstrap-filestyle
 //= require prettycheckable/dist/prettyCheckable.min
 //= require angular-rut/src/rut
+//= require angular-inflector/dist/angular-inflector
+//= require angular-validate/dist/angular-validate
 //= require angular-platanus-misc/src/misc
 //= require angular-platanus-misc/src/modules/render_on_blur
 //= require app.js

@@ -167,6 +167,7 @@ es-CL:
         price: Precio
         discount: Precio con descuento
         quantity: Stock
+        price_before_fee: "Precio antes de comisión"
         bought_quantity: Cantidad a comprar
       event/ticket_types:
         name: El nombre de uno de los tickets
@@ -181,7 +182,10 @@ es-CL:
         start_time: Fecha Inicio
         end_time: Fecha Fin
         start_time: Inicio
-        end_time: Fin
+        start_part_date: Fecha inicio
+        start_part_time: Hora inicio
+        end_part_date: Fecha fin
+        end_part_time: Hora fin
         producer_id: Productora
         producer: Productora
         user: Usuario
