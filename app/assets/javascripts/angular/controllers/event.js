@@ -140,7 +140,7 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		$scope.onStartDateChange = function() {
-			//TODO: angular.copy($scope.dates.endDate, $scope.dates.startDate);
+			$scope.dates.endDate = $scope.dates.startDate;
 		};
 
 		$scope.addTicket = function() {
