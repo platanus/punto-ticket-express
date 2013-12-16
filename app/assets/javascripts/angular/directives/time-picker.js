@@ -5,7 +5,7 @@ angular.module('puntoTicketApp.directives')
 
 		return {
 			template:
-				'<select style="width: 102px;" ng-options="time | pteTime for time in times"></select>',
+				'<select style="width: 102px;" ng-options="time for time in times"></select>',
 
 			restrict: 'E',
 			replace: true,
@@ -39,11 +39,14 @@ angular.module('puntoTicketApp.directives')
 				loadSelectOptions();
 
 				_ngModel.$formatters.unshift(function(_modelValue) {
+					console.log('formatters', _modelValue);
 					_ngModel.$setViewValue(_modelValue);
 					return setSeconds(_modelValue);
 				});
 
 				_ngModel.$parsers.push(function(_viewValue) {
+					//if(_viewValue === undefined) return _viewValue;
+					console.log('parsers', _viewValue);
 					return setSeconds(_viewValue);
 				});
 			}

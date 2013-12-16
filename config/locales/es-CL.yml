@@ -44,12 +44,6 @@ es-CL:
       file_name: participantes.xls
       zip_file_name: participantes.zip
       sheet_name: Participantes
-  transaction_mailer:
-    completed_payment:
-      subject: "Punto Ticket Express - Confirmación de pago"
-      body: |
-        Tu pago para el evento %{even_name} se realizó con éxito.
-        Importe: $%{price}
   activerecord:
     models:
       global_configuration:

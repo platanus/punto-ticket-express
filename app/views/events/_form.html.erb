@@ -52,6 +52,10 @@
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
     <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
+    <pre>
+    {{dates | json}}
+    </pre>
+
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
@@ -77,7 +81,6 @@
       ng-model="dates.endTime" model-as="endTimeModel"  dirty-on-blur
       validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"></pte-time-picker>
     </bs:control-group>
-
   </fieldset>
 
   <%= render :partial => "form_ticket_types" %>

@@ -292,3 +292,12 @@ es-CL:
           optional: Opcional
     user_producers:
       title: "Crear un Evento"
+  transaction_mailer:
+    completed_payment:
+      subject: "Punto Ticket Express - Confirmación de pago"
+      body: "Tu pago por %{price} para el evento %{even_name} se realizó con éxito."
+  producer_mailer:
+    confirmed_producer:
+      subject: "Punto Ticket Express - Productora confirmada"
+      title: "Productora confirmada"
+      body: "La productora \"%{producer}\" ha sido confirmada. Desde este momento, sus eventos pueden ser publicados utilizando esta productora."

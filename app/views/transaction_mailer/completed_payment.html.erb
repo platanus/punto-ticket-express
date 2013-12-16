@@ -9,9 +9,9 @@
     </tr>
     <tr>
       <td>
-        <pre>
-          <%= t(".body", even_name: @transaction.event_name, start_date: l(@transaction.event_start_time, format: :long), end_date: l(@transaction.event_end_time, format: :long), price: @transaction.total_amount) %>
-        </pre>
+        <% start_date = l(@transaction.event_start_time, format: :long) if @transaction.event_start_time %>
+        <% end_date = l(@transaction.event_end_time, format: :long) if @transaction.event_end_time %>
+        <%= t(".body", even_name: @transaction.event_name, start_date: start_date, end_date: end_date, price: number_to_currency(@transaction.total_amount)) %>
       </td>
     </tr>
   </tbody>
