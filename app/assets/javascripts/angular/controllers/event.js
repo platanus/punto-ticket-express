@@ -119,7 +119,7 @@ angular.module('puntoTicketApp.controllers')
 		var watchSubmitAction = function() {
 			$scope.leavePageReason = undefined;
 
-			if(!$scope.isPublished && !$scope.event.id) {
+			if(!$scope.event.isPublished && !$scope.event.id) {
 				$scope.$watch('leavePageReason', function(_newValue, _oldValue) {
 					if(_newValue !== 'formSubmit') {
 						$window.onbeforeunload = function(){
