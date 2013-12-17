@@ -1,5 +1,3 @@
-
-
 class EventsController < ApplicationController
   load_and_authorize_resource
   skip_filter :authenticate_user!, only: :show
