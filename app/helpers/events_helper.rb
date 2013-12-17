@@ -41,6 +41,7 @@ module EventsHelper
   end
 
   def event_tabs_link(tab_name, link_path, current_tab)
+    current_tab = current_tab || 'on_sale'
     class_name = tab_name == current_tab ? 'active' : ''
 
     content_tag(:li, :class => class_name) do

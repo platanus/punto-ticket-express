@@ -12,7 +12,7 @@
           <li><%= link_to t(".services"), features_path %></li>
           <li><%= link_to t(".how_works"), how_works_path %></li>
           <li><%= link_to t(".create_event"), new_event_path %></li>
-          <li><%= nav_link t(".my_events"), me_events_path if user_signed_in? %></li>
+          <li><%= nav_link t(".my_events"), me_events_path(is_published: true, is_valid_date: true) if user_signed_in? %></li>
         </ul>
         <ul class="nav pull-right" id="main-menu-right">
           <% if user_signed_in? %>
