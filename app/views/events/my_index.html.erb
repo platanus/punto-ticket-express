@@ -1,37 +1,24 @@
 <div class="page-header">
-  <h1><%= t(".title") %></h1>
+	<h1><%= t(".title") %></h1>
 </div>
-<div class="row">
-  <div class="span12">
-    <table class="table table-striped table-colored">
-      <thead>
-      	<tr>
-      		<th><%= Event.human_attribute_name :name %></th>
-      		<th><%= Event.human_attribute_name :address %></th>
-      		<th><%= Event.human_attribute_name :start_time %></th>
-      		<th><%= Event.human_attribute_name :is_published %></th>
-      		<th></th>
-      		<th></th>
-      	</tr>
-      </thead>
-      <tbody>
-      	<% @events.each do |event| %>
-      		<tr>
-      			<td><%= event.name %></td>
-      			<td><%= event.address %></td>
-      			<td><%= l(event.start_time, format: :short) if event.start_time %></td>
-      			<td class="center"><%= human_boolean(event.is_published) %></td>
-      			<td style="width: 100px;"><%= show_or_preview_button(event) %></td>
-      			<td style="width: 100px;"><%= statistics_or_edit_button(event) %></td>
-      		</tr>
-      	<% end %>
-      </tbody>
-    </table>
-    <div class="text-center">
-      <%= will_paginate @events %>
-    </div>
-    <div class="table-actions">
-      <%= link_to t(".new_event_btn"), new_event_path, :class => "btn btn-success btn-large"%>
-    </div>
-  </div>
+
+
+
+<div ng-controller="MyEventsCtrl">
+
+	<tabset>
+		<tab heading="En venta">
+			<%= render :partial => "table_my_index", :locals => { :events => @events_on_sale } %>
+		</tab>
+		<tab heading="Borrador">
+			<%= render :partial => "table_my_index", :locals => { :events => @events_draft } %>
+		</tab>
+		<tab heading="Finalizado">
+			<%= render :partial => "table_my_index", :locals => { :events => @events_ended } %>
+		</tab>
+	</tabset>
+	<div class="table-actions">
+		<%= link_to t(".new_event_btn"), new_event_path, :class => "btn btn-success btn-large"%>
+	</div>
+
 </div>

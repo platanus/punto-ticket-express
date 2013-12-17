@@ -5,11 +5,12 @@ class EventsController < ApplicationController
   skip_filter :authenticate_user!, only: :show
 
   def my_index
-    @events = current_user.events.order("start_time desc").paginate(:page => params[:page], :per_page => 10)
+    @events_on_sale = current_user.events.published(true).with_valid_date(true).order(:start_time).paginate(:page => params[:page], :per_page => 10)
+    @events_draft = current_user.events.published(false).with_valid_date(true).order(:start_time).paginate(:page => params[:page], :per_page => 10)
+    @events_ended = current_user.events.published(false).with_valid_date(false).order(:start_time).paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @events }
     end
   end
 
@@ -129,7 +130,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url }
+      format.html { redirect_to me_events_path }
       format.json { head :no_content }
     end
   end
