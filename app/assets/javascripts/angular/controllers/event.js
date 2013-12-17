@@ -91,6 +91,12 @@ angular.module('puntoTicketApp.controllers')
 			});
 		};
 
+		var initFeeData = function(_event) {
+			$scope.fee = {include: _event.include_fee};
+			initTicketPrices();
+			watchFeeInclude();
+		};
+
 		var watchFeeInclude = function() {
 			// watch include fee property
 			$scope.$watch('fee.include', function() {
@@ -131,10 +137,9 @@ angular.module('puntoTicketApp.controllers')
 			loadEventObject(_event);
 			loadProducersData(_producers);
 			watchFormDirty();
-			watchFeeInclude();
+			initFeeData(_event);
 			watchSubmitAction();
 			watchEventDates();
-			$scope.fee = {include: _event.include_fee};
 			$scope.isPastEvent = _isPastEvent;
 			$scope.disabled = ($scope.producers.length == 0);
 		};
@@ -169,6 +174,21 @@ angular.module('puntoTicketApp.controllers')
 			$scope.notTicketsModal = false;
 		};
 
+		var initTicketPrices = function() {
+			if($scope.fee.include) {
+				var fixedFee = $scope.event.producer ? $scope.event.producer.fixed_fee : 0;
+				var percentFee = $scope.event.producer ? $scope.event.producer.percent_fee : 0;
+
+				_.each($scope.tickets, function(_ticket) {
+					console.log("_ticket.price", _ticket.price, "fixedFee", fixedFee, "percentFee", percentFee)
+					_ticket.price -= fixedFee;
+					console.log("resto fixed", _ticket.price)
+					_ticket.price -= Math.round(_ticket.price * percentFee / (percentFee + 100));
+					console.log("resto percent", _ticket.price)
+				});
+			}
+		};
+
 		// set calculated ticket price depending on producer fees and ticket price before fee
 		$scope.calculateTicketPrice = function(_ticket) {
 			if($scope.fee.include) {
@@ -189,10 +209,10 @@ angular.module('puntoTicketApp.controllers')
 
 // EVENTS/INDEX
 angular.module('puntoTicketApp.controllers')
-  .controller('MyEventsCtrl', ['$scope', function ($scope) {
+	.controller('MyEventsCtrl', ['$scope', function ($scope) {
 
-    $scope.navType = 'pills';
-  }
+		$scope.navType = 'pills';
+	}
 ]);
 
 // EVENTS/SHOW
