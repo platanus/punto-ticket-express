@@ -180,11 +180,8 @@ angular.module('puntoTicketApp.controllers')
 				var percentFee = $scope.event.producer ? $scope.event.producer.percent_fee : 0;
 
 				_.each($scope.tickets, function(_ticket) {
-					console.log("_ticket.price", _ticket.price, "fixedFee", fixedFee, "percentFee", percentFee)
 					_ticket.price -= fixedFee;
-					console.log("resto fixed", _ticket.price)
 					_ticket.price -= Math.round(_ticket.price * percentFee / (percentFee + 100));
-					console.log("resto percent", _ticket.price)
 				});
 			}
 		};
