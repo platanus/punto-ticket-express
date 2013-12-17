@@ -177,6 +177,7 @@ es-CL:
       order_number: Nº de orden
       name: Nombre
       place: Lugar
+      enclosure: Recinto
       date: Fecha
       sector: Sector
       price: Precio
@@ -193,6 +194,7 @@ es-CL:
       order_number: Nº de orden
       name: Nombre
       place: Lugar
+      enclosure: Recinto
       date: Fecha
       sector: Sector
       price: Precio
@@ -271,6 +273,8 @@ es-CL:
           title: Estadística
           tickets_sold: Ventas por Ticket
           participants: Lista de Asistentes
+    table_my_index:
+      delete_message: ¿Está seguro de que desea eliminar el evento
     my_index:
       title: Mis Eventos
       new_event_btn: Nuevo Evento
