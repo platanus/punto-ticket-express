@@ -187,14 +187,6 @@ angular.module('puntoTicketApp.controllers')
 	}
 ]);
 
-// EVENTS/INDEX
-angular.module('puntoTicketApp.controllers')
-  .controller('MyEventsCtrl', ['$scope', function ($scope) {
-
-    $scope.navType = 'pills';
-  }
-]);
-
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
 	.controller('EventShowCtrl', ['$scope', function ($scope) {

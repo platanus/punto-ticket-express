@@ -3,9 +3,11 @@ class EventsController < ApplicationController
   skip_filter :authenticate_user!, only: :show
 
   def my_index
-    @events_on_sale = current_user.events.published(true).with_valid_date(true).order(:start_time).paginate(:page => params[:page], :per_page => 10)
-    @events_draft = current_user.events.published(false).with_valid_date(true).order(:start_time).paginate(:page => params[:page], :per_page => 10)
-    @events_ended = current_user.events.published(false).with_valid_date(false).order(:start_time).paginate(:page => params[:page], :per_page => 10)
+
+    is_published = params[:is_published] == 'true'
+    is_valid_date = params[:is_valid_date] == 'true'
+    @events = current_user.events.published(is_published).with_valid_date(is_valid_date).order(:start_time)
+    @events = @events.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb

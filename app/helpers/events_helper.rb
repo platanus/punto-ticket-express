@@ -39,4 +39,12 @@ module EventsHelper
     src = "//www.facebook.com/plugins/like.php?href=#{url}&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=35"
     content_tag(:iframe, nil, src: src, scrolling: "no", frameborder: "0", style: "border:none; overflow:hidden; height:62px; width: 600px;", allowTransparency: "true")
   end
+
+  def event_tabs_link(tab_name, link_path, current_tab)
+    class_name = tab_name == current_tab ? 'active' : ''
+
+    content_tag(:li, :class => class_name) do
+      link_to t(".tabs.#{tab_name}"), "#{link_path}&current_tab=#{tab_name}"
+    end
+  end
 end
