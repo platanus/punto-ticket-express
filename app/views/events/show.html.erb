@@ -33,7 +33,8 @@
   				<%= t(".titles.when") %>
   			</div>
         <p><%= l(@event.start_time, format: :pte) if @event.start_time %></p>
-  			<p><%= @event.address %></p>
+        <p><%= @event.address %></p>
+  			<p><%= @event.enclosure if @event.enclosure %></p>
   		</div>
   	</div>
   	<div class="span8">

@@ -18,7 +18,8 @@
 						<div class="span9">
 							<%= printable_ticket_label(t('.order_number'), @ticket.id.to_s) %>
 							<%= printable_ticket_label(t('.event'), @ticket.event_name) %>
-							<%= printable_ticket_label(t('.place'), @ticket.event_address) %>
+              <%= printable_ticket_label(t('.place'), @ticket.event_address) %>
+							<%= printable_ticket_label(t('.enclosure'), @ticket.event_enclosure) if @ticket.event_enclosure %>
 							<%= printable_ticket_label(t('.date'), l(@ticket.event_start_time, format: :long)) if @ticket.event_start_time %>
 							<%= printable_ticket_label(t('.sector'), @ticket.ticket_type_name) %>
 						</div>

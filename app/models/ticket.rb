@@ -37,6 +37,7 @@ class Ticket < ActiveRecord::Base
   delegate :start_time, to: :event, prefix: true, allow_nil: true
   delegate :end_time, to: :event, prefix: true, allow_nil: true
   delegate :address, to: :event, prefix: true, allow_nil: true
+  delegate :enclosure, to: :event, prefix: true, allow_nil: true
   delegate :producer, to: :event, prefix: true, allow_nil: true
 
   delegate :discount, to: :promotion, prefix: true, allow_nil: true

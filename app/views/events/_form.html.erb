@@ -1,4 +1,5 @@
 <%= form_for @event, :html => {name: 'form', class: 'well', novalidate: true} do |f| %>
+
   <fieldset class="form-horizontal">
     <legend><%= t(".title") %></legend>
 
@@ -35,6 +36,10 @@
         dirty-on-blur required />
     </bs:control-group>
 
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :enclosure %>">
+      <input type="text" name="event[enclosure]" ng-disabled="{{disabled}}" class="span4" />
+    </bs:control-group>
+
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">
       <textarea name="event[description]" ng-model="event.description"
         ng-disabled="{{disabled}}" class="span4" rows="3"
@@ -47,6 +52,7 @@
         dirty-on-blur validate="required, url" />
     </bs:control-group>
   </fieldset>
+
   <fieldset class="form-horizontal">
     <legend><%= t(".when_title") %></legend>
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
