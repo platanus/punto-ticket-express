@@ -53,7 +53,7 @@
         </td>
         <td ng-if="fee.include">
           <bs:control-group bound-cg class="no-margin">
-            <input ng-model="ticket.priceBeforeFee" type="text" class="input-small"
+            <input ng-model="ticket.priceBeforeFee" type="number" class="input-small"
               ng-change="calculateTicketPrice(ticket)" />
           </bs:control-group>
         </td>

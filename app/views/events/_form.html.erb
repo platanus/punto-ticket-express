@@ -60,26 +60,26 @@
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_time %>">
-      <pte-time-picker validation-group="eventDates"
+      <pte-time-picker validation-group="eventDates" ng-disabled="{{disabled}}"
       validate="time-compare: [endTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'L'] as eventEndTimeAfterStart"
       ng-model="dates.startTime" model-as="startTimeModel" dirty-on-blur/>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
-        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [startDateModel.$viewValue, 'GE'] as eventEndAfterStart" />
       <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_time %>">
-      <pte-time-picker validation-group="eventDates"
+      <pte-time-picker validation-group="eventDates" ng-disabled="{{disabled}}"
       validate="time-compare: [startTimeModel.$viewValue, startDateModel.$viewValue, endDateModel.$viewValue, 'G'] as eventEndTimeAfterStart"
       ng-model="dates.endTime" model-as="endTimeModel" dirty-on-blur />
     </bs:control-group>
