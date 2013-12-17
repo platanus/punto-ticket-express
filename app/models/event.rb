@@ -210,18 +210,17 @@ class Event < ActiveRecord::Base
     (self.sold_amount.to_d * self.percent_fee.to_d / 100.0) rescue 0.0
   end
 
+  def can_destroy?
+    return true if self.tickets.count.zero?
+    errors.add(:base, :has_related_tickets)
+    return false
+  end
+
   private
     def remains_published?
       if !self.new_record? and self.is_published_was and
         (self.is_published_was != self.is_published)
         errors.add(:is_published, :published_event_cant_be_unpublished)
-        return false
-      end
-    end
-
-    def can_destroy?
-      unless self.tickets.count.zero?
-        errors.add(:base, :has_related_tickets)
         return false
       end
     end
