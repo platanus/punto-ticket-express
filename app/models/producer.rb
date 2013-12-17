@@ -2,8 +2,11 @@ class Producer < ActiveRecord::Base
   attr_accessible :address, :contact_email,
     :contact_name, :description, :name,
     :phone, :rut, :website, :confirmed,
-    :brief, :corporate_name,
+    :logo, :brief, :corporate_name,
     :fixed_fee, :percent_fee
+
+  # paperclip
+  has_attached_file :logo, :styles => { :medium => "160x160>", :thumb => "100x100>" }
 
   has_and_belongs_to_many :users
   has_many :events, dependent: :destroy
@@ -19,6 +22,8 @@ class Producer < ActiveRecord::Base
   validates :phone, presence: true
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
   validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+
+  validates_attachment_content_type :logo, :content_type => /image/
 
   validates :website,
     format: {with: %r{\Ahttps?:\/\/([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
