@@ -2,21 +2,20 @@
 	<h1><%= t(".title") %></h1>
 </div>
 
-<div ng-controller="MyEventsCtrl">
+<ul class="nav nav-tabs">
+  <li><%= event_tabs_link 'on_sale', me_events_path(is_published: true, is_valid_date: true), params[:current_tab] %></li>
+  <li><%= event_tabs_link 'draft', me_events_path(is_published: false, is_valid_date: true), params[:current_tab] %></li>
+  <li><%= event_tabs_link 'ended', me_events_path(is_published: false, is_valid_date: false), params[:current_tab] %></li>
+</ul>
 
-	<tabset>
-		<tab heading="En venta">
-			<%= render :partial => "table_my_index", :locals => { :events => @events_on_sale } %>
-		</tab>
-		<tab heading="Borrador">
-			<%= render :partial => "table_my_index", :locals => { :events => @events_draft } %>
-		</tab>
-		<tab heading="Finalizado">
-			<%= render :partial => "table_my_index", :locals => { :events => @events_ended } %>
-		</tab>
-	</tabset>
-	<div class="table-actions">
-		<%= link_to t(".new_event_btn"), new_event_path, :class => "btn btn-success btn-large"%>
+<div class="tab-content">
+	<div class="tab-pane active">
+		<%= render :partial => "table_my_index", :locals => { :events => @events } %>
 	</div>
+</div>
+
+<div class="table-actions">
+	<%= link_to t(".new_event_btn"), new_event_path, :class => "btn btn-success btn-large"%>
+</div>
 
 </div>

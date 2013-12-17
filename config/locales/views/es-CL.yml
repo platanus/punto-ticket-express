@@ -278,6 +278,10 @@ es-CL:
     my_index:
       title: Mis Eventos
       new_event_btn: Nuevo Evento
+      tabs:
+        on_sale: En venta
+        draft: Papelera
+        ended: Finalizado
     participants:
       title: Asistentes
       subtitle: "Del evento \"%{event_name}\""
