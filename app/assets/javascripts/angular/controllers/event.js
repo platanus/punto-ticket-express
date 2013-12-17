@@ -134,7 +134,7 @@ angular.module('puntoTicketApp.controllers')
 			watchFeeInclude();
 			watchSubmitAction();
 			watchEventDates();
-			$scope.fee = {include: false};
+			$scope.fee = {include: _event.include_fee};
 			$scope.isPastEvent = _isPastEvent;
 			$scope.disabled = ($scope.producers.length == 0);
 		};
