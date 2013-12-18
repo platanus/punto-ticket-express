@@ -45,7 +45,7 @@ module EventsHelper
     class_name = tab_name == current_tab ? 'active' : ''
 
     content_tag(:li, :class => class_name) do
-      link_to t(".tabs.#{tab_name}"), "#{link_path}&current_tab=#{tab_name}"
+      link_to t(".tabs.#{tab_name}"), "#{link_path}?current_tab=#{tab_name}"
     end
   end
 end

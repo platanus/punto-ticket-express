@@ -32,10 +32,9 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
-  scope :published, lambda { |is_published| where(is_published: is_published) }
-  scope :with_valid_date, lambda { |is_valid|
-    where([ is_valid ? 'end_time >= ?' : 'end_time <= ?', DateTime.now])
-  }
+  scope :published, where(is_published: true)
+  scope :expired,  where('end_time <= ?', DateTime.now)
+  scope :not_expired, where('end_time >= ?', DateTime.now)
   scope :desc, order("events.created_at DESC")
 
   delegate :name, to: :producer, prefix: true, allow_nil: true

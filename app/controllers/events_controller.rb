@@ -1,12 +1,10 @@
 class EventsController < ApplicationController
   load_and_authorize_resource
   skip_filter :authenticate_user!, only: :show
+  before_filter :load_events, :only => [:my_index]
 
   def my_index
 
-    is_published = params[:is_published] == 'true'
-    is_valid_date = params[:is_valid_date] == 'true'
-    @events = current_user.events.published(is_published).with_valid_date(is_valid_date).order(:start_time)
     @events = @events.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
@@ -134,4 +132,18 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+    def load_events
+
+      case params[:current_tab]
+      when 'draft' # draft events
+        @events = current_user.events.select { |e| e.can_destroy? }
+      when 'ended' # ended events
+        @events = current_user.events.expired.published
+      else # on sale events
+        @events = current_user.events.not_expired.published
+      end
+
+    end
 end
