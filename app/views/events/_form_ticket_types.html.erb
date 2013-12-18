@@ -15,11 +15,15 @@
   </div>
 
   <div class="control-group center">
+    <input name="event[include_fee]" type="text" value="false" style="display: none" ng-model="fee.include" />
     <input name="event[include_fee]" type="checkbox" value="true" ng-model="fee.include">
       <%= t(".include_fee_message") %></input>
   </div>
 </fieldset>
 <fieldset>
+  <pre>
+    {{tickets | json}}
+  </pre>
   <table class="table table-bordered" ng-animate="{show: 'event-show', hide: 'event-hide'}" ng-show="tickets.length">
     <thead>
       <tr>
@@ -47,20 +51,20 @@
         <td>
           <bs:control-group bound-cg class="no-margin">
             <input name="event[ticket_types_attributes][{{$index}}][quantity]"
-              ng-model="ticket.quantity" type="number" class="input-small"
-              dirty-on-blur min="0" required />
+              ng-model="ticket.quantity" type="text" number-mask class="input-small"
+              dirty-on-blur required />
           </bs:control-group>
         </td>
         <td ng-if="fee.include">
           <bs:control-group bound-cg class="no-margin">
-            <input ng-model="ticket.priceBeforeFee" type="number" class="input-small"
-              ng-change="calculateTicketPrice(ticket)" dirty-on-blur min="0" />
+            <input ng-model="ticket.priceBeforeFee" number-mask type="text" class="input-small"
+              ng-change="calculateTicketPrice(ticket)" dirty-on-blur />
           </bs:control-group>
         </td>
         <td>
           <bs:control-group bound-cg class="no-margin">
             <input name="event[ticket_types_attributes][{{$index}}][price]"
-              ng-model="ticket.price" type="number" dirty-on-blur min="0"
+              ng-model="ticket.price" number-mask type="text" dirty-on-blur
               class="input-small" ng-readonly="fee.include" required />
           </bs:control-group>
         </td>

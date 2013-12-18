@@ -28,6 +28,7 @@
 //= require angular-platanus-misc/src/modules/render_on_blur
 //= require app.js
 //= require md5.js
+//= require jquery.price_format.1.8.min.js
 //= require_tree ./angular
 //= require home
 // require_tree .
