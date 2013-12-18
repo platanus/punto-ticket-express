@@ -6,4 +6,10 @@ class ProducerMailer < ActionMailer::Base
     @producer = producer
     mail(:to => user.email)
   end
+
+  def created_producer producer
+    return if !producer
+    @producer = producer
+    mail(:to => User.admins.pluck(:email))
+  end
 end

@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :events_tickets, through: :ticket_types, source: :tickets
   has_and_belongs_to_many :producers
 
+  scope :admins, where(role: PTE::Role.admin)
+
   PTE::Role::TYPES.each do |type_name|
     define_method("#{type_name}?") do
       PTE::Role.same? self.role, type_name

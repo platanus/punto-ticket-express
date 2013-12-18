@@ -20,6 +20,7 @@ class ProducersController < ApplicationController
 
     respond_to do |format|
       if @producer.save
+        ProducerMailer.created_producer(@producer).deliver
         format.html { redirect_to configuration_producers_path, notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @producer, status: :created, location: @producer }
 

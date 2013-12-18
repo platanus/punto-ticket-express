@@ -309,3 +309,7 @@ es-CL:
       subject: "Punto Ticket Express - Productora confirmada"
       title: "Productora confirmada"
       body: "La productora \"%{producer}\" ha sido confirmada. Desde este momento, sus eventos pueden ser publicados utilizando esta productora."
+    created_producer:
+      subject: "Punto Ticket Express - Productora creada"
+      title: "Productora creada"
+      body: "La productora \"%{producer}\" ha sido creada y necesita ser confirmada por un administrador."
