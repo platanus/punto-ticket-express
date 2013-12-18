@@ -280,7 +280,7 @@ es-CL:
       new_event_btn: Nuevo Evento
       tabs:
         on_sale: En venta
-        draft: Papelera
+        draft: Borrador
         ended: Finalizado
     participants:
       title: Asistentes
