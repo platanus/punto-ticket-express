@@ -5,7 +5,7 @@
 
   <bs:control-group bound-cg label="<%= Event.human_attribute_name :sell_limit %>">
     <input type="number" name="event[sell_limit]" ng-model="event.sellLimit"
-      ng-disabled="{{disabled}}" class="span4"
+      ng-disabled="{{disabled}}" class="input-small"
       dirty-on-blur min="0"/>
   </bs:control-group>
 
@@ -47,8 +47,10 @@
         </td>
         <td>
           <bs:control-group bound-cg class="no-margin">
+          <!-- This hidden field holds quantity value without number mask format -->
             <input name="event[ticket_types_attributes][{{$index}}][quantity]"
-              ng-model="ticket.quantity" type="text" number-mask class="input-small"
+              ng-model="ticket.quantity" type="text" style="display: none" />
+            <input ng-model="ticket.quantity" type="text" number-mask class="input-small"
               dirty-on-blur required />
           </bs:control-group>
         </td>
@@ -60,8 +62,10 @@
         </td>
         <td>
           <bs:control-group bound-cg class="no-margin">
+            <!-- This hidden field holds price value without number mask format -->
             <input name="event[ticket_types_attributes][{{$index}}][price]"
-              ng-model="ticket.price" number-mask type="text" dirty-on-blur
+              ng-model="ticket.price" type="text" style="display: none" />
+            <input ng-model="ticket.price" number-mask type="text" dirty-on-blur
               class="input-small" ng-readonly="fee.include" required />
           </bs:control-group>
         </td>
