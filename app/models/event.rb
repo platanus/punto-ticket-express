@@ -215,6 +215,19 @@ class Event < ActiveRecord::Base
     return false
   end
 
+  # ActiveRelation objects
+  def self.on_sale
+    self.not_expired.published
+  end
+
+  def self.draft
+    self.select { |e| e.can_destroy? }
+  end
+
+  def self.ended
+    self.expired.published
+  end
+
   private
     def remains_published?
       if !self.new_record? and self.is_published_was and

@@ -138,11 +138,11 @@ class EventsController < ApplicationController
 
       case params[:current_tab]
       when 'draft' # draft events
-        @events = current_user.events.select { |e| e.can_destroy? }
+        @events = current_user.events.draft
       when 'ended' # ended events
-        @events = current_user.events.expired.published
+        @events = current_user.events.ended
       else # on sale events
-        @events = current_user.events.not_expired.published
+        @events = current_user.events.on_sale
       end
 
     end
