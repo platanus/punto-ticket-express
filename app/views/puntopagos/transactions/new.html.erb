@@ -6,7 +6,7 @@
   ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", <%= @event.require_ticket_resources? %>, <%= transaction_errors_hash %>)'>
 
   <%= form_for([:puntopagos, @transaction],
-    :html => {:class => 'form-horizontal'},
+    :html => {:class => 'form-horizontal', :name => 'tickets_form'},
     :url => {:action => 'create'}) do |f| %>
 
     <!-- Creates hidden fields for:

@@ -79,6 +79,15 @@ angular.module('puntoTicketApp.controllers')
       $scope.invalidCodeModal = false;
     };
 
+    $scope.onBuyButtonClick = function() {
+      if($scope.tickets_form.$invalid)
+        $scope.notTicketsModal = true;
+    };
+
+    $scope.closeNoPaymentsModal = function() {
+      $scope.notTicketsModal = false;
+    };
+
     $scope.usePromoCode = function($event) {
       $scope.code.valid = null;
       $event.preventDefault();

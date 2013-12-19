@@ -11,7 +11,8 @@ module Puntopagos::TransactionsHelper
 
   def payment_button form
     form.button(I18n.t("buttons.pay_puntopagos"),
-      :class => "btn btn-large btn-success btn-total")
+      :class => "btn btn-large btn-success btn-total",
+      'ng-click' => 'onBuyButtonClick()')
   end
 
   def ticket_types_to_params ticket_types
