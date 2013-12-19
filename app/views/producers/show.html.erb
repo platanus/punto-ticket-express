@@ -13,6 +13,9 @@
         <%= t(".subtitle", producer_name: @producer.name) %>
       </legend>
       <p>
+        <%= image_tag @producer.logo.url(:thumb), :class => 'medium-img' %>
+      </p>
+      <p>
         <b><%= Producer.human_attribute_name :corporate_name %></b>
         <%= @producer.corporate_name %>
       </p>
