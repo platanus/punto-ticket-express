@@ -27,7 +27,7 @@
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">
       <input type="text" name="event[name]" ng-model="event.name"
         ng-disabled="{{disabled}}" class="span4"
-        dirty-on-blur required ng-minlength="3"/>
+        dirty-on-blur required/>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :address %>">
