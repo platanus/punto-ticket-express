@@ -38,7 +38,6 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-    @attributes = NestedResource.nested_attributes
 
     respond_to do |format|
       format.html # new.html.erb
@@ -76,7 +75,6 @@ class EventsController < ApplicationController
         format.html { redirect_to event_path(@event), notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @event, status: :created, location: @event }
       else
-        @attributes = NestedResource.nested_attributes;
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
