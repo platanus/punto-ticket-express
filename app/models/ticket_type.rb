@@ -1,5 +1,7 @@
 class TicketType < ActiveRecord::Base
-  attr_accessible :event_id, :name, :price, :quantity, :event_id
+  include PTE::RowStatus
+
+  attr_accessible :event_id, :name, :price, :quantity, :event_id, :status
   attr_accessor :bought_quantity
 
   validate :is_price_valid?
