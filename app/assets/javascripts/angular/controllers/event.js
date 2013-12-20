@@ -14,11 +14,26 @@ angular.module('puntoTicketApp.controllers')
 				startTime: _event.start_time,
 				endTime: _event.end_time,
 				producer: null,
-        enclosure: _event.enclosure
+				enclosure: _event.enclosure
 			};
 
-			$scope.tickets = _event.ticket_types;
 			loadEventDates();
+		};
+
+		var loadTicketTypes = function(_ticketTypes) {
+			$scope.tickets = [];
+
+			_.each(_ticketTypes, function(_ticketType){
+				console.log(_ticketType);
+				$scope.tickets.push({
+					id: _ticketType.id,
+					name: _ticketType.name,
+					price: _ticketType.price,
+					quantity: _ticketType.quantity,
+					hasTickets: _ticketType.has_tickets,
+					status: _ticketType.status,
+				});
+			});
 		};
 
 		var loadProducersData = function(_producers) {
@@ -134,8 +149,9 @@ angular.module('puntoTicketApp.controllers')
 			}
 		};
 
-		$scope.init = function(_event, _producers, _isPastEvent) {
+		$scope.init = function(_event, _ticketTypes, _producers, _isPastEvent) {
 			loadEventObject(_event);
+			loadTicketTypes(_ticketTypes);
 			loadProducersData(_producers);
 			watchFormDirty();
 			initFeeData(_event);

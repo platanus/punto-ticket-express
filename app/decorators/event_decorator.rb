@@ -48,6 +48,15 @@ module EventDecorator
     value
   end
 
+  def ticket_types_with_extra_data
+    types = self.ticket_types
+    types.each do |ticket_type|
+      #Put here data you want to have available on tikcet type
+      ticket_type[:has_tickets] = !ticket_type.tickets.size.zero?
+    end
+    types
+  end
+
   def get_resource_show_path nestable
     if nestable.kind_of? Transaction
       return puntopagos_transaction_nested_resource_path(nestable.id)
