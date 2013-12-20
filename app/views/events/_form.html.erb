@@ -37,7 +37,8 @@
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :enclosure %>">
-      <input type="text" name="event[enclosure]" ng-disabled="{{disabled}}" class="span4" />
+      <input type="text" name="event[enclosure]" ng-model="event.enclosure"
+      ng-disabled="{{disabled}}" class="span4" />
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">

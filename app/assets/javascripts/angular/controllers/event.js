@@ -13,7 +13,8 @@ angular.module('puntoTicketApp.controllers')
 				customUrl: _event.custom_url,
 				startTime: _event.start_time,
 				endTime: _event.end_time,
-				producer: null
+				producer: null,
+        enclosure: _event.enclosure
 			};
 
 			$scope.tickets = _event.ticket_types;
