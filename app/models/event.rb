@@ -33,6 +33,7 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
   scope :published, where(is_published: true)
+  scope :draft, where("is_published = false OR is_published = NULL")
   scope :expired,  where('end_time <= ?', DateTime.now)
   scope :not_expired, where('end_time >= ?', DateTime.now)
   scope :desc, order("events.created_at DESC")
@@ -218,10 +219,6 @@ class Event < ActiveRecord::Base
   # ActiveRelation objects
   def self.on_sale
     self.not_expired.published
-  end
-
-  def self.draft
-    self.select { |e| e.can_destroy? }
   end
 
   def self.ended
