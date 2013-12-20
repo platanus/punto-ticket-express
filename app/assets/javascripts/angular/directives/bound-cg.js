@@ -9,26 +9,27 @@ angular.module('puntoTicketApp.directives')
 			priority: -1,
 			require: 'bsControlGroup',
 			link: function(_scope, _element, _attrs, _group) {
+				var models = [],
+					inputs = _element.find('.inputs-wrapper').find('input, textarea, select');
 
-				var model = null;
-
-				if(_attrs.boundCg) {
-					// If a model is given, bind to it
-					_scope.$watch(_attrs.boundCg, function(_model) {
-						model = _model;
-					});
-				} else {
-					// If no model is given, look for one in the group's contents
-					var input = _element.find('input');
-					if(input.length === 0) input = _element.find('textarea');
-					if(input.length === 0) input = _element.find('select');
-					model = input.controller('ngModel');
-				}
+				inputs.each(function(_idx, _input) {
+					models.push($(_input).controller('ngModel'));
+				});
 
 				// bind the group's error status to the model validation errors.
 				_scope.$watch(function() {
-					// consider a model invalid only if invalid AND dirty.
-					return model && model.$invalid && model.$dirty ? extractError(model) : null;
+					var error = null;
+
+					angular.forEach(models, function(_model) {
+						// consider a model invalid only if invalid AND dirty.
+						if(_model && _model.$invalid && _model.$dirty) {
+							error = extractError(_model);
+							return;
+						}
+					});
+
+					return error;
+
 				}, function(_error) {
 					_group.setError(_error);
 				});

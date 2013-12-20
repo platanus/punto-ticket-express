@@ -13,7 +13,7 @@ angular.module('puntoTicketApp.directives')
 				'<div class="control-group" ng-class="{ \'error\': !!error }">\
 					<label class="control-label" for="{{for}}"></label>\
 					<div class="controls">\
-						<span ng-transclude></span>\
+						<span class="inputs-wrapper" ng-transclude></span>\
 						<span ng-if="help && !error" class="help-inline">{{help}}</span>\
 						<div ng-if="error" class="input-error">{{error}}</div>\
 					</div>\
