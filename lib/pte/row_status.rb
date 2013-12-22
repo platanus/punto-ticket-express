@@ -6,6 +6,7 @@ module PTE
     def self.included(base)
       base.send :include, InstanceMethods
       base.send :extend, ClassMethods
+
       base.before_save :check_status_validity
       base.before_create :check_status_validity
     end
@@ -13,6 +14,14 @@ module PTE
     module ClassMethods
       def row_statuses
         [ROW_ACTIVE, ROW_DELETED]
+      end
+
+      def active
+        self.where(status: ROW_ACTIVE)
+      end
+
+      def deleted
+        self.where(status: ROW_DELETED)
       end
     end
 
