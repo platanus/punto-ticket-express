@@ -34,44 +34,44 @@
     <tbody>
       <tr ng-repeat="ticket in tickets">
         <td>
-          <input name="event[ticket_types_attributes][{{$index}}][id]"
+          <input name="event[ticket_types_attributes][{{ticket.index}}][id]"
             ng-model="ticket.id" type="text" style="display: none"></input>
-          <input name="event[ticket_types_attributes][{{$index}}][_destroy]"
-            ng-model="ticket.destroy" type="text" style="display: none"></input>
 
           <bs:control-group bound-cg class="no-margin">
-            <input name="event[ticket_types_attributes][{{$index}}][name]"
+            <input name="event[ticket_types_attributes][{{ticket.index}}][name]"
               ng-model="ticket.name" type="text" dirty-on-blur
-              ng-class="{'input-large': fee.include}" class="span4" required />
+              ng-class="{'w170': fee.include}" required />
           </bs:control-group>
         </td>
         <td>
           <bs:control-group bound-cg class="no-margin">
           <!-- This hidden field holds quantity value without number mask format -->
-            <input name="event[ticket_types_attributes][{{$index}}][quantity]"
+            <input name="event[ticket_types_attributes][{{ticket.index}}][quantity]"
               ng-model="ticket.quantity" type="text" style="display: none" />
             <input ng-model="ticket.quantity" type="text" number-mask class="input-small"
-              dirty-on-blur required />
+              style="width:75px;" dirty-on-blur required />
           </bs:control-group>
         </td>
         <td ng-if="fee.include">
           <bs:control-group bound-cg class="no-margin">
-            <input ng-model="ticket.priceBeforeFee" number-mask type="text" class="input-small"
+            <input ng-model="ticket.priceBeforeFee" number-mask type="text"
+              class="input-small" style="width:75px;"
               ng-change="calculateTicketPrice(ticket)" dirty-on-blur />
           </bs:control-group>
         </td>
         <td>
           <bs:control-group bound-cg class="no-margin">
             <!-- This hidden field holds price value without number mask format -->
-            <input name="event[ticket_types_attributes][{{$index}}][price]"
+            <input name="event[ticket_types_attributes][{{ticket.index}}][price]"
               ng-model="ticket.price" type="text" style="display: none" />
-            <input ng-model="ticket.price" number-mask type="text" dirty-on-blur
+            <input ng-model="ticket.price" style="width:75px;" number-mask type="text" dirty-on-blur
               class="input-small" ng-readonly="fee.include" required />
           </bs:control-group>
         </td>
         <td>
-          <a class="close" ng-click="deleteTicket($index)"
-          remove-nested-attribute ng-model="ticket">×</a>
+          <bs:control-group bound-cg class="no-margin">
+            <pte-ticket-type-button type="ticket"></pte-ticket-type-button>
+          </bs:control-group>
         </td>
       </tr>
     </tbody>

@@ -22,10 +22,11 @@ angular.module('puntoTicketApp.controllers')
 
 		var loadTicketTypes = function(_ticketTypes) {
 			$scope.tickets = [];
+			$scope.nextTicketIndex = 0;
 
-			_.each(_ticketTypes, function(_ticketType){
-				console.log(_ticketType);
+			_.each(_ticketTypes, function(_ticketType, _idx){
 				$scope.tickets.push({
+					index: _idx,
 					id: _ticketType.id,
 					name: _ticketType.name,
 					price: _ticketType.price,
@@ -33,6 +34,8 @@ angular.module('puntoTicketApp.controllers')
 					hasTickets: _ticketType.has_tickets,
 					status: _ticketType.status,
 				});
+
+				$scope.nextTicketIndex = _idx + 1;
 			});
 		};
 
@@ -166,7 +169,17 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		$scope.addTicket = function() {
-			$scope.tickets.push({name:"", price:"", quantity:0});
+			$scope.tickets.push({
+				index: $scope.nextTicketIndex,
+				id: null,
+				name: "",
+				price: 0,
+				quantity: 0,
+				hasTickets: false,
+				status: 1,
+			});
+
+			$scope.nextTicketIndex++;
 		};
 
 		$scope.deleteTicket = function(index) {
