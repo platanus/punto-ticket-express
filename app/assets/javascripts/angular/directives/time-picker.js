@@ -3,16 +3,13 @@ angular.module('puntoTicketApp.directives')
 		var SECONDS_STEP = 1800; //30 minutes
 		var TOTAL_SECS_DAY = 86400; //24 hours,
 
-		template = function() {
-			html = '<select style="width: 102px;">';
-			for(var i = 0; i < TOTAL_SECS_DAY; i += SECONDS_STEP)
-				html += '<option value=' + i + '>{{' + i + ' | pteTime}}</option>';
-			html += '</select>';
-			return html;
-		}
+		html = '<select style="width: 102px;">';
+		for(var i = 0; i < TOTAL_SECS_DAY; i += SECONDS_STEP)
+			html += '<option value=' + i + '>{{' + i + ' | pteTime}}</option>';
+		html += '</select>';
 
 		return {
-			template: template(),
+			template: html,
 			restrict: 'E',
 			replace: true,
 			require: 'ngModel',
@@ -38,4 +35,4 @@ angular.module('puntoTicketApp.directives')
 				});
 			}
 		};
-	})
+	});
