@@ -1,7 +1,10 @@
 class Event < ActiveRecord::Base
+  include PTE::RowStatus
+
   attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id,
   :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect,
-  :logo, :theme, :fixed_fee, :percent_fee, :include_fee, :nested_resource_source, :sell_limit, :enclosure
+  :logo, :theme, :fixed_fee, :percent_fee, :include_fee, :nested_resource_source,
+  :sell_limit, :enclosure, :status
 
   # paperclip
   has_attached_file :logo, :styles => { :medium => "160x160>", :thumb => "100x100>" }
@@ -26,7 +29,7 @@ class Event < ActiveRecord::Base
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
   validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
-  before_destroy :can_destroy?
+  before_destroy :set_status_if_event_cannot_destroy
   before_create :set_fee_values
   before_update :set_fee_if_producer_change
 
@@ -37,6 +40,8 @@ class Event < ActiveRecord::Base
   scope :expired,  where('end_time <= ?', DateTime.now)
   scope :not_expired, where('end_time >= ?', DateTime.now)
   scope :desc, order("events.created_at DESC")
+
+  default_scope active
 
   delegate :name, to: :producer, prefix: true, allow_nil: true
   delegate :confirmed, to: :producer, prefix: true, allow_nil: true
@@ -254,6 +259,13 @@ class Event < ActiveRecord::Base
       unless PTE::Theme::is_valid? self.theme
         self.errors.add(:theme, :invalid_theme_type)
         return false
+      end
+    end
+
+    def set_status_if_event_cannot_destroy
+      unless self.can_destroy?
+        self.update_attributes!(status: PTE::RowStatus::ROW_DELETED)
+        false
       end
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131220174426) do
+ActiveRecord::Schema.define(:version => 20131223215750) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20131220174426) do
     t.string   "nested_resource_source"
     t.integer  "sell_limit"
     t.string   "enclosure"
+    t.integer  "status",                                                :default => 1
   end
 
   create_table "global_configurations", :force => true do |t|

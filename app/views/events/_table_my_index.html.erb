@@ -7,7 +7,7 @@
 					<th><%= Event.human_attribute_name :address %></th>
 					<th><%= Event.human_attribute_name :start_time %></th>
 					<th><%= Event.human_attribute_name :is_published %></th>
-          <% if can_delete %> <th></th> <% end %>
+          <th></th>
           <th></th>
 					<th></th>
 				</tr>
@@ -20,11 +20,9 @@
 					<td><%= l(event.start_time, format: :short) if event.start_time %></td>
 					<td class="center"><%= human_boolean(event.is_published) %></td>
           <td style="width: 100px;"><%= show_or_preview_button(event) %></td>
-          <% if can_delete %>
-            <td style="width: 100px;">
-              <%= link_to t('buttons.destroy'), event, method: :delete, data: { confirm: t(".delete_message") } %>
-            </td>
-          <% end %>
+          <td style="width: 100px;">
+            <%= link_to t('buttons.destroy'), event, method: :delete, data: { confirm: t(".delete_message") } %>
+          </td>
 					<td style="width: 100px;"><%= statistics_or_edit_button(event) %></td>
 				</tr>
 				<% end %>
