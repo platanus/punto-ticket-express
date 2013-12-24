@@ -14,6 +14,9 @@ class Event < ActiveRecord::Base
   # Possible attribute values are defined on NestedResource::NESTABLE_ATTRIBUTES constant
   serialize :data_to_collect, Array
 
+  before_create :set_fee_values
+  before_update :set_fee_if_producer_change
+
   belongs_to :user
   belongs_to :producer
   has_many :ticket_types, dependent: :destroy
@@ -28,10 +31,6 @@ class Event < ActiveRecord::Base
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
   validates :fixed_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-
-  before_destroy :set_status_if_event_cannot_destroy
-  before_create :set_fee_values
-  before_update :set_fee_if_producer_change
 
   accepts_nested_attributes_for :ticket_types, allow_destroy: true
 
@@ -221,6 +220,14 @@ class Event < ActiveRecord::Base
     return false
   end
 
+  def disable_or_destroy
+    if self.can_destroy?
+      self.destroy
+    else
+      self.update_column :status, PTE::RowStatus::ROW_DELETED
+    end
+  end
+
   # ActiveRelation objects
   def self.on_sale
     self.not_expired.published
@@ -259,13 +266,6 @@ class Event < ActiveRecord::Base
       unless PTE::Theme::is_valid? self.theme
         self.errors.add(:theme, :invalid_theme_type)
         return false
-      end
-    end
-
-    def set_status_if_event_cannot_destroy
-      unless self.can_destroy?
-        self.update_attributes!(status: PTE::RowStatus::ROW_DELETED)
-        false
       end
     end
 end

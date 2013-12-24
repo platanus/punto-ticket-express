@@ -4,7 +4,6 @@ class EventsController < ApplicationController
   before_filter :load_events, :only => [:my_index]
 
   def my_index
-
     @events = @events.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
@@ -123,7 +122,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event.destroy
+    @event.disable_or_destroy
 
     respond_to do |format|
       format.html { redirect_to me_events_path }
