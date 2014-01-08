@@ -34,6 +34,9 @@ PuntoTicketExpress::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
+  config.time_zone = 'America/Santiago'
+  config.active_record.default_timezone = :local
+
   # Expands the lines which load the assets
   config.assets.debug = true
 
