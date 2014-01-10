@@ -70,19 +70,9 @@ PuntoTicketExpress::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # Mail config
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = {
-    address: ENV["MAIL_ADDRESS"],
-    port: ENV["MAIL_PORT"],
-    domain: ENV["MAIL_DOMAIN"],
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: ENV["MAIL_USERNAME"],
-    password: ENV["MAIL_PASSWORD"]
-  }
-
-  config.action_mailer.default_url_options = { :host => ENV["HOST_NAME"] }
+  # mail configuration
+  config.action_mailer.delivery_method = :amazon_ses
+  config.email_sender = ENV['DEFAULT_EMAIL_SENDER']
+  config.action_mailer.default_url_options = { host: 'platan.us' }
 
 end

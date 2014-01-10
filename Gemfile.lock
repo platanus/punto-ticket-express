@@ -44,16 +44,10 @@ GEM
     arbre (1.0.1)
       activesupport (>= 3.0.0)
     arel (3.0.2)
-    aws-sdk (1.5.8)
-      httparty (~> 0.7)
+    aws-sdk (1.22.1)
       json (~> 1.4)
-      nokogiri (>= 1.4.4)
+      nokogiri (>= 1.4.4, < 1.6.0)
       uuidtools (~> 2.1)
-    aws-ses (0.5.0)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
     bcrypt-ruby (3.1.1)
     bourbon (3.1.8)
       sass (>= 3.2.0)
@@ -142,9 +136,6 @@ GEM
       haml (>= 4.0.0.rc.1)
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
-    httparty (0.11.0)
-      multi_json (~> 1.0)
-      multi_xml (>= 0.5.2)
     i18n (0.6.1)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
@@ -185,9 +176,7 @@ GEM
       polyamorous (~> 0.5.0)
     method_source (0.8.2)
     mime-types (1.23)
-    mini_portile (0.5.1)
     multi_json (1.7.7)
-    multi_xml (0.5.5)
     mysql2 (0.3.11)
     negroku (1.1.4)
       capistrano (>= 2.15.4)
@@ -204,8 +193,7 @@ GEM
       net-ssh (>= 2.6.5)
     ngmin-rails (0.4.0)
       rails (>= 3.1)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.5.10)
     orm_adapter (0.4.0)
     paperclip (3.4.2)
       activemodel (>= 3.0.0)
@@ -328,7 +316,6 @@ GEM
       rails
     will_paginate (3.0.5)
     wkhtmltopdf-binary (0.9.9.1)
-    xml-simple (1.1.2)
     yard (0.8.7)
     zeus (0.13.3)
       method_source (>= 0.6.7)
@@ -339,8 +326,7 @@ PLATFORMS
 DEPENDENCIES
   active_decorator
   activeadmin (= 0.6.1)
-  aws-sdk (~> 1.5.7)
-  aws-ses (~> 0.5.0)
+  aws-sdk (~> 1.22.1)
   cancan
   chronic
   coffee-rails
