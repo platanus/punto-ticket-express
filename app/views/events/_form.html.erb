@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <bs:control-group bound-cg>
+    <bs:control-group bound-cg required>
       <div class="producer-hint" ng-show="{{disabled}}">
         <%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
       </div>
@@ -23,13 +23,13 @@
       <div class="producer-description span5">{{event.producer.description}}</div>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :name %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :name %>">
       <input type="text" name="event[name]" ng-model="event.name"
         ng-disabled="{{disabled}}" class="span4"
         dirty-on-blur required/>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :address %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :address %>">
       <input type="text" name="event[address]" ng-model="event.address"
         ng-disabled="{{disabled}}" class="span4"
         dirty-on-blur required />
@@ -40,13 +40,13 @@
       ng-disabled="{{disabled}}" class="span4" />
     </bs:control-group>
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :description %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :description %>">
       <textarea name="event[description]" ng-model="event.description"
         ng-disabled="{{disabled}}" class="span4" rows="3"
         dirty-on-blur required></textarea>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :custom_url %>">
       <input type="text" name="event[custom_url]" ng-model="event.customUrl"
         ng-disabled="{{disabled}}" class="span4"
         dirty-on-blur validate="required, url" />
@@ -57,7 +57,7 @@
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
     <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :start_part_date %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="onStartDateChange()" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [endDateModel.$viewValue, 'LE'] as eventEndAfterStart" />
@@ -68,7 +68,7 @@
         ng-model="dates.startTime" model-as="startTimeModel" dirty-on-blur/>
     </bs:control-group>
 
-    <bs:control-group bound-cg label="<%= Event.human_attribute_name :end_part_date %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :end_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [startDateModel.$viewValue, 'GE'] as eventEndAfterStart" />

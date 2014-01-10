@@ -17,7 +17,7 @@ module FormHelper
     if !options.has_key? :ignore_required and
       ((options.has_key? :required and options[:required]) or
       form.object.class.required? attr)
-      label = "#{form.object.class.human_attribute_name(attr)} *"
+      label = "* #{form.object.class.human_attribute_name(attr)}"
       return label_tag(nil, label, class: 'control-label')
     end
 

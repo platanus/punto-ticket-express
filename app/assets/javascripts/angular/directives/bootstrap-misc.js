@@ -25,9 +25,16 @@ angular.module('puntoTicketApp.directives')
 				help: '@'
 			},
 			link: function(_scope, _element, _attrs) {
+        _attrs.$observe('required', function(_value) {
+          if(_value !== undefined) {
+            _scope.required = true;
+          }
+        });
+
 				_attrs.$observe('label', function(_value) {
 					if(_value !== undefined) {
 						_scope.label = _value;
+            if(_scope.required) _scope.label = '* ' + _scope.label;
 					}
 				});
 
