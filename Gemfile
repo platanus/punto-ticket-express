@@ -13,8 +13,7 @@ gem 'haml'
 gem 'cancan'
 gem 'rubyzip', :require => 'zip/zip'
 gem 'spreadsheet'
-# amazon ses
-gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'
+
 gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf'
 gem 'validates_email_format_of'
@@ -24,7 +23,10 @@ gem 'yard'
 gem 'whenever', :require => false
 gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
-gem 'aws-sdk', "~> 1.5.7"
+
+# amazon SES, S3
+gem 'aws-sdk', "~> 1.22.1"
+
 gem 'will_paginate', '~> 3.0'
 gem 'active_decorator'
 gem 'date_validator'
@@ -38,6 +40,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails'
   gem 'uglifier', '>= 1.0.3'
+  gem 'ngmin-rails'
 end
 
 group :production do
