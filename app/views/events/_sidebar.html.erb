@@ -4,8 +4,8 @@
     <%= t(".headers.info.title") %>
   </div>
   <ul class="nav nav-list sidenav affix-top">
-    <li class="<%= disabled_if_published_event %> <%= active_if_event %>">
-      <a href="<%= form_url @event unless @event.is_published? %>">
+    <li class="<%= active_if_event %>">
+      <a href="<%= form_url @event %>">
         <i class="icon-chevron-right"></i>
         <%= t(".headers.info.details") %>
       </a>

@@ -3,9 +3,10 @@
 </div>
 
 <ul class="nav nav-tabs">
-  <li><%= event_tabs_link 'on_sale', me_events_path, params[:current_tab] %></li>
-  <li><%= event_tabs_link 'draft', me_events_path, params[:current_tab] %></li>
-  <li><%= event_tabs_link 'ended', me_events_path, params[:current_tab] %></li>
+  <% @table_type = params[:current_tab] %>
+  <li><%= event_tabs_link 'on_sale', me_events_path, @table_type %></li>
+  <li><%= event_tabs_link 'draft', me_events_path, @table_type %></li>
+  <li><%= event_tabs_link 'ended', me_events_path, @table_type %></li>
 </ul>
 
 <div class="tab-content">

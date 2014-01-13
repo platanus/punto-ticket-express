@@ -21,14 +21,6 @@ module EventsHelper
   	link_to(t(label), event)
   end
 
-  def statistics_or_edit_button(event)
-  	if event.is_published?
-  		link_to t("buttons.statistics"), sold_tickets_event_path(event)
-  	else
-  		link_to t("buttons.edit"), edit_event_path(event)
-  	end
-  end
-
   def tickets_limit
     @event.sell_limit || GlobalConfiguration.sell_limit
   end
