@@ -56,4 +56,9 @@ module ApplicationHelper
       end
     end
   end
+
+  def pholder model, attr
+    str =  model.human_attribute_name attr
+    I18n.translate("placeholder", value: str)
+  end
 end

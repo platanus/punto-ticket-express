@@ -4,6 +4,7 @@
 es-CL:
   "true": "Sí"
   "false": "No"
+  placeholder: "Ingrese %{value}"
   time:
     formats:
       pte: ! '%d de %B de %Y %I:%M %p'

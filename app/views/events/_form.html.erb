@@ -26,24 +26,24 @@
     <bs:control-group bound-cg required label="<%= Event.human_attribute_name :name %>">
       <input type="text" name="event[name]" ng-model="event.name"
         ng-disabled="{{disabled}}" class="span4"
-        dirty-on-blur required/>
+        dirty-on-blur required placeholder="<%= pholder(Event, :name) %>"/>
     </bs:control-group>
 
     <bs:control-group bound-cg required label="<%= Event.human_attribute_name :address %>">
       <input type="text" name="event[address]" ng-model="event.address"
         ng-disabled="{{disabled}}" class="span4"
-        dirty-on-blur required />
+        dirty-on-blur required placeholder="<%= pholder(Event, :address) %>"/>
     </bs:control-group>
 
     <bs:control-group bound-cg label="<%= Event.human_attribute_name :enclosure %>">
       <input type="text" name="event[enclosure]" ng-model="event.enclosure"
-      ng-disabled="{{disabled}}" class="span4" />
+      ng-disabled="{{disabled}}" class="span4" placeholder="<%= pholder(Event, :enclosure) %>" />
     </bs:control-group>
 
     <bs:control-group bound-cg required label="<%= Event.human_attribute_name :description %>">
       <textarea name="event[description]" ng-model="event.description"
         ng-disabled="{{disabled}}" class="span4" rows="3"
-        dirty-on-blur required></textarea>
+        dirty-on-blur required placeholder="<%= pholder(Event, :description) %>"></textarea>
     </bs:control-group>
 
     <bs:control-group bound-cg required label="<%= Event.human_attribute_name :custom_url %>">

@@ -40,7 +40,8 @@
           <bs:control-group bound-cg class="no-margin">
             <input name="event[ticket_types_attributes][{{ticket.index}}][name]"
               ng-model="ticket.name" type="text" dirty-on-blur
-              ng-class="{'w170': fee.include}" required />
+              ng-class="{'w170': fee.include}" required
+              placeholder="<%= pholder(TicketType, :name) %>"/>
           </bs:control-group>
         </td>
         <td>
