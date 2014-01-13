@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <bs:control-group bound-cg required>
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :producer %>">
       <div class="producer-hint" ng-show="{{disabled}}">
         <%= t(".no_producers_hint", new_producer_url: new_producer_path).html_safe %>
       </div>

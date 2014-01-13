@@ -1,5 +1,7 @@
 <%= render :partial => "shared/message", :locals => { :message => t(".not_payment_selected_msg.message"), :title => t(".not_payment_selected_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoPaymentsModal()"} %>
 
+<%= render :partial => "shared/message", :locals => { :message => t(".required_fields_msg.message"), :title => t(".required_fields_msg.title"), :modal_name => "requiredFieldsModal", :close_function => "closeRequiredFieldsModal()"} %>
+
 <div class="panel">
   <div class="panel-heading panel-title">
     <i class="icon-money"></i>

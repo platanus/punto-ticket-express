@@ -82,7 +82,10 @@ es-CL:
         title: Métodos de pago
         not_payment_selected_msg:
           title: Mensaje
-          message: no puede comprar si no ha escogido un método de pago
+          message: No puede comprar si no ha escogido un método de pago
+        required_fields_msg:
+          title: Mensaje
+          message: Hay uno o más campos obligatorios sin completar
       transaction_summary:
         title: Detalle
         ticket_type_label: "%{qty} x %{name} (%{price} c/ticket)"
