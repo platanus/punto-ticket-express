@@ -217,6 +217,9 @@ es-CL:
       not_tickets_msg:
         title: Mensaje
         message: No puede comprar 0 tickets!
+      old_event_msg:
+        title: Mensaje
+        message: Está intentando comprar tickets para un evento pasado.
       limit_exceeded_msg:
         title: Mensaje
         message: "Puede comprar %{qty} tickets como máximo."

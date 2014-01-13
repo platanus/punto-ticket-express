@@ -250,7 +250,7 @@ angular.module('puntoTicketApp.controllers')
 		// initialization tasks to be executed before the template enters execution mode
 		// used to ruby data parsed into a JavaScript object
 
-		$scope.init = function(ticketTypes, isPreview, ticketsLimit, themes, currentTheme) {
+		$scope.init = function(ticketTypes, isPreview, isPastEvent, ticketsLimit, themes, currentTheme) {
 			// eliminates unnecessary attributes
 			var sumPrice = 0;
 			var sumPromoPrice = 0;
@@ -267,6 +267,7 @@ angular.module('puntoTicketApp.controllers')
 			$scope.anyPromo = ((sumPrice - sumPromoPrice) != 0);
 
 			$scope.isPreview = isPreview;
+      $scope.isPastEvent = isPastEvent;
 			$scope.ticketTypes = ticketTypes;
 			$scope.ticketsLimit = ticketsLimit;
 
@@ -285,6 +286,10 @@ angular.module('puntoTicketApp.controllers')
 		$scope.closeNoTicketsModal = function() {
 			$scope.notTicketsModal = false;
 		};
+
+    $scope.closeOldEventModal = function() {
+      $scope.oldEventModal = false;
+    };
 
 		$scope.stockEmpty = function(ticketType) {
 			return (ticketType.stock == 0);
@@ -323,6 +328,10 @@ angular.module('puntoTicketApp.controllers')
 			} else if(_.size(ticketTypes) == 0) {
 				$event.preventDefault();
 				$scope.notTicketsModal = true;
+
+      } else if($scope.isPastEvent) {
+        $event.preventDefault();
+        $scope.oldEventModal = true;
 
 			} else if(buyLimitExceeded()) {
 				$event.preventDefault();
