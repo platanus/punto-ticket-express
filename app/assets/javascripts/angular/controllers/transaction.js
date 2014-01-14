@@ -70,8 +70,46 @@ angular.module('puntoTicketApp.controllers')
       changeView(_isParticipantsDataRequired, _errors);
     };
 
+    //TODO: This is the wrong way to achieve this with angular.
+    //NO jQuery into controller. NO manage DOM into controller
+    //Improve this when change the form applying the angular
+    //way instead the mix rails/angular way.
+    var validateRequiredInputs = function(_form) {
+      var valid = true;
+
+      jQuery.each(jQuery(_form).find('input, select, textarea'), function(_idx, _comp) {
+        var regex = /nested_resource/;
+        if(regex.test(jQuery(_comp).attr('id'))) {
+          var requiredAttr = jQuery(_comp).attr('required');
+          var required = (typeof requiredAttr !== 'undefined' && requiredAttr !== false);
+          if(jQuery(_comp).val() == '' && required) valid = false;
+          console.log(_idx, jQuery(_comp).attr('name'), jQuery(_comp).val(), required);
+        }
+      });
+
+      return valid;
+    };
+
+    $scope.onTransactionSubmit = function($event) {
+      if(!validateRequiredInputs($event.currentTarget)) {
+        $event.preventDefault();
+        $scope.requiredInputsModal = true;
+      }
+    };
+
+    $scope.closeRequiredInputsModal = function() {
+      $scope.requiredInputsModal = false;
+    };
+
     $scope.goToSummary = function($event) {
       $event.preventDefault();
+      var transactionForm = $($event.currentTarget).closest('form');
+
+      if(!validateRequiredInputs(transactionForm)) {
+        $scope.requiredInputsModal = true;
+        return;
+      }
+
       $scope.showSummary = true;
     };
 

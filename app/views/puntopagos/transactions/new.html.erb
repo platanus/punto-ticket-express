@@ -5,8 +5,10 @@
 <div ng-controller="TransactionNewCtrl"
   ng-init='init(<%= raw @transaction.ticket_types_with_promotions(@ticket_types).to_json %>, "<%= @valid_promotion_code %>", <%= @event.require_ticket_resources? %>, <%= transaction_errors_hash %>)'>
 
+  <%= render :partial => "shared/message", :locals => { :message => t(".required_inputs_empty_msg.message"), :title => t(".required_inputs_empty_msg.title"), :modal_name => "requiredInputsModal", :close_function => "closeRequiredInputsModal()"} %>
+
   <%= form_for([:puntopagos, @transaction],
-    :html => {:class => 'form-horizontal', :novalidate => true},
+    :html => {:class => 'form-horizontal', :novalidate => true, 'ng-submit' => 'onTransactionSubmit($event)'},
     :url => {:action => 'create'}) do |f| %>
 
     <!-- Creates hidden fields for:

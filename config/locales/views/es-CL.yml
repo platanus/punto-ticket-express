@@ -100,6 +100,9 @@ es-CL:
           message: El código ingresado es inválido.
       new:
         title: "Transacción de compra para el evento \"%{event_name}\""
+        required_inputs_empty_msg:
+          title: Mensaje
+          message: Debe completar los campos obligatorios del formulario antes de continuar...
         not_payment_method_msg:
           title: Mensaje
           message: Debe escoger un método de pago

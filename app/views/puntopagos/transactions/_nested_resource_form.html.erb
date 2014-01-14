@@ -6,7 +6,9 @@
   <% nested_resource = @transaction.nested_resource || @transaction.build_nested_resource %>
   <%= form.fields_for :nested_resource, nested_resource do |ff| %>
     <% @event.nested_attributes.each do |na| %>
-      <%= control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type], {class: "span5"}), {required: na[:required]}) %>
+      <% html_options = {class: "span5"} %>
+      <% html_options[:required] = true if na[:required] %>
+      <%= control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type], html_options), {required: na[:required]}) %>
     <% end %>
   <% end %>
 </div>
