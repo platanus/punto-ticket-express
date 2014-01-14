@@ -30,7 +30,7 @@ module EventsHelper
   end
 
   def delete_event_action event
-    link_to t('buttons.destroy'), event, {:class => 'action-link'}, method: :delete, data: { confirm: t(".delete_message") }
+    link_to t('buttons.destroy'), event, :class => 'action-link', method: :delete, data: { confirm: t(".delete_message") }
   end
 
   def publish_event_action event
