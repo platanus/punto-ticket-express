@@ -15,10 +15,31 @@ module EventsHelper
      (@event.new_record? || !@event.is_published?) ? 'disabled' : ''
   end
 
-  def show_or_preview_button(event)
+  def show_or_preview_event_action(event)
     label = "buttons.preview"
     label = "buttons.show" if event.is_published?
-  	link_to(t(label), event)
+  	link_to(t(label), event, {:class => 'action-link'})
+  end
+
+  def statistics_or_edit_event_action(event)
+  	if event.is_published?
+  		link_to t("buttons.statistics"), sold_tickets_event_path(event), {:class => 'action-link'}
+  	else
+  		link_to t("buttons.edit"), edit_event_path(event), {:class => 'action-link'}
+  	end
+  end
+
+  def delete_event_action event
+    link_to t('buttons.destroy'), event, :class => 'action-link', method: :delete, data: { confirm: t(".delete_message") }
+  end
+
+  def publish_event_action event
+    form_tag publish_event_path(event), :method => :put, :style => "margin: 0px;" do
+      button_tag 'Publicar evento' ,
+        class: 'btn-link action-link' ,
+        :disabled => event.is_past_event? || event.is_published,
+        type: :submit
+    end
   end
 
   def tickets_limit
