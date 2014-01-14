@@ -4,21 +4,9 @@
     <%= t(".title") %>
   </div>
   <% nested_resource = @transaction.nested_resource || @transaction.build_nested_resource %>
-  <%= form.fields_for :nested_resource, nested_resource, :html => {name: 'cascana', novalidate: true} do |ff| %>
-    <ng-form name="nested_form">
-      <% @event.nested_attributes.each do |na| %>
-
-        <bs:control-group bound-cg
-          <%= 'required' if na[:required] %>
-          label="<%= NestedResource.human_attribute_name na[:attr] %>">
-          <input type="text"
-            name="transaction[nested_resource_attributes][<%= na[:attr] %>]"
-            ng-model="attributes.<%= na[:attr] %>"
-            ng-disabled="{{disabled}}" class="span4"
-            ng-required="<%= na[:required] %>"/>
-        </bs:control-group>
-
-      <% end %>
-    </ng-form>
+  <%= form.fields_for :nested_resource, nested_resource do |ff| %>
+    <% @event.nested_attributes.each do |na| %>
+      <%= control_group(ff, na[:attr], build_control(ff, na[:attr], na[:type], {class: "span5"}), {required: na[:required]}) %>
+    <% end %>
   <% end %>
 </div>

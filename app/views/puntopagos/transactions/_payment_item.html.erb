@@ -1,6 +1,6 @@
 <div class="payment-item">
   <div class="check">
-    <%= form.radio_button :payment_method, payment_method.last, :class => "pull-left", "ng-model" => "paymentMethod", "ng-required" => true, :style => 'display:none;' %>
+    <%= form.radio_button :payment_method, payment_method.last, :class => "pull-left", "ng-model" => "paymentMethod", :style => 'display:none;' %>
     <div ng-model="paymentMethod" pretty-checkable="true" value="<%= payment_method.last %>"></div>
   </div>
   <div class="logo">

@@ -80,12 +80,6 @@ es-CL:
         title: "Asistente #%{participant_number} con ticket \"%{ticket_type_name}\""
       payment_methods:
         title: Métodos de pago
-        not_payment_selected_msg:
-          title: Mensaje
-          message: No puede comprar si no ha escogido un método de pago
-        required_fields_msg:
-          title: Mensaje
-          message: Hay uno o más campos obligatorios sin completar
       transaction_summary:
         title: Detalle
         ticket_type_label: "%{qty} x %{name} (%{price} c/ticket)"
