@@ -83,7 +83,6 @@ angular.module('puntoTicketApp.controllers')
           var requiredAttr = jQuery(_comp).attr('required');
           var required = (typeof requiredAttr !== 'undefined' && requiredAttr !== false);
           if(jQuery(_comp).val() == '' && required) valid = false;
-          console.log(_idx, jQuery(_comp).attr('name'), jQuery(_comp).val(), required);
         }
       });
 
