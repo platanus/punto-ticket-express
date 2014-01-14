@@ -1,41 +1,41 @@
 <div class="row-fluid">
-  <div class="span12">
-    <table class="table table-striped table-colored">
-      <thead>
-        <tr>
-          <th><%= Event.human_attribute_name :name %></th>
-          <th><%= Event.human_attribute_name :address %></th>
-          <th><%= Event.human_attribute_name :start_time %></th>
-          <th><%= Event.human_attribute_name :is_published %></th>
-          <th></th>
-          <th></th>
+	<div class="span12">
+		<table class="table table-striped table-colored table-events">
+			<thead>
+				<tr>
+					<th style="width: 20%;"><%= Event.human_attribute_name :name %></th>
+					<th style="width: 30%;"><%= Event.human_attribute_name :address %></th>
+					<th style="width: 14%;" class="border-right"><%= Event.human_attribute_name :start_time %></th>
+					<th style="width: 8%;"></th>
+          <th style="width: 8%;"></th>
+          <th style="width: 8%;"></th>
           <% if @table_type !=  'draft' %>
-            <th></th>
+            <th style="width: 8%;"></th>
           <% end %>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @events.each do |event| %>
-        <tr>
-          <td><%= event.name %></td>
-          <td><%= event.address %></td>
-          <td><%= l(event.start_time, format: :short) if event.start_time %></td>
-          <td class="center"><%= human_boolean(event.is_published) %></td>
-          <td style="width: 100px;"><%= show_or_preview_button(event) %></td>
-          <td style="width: 100px;">
-            <%= link_to t('buttons.destroy'), event, method: :delete, data: { confirm: t(".delete_message") } %>
-          </td>
+					<th style="width: 8%;"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @events.each do |event| %>
+				<tr>
+					<td><%= event.name %></td>
+					<td><%= event.address %></td>
+					<td><%= l(event.start_time, format: :short) if event.start_time %></td>
+					<td><%= publish_event_action event %><span class="pipe"></span></td>
+          <td class="center"><%= show_or_preview_event_action event %><span class="pipe"></span></td>
+          <td class="center"><%= delete_event_action event %><span class="pipe"></span></td>
           <% if @table_type !=  'draft' %>
-            <td style="width: 100px;"><%= link_to t("buttons.statistics"), sold_tickets_event_path(event) %></td>
+            <td class="center" style="width: 100px;"><%= link_to t("buttons.statistics"), sold_tickets_event_path(event), {:class => 'action-link'} %>
+              <span class="pipe"></span>
+            </td>
           <% end %>
-          <td style="width: 100px;"><%= link_to t("buttons.edit"), edit_event_path(event) %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="text-center">
-      <%= will_paginate @events %>
-    </div>
-  </div>
+					<td class="center"><%= link_to t("buttons.edit"), edit_event_path(event), {:class => 'action-link'} %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<div class="text-center">
+			<%= will_paginate @events %>
+		</div>
+	</div>
 </div>
