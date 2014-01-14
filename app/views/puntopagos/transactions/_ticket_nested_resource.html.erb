@@ -4,8 +4,10 @@
     <%= t(".title", :ticket_type_name => type_name, :participant_number => participant_number) %>
   </div>
   <% fields.each do |na| %>
+    <% html_options = {class: "span10"} %>
+    <% html_options[:required] = true if na[:required] %>
     <%= control_group_tag(NestedResource.human_attribute_name(na[:attr]),
-    	build_control_tag(na[:attr], na[:value], na[:type], {:class => "span10"},
+    	build_control_tag(na[:attr], na[:value], na[:type], html_options,
     		{:name_prefix => "[tickets_nested_resources][#{ticket_type_id}][#{resource_idx}]", :select_values => NestedResource.genders_to_a}),
     	{required: na[:required], :errors => na[:errors]}) %>
   <% end %>
