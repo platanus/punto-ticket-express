@@ -382,7 +382,7 @@ angular.module('puntoTicketApp.controllers')
 angular.module('puntoTicketApp.controllers')
 	.controller('EventPromotionsCtrl', ['$scope', function ($scope) {
 		$scope.init = function(_eventProducer, _isPastEvent) {
-			$scope.event.producer = _eventProducer;
+			$scope.event = {producer: _eventProducer};
 			$scope.isPastEvent = _isPastEvent;
 		};
 	}
@@ -392,7 +392,7 @@ angular.module('puntoTicketApp.controllers')
 angular.module('puntoTicketApp.controllers')
 	.controller('EventNestedResourceCtrl', ['$scope', function ($scope) {
 		$scope.init = function(_eventProducer, _isPastEvent) {
-			$scope.event.producer = _eventProducer;
+			$scope.event = {producer: _eventProducer};
 			$scope.isPastEvent = _isPastEvent;
 		};
 	}
