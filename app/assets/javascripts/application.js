@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require underscore/underscore
 //= require momentjs/moment
-//= require angular/angular
+//= require unstable-angular-complete/angular
 //= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-strap/dist/angular-strap
 //= require bootstrap-datepicker/js/bootstrap-datepicker
