@@ -5,3 +5,4 @@
 # Mime::Type.register_alias "text/html", :iphone
 Mime::Type.register 'application/vnd.ms-excel', :xls
 Rack::Mime::MIME_TYPES.merge!({".map" => "text/plain"})
+Rack::Mime::MIME_TYPES.merge!({".gzip" => "application/x-gzip"})
