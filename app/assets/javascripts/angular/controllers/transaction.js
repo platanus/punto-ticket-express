@@ -1,5 +1,5 @@
 angular.module('puntoTicketApp.controllers')
-  .controller('TransactionNewCtrl', ['$scope', function ($scope) {
+  .controller('TransactionNewCtrl', ['$scope', '$modal', function ($scope, $modal) {
 
     var codeMatch = function(_hashCode) {
       if($scope.code.entered == null || $scope.code.entered == '')
@@ -21,7 +21,6 @@ angular.module('puntoTicketApp.controllers')
       angular.forEach($scope.data.ticketTypes, function(_type){
         $scope.data.total += parseInt(_type.price);
 
-        console.log(_type.promotions)
         angular.forEach(_type.promotions, function(_promo){
           _promo.best_promo = false;
           _promo.visible = (_promo.code == null || _promo.code == '' || codeMatch(_promo.code));
@@ -92,12 +91,8 @@ angular.module('puntoTicketApp.controllers')
     $scope.onTransactionSubmit = function($event) {
       if(!validateRequiredInputs($event.currentTarget)) {
         $event.preventDefault();
-        $scope.requiredInputsModal = true;
+        $modal.open({templateUrl: 'requiredInputsModal.html'});
       }
-    };
-
-    $scope.closeRequiredInputsModal = function() {
-      $scope.requiredInputsModal = false;
     };
 
     $scope.goToSummary = function($event) {
@@ -105,15 +100,11 @@ angular.module('puntoTicketApp.controllers')
       var transactionForm = $($event.currentTarget).closest('form');
 
       if(!validateRequiredInputs(transactionForm)) {
-        $scope.requiredInputsModal = true;
+        $modal.open({templateUrl: 'requiredInputsModal.html'});
         return;
       }
 
       $scope.showSummary = true;
-    };
-
-    $scope.closeInvalidCodeModal = function() {
-      $scope.invalidCodeModal = false;
     };
 
     $scope.usePromoCode = function($event) {
@@ -122,7 +113,7 @@ angular.module('puntoTicketApp.controllers')
       calculateAmounts();
 
       if(!$scope.code.valid) {
-        $scope.invalidCodeModal = true;
+        $modal.open({templateUrl: 'invalidCodeModal.html'});
       }
     };
   }

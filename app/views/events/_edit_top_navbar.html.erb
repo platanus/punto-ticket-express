@@ -10,11 +10,11 @@
   </div>
 <% else %>
   <div ng-controller="EventEditTopNavbarCtrl">
-    <%= render :partial => "shared/message", :locals => { :message => t("events.form.unconfirmed_producer_msg.message"), :title => t("events.form.unconfirmed_producer_msg.title"), :modal_name => "producerModal", :close_function => "closeProducerModal()"} %>
+    <%= render :partial => "shared/message", :locals => { :message => t("events.form.unconfirmed_producer_msg.message"), :title => t("events.form.unconfirmed_producer_msg.title"), :modal_name => "producerModal"} %>
 
-    <%= render :partial => "shared/message", :locals => { :message => t("events.form.modified_event_data_msg.message"), :title => t("events.form.modified_event_data_msg.title"), :modal_name => "modifiedEventDataModal", :close_function => "closeModifiedEventDataModal()"} %>
+    <%= render :partial => "shared/message", :locals => { :message => t("events.form.modified_event_data_msg.message"), :title => t("events.form.modified_event_data_msg.title"), :modal_name => "modifiedEventDataModal"} %>
 
-    <%= render :partial => "shared/message", :locals => { :message => t("events.form.past_event_msg.message"), :title => t("events.form.past_event_msg.title"), :modal_name => "pastEventModal", :close_function => "closePastEventModal()"} %>
+    <%= render :partial => "shared/message", :locals => { :message => t("events.form.past_event_msg.message"), :title => t("events.form.past_event_msg.title"), :modal_name => "pastEventModal"} %>
 
     <div class="navbar persistent-header navbar-static-top">
       <div class="persistent-header-inner">

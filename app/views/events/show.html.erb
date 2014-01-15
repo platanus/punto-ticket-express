@@ -38,13 +38,13 @@
   		</div>
   	</div>
   	<div class="span8">
-  		<%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal", :close_function => "closeNoTicketsModal()"} %>
+  		<%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal"} %>
 
-  		<%= render :partial => "shared/message", :locals => { :message => t(".prevent_buy_msg.message"), :title => t(".prevent_buy_msg.title"), :modal_name => "buyModal", :close_function => "closeBuyModal()"} %>
+  		<%= render :partial => "shared/message", :locals => { :message => t(".prevent_buy_msg.message"), :title => t(".prevent_buy_msg.title"), :modal_name => "buyModal"} %>
 
-      <%= render :partial => "shared/message", :locals => { :message => t(".limit_exceeded_msg.message", qty: tickets_limit), :title => t(".limit_exceeded_msg.title"), :modal_name => "limitModal", :close_function => "closeLimitModal()"} %>
+      <%= render :partial => "shared/message", :locals => { :message => t(".limit_exceeded_msg.message", qty: tickets_limit), :title => t(".limit_exceeded_msg.title"), :modal_name => "limitModal"} %>
 
-      <%= render :partial => "shared/message", :locals => { :message => t(".old_event_msg.message", qty: tickets_limit), :title => t(".old_event_msg.title"), :modal_name => "oldEventModal", :close_function => "closeOldEventModal()"} %>
+      <%= render :partial => "shared/message", :locals => { :message => t(".old_event_msg.message", qty: tickets_limit), :title => t(".old_event_msg.title"), :modal_name => "oldEventModal"} %>
 
   		<%= form_tag puntopagos_transactions_new_path, :method => :get,
   		"ng-submit" => "validateTicketTypes($event)" do |f| %>

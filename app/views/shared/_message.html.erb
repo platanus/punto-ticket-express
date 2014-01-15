@@ -1,13 +1,12 @@
-<div close="<%= close_function %>" modal="<%= modal_name %>">
+<script type="text/ng-template" id="<%= modal_name %>.html">
   <div class="modal-header">
+    <a href="javascript:void(0);" class="close" ng-click="$dismiss()">×</a>
     <h3><%= title %></h3>
   </div>
   <div class="modal-body">
     <%= message.html_safe %>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="<%= close_function %>" type="button">
-      <%= t("buttons.ok") %>
-    </button>
+    <button class="btn" ng-click="$dismiss()">OK</button>
   </div>
-</div>
+</script>

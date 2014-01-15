@@ -1,6 +1,6 @@
 //EVENTS/FORM
 angular.module('puntoTicketApp.controllers')
-	.controller('FormEventCtrl', ['$scope', '$window', 'DateUtils', function ($scope, $window, DateUtils) {
+	.controller('FormEventCtrl', ['$scope', '$window', 'DateUtils', '$modal', function ($scope, $window, DateUtils, $modal) {
 		var loadEventObject = function(_event) {
 			$scope.event = {
 				id: _event.id,
@@ -193,15 +193,11 @@ angular.module('puntoTicketApp.controllers')
 		$scope.onSaveButtonClick = function(_event) {
 			if(!ticketsAdded()) {
 				_event.preventDefault();
-				$scope.notTicketsModal = true;
+				$modal.open({templateUrl: 'notTicketsModal.html'});
 				return;
 			}
 
 			$scope.leavePageReason = 'formSubmit';
-		};
-
-		$scope.closeNoTicketsModal = function() {
-			$scope.notTicketsModal = false;
 		};
 
 		var initTicketPrices = function() {
@@ -244,7 +240,7 @@ angular.module('puntoTicketApp.controllers')
 
 // EVENTS/SHOW
 angular.module('puntoTicketApp.controllers')
-	.controller('EventShowCtrl', ['$scope', function ($scope) {
+	.controller('EventShowCtrl', ['$scope', '$modal', function ($scope, $modal) {
 		$scope.themes = [];
 		$scope.ticketTypes = [];
 		// initialization tasks to be executed before the template enters execution mode
@@ -267,29 +263,13 @@ angular.module('puntoTicketApp.controllers')
 			$scope.anyPromo = ((sumPrice - sumPromoPrice) != 0);
 
 			$scope.isPreview = isPreview;
-      $scope.isPastEvent = isPastEvent;
+			$scope.isPastEvent = isPastEvent;
 			$scope.ticketTypes = ticketTypes;
 			$scope.ticketsLimit = ticketsLimit;
 
 			$scope.themes = themes;
 			$scope.theme = currentTheme;
 		};
-
-		$scope.closeBuyModal = function() {
-			$scope.buyModal = false;
-		};
-
-		$scope.closeLimitModal = function() {
-			$scope.limitModal = false;
-		};
-
-		$scope.closeNoTicketsModal = function() {
-			$scope.notTicketsModal = false;
-		};
-
-    $scope.closeOldEventModal = function() {
-      $scope.oldEventModal = false;
-    };
 
 		$scope.stockEmpty = function(ticketType) {
 			return (ticketType.stock == 0);
@@ -323,19 +303,19 @@ angular.module('puntoTicketApp.controllers')
 
 			if($scope.isPreview) {
 				$event.preventDefault();
-				$scope.buyModal = true;
+				$modal.open({templateUrl: 'buyModal.html'});
 
 			} else if(_.size(ticketTypes) == 0) {
 				$event.preventDefault();
-				$scope.notTicketsModal = true;
+				$modal.open({templateUrl: 'notTicketsModal.html'});
 
-      } else if($scope.isPastEvent) {
-        $event.preventDefault();
-        $scope.oldEventModal = true;
+			} else if($scope.isPastEvent) {
+				$event.preventDefault();
+				$modal.open({templateUrl: 'oldEventModal.html'});
 
 			} else if(buyLimitExceeded()) {
 				$event.preventDefault();
-				$scope.limitModal = true;
+				$modal.open({templateUrl: 'limitModal.html'});
 			}
 		};
 	}
@@ -343,37 +323,26 @@ angular.module('puntoTicketApp.controllers')
 
 //EVENTS/EDIT_TOP_NAVBAR
 angular.module('puntoTicketApp.controllers')
-	.controller('EventEditTopNavbarCtrl', ['$scope', function ($scope) {
+	.controller('EventEditTopNavbarCtrl', ['$scope', '$modal', function ($scope, $modal) {
 		$scope.onPublishEventClick = function(_event) {
 			if($scope.isEventDataModified) {
 				_event.preventDefault();
-				$scope.modifiedEventDataModal = true;
+				$modal.open({templateUrl: 'modifiedEventDataModal.html'});
 				return;
 			}
 
 			if($scope.isPastEvent) {
 				_event.preventDefault();
 				$scope.pastEventModal = true;
+				$modal.open({templateUrl: 'pastEventModal.html'});
 				return;
 			}
 
 			if($scope.event.producer && !$scope.event.producer.confirmed) {
 				_event.preventDefault();
-				$scope.producerModal = true;
+				$modal.open({templateUrl: 'producerModal.html'});
 				return;
 			}
-		};
-
-		$scope.closeProducerModal = function() {
-			$scope.producerModal = false;
-		};
-
-		$scope.closePastEventModal = function() {
-			$scope.pastEventModal = false;
-		};
-
-		$scope.closeModifiedEventDataModal = function() {
-			$scope.modifiedEventDataModal = false;
 		};
 	}
 ]);
