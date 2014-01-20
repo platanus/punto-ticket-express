@@ -8,7 +8,9 @@
 					<th style="width: 14%;" class="border-right"><%= Event.human_attribute_name :start_time %></th>
 					<th style="width: 8%;"></th>
           <th style="width: 8%;"></th>
-          <th style="width: 8%;"></th>
+          <% if @table_type ==  'draft' %>
+            <th style="width: 8%;"></th>
+          <% end %>
           <% if @table_type !=  'draft' %>
             <th style="width: 8%;"></th>
           <% end %>
@@ -21,9 +23,11 @@
 					<td><%= event.name %></td>
 					<td><%= event.address %></td>
 					<td><%= l(event.start_time, format: :short) if event.start_time %></td>
-					<td><%= publish_event_action event %><span class="pipe"></span></td>
+          <% if @table_type ==  'draft' %>
+					 <td><%= publish_event_action event %><span class="pipe"></span></td>
+          <% end %>
           <td class="center"><%= show_or_preview_event_action event %><span class="pipe"></span></td>
-          <td class="center"><%= delete_event_action event, params[:current_tab] %><span class="pipe"></span></td>
+          <td class="center"><%= delete_event_action event, @table_type %><span class="pipe"></span></td>
           <% if @table_type !=  'draft' %>
             <td class="center" style="width: 100px;"><%= link_to t("buttons.statistics"), sold_tickets_event_path(event), {:class => 'action-link'} %>
               <span class="pipe"></span>
