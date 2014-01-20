@@ -46,10 +46,11 @@
         dirty-on-blur required placeholder="<%= pholder(Event, :description) %>"></textarea>
     </bs:control-group>
 
-    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :custom_url %>">
+    <bs:control-group bound-cg label="<%= Event.human_attribute_name :custom_url %>">
       <input type="text" name="event[custom_url]" ng-model="event.customUrl"
-        ng-disabled="{{disabled}}" class="span4"
-        dirty-on-blur validate="required, url" placeholder="<%= pholder(Event, :custom_url) %>" />
+        ng-disabled="{{disabled}}" class="span2"
+        dirty-on-blur validate="url" placeholder="<%= pholder(Event, :custom_url) %>" />
+      <span>{{stringToSubDomie(event.customUrl)}}</span>
     </bs:control-group>
   </fieldset>
 
