@@ -153,7 +153,6 @@ angular.module('puntoTicketApp.controllers')
 		};
 
 		$scope.init = function(_event, _ticketTypes, _producers, _isPastEvent, baseUrl) {
-      alert(baseUrl);
 			loadEventObject(_event);
 			loadTicketTypes(_ticketTypes);
 			loadProducersData(_producers);
@@ -230,19 +229,19 @@ angular.module('puntoTicketApp.controllers')
 			});
 		};
 
-    $scope.stringToSubDomie = function(subDomineStr) {
+    $scope.stringToSubDomie = function(subDomainStr) {
       // creates a element to use all methods from extraction of url
       var aElement = document.createElement ('a');
       aElement.href   = $scope.baseUrl;
       // adds a point to subdomain
-      subDomineStr = subDomineStr? subDomineStr + '.' : '';
+      subDomainStr = subDomainStr? subDomainStr + '.' : '';
       // if the domain has www
       if(aElement.href.indexOf('www')) {
         var host = aElement.host.split('www.')[1];
-        return aElement.protocol + '//www.' + subDomineStr + host + aElement.pathname;
+        return aElement.protocol + '//www.' + subDomainStr + host + aElement.pathname;
       }
-      return aElement.protocol +  '//' + subDomineStr + host + aElement.pathname;
-    }
+      return aElement.protocol +  '//' + subDomainStr + host + aElement.pathname;
+    };
 	}
 ]);
 
