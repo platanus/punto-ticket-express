@@ -125,7 +125,7 @@ class EventsController < ApplicationController
     @event.disable_or_destroy
 
     respond_to do |format|
-      format.html { redirect_to me_events_path }
+      format.html { redirect_to me_events_path(:current_tab => params[:current_tab]) }
       format.json { head :no_content }
     end
   end

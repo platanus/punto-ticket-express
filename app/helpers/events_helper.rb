@@ -29,8 +29,8 @@ module EventsHelper
   	end
   end
 
-  def delete_event_action event
-    link_to t('buttons.destroy'), event, :class => 'action-link', method: :delete, data: { confirm: t(".delete_message") }
+  def delete_event_action event, current_tab
+    link_to t('buttons.destroy'), event_path(id: event.id, current_tab: current_tab), :class => 'action-link', method: :delete, data: { confirm: t(".delete_message") }
   end
 
   def publish_event_action event
