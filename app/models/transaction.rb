@@ -85,23 +85,28 @@ class Transaction < ActiveRecord::Base
   # Ends a transaction.
   # If this method is executed sucessfully, the transaction will be
   # returned with payment_status value as PTE::PaymentStatus.completed
-  # If this method is executed with errors, the transaction will be
-  # returned with error field setted, .valid? method false and, if token
-  # exists, payment_status with value PTE::PaymentStatus.inactive
   #
-  # @param headers [Hash]
-  # @param params [Hash]
+  # @param token [Strin]
   # @return [Transaction]
-  def self.finish token
-    begin
-      validate_token(token)
-      transaction = validate_transaction_for_completion(token)
-      transaction.save_finished_status
-      transaction
+  def self.complete token
+    transaction = Transaction.find_by_token token
+    return nil unless transaction
+    transaction.save_finished_status
+    transaction
+  end
 
-    rescue Exception => e
-      get_transaction_with_error(e.message)
-    end
+  # Cancels a transaction.
+  # If this method is executed sucessfully, the transaction will be
+  # returned with payment_status value as PTE::PaymentStatus.inactive
+  #
+  # @param token [Strin]
+  # @return [Transaction]
+  def self.cancel token, error
+    transaction = Transaction.find_by_token token
+    return Transaction.new(error: 'transaction not found using given token') unless transaction
+    transaction.error = error
+    transaction.payment_status = PTE::PaymentStatus.inactive
+    transaction.save(validate: false)
   end
 
   # Gets new Transaction instance with error attr filled with error_msg param
@@ -114,10 +119,6 @@ class Transaction < ActiveRecord::Base
     transaction.error = error_msg
     transaction.errors.add(:base, :unknown_error)
     transaction
-  end
-
-  def self.validate_token token
-    raise_error("Invalid token given") if(!token or token.to_s.empty?)
   end
 
   # Returns true when transaction has expected errors like
@@ -261,18 +262,6 @@ class Transaction < ActiveRecord::Base
     self.payment_status == PTE::PaymentStatus.processing
   end
 
-  # Checks if transaction (for a given token) exist on db
-  # Checks if transaction was procesed already.
-  #
-  # @param token [String]
-  # @return [Transaction]
-  def self.validate_transaction_for_completion token
-    transaction = Transaction.find_by_token token
-    raise_error("Transaction not found for given token") unless transaction
-    raise_error("Transaction with given token was processed already") unless transaction.can_finish?
-    transaction
-  end
-
   # Saves the initial status of a transaction.
   # Transactions must start with an user and payment_status PTE::PaymentStatus.processing
   #
@@ -287,6 +276,11 @@ class Transaction < ActiveRecord::Base
   # @return [Boolean]
   def save_finished_status
     self.update_attribute(:payment_status, PTE::PaymentStatus.completed)
+  end
+
+  # @return [Boolean]
+  def save_inactive_status
+    self.update_attribute(:payment_status, PTE::PaymentStatus.inactive)
   end
 
   # Applies a single promotion to tickets of each ticket type given

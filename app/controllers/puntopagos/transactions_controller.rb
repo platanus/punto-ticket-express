@@ -8,18 +8,19 @@ class Puntopagos::TransactionsController < ApplicationController
 
   def notification
     notification = PuntoPagos::Notification.new
-    transaction = Transaction.finish(params[:token])
 
-    if notification.valid?(request.headers, params) and !transaction.with_irrecoverable_errors?
-       render json: {
+    if notification.valid?(request.headers, params)
+      transaction = Transaction.complete(params[:token])
+      render json: {
         respuesta: SUCCESS_CODE,
-        token: params[:token]}
+        token: transaction.token}
 
     else
+      transaction = Transaction.cancel(params[:token], params[:error])
       render json: {
         respuesta: ERROR_CODE,
         error: transaction.error,
-        token: params[:token]}
+        token: transaction.token}
     end
   end
 
