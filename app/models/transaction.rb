@@ -101,12 +101,13 @@ class Transaction < ActiveRecord::Base
   #
   # @param token [Strin]
   # @return [Transaction]
-  def self.cancel token, error
+  def self.cancel token, error = nil
     transaction = Transaction.find_by_token token
     return Transaction.new(error: 'transaction not found using given token') unless transaction
     transaction.error = error
     transaction.payment_status = PTE::PaymentStatus.inactive
     transaction.save(validate: false)
+    transaction
   end
 
   # Gets new Transaction instance with error attr filled with error_msg param

@@ -188,4 +188,27 @@ describe Transaction do
       expect(t.error).to be_nil
     end
   end
+
+  describe "#cancel" do
+    it "fails when no token given" do
+      t = Transaction.cancel(nil)
+      expect(t.error).to eq('transaction not found using given token')
+      t = Transaction.cancel('NO_THIS_TOKEN_IN_DATABASE')
+      expect(t.error).to eq('transaction not found using given token')
+    end
+
+    it "ends transaction with invalid state with no error message" do
+      create(:transaction, token: "PROCCESSTOKEN")
+      t = Transaction.cancel('PROCCESSTOKEN', nil)
+      expect(t.payment_status).to eq(PTE::PaymentStatus.inactive)
+      expect(t.error).to be_nil
+    end
+
+    it "ends transaction with invalid state with error message" do
+      create(:transaction, token: "PROCCESSTOKEN")
+      t = Transaction.cancel('PROCCESSTOKEN', 'Some error')
+      expect(t.payment_status).to eq(PTE::PaymentStatus.inactive)
+      expect(t.error).to eq('Some error')
+    end
+  end
 end
