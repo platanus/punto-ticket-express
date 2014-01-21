@@ -37,6 +37,7 @@ PuntoTicketExpress::Application.routes.draw do
       get '/statistics/sold_tickets', to: 'events#sold_tickets', as: :sold_tickets
       get :form, to: 'events#data_to_collect'
       put :publish
+      put :unpublish
     end
   end
 

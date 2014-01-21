@@ -26,7 +26,6 @@ class Event < ActiveRecord::Base
   has_many :transactions, through: :tickets, uniq: true
 
   validates_presence_of :address, :description, :name
-  validate :remains_published?
   validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
@@ -190,6 +189,10 @@ class Event < ActiveRecord::Base
     self.update_attributes({is_published: true})
   end
 
+  def unpublish
+    self.update_attributes({is_published: false})
+  end
+
   def available_tickets_count
     self.ticket_types.inject(0){ |count, tt| count += tt.available_tickets_count }
   end
@@ -238,14 +241,6 @@ class Event < ActiveRecord::Base
   end
 
   private
-    def remains_published?
-      if !self.new_record? and self.is_published_was and
-        (self.is_published_was != self.is_published)
-        errors.add(:is_published, :published_event_cant_be_unpublished)
-        return false
-      end
-    end
-
     def set_default_theme
       self.theme ||= PTE::Theme::default
     end

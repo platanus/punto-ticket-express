@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   before_filter :load_events, :only => [:my_index]
 
   def my_index
+    params[:current_tab] = 'on_sale' if !params[:current_tab]
     @events = @events.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
@@ -114,6 +115,20 @@ class EventsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { redirect_to @event, alert: I18n.t("controller.messages.error_publishing_event")   }
+        format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unpublish
+    @event = Event.find(params[:id])
+
+    respond_to do |format|
+      if @event.unpublish
+        format.html { redirect_to @event, notice: I18n.t("controller.messages.event_unpublished") }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @event, alert: I18n.t("controller.messages.error_unpublishing_event")   }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end

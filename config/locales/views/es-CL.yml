@@ -26,6 +26,7 @@ es-CL:
     use: Usar!
     continue: Continuar
     cancel: Cancelar
+    unpublish: Despublicar Evento
   home:
     index:
       title: Próximos Eventos

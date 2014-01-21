@@ -26,6 +26,9 @@ class Ability
       can :publish, Event do |event|
         event.user_id == user.id
       end
+      can :unpublish, Event do |event|
+        event.user_id == user.id
+      end
       can :destroy, Event do |event|
         event.user_id == user.id
       end

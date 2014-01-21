@@ -39,7 +39,9 @@ es-CL:
       create_success: "La creación fue exitosa"
       update_success: "La actualización fue exitosa"
       event_published: "Su evento ha sido publicado!"
+      event_unpublished: "Su evento ya no está publicado"
       error_publishing_event: "Se produjo un error al intentar publicar su evento."
+      error_unpublishing_event: "Se produjo un error al intentar despublicar su evento."
   xls:
     participants:
       file_name: participantes.xls
