@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131223215750) do
+ActiveRecord::Schema.define(:version => 20140122185852) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -33,8 +33,6 @@ ActiveRecord::Schema.define(:version => 20131223215750) do
     t.string   "address"
     t.text     "description"
     t.string   "custom_url"
-    t.datetime "start"
-    t.datetime "end"
     t.datetime "created_at",                                                               :null => false
     t.datetime "updated_at",                                                               :null => false
     t.integer  "user_id"
@@ -55,6 +53,8 @@ ActiveRecord::Schema.define(:version => 20131223215750) do
     t.integer  "sell_limit"
     t.string   "enclosure"
     t.integer  "status",                                                :default => 1
+    t.datetime "publish_start_time"
+    t.datetime "publish_end_time"
   end
 
   create_table "global_configurations", :force => true do |t|
@@ -117,8 +117,8 @@ ActiveRecord::Schema.define(:version => 20131223215750) do
   create_table "promotions", :force => true do |t|
     t.string   "name"
     t.string   "promotion_type"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.integer  "limit"
     t.string   "activation_code"
     t.decimal  "promotion_type_config", :precision => 10, :scale => 0

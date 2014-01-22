@@ -198,7 +198,7 @@ class Promotion < ActiveRecord::Base
 
   def is_out_of_range?
     self.start_date and self.end_date and
-    (Date.today < self.start_date or Date.today > self.end_date)
+    (DateTime.now < self.start_date or DateTime.now > self.end_date)
   end
 
   def is_valid_for_qty? quantity
