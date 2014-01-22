@@ -179,6 +179,8 @@ es-CL:
         is_published: ¿Publicado?
         start_time: Fecha Inicio
         end_time: Fecha Fin
+        publish_start_time: Fecha inicio publicación
+        publish_end_time: Fecha fin publicación
         start_time: Inicio
         start_part_date: Fecha inicio
         start_part_time: Hora inicio
@@ -204,15 +206,16 @@ es-CL:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
+        end_date_lower_than_start_date: debe ser mayor que la fecha de incio
+        date_greater_than_today: debe ser mayor que hoy
+        publish_dates_out_of_event_dates_range: Las fechas de publicación deben estar comprendidas dentro del rango de fechas del evento.
       models:
         promotion:
           attributes:
             start_date:
               not_a_date: debe ser una fecha válida
-              start_date_lower_than_today: debe ser mayor que hoy
             end_date:
               not_a_date: debe ser una fecha válida
-              end_date_lower_than_start_date: debe ser mayor que la fecha de incio
         ticket_type:
           has_related_tickets: Se han vendido tickets para este tipo.
           attributes:
@@ -235,6 +238,14 @@ es-CL:
         event:
           has_related_tickets: Se han vendido tickets para este evento.
           attributes:
+            publish_start_time:
+              not_a_date: debe ser una fecha válida
+            publish_end_time:
+              not_a_date: debe ser una fecha válida
+            start_time:
+              not_a_date: debe ser una fecha válida
+            end_time:
+              not_a_date: debe ser una fecha válida
             is_published:
               published_event_cant_be_unpublished: un evento publicado no puede volver a ser un borrador.
             theme:

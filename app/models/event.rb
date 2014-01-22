@@ -25,7 +25,15 @@ class Event < ActiveRecord::Base
   has_many :users, through: :tickets
   has_many :transactions, through: :tickets, uniq: true
 
-  validates_presence_of :address, :description, :name
+  validates_presence_of :address, :description, :name, :producer, :user,
+    :start_time, :end_time, :publish_start_time, :publish_end_time, :ticket_types
+  validates :start_time, date: { after_or_equal_to: Proc.new { DateTime.now }, message: :date_greater_than_today }
+  validates :end_time, date: true
+  validate :dates_range_valid?
+  validates :publish_start_time, date: true
+  validates :publish_end_time, date: true
+  validate :publish_dates_range_valid?
+  validate :publish_dates_range_inside_event_dates_range?
   validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
@@ -247,8 +255,8 @@ class Event < ActiveRecord::Base
 
     def set_fee_if_producer_change
       if self.producer_id_was != self.producer_id
-          self.fixed_fee = self.producer_fixed_fee
-          self.percent_fee = self.producer_percent_fee
+        self.fixed_fee = self.producer_fixed_fee
+        self.percent_fee = self.producer_percent_fee
       end
     end
 
@@ -261,6 +269,29 @@ class Event < ActiveRecord::Base
       unless PTE::Theme::is_valid? self.theme
         self.errors.add(:theme, :invalid_theme_type)
         return false
+      end
+    end
+
+    def dates_range_valid?
+      if start_time.nil? or end_time.nil? or
+        end_time < start_time
+        errors.add(:end_time, :end_date_lower_than_start_date)
+      end
+    end
+
+    def publish_dates_range_valid?
+      if publish_start_time.nil? or publish_end_time.nil? or
+        publish_end_time < publish_start_time
+        errors.add(:publish_end_time, :end_date_lower_than_start_date)
+      end
+    end
+
+    def publish_dates_range_inside_event_dates_range?
+      if start_time.nil? or end_time.nil? or
+        publish_start_time.nil? or publish_end_time.nil? or
+        (publish_start_time < start_time) or (publish_end_time > end_time)
+        errors.add(:publish_start_time, :publish_dates_out_of_event_dates_range)
+        errors.add(:publish_end_time, :publish_dates_out_of_event_dates_range)
       end
     end
 end
