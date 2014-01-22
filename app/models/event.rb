@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
   scope :draft, where("is_published = false OR is_published IS NULL")
   scope :expired,  where('end_time <= ?', DateTime.now)
   scope :not_expired, where('end_time >= ?', DateTime.now)
-  scope :desc, order("events.created_at DESC")
+  scope :in_publish_range, where('publish_start_time <= ? AND publish_end_time >= ?', DateTime.now, DateTime.now)
 
   default_scope active
 
@@ -186,6 +186,14 @@ class Event < ActiveRecord::Base
     self.tickets.completed.inject(0.0) do |total, ticket|
       total += ticket.discount
     end
+  end
+
+  # Returns true if this today is in publication dates range.
+  #
+  # @return [Boolean]
+  def in_publish_range?
+    return false if !publish_start_time or !publish_end_time
+    (publish_start_time <= DateTime.now && publish_end_time >= DateTime.now)
   end
 
   def is_past_event?
