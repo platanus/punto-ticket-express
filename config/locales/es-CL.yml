@@ -216,6 +216,10 @@ es-CL:
               not_a_date: debe ser una fecha válida
             end_date:
               not_a_date: debe ser una fecha válida
+        promotion_code:
+          attributes:
+            code:
+              repeated_code_for_promotion: "repetido en la promoción"
         ticket_type:
           has_related_tickets: Se han vendido tickets para este tipo.
           attributes:

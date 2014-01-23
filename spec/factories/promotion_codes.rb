@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
   factory :promotion_code do
-    code "MyString"
-    user_id 1
+    code Faker::Lorem.characters(8)
+
+    association :user, factory: :user
+    association :promotion, factory: :promotion
   end
 end
