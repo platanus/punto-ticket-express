@@ -327,4 +327,7 @@ es-CL:
     failed_codes_load:
       subject: "Punto Ticket Express - Errores al cargar códigos de promoción"
       title: "Errores al cargar códigos de promoción"
-      body: "Los códigos que se intentaron cargar para la promoción \"%{promotion}\" no se asociaron a la promoción porque se produjeron uno o más errores en la carga."
+      body: "Los códigos que se intentaron cargar para la promoción \"%{promotion}\" no se asociaron a esta porque se produjeron los siguientes errores en la carga."
+      code_error_label: "Errores en el código de la fila %{row_idx} del Excel: %{errors}"
+      xls_row_column: "Fila en Excel"
+      code_error_column: "Errores en el código"
