@@ -6,5 +6,6 @@ module PTE
     class RowStatusError < Exception; end
     class XlsNoFileError < Exception; end
     class InvalidXlsFileError < Exception; end
+    class PromotionXlsError < Exception; end
   end
 end

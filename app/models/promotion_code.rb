@@ -4,7 +4,7 @@ class PromotionCode < ActiveRecord::Base
   belongs_to :user
   belongs_to :promotion
 
-  validates_presence_of :promotion, :code, :group_number
+  validates_presence_of :promotion, :code
   validate :unique_code_for_promotion
 
   private
