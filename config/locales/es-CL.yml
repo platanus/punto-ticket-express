@@ -42,7 +42,9 @@ es-CL:
       event_unpublished: "Su evento ya no está publicado"
       error_publishing_event: "Se produjo un error al intentar publicar su evento."
       error_unpublishing_event: "Se produjo un error al intentar despublicar su evento."
-      upload_success: "La carga fue exitosa"
+      upload_promotion: "Se ha iniciado la carga de los códigos para la promoción. Se informará a su dirección de correo el resultado de esta."
+      missing_file: "Debe seleccionar el archivo"
+      invalid_xls_file_type: "El archivo que intenta subir debe ser de tipo Excel (.xls)"
       upload_error: "Se produjo un error en la carga de datos"
   xls:
     participants:

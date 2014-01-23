@@ -60,17 +60,18 @@ class PromotionsController < ApplicationController
   def upload_codes
     @promotion = Promotion.find_by_id params[:id]
     authorize! :upload_codes, @promotion
-    response = PTE::Promotion::Xls.load_codes_into_promotion @promotion, params[:promotion][:xls_file]
+    xls_file = params[:promotion][:xls_file] rescue nil
 
-    respond_to do |format|
-      if response[:result] == :success
-        format.html { redirect_to promotion_url(@promotion),
-          notice: I18n.t("controller.messages.upload_success") }
-      else
-        @errors = response[:errors]
-        format.html { render action: 'new_upload',
-          alert: I18n.t("controller.messages.upload_error")   }
-      end
+    begin
+      PTE::Promotion::Xls.load_codes_into_promotion @promotion, xls_file
+      redirect_to promotion_url(@promotion),
+      notice: I18n.t("controller.messages.upload_promotion")
+    rescue PTE::Exceptions::XlsNoFileError
+      redirect_to new_promo_codes_load_url(@promotion),
+      alert: I18n.t("controller.messages.missing_file")
+    rescue PTE::Exceptions::InvalidXlsFileError
+      redirect_to new_promo_codes_load_url(@promotion),
+      alert: I18n.t("controller.messages.invalid_xls_file_type")
     end
   end
 end
