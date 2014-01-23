@@ -13,6 +13,7 @@ describe PromotionCode do
   describe "Validations" do
     it do
       should validate_presence_of(:code)
+      should validate_presence_of(:group_number)
       should validate_presence_of(:promotion)
     end
 

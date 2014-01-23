@@ -1,10 +1,10 @@
 class PromotionCode < ActiveRecord::Base
-  attr_accessible :code, :user_id
+  attr_accessible :code, :user_id, :group_number
 
   belongs_to :user
   belongs_to :promotion
 
-  validates_presence_of :promotion, :code
+  validates_presence_of :promotion, :code, :group_number
   validate :unique_code_for_promotion
 
   private
