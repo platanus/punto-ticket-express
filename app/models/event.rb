@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
   has_many :transactions, through: :tickets, uniq: true
 
   validates_presence_of :address, :description, :name, :producer, :user,
-    :start_time, :end_time, :publish_start_time, :publish_end_time, :ticket_types
+    :start_time, :end_time, :publish_start_time, :publish_end_time
   validates :start_time, date: { after_or_equal_to: Proc.new { DateTime.now }, message: :date_greater_than_today }
   validates :end_time, date: true
   validate :dates_range_valid?

@@ -9,10 +9,11 @@ FactoryGirl.define do
     address Faker::Address.street_name
     description Faker::Lorem.paragraphs([*2..6].sample)
     custom_url Faker::Internet.url
-    start Date.tomorrow
     is_published false
     start_time Date.tomorrow
     end_time Date.tomorrow + 5.hours
+    publish_start_time Date.tomorrow
+    publish_end_time Date.tomorrow + 5.hours
 
     association :user, factory: :user
     association :producer, factory: :producer
