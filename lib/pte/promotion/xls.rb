@@ -18,11 +18,12 @@ module PTE
             raise PTE::Exceptions::PromotionXlsError.new unless errors.size.zero?
           end
 
-          # TODO: send email to notificate user that codes are created sucessfully
+          PromotionMailer.sucessfully_codes_load(promotion).deliver
+
         rescue PTE::Exceptions::PromotionXlsError => e
           puts e.message
           puts errors.inspect
-          # TODO: send email to notificate user xls has errors
+          PromotionMailer.failed_codes_load(promotion, errors).deliver
         end
       end
     end

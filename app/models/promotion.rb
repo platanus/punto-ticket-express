@@ -36,6 +36,8 @@ class Promotion < ActiveRecord::Base
   before_destroy :cancel_destroy
 
   delegate :user, to: :promotable, prefix: false, allow_nil: true
+  delegate :identifier, to: :user, prefix: true, allow_nil: true
+  delegate :email, to: :user, prefix: true, allow_nil: true
 
   # Defines a single instance method with structure:
   # is_[promo_type]? Example: is_amount_discount?
