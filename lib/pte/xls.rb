@@ -17,7 +17,7 @@ module PTE
     end
 
     def generate_book file_name, path, zip_file_name = nil
-      file_name += ".xls" unless file_name.include? '.xls'
+      file_name += '.xls' unless file_name.include? '.xls'
       complete_path = PTE::FileUtils.generate_tmp_directory path
       file_path = File.join(complete_path, file_name)
       @book.write(file_path)
