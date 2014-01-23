@@ -5,6 +5,8 @@ class PromotionCode < ActiveRecord::Base
   belongs_to :promotion
 
   validates_presence_of :promotion, :code
+  validates_format_of :code, with: /^[0-9a-zA-Z]*$/,
+  	:message => I18n.t("activerecord.errors.models.promotion_code.attributes.code.invalid_format")
   validate :unique_code_for_promotion
 
   private

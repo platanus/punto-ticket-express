@@ -18,8 +18,8 @@ describe PromotionCode do
 
     it "fails with same code added twice for same promotion"do
       promotion = create(:promotion)
-      create(:promotion_code, code: 'SAME_CODE', promotion: promotion)
-      promotion_code = build(:promotion_code, :code => 'SAME_CODE', promotion: promotion)
+      create(:promotion_code, code: 'SameCode', promotion: promotion)
+      promotion_code = build(:promotion_code, :code => 'SameCode', promotion: promotion)
       expect(promotion_code.save).to be_false
       promotion_code.errors.messages[:code].should include(
         I18n.t("activerecord.errors.models.promotion_code.attributes.code.repeated_code_for_promotion"))
