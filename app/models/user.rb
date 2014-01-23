@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :role, presence: true
 
   has_many :events, dependent: :destroy
+  has_many :promotion_codes
   has_many :transactions
   has_many :tickets, through: :transactions
   has_many :ticket_types, through: :events

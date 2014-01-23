@@ -6,6 +6,7 @@ class Promotion < ActiveRecord::Base
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets
+  has_many :promotion_codes
   has_many :transactions, through: :tickets, uniq: true
 
   validates_presence_of :name, :promotion_type, :promotable_id,
