@@ -9,7 +9,6 @@ PuntoTicketExpress::Application.routes.draw do
 
   get "promotions/:id/new_codes_load", to: 'promotion_codes#new_upload', as: :new_promo_codes_load
   post "promotions/:id/upload_codes", to: 'promotion_codes#upload', as: :upload_promo_codes
-  get "promotions/:id/upload_codes_error", to: 'promotion_codes#upload_error', as: :upload_promo_code_errors
 
   get "configuration/account"
   put "configuration/update_account"

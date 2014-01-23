@@ -42,6 +42,8 @@ es-CL:
       event_unpublished: "Su evento ya no está publicado"
       error_publishing_event: "Se produjo un error al intentar publicar su evento."
       error_unpublishing_event: "Se produjo un error al intentar despublicar su evento."
+      upload_success: "La carga fue exitosa"
+      upload_error: "Se produjo un error en la carga de datos"
   xls:
     participants:
       file_name: participantes.xls
