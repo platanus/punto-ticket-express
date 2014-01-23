@@ -56,8 +56,13 @@ class Ability
       can :disable, Promotion do |promotion|
         promotion.user.id == user.id
       end
+      can :upload_codes, Promotion do |promotion|
+        promotion.user.id == user.id
+      end
+      can :new_codes_load, Promotion do |promotion|
+        promotion.user.id == user.id
+      end
       can :create, Promotion
-
 
       #TICKETS
       #user can see his own tickets or sold tickets for his events

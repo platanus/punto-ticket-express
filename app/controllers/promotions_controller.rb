@@ -47,8 +47,30 @@ class PromotionsController < ApplicationController
 
   def disable
     @promotion = Promotion.find_by_id params[:id]
-    authorize! :enable, @promotion
+    authorize! :disable, @promotion
     @promotion.disable
     redirect_to promotions_url(id: @promotion.event.id)
+  end
+
+  def new_codes_load
+    @promotion = Promotion.find_by_id params[:id]
+    authorize! :new_codes_load, @promotion
+  end
+
+  def upload_codes
+    @promotion = Promotion.find_by_id params[:id]
+    authorize! :upload_codes, @promotion
+    response = PTE::Promotion::Xls.load_codes_into_promotion @promotion, 'xls_file'
+
+    respond_to do |format|
+      if response[:result] == :success
+        format.html { redirect_to promotion_url(@promotion),
+          notice: I18n.t("controller.messages.upload_success") }
+      else
+        @errors = response[:errors]
+        format.html { render action: 'new_upload',
+          alert: I18n.t("controller.messages.upload_error")   }
+      end
+    end
   end
 end
