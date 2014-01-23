@@ -60,7 +60,7 @@ class PromotionsController < ApplicationController
   def upload_codes
     @promotion = Promotion.find_by_id params[:id]
     authorize! :upload_codes, @promotion
-    response = PTE::Promotion::Xls.load_codes_into_promotion @promotion, 'xls_file'
+    response = PTE::Promotion::Xls.load_codes_into_promotion @promotion, params[:promotion][:xls_file]
 
     respond_to do |format|
       if response[:result] == :success

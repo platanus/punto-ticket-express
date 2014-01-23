@@ -4,5 +4,7 @@ module PTE
     class PromotionError < Exception; end
     class GlobalConfigurationError < Exception; end
     class RowStatusError < Exception; end
+    class XlsNoFileError < Exception; end
+    class InvalidXlsFileError < Exception; end
   end
 end

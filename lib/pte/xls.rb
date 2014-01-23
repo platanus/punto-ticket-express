@@ -3,6 +3,34 @@ module PTE
     require 'fileutils'
     require 'spreadsheet'
 
+    def self.save file, directory_path, file_name
+      validate_file_to_read file
+      file_name = file.original_filename unless file_name
+      new_directory = PTE::FileUtils.generate_tmp_directory(directory_path)
+      new_file_path = new_directory + '/' + file_name
+      File.open(new_file_path, 'wb') { |f| f.write(file.read) }
+      new_directory
+    end
+
+    def self.validate_file_to_read file
+      raise PTE::Exceptions::XlsNoFileError unless file
+
+      if file.content_type != "application/vnd.ms-excel"
+        raise PTE::Exceptions::InvalidXlsFileError
+      end
+    end
+
+    def self.read file_path
+      Spreadsheet.open(file_path) do |book|
+        book.worksheets.each do |ws|
+          0.upto ws.last_row_index do |index|
+            row = ws.row(index)
+            yield ws, row
+          end
+        end
+      end
+    end
+
     def initialize
       @book = Spreadsheet::Workbook.new
     end
