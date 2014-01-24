@@ -70,7 +70,7 @@ class Transaction < ActiveRecord::Base
           optional_data[:transaction_nested_resource])
         transaction.save_beginning_status(user_id)
         transaction.load_tickets(transaction_event, ticket_types)
-        transaction.apply_promotions(optional_data[:promotions])
+        transaction.apply_promotions(optional_data[:promotions], user_id)
         transaction.load_ticket_nested_resources(transaction_event)
 
         raise ActiveRecord::Rollback if transaction.errors.any?
@@ -289,14 +289,16 @@ class Transaction < ActiveRecord::Base
   # @param data [Array] with structure:
   # [{:ticket_type_id=>1, :promotion=>#<Promotion>},
   # {:ticket_type_id=>2, :promotion=>#<Promotion>}]
-  def apply_promotions data
+  # @param user_id [Integer] to check ActivationCode as used
+  # if an "activation code" is entered to apply the promotion
+  def apply_promotions data, user_id
     begin
       return unless data
 
       data.each do |item|
         type_tickets = self.ticket_type_tickets(item[:ticket_type_id])
 
-        unless item[:promotion].apply(type_tickets)
+        unless item[:promotion].apply(type_tickets, user_id)
           self.errors.add(:base, I18n.t("activerecord.errors.models.transaction.promotion_error"))
         end
       end

@@ -11,6 +11,11 @@ class PromotionCode < ActiveRecord::Base
 
   scope :unused, where("promotion_codes.user_id IS NULL")
 
+  def self.check_code_as_used promotion_id, code, user_id
+    promo_codes = PromotionCode.where(code: code, promotion_id: promotion_id)
+    promo_codes.each { |pc| pc.update_column :user_id, user_id }
+  end
+
   private
 
     def unique_code_for_promotion

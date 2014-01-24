@@ -67,8 +67,9 @@ class Promotion < ActiveRecord::Base
   # - Activation code not matches with validation code.
   #
   # @param type_tickets [Array] Tickets collection
+  # @param user_id [Integer] to check ActivationCode as used
   # @return [Boolean]
-  def apply type_tickets
+  def apply type_tickets, user_id = nil
     begin
       ActiveRecord::Base.transaction do
         raise PTE::Exceptions::PromotionError.new(
@@ -97,6 +98,9 @@ class Promotion < ActiveRecord::Base
         type_tickets.each_with_index do |ticket, idx|
           self.tickets << ticket if idx < promotion_type_config.to_i
         end if self.is_nx1?
+
+        PromotionCode.check_code_as_used(
+          self.id, self.validation_code, user_id) if user_id
       end
 
       return true
