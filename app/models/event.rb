@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   attr_accessible :user_id, :address, :custom_url, :description, :name, :producer_id,
   :ticket_types_attributes, :is_published, :start_time, :end_time, :data_to_collect,
   :logo, :theme, :fixed_fee, :percent_fee, :include_fee, :nested_resource_source,
-  :sell_limit, :enclosure, :status
+  :sell_limit, :enclosure, :status, :publish_start_time, :publish_end_time
 
   # paperclip
   has_attached_file :logo, :styles => { :medium => "160x160>", :thumb => "100x100>" }
@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :address, :description, :name, :producer, :user,
     :start_time, :end_time, :publish_start_time, :publish_end_time
-  validates :start_time, date: { after_or_equal_to: Proc.new { DateTime.now }, message: :date_greater_than_today }
+  validates :start_time, date: true
   validates :end_time, date: true
   validate :dates_range_valid?
   validates :publish_start_time, date: true
