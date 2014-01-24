@@ -9,6 +9,8 @@ class PromotionCode < ActiveRecord::Base
   	:message => I18n.t("activerecord.errors.models.promotion_code.attributes.code.invalid_format")
   validate :unique_code_for_promotion
 
+  scope :unused, where("promotion_codes.user_id IS NULL")
+
   private
 
     def unique_code_for_promotion

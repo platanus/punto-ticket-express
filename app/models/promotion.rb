@@ -89,7 +89,7 @@ class Promotion < ActiveRecord::Base
 
           unless self.is_activation_code_valid?
             raise PTE::Exceptions::PromotionError.new(
-              "activation code not matching with validation code")
+              "activation code not matching with any unused validation code")
           end
           self.tickets << ticket unless self.is_nx1?
         end
@@ -232,7 +232,7 @@ class Promotion < ActiveRecord::Base
   #
   # @return [Array]
   def activation_codes
-    codes = self.promotion_codes.pluck(:code)
+    codes = self.promotion_codes.unused.pluck(:code)
     codes += [self.activation_code] unless self.activation_code.blank?
     codes
   end
