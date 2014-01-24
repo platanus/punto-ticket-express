@@ -2,7 +2,7 @@
 	<h1><%= t(".title") %></h1>
 </div>
 
-<div class="row" id="page_event" ng-controller="FormEventCtrl" ng-init='init(<%= raw @event.to_json %>, <%= raw @event.ticket_types_with_extra_data.to_json %>, <%= raw current_user.producers.to_json %>, <%= @event.is_past_event? %>, "<%= ENV["EVENT_BASE_URL"] %>"))'>
+<div class="row" id="page_event" ng-controller="FormEventCtrl" ng-init='init(<%= raw @event.to_json %>, <%= raw @event.ticket_types_with_extra_data.to_json %>, <%= raw current_user.producers.to_json %>, <%= @event.is_past_event? %>, "<%= ENV["EVENT_BASE_URL"] %>")'>
 	<div class="span3">
 		<%= render 'sidebar' %>
 	</div>
