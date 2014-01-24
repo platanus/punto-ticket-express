@@ -1,11 +1,13 @@
 angular.module('puntoTicketApp.controllers')
   .controller('TransactionNewCtrl', ['$scope', '$modal', function ($scope, $modal) {
 
-    var codeMatch = function(_hashCode) {
-      if($scope.code.entered == null || $scope.code.entered == '')
-        return false;
+    var codeMatch = function(_hashCodes) {
+      if(!$scope.code.entered) return false;
+      var valid = false;
 
-      var valid = (MD5($scope.code.entered) == _hashCode);
+      angular.forEach(_hashCodes, function(_hashCode){
+        if(_hashCode == MD5($scope.code.entered)) valid = true;
+      });
 
       if(valid) {
         $scope.code.valid = $scope.code.entered;
@@ -23,7 +25,7 @@ angular.module('puntoTicketApp.controllers')
 
         angular.forEach(_type.promotions, function(_promo){
           _promo.best_promo = false;
-          _promo.visible = (_promo.code == null || _promo.code == '' || codeMatch(_promo.code));
+          _promo.visible = (_promo.codes.length == 0 || codeMatch(_promo.codes));
         });
 
         for(var i = _type.promotions.length - 1; i >= 0; i--) {
@@ -62,6 +64,7 @@ angular.module('puntoTicketApp.controllers')
     };
 
     $scope.init = function(_summaryData, _validPromoCode, _isParticipantsDataRequired, _errors) {
+      console.log(_summaryData);
       $scope.data = {};
       $scope.code = {entered: _validPromoCode, valid: null};
       $scope.data.ticketTypes = _summaryData;

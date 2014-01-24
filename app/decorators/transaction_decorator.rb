@@ -22,8 +22,8 @@ module TransactionDecorator
           name: I18n.t("puntopagos.transactions.transaction_summary.#{promo.promotion_type}_label",
             name: promo.name, value: number_with_delimiter(promo.promotion_type_config)),
           discount: (promo.discount(ticket_type.price) * ticket_type.bought_quantity),
-          code: promo.hex_activation_code,
-          normal_code: promo.activation_code,
+          codes: promo.hex_activation_codes,
+          normal_code: promo.activation_codes,
           ticket_type_id: ticket_type.id,
           id: promo.id,
         }
