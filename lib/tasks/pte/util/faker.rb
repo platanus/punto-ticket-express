@@ -19,7 +19,9 @@ module PTE
         Event.delete_all
         Ticket.delete_all
         Producer.delete_all
-        Promotion.delete_all
+        NestedResource.delete_all
+        ::Promotion.delete_all
+        ::PromotionCode.delete_all
         ::Transaction.delete_all
       end
 
@@ -78,6 +80,7 @@ module PTE
 
       def self.create_event
         start_time = rand_time(Time.now - 20.days, Time.now + 20.days)
+        end_time = start_time + ([*10000..30000].sample)
         organizer = @organizers.sample
         producer = organizer.producers.try(:sample)
 
@@ -85,12 +88,14 @@ module PTE
           name: "Evento " + ::Faker::Name.name,
           address: complete_address,
           description: ::Faker::Lorem.paragraphs([*2..6].sample),
-          custom_url: ::Faker::Internet.url,
+          custom_url: custom_url,
           user_id: organizer.id,
           is_published: producer.confirmed,
           producer_id: producer.id,
           start_time: start_time,
-          end_time: start_time + ([*10000..30000].sample),
+          publish_start_time: start_time,
+          end_time: end_time,
+          publish_end_time: end_time,
           fixed_fee: producer.fixed_fee,
           percent_fee: producer.percent_fee
         )
@@ -210,7 +215,20 @@ module PTE
           raise Exception.new("Invalid promo type")
         end
 
-        Promotion.create!(data)
+        promo = Promotion.create!(data)
+        create_promotion_codes(promo) if random_boolean
+      end
+
+      def self.create_promotion_codes promotion
+        2.upto(15).each do |number|
+          promo_code = PromotionCode.new(code: random_code)
+          promo_code.promotion = promotion
+          promo_code.save
+        end
+      end
+
+      def self.random_code
+        ::Faker::Lorem::characters(6).upcase
       end
 
       def self.valid_ruts
@@ -235,6 +253,10 @@ module PTE
          ::Faker::Address.city,
          ::Faker::Address.state,
          ::Faker::Address.country].join(", ")
+      end
+
+      def self.custom_url
+        ::Faker::Name.name.downcase.gsub(" ", "-")
       end
 
       def self.rand_time(from, to = Time.now)
