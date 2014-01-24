@@ -14,6 +14,7 @@ class Event < ActiveRecord::Base
   # Possible attribute values are defined on NestedResource::NESTABLE_ATTRIBUTES constant
   serialize :data_to_collect, Array
 
+  before_validation :set_publish_dates
   before_create :set_fee_values
   before_update :set_fee_if_producer_change
 
@@ -259,6 +260,11 @@ class Event < ActiveRecord::Base
   private
     def set_default_theme
       self.theme ||= PTE::Theme::default
+    end
+
+    def set_publish_dates
+      self.publish_start_time = self.start_time unless self.publish_start_time
+      self.publish_end_time = self.end_time unless self.publish_end_time
     end
 
     def set_fee_if_producer_change
