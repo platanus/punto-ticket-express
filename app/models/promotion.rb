@@ -227,6 +227,23 @@ class Promotion < ActiveRecord::Base
     Digest::MD5.hexdigest(self.activation_code)
   end
 
+  # Joins promotion's activation_code and related
+  # promotion_codes (code attribute) into a new array
+  #
+  # @return [Array]
+  def activation_codes
+    codes = self.promotion_codes
+    codes += [self.activation_code] unless self.activation_code.blank?
+    codes
+  end
+
+  # Applies MD5 digest to all promotion codes
+  #
+  # @return [Array]
+  def hex_activation_codes
+    self.activation_codes.map { |code| Digest::MD5.hexdigest(code) }
+  end
+
   def dates_range_valid?
     return true if start_date.nil? or end_date.nil?
 
