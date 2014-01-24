@@ -149,6 +149,22 @@ describe Promotion do
       expect(ticket_two.promotion.id).to eq(promotion.id)
     end
 
+    it "returns true when PromotionObject's code matches with validation code", flag: true do
+      event = create(:event)
+      type = create(:ticket_type, quantity: 10, event: event, price: 1000)
+      ticket_one = create(:ticket, ticket_type: type)
+      ticket_two = create(:ticket, ticket_type: type)
+      promotion = create(:percent_promotion, id: 1, validation_code: "CODE2", enabled: true, promotion_type_config: 20, promotable: type)
+      create(:promotion_code, id: 1, code: "CODE1", promotion: promotion, user_id: nil)
+      create(:promotion_code, id: 2, code: "CODE2", promotion: promotion, user_id: nil)
+      user = create(:user, id: 22)
+      expect(promotion.apply([ticket_one, ticket_two], user.id)).to be_true
+      expect(ticket_one.promotion.id).to eq(promotion.id)
+      expect(ticket_two.promotion.id).to eq(promotion.id)
+      expect(PromotionCode.find(1).user).to be_nil
+      expect(PromotionCode.find(2).user.id).to eq(user.id)
+    end
+
     it "returns true when uses nx1 promotion with right config" do
       event = create(:event)
       type = create(:ticket_type, quantity: 10, event: event, price: 1000)
