@@ -232,7 +232,7 @@ class Promotion < ActiveRecord::Base
   #
   # @return [Array]
   def activation_codes
-    codes = self.promotion_codes
+    codes = self.promotion_codes.pluck(:code)
     codes += [self.activation_code] unless self.activation_code.blank?
     codes
   end
@@ -241,7 +241,9 @@ class Promotion < ActiveRecord::Base
   #
   # @return [Array]
   def hex_activation_codes
-    self.activation_codes.map { |code| Digest::MD5.hexdigest(code) }
+    self.activation_codes.map do |code|
+      Digest::MD5.hexdigest(code)
+    end
   end
 
   def dates_range_valid?
