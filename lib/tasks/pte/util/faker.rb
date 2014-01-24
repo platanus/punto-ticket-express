@@ -79,8 +79,8 @@ module PTE
       end
 
       def self.create_event
-        start_time = rand_time(Time.now - 20.days, Time.now + 20.days)
-        end_time = start_time + ([*10000..30000].sample)
+        start_time = rand_time(Time.now - 10.days, Time.now + 20.days)
+        end_time = start_time + 5.days
         organizer = @organizers.sample
         producer = organizer.producers.try(:sample)
 
