@@ -236,11 +236,11 @@ angular.module('puntoTicketApp.controllers')
       // adds a point to subdomain
       subDomainStr = subDomainStr? subDomainStr + '.' : '';
       // if the domain has www
-      if(aElement.href.indexOf('www')) {
+      if($scope.baseUrl.indexOf('www') != -1) {
         var host = aElement.host.split('www.')[1];
         return aElement.protocol + '//www.' + subDomainStr + host + aElement.pathname;
       }
-      return aElement.protocol +  '//' + subDomainStr + host + aElement.pathname;
+      return aElement.protocol +  '//' + subDomainStr + aElement.host + aElement.pathname;
     };
 	}
 ]);
