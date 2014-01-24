@@ -214,8 +214,8 @@ class Promotion < ActiveRecord::Base
   end
 
   def is_activation_code_valid?
-    (self.activation_code.to_s.empty? or
-      (self.activation_code.to_s == self.validation_code.to_s))
+    self.activation_code.to_s.empty? or
+      self.activation_codes.include?(self.validation_code.to_s)
   end
 
   def sold_tickets
