@@ -1,4 +1,4 @@
-<div ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>, <%= @event.is_past_event? %>, <%= tickets_limit %>, <%= raw PTE::Theme::types_to_a.to_json %>, "<%= @event.theme %>")'>
+<div ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>, <%= @event.is_past_event? %>, <%= @event.in_publish_range? %>, <%= tickets_limit %>, <%= raw PTE::Theme::types_to_a.to_json %>, "<%= @event.theme %>")'>
   <!-- load theme -->
   <!-- if there is no associated theme, load the default css -->
   <%= stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css' %>
@@ -45,6 +45,8 @@
       <%= render :partial => "shared/message", :locals => { :message => t(".limit_exceeded_msg.message", qty: tickets_limit), :title => t(".limit_exceeded_msg.title"), :modal_name => "limitModal"} %>
 
       <%= render :partial => "shared/message", :locals => { :message => t(".old_event_msg.message", qty: tickets_limit), :title => t(".old_event_msg.title"), :modal_name => "oldEventModal"} %>
+
+      <%= render :partial => "shared/message", :locals => { :message => t(".publish_range_msg.message"), :title => t(".publish_range_msg.title"), :modal_name => "publishRangeModal"} %>
 
   		<%= form_tag puntopagos_transactions_new_path, :method => :get,
   		"ng-submit" => "validateTicketTypes($event)" do |f| %>

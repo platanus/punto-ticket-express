@@ -227,6 +227,9 @@ es-CL:
       prevent_buy_msg:
         title: Mensaje
         message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
+      publish_range_msg:
+        title: Mensaje
+        message: La fecha de publicación ha expirado
       titles:
         when: Cuándo y Dónde?
         producer: Productora
