@@ -57,6 +57,8 @@
   <fieldset class="form-horizontal">
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
     <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
+    <input type="text" style="display: none" name="event[publish_start_time]" ng-model="dates.startPublishDateTime" />
+    <input type="text" style="display: none" name="event[publish_end_time]" ng-model="dates.endPublishDateTime" />
 
     <bs:control-group bound-cg required label="<%= Event.human_attribute_name :start_part_date %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
@@ -79,6 +81,29 @@
         validate="time-compare: [startTimeModel.$viewValue, startDateModel.$modelValue, endDateModel.$modelValue, 'G'] as eventEndTimeAfterStart"
         ng-model="dates.endTime" model-as="endTimeModel" dirty-on-blur />
     </bs:control-group>
+
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :start_publish_date %>">
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startPublishDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startPublishDateModel" ng-change="onStartPublishDateChange()" ng-disabled="{{disabled}}"
+        validate="required, date-greater-than-today, date-compare: [endPublishDateModel.$modelValue, 'LE'] as eventEndAfterStart" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+
+      <pte-time-picker validation-group="eventDates" ng-disabled="{{disabled}}"
+        validate="time-compare: [endPublishTimeModel.$viewValue, startPublishDateModel.$modelValue, endPublishDateModel.$modelValue, 'L'] as eventEndTimeAfterStart"
+        ng-model="dates.startPublishTime" model-as="startPublishTimeModel" dirty-on-blur/>
+    </bs:control-group>
+
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :end_publish_date %>">
+      <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endPublishDate"
+        data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endPublishDateModel" ng-disabled="{{disabled}}"
+        validate="required, date-greater-than-today, date-compare: [startPublishDateModel.$modelValue, 'GE'] as eventEndAfterStart" />
+      <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+
+      <pte-time-picker validation-group="eventDates" ng-disabled="{{disabled}}"
+        validate="time-compare: [startPublishTimeModel.$viewValue, startPublishDateModel.$modelValue, endPublishDateModel.$modelValue, 'G'] as eventEndTimeAfterStart"
+        ng-model="dates.endPublishTime" model-as="endPublishTimeModel" dirty-on-blur />
+    </bs:control-group>
+
   </fieldset>
 
   <%= render :partial => "form_ticket_types" %>

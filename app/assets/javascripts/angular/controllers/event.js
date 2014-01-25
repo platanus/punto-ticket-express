@@ -14,7 +14,9 @@ angular.module('puntoTicketApp.controllers')
 				startTime: _event.start_time,
 				endTime: _event.end_time,
 				producer: null,
-				enclosure: _event.enclosure
+        enclosure: _event.enclosure,
+        startPublishTime: _event.publish_start_time,
+				endPublishTime: _event.publish_end_time
 			};
 
 			loadEventDates();
@@ -70,38 +72,83 @@ angular.module('puntoTicketApp.controllers')
 				$scope.dates.endDate = DateUtils.toDate($scope.event.endTime);
 				$scope.dates.endTime = DateUtils.timePartToSecs($scope.event.endTime);
 			}
+
+      // publish date & time
+      if(!$scope.event.startPublishTime || !$scope.event.endPublishTime) {
+        $scope.dates.startPublishDate = DateUtils.tomorrow();
+        $scope.dates.startPublishTime = 0;
+        $scope.dates.endPublishDate = DateUtils.tomorrow();
+        $scope.dates.endPublishTime = 3600;
+
+      } else {
+        $scope.dates.startPublishDate = DateUtils.toDate($scope.event.startPublishTime);
+        $scope.dates.startPublishTime = DateUtils.timePartToSecs($scope.event.startPublishTime);
+        $scope.dates.endPublishDate = DateUtils.toDate($scope.event.endPublishTime);
+        $scope.dates.endPublishTime = DateUtils.timePartToSecs($scope.event.endPublishTime);
+      }
 		};
 
-		var buildStartDatetime = function() {
-			if(!$scope.dates.startDate || !$scope.dates.startTime)
-				$scope.dates.startDateTime = null;
-			$scope.dates.startDateTime = DateUtils.toRailsDate(
-				DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
+    var buildStartDatetime = function() {
+      if(!$scope.dates.startDate || !$scope.dates.startTime)
+        $scope.dates.startDateTime = null;
+      $scope.dates.startDateTime = DateUtils.toRailsDate(
+        DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
+    };
+
+    var buildEndDatetime = function() {
+      if(!$scope.dates.endDateTime || !$scope.dates.endTime)
+        $scope.dates.endDateTime = null;
+      $scope.dates.endDateTime = DateUtils.toRailsDate(
+        DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
+    };
+
+		var buildStartPublishDatetime = function() {
+			if(!$scope.dates.startPublishDate || !$scope.dates.startPublishTime)
+				$scope.dates.startPublishDateTime = null;
+			$scope.dates.startPublishDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.startPublishDate, $scope.dates.startPublishTime));
 		};
 
-		var buildEndDatetime = function() {
-			if(!$scope.dates.endDateTime || !$scope.dates.endTime)
-				$scope.dates.endDateTime = null;
-			$scope.dates.endDateTime = DateUtils.toRailsDate(
-				DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
+		var buildEndPublishDatetime = function() {
+			if(!$scope.dates.endPublishDateTime || !$scope.dates.endPublishTime)
+				$scope.dates.endPublishDateTime = null;
+			$scope.dates.endPublishDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds($scope.dates.endPublishDate, $scope.dates.endPublishTime));
 		};
 
 		var watchEventDates = function() {
-			$scope.$watch('dates.startDate', function(_newValue, _oldValue) {
-				buildStartDatetime();
+      $scope.$watch('dates.startDate', function(_newValue, _oldValue) {
+        buildStartDatetime();
+      });
+
+      $scope.$watch('dates.startTime', function(_newValue, _oldValue) {
+        buildStartDatetime();
+      });
+
+      $scope.$watch('dates.endDate', function(_newValue, _oldValue) {
+        buildEndDatetime();
+      });
+
+      $scope.$watch('dates.endTime', function(_newValue, _oldValue) {
+        buildEndDatetime();
+      });
+
+      $scope.$watch('dates.startPublishDate', function(_newValue, _oldValue) {
+				buildStartPublishDatetime();
 			});
 
-			$scope.$watch('dates.startTime', function(_newValue, _oldValue) {
-				buildStartDatetime();
+			$scope.$watch('dates.startPublishTime', function(_newValue, _oldValue) {
+				buildStartPublishDatetime();
 			});
 
-			$scope.$watch('dates.endDate', function(_newValue, _oldValue) {
-				buildEndDatetime();
+			$scope.$watch('dates.endPublishDate', function(_newValue, _oldValue) {
+				buildEndPublishDatetime();
 			});
 
-			$scope.$watch('dates.endTime', function(_newValue, _oldValue) {
-				buildEndDatetime();
+			$scope.$watch('dates.endPublishTime', function(_newValue, _oldValue) {
+				buildEndPublishDatetime();
 			});
+
 		};
 
 		var watchFormDirty = function() {
@@ -168,6 +215,10 @@ angular.module('puntoTicketApp.controllers')
 		$scope.onStartDateChange = function() {
 			$scope.dates.endDate = $scope.dates.startDate;
 		};
+
+    $scope.onStartPublishDateChange = function() {
+      $scope.dates.endPublishDate = $scope.dates.startPublishDate;
+    };
 
 		$scope.addTicket = function() {
 			$scope.tickets.push({
