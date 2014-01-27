@@ -21,6 +21,7 @@ gem 'yard'
 gem 'whenever', :require => false
 gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
+gem 'daemons'
 gem 'delayed_job_active_record'
 # amazon SES, S3
 gem 'aws-sdk', "~> 1.22.1"
