@@ -50,7 +50,7 @@
       <input type="text" name="event[custom_url]" ng-model="event.customUrl"
         ng-disabled="{{disabled}}" class="span2"
         dirty-on-blur validate="url" placeholder="<%= pholder(Event, :custom_url) %>" />
-      <span>{{stringToSubDomie(event.customUrl)}}</span>
+      <span ng-show="event.customUrl.length > 0">{{stringToSubDomie(event.customUrl)}}</span>
     </bs:control-group>
   </fieldset>
 
