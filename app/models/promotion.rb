@@ -1,4 +1,6 @@
 class Promotion < ActiveRecord::Base
+  extend PTE::Promotion::Xls
+
   attr_accessible :activation_code, :end_date, :limit, :name, :enabled,
   :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type, :promotable
 

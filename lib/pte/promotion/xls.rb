@@ -1,7 +1,7 @@
 module PTE
   module Promotion
-    class Xls
-      def self.load_codes_into_promotion promotion, xls
+    module Xls
+      def load_codes_into_promotion promotion, xls
         errors = []
         begin
           ActiveRecord::Base.transaction do
