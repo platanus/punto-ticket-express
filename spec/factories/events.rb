@@ -12,8 +12,8 @@ FactoryGirl.define do
     is_published false
     start_time Date.tomorrow
     end_time Date.tomorrow + 5.hours
-    publish_start_time Date.tomorrow
-    publish_end_time Date.tomorrow + 5.hours
+    publish_start_time DateTime.now
+    publish_end_time Date.tomorrow - 5.hours
 
     association :user, factory: :user
     association :producer, factory: :producer
