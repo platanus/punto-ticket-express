@@ -15,9 +15,9 @@ set :repository, "git@github.com:platanus/punto-ticket-express.git"
 
 # Delayed jobs
 require "delayed/recipes"
-after "deploy:start", "delayed_job:start"
-after "deploy:stop", "delayed_job:stop"
-after "deploy:restart", "delayed_job:stop", "delayed_job:start"
+after "deploy:stop",    "delayed_job:stop"
+after "deploy:start",   "delayed_job:start"
+after "deploy:restart", "delayed_job:restart"
 
 # Database
 # set :migrate_env,    "migration"

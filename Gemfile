@@ -50,7 +50,6 @@ group :development, :test do
   gem 'hpricot'
   gem 'html2haml'
   gem 'faker'
-  gem 'debugger'
   gem 'letter_opener'
   gem 'zeus'
   gem 'rspec-rails'

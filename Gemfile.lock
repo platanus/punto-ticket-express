@@ -76,17 +76,10 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     colorize (0.5.8)
-    columnize (0.3.6)
     commonjs (0.2.6)
     daemons (1.1.9)
     date_validator (0.7.0)
       activemodel (>= 3)
-    debugger (1.6.1)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.3)
-    debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
@@ -337,7 +330,6 @@ DEPENDENCIES
   coffee-rails
   colorize
   date_validator
-  debugger
   delayed_job_active_record
   devise
   devise-i18n
