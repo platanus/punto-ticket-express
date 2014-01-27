@@ -12,7 +12,6 @@ gem 'jquery-rails', '~> 2.3.0'
 gem 'cancan'
 gem 'rubyzip', :require => 'zip/zip'
 gem 'spreadsheet'
-
 gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf'
 gem 'validates_email_format_of'
@@ -22,10 +21,9 @@ gem 'yard'
 gem 'whenever', :require => false
 gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
-
+gem 'delayed_job_active_record'
 # amazon SES, S3
 gem 'aws-sdk', "~> 1.22.1"
-
 gem 'will_paginate', '~> 3.0'
 gem 'active_decorator'
 gem 'date_validator'

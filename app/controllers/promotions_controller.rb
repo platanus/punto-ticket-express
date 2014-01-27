@@ -63,7 +63,8 @@ class PromotionsController < ApplicationController
     xls_file = params[:promotion][:xls_file] rescue nil
 
     begin
-      Promotion.load_codes_into_promotion @promotion, xls_file
+      xls_directory = Promotion.save_temp_xls_codes_file xls_file
+      Promotion.delay.load_codes_into_promotion @promotion.id, xls_directory
       redirect_to promotion_url(@promotion),
       notice: I18n.t("controller.messages.upload_promotion")
     rescue PTE::Exceptions::XlsNoFileError

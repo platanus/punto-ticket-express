@@ -1,12 +1,16 @@
 module PTE
   module Promotion
     module Xls
-      def load_codes_into_promotion promotion, xls
+      def save_temp_xls_codes_file xls
+        PTE::Xls.save xls, "xls_promo_codes", "codes.xls"
+      end
+
+      def load_codes_into_promotion promotion_id, xls_directory
         errors = []
         begin
+          promotion = self.find(promotion_id)
           ActiveRecord::Base.transaction do
-            tmp_directory = PTE::Xls.save xls, "xls_promo_codes", "codes.xls"
-            PTE::Xls.read(tmp_directory + "/codes.xls") do |sheet, row|
+            PTE::Xls.read(xls_directory + "/codes.xls") do |sheet, row|
               code = row.first.to_s
               break if code.empty?
               row_idx = row.idx + 1
