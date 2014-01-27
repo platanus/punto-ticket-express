@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1><%= t(".title") %></h1>
 </div>
-<div class="row" ng-controller="PromotionNewCtrl" ng-init='init(<%= raw @promotion.to_json %>)'>
+<div class="row" ng-controller="PromotionNewCtrl" ng-init='init(<%= raw @promotion.to_json %>,<%= raw promo_scopes_for_select(@event).to_json %>, <%= raw promo_types_for_select.to_json %>)'>
   <div class="span3">
     <%= render 'events/sidebar' %>
   </div>
@@ -12,15 +12,47 @@
           <legend>
             <%= t(".promo_title", event_name: @event.name) %>
           </legend>
-          <%= form_for(@promotion, :html => {:class => 'form-horizontal'}) do |f| %>
-            <%= control_group(f, :name, f.text_field(:name, :class => 'span5')) %>
+          <%= form_for(@promotion, :html => {:class => 'form-horizontal', novalidate: true}) do |f| %>
+            <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :name %>">
+              <input type="text" name="promotion[name]" ng-model="promotion.name" class="span4"
+                dirty-on-blur required placeholder="<%= pholder(Promotion, :name) %>"/>
+            </bs:control-group>
+
             <%= control_group(f, :start_date, f.text_field(:start_date, :class => 'span2', "bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "ng-model" => "promotion.startDate"), {:help => t('.help.start_date')}) %>
             <%= control_group(f, :end_date, f.text_field(:end_date, :class => 'span2', "bs-datepicker" => "", "data-date-format" => "dd/mm/yyyy", "ng-model" => "promotion.endDate"), {:help => t('.help.end_date')}) %>
-            <%= control_group(f, :limit, f.number_field(:limit, :min => 0, :class => 'span2'), {:help => t('.help.limit')}) %>
-            <%= control_group(f, :activation_code, f.text_field(:activation_code, :class => 'span4'), {:help => t('.help.activation_code')}) %>
-            <%= control_group(f, :promotable_id, f.select(:promotable_id, promo_scopes_for_select(@event), include_blank: true), {:help => t('.help.scope')}) %>
-            <%= control_group(f, :promotion_type, f.select(:promotion_type, promo_types_for_select, include_blank: true)) %>
-            <%= control_group(f, :promotion_type_config, f.number_field(:promotion_type_config, :min => 0, :class => 'span2'), {:help => t('.help.promotion_type_config')}) %>
+
+            <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :limit %>" help="<%= t('.help.limit') %>">
+              <input type="number" name="promotion[limit]" ng-model="promotion.limit" class="span2"
+                dirty-on-blur placeholder="<%= pholder(Promotion, :limit) %>"/>
+            </bs:control-group>
+
+            <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :activation_code %>">
+              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4"
+                dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
+            </bs:control-group>
+
+            <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotable_id %>"
+              help="<%= t('.help.scope') %>">
+              <select name="event[promotable_id]" ng-model="promotion.promotable"
+                ng-options="p.name for p in promotables track by p.id"
+                ng-change="calculateAllTicketPrices()"
+                class="span3" dirty-on-blur required>
+              </select>
+            </bs:control-group>
+
+            <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotion_type %>">
+              <select name="event[promotion_type]" ng-model="promotion.promotionType"
+                ng-options="p.name for p in promotionTypes track by p.id"
+                ng-change="calculateAllTicketPrices()"
+                class="span3" dirty-on-blur required>
+              </select>
+            </bs:control-group>
+
+            <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotion_type_config %>"  help="<%= t('.help.promotion_type_config') %>">
+              <input type="number" name="promotion[promotion_type_config]" ng-model="promotion.promotionTypeConfig" class="span2"
+                dirty-on-blur required placeholder="<%= pholder(Promotion, :promotion_type_config) %>"/>
+            </bs:control-group>
+
             <div class="form-actions">
               <%= f.submit t('buttons.save'), :class => 'btn btn-success btn-primary btn-large' %>
               <%= link_to t('buttons.back'), promotions_path(id: @event.id), :method => :get, :class => 'btn btn-large' %>
