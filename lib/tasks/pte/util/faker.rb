@@ -80,7 +80,6 @@ module PTE
 
       def self.create_event
         start_time = rand_time(Time.now - 10.days, Time.now + 20.days)
-        end_time = start_time + 5.days
         organizer = @organizers.sample
         producer = organizer.producers.try(:sample)
 
@@ -93,9 +92,9 @@ module PTE
           is_published: producer.confirmed,
           producer_id: producer.id,
           start_time: start_time,
-          publish_start_time: start_time,
-          end_time: end_time,
-          publish_end_time: end_time,
+          publish_start_time: (start_time - 5.days),
+          end_time: (start_time + 1.days),
+          publish_end_time: (start_time - 1.days),
           fixed_fee: producer.fixed_fee,
           percent_fee: producer.percent_fee
         )

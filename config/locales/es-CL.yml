@@ -214,7 +214,7 @@ es-CL:
       messages:
         invalid_url: "Formato de url inválido. Ej: http://www.ejemplo.com"
         invalid_email: "Formato de mail inválido. Ej: user@doamin.com"
-        end_date_lower_than_start_date: debe ser mayor que la fecha de incio
+        lower_than_start_date: debe ser mayor que la fecha de incio
         date_greater_than_today: debe ser mayor que hoy
         publish_dates_out_of_event_dates_range: Las fechas de publicación deben estar comprendidas dentro del rango de fechas del evento.
       models:
@@ -255,6 +255,7 @@ es-CL:
               not_a_date: debe ser una fecha válida
             publish_end_time:
               not_a_date: debe ser una fecha válida
+              greater_than_start_time: debe ser menor que la fecha de inicio del evento
             start_time:
               not_a_date: debe ser una fecha válida
             end_time:

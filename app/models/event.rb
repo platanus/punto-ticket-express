@@ -33,8 +33,8 @@ class Event < ActiveRecord::Base
   validate :dates_range_valid?
   validates :publish_start_time, date: true
   validates :publish_end_time, date: true
+  validate :is_publish_end_time_lower_than_start_time?
   validate :publish_dates_range_valid?
-  validate :publish_dates_range_inside_event_dates_range?
   validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
@@ -263,8 +263,8 @@ class Event < ActiveRecord::Base
     end
 
     def set_publish_dates
-      self.publish_start_time = self.start_time unless self.publish_start_time
-      self.publish_end_time = self.end_time unless self.publish_end_time
+      self.publish_start_time = DateTime.now unless self.publish_start_time
+      self.publish_end_time = (self.start_time - 1.days) unless self.publish_end_time
     end
 
     def set_fee_if_producer_change
@@ -286,26 +286,24 @@ class Event < ActiveRecord::Base
       end
     end
 
+    def is_publish_end_time_lower_than_start_time?
+      if start_time.nil? or publish_end_time.nil? or
+        publish_end_time > start_time
+        errors.add(:publish_end_time, :greater_than_start_time)
+      end
+    end
+
     def dates_range_valid?
       if start_time.nil? or end_time.nil? or
         end_time < start_time
-        errors.add(:end_time, :end_date_lower_than_start_date)
+        errors.add(:end_time, :lower_than_start_date)
       end
     end
 
     def publish_dates_range_valid?
       if publish_start_time.nil? or publish_end_time.nil? or
         publish_end_time < publish_start_time
-        errors.add(:publish_end_time, :end_date_lower_than_start_date)
-      end
-    end
-
-    def publish_dates_range_inside_event_dates_range?
-      if start_time.nil? or end_time.nil? or
-        publish_start_time.nil? or publish_end_time.nil? or
-        (publish_start_time < start_time) or (publish_end_time > end_time)
-        errors.add(:publish_start_time, :publish_dates_out_of_event_dates_range)
-        errors.add(:publish_end_time, :publish_dates_out_of_event_dates_range)
+        errors.add(:publish_end_time, :lower_than_start_date)
       end
     end
 end

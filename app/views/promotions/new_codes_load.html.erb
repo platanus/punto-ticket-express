@@ -1,5 +1,19 @@
 <h1>Promotion#new_codes_load</h1>
 <p>Find me in app/views/promotions/new_codes_load.html.erb</p>
 
+<%= form_for @promotion, :url => upload_promo_codes_path(@promotion), :html => {name: 'form', class: 'well', novalidate: true, enctype: 'multipart/form-data', method: :post} do |f| %>
+
+  <div class="control-group logo-upload">
+    <%= f.label :logo, :class => 'control-label' %>
+    <div class="controls logo-container">
+      <input type="file" name="promotion[xls_file]" />
+    </div>
+  </div>
+
+  <div class="form-actions text-center">
+    <input name="commit" type="submit" value="Guardar" />
+  </div>
+<% end %>
+
 <%= @promotion.inspect %>
 <%= @errors.inspect if @errors %>
