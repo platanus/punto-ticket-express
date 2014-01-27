@@ -212,14 +212,6 @@ angular.module('puntoTicketApp.controllers')
       $scope.baseUrl = baseUrl;
 		};
 
-		$scope.onStartDateChange = function() {
-			$scope.dates.endDate = $scope.dates.startDate;
-		};
-
-    $scope.onStartPublishDateChange = function() {
-      $scope.dates.endPublishDate = $scope.dates.startPublishDate;
-    };
-
 		$scope.addTicket = function() {
 			$scope.tickets.push({
 				index: $scope.nextTicketIndex,
