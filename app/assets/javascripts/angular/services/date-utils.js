@@ -2,6 +2,8 @@ angular.module('puntoTicketApp.services')
 	// Various date manipulation functions
 	.factory('DateUtils', function () {
 
+    var gmtOffset = (new Date()).getTimezoneOffset();
+
 		var utils = {
 			today: function() {
 				var now = moment();
@@ -24,7 +26,10 @@ angular.module('puntoTicketApp.services')
 			},
 			toRailsDate: function(_moment) {
 				return _moment.local().format('YYYY-MM-DD HH:mm:ss ZZ');
-			}
+			},
+      adjustDatepickerOffsetBug: function(_date) {
+        return moment(_date).add('minutes', gmtOffset).toDate();
+      }
 		};
 
 		return utils;
