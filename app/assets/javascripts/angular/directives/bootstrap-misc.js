@@ -9,15 +9,16 @@ angular.module('puntoTicketApp.directives')
 					setError: function(_contents) { $scope.error = _contents; }
 				};
 			},
-			template:
-				'<div class="control-group" ng-class="{ \'error\': !!error }">\
+			template: function(elem, attrs) {
+				return '<div class="control-group" ng-class="{ \'error\': !!error }">\
 					<label class="control-label" for="{{for}}"></label>\
 					<div class="controls">\
 						<span class="inputs-wrapper" ng-transclude></span>\
-						<span ng-if="help && !error" class="help-inline">{{help}}</span>\
-						<div ng-if="error" class="input-error">{{error}}</div>\
+						<span ng-if="help && !error" class="help-block">' + attrs.help + '</span>\
+						<div ng-if="error" class="input-error">' + attrs.error + '</div>\
 					</div>\
-				</div>',
+				</div>'
+      },
 			replace: true,
 			transclude: true,
 			scope: {

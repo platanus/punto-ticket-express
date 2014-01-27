@@ -1,11 +1,12 @@
 module PromotionsHelper
 
   def promo_types_for_select
-    PTE::PromoType.types_to_a
+    promotion_types = PTE::PromoType.types_to_a
+    promotion_types.map { |p| {name: p[0], id: p[1]} }
   end
 
   def promo_scopes_for_select event
-    event.ticket_types.map { |tt| [tt.name, tt.id] }
+    event.ticket_types.map { |tt| {name: tt.name, id: tt.id} }
   end
 
   def short_promo_type promo
