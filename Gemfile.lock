@@ -329,6 +329,7 @@ DEPENDENCIES
   chronic
   coffee-rails
   colorize
+  daemons
   date_validator
   delayed_job_active_record
   devise
