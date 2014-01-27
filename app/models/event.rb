@@ -33,8 +33,8 @@ class Event < ActiveRecord::Base
   validate :dates_range_valid?
   validates :publish_start_time, date: true
   validates :publish_end_time, date: true
-  validate :is_publish_end_time_lower_than_start_time?
-  validate :publish_dates_range_valid?
+  # validate :publish_dates_range_valid?
+  # validate :publish_dates_range_inside_event_dates_range?
   validate :is_theme_type_valid?
   validates_attachment_content_type :logo, :content_type => /image/
   validates :percent_fee, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
