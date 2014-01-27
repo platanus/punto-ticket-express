@@ -33,7 +33,7 @@
 
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotable_id %>"
               help="<%= t('.help.scope') %>">
-              <select name="event[promotable_id]" ng-model="promotion.promotable"
+              <select name="promotion[promotable_id]" ng-model="promotion.promotable"
                 ng-options="p.name for p in promotables track by p.id"
                 ng-change="calculateAllTicketPrices()"
                 class="span3" dirty-on-blur required>
@@ -41,7 +41,7 @@
             </bs:control-group>
 
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotion_type %>">
-              <select name="event[promotion_type]" ng-model="promotion.promotionType"
+              <select name="promotion[promotion_type]" ng-model="promotion.promotionType"
                 ng-options="p.name for p in promotionTypes track by p.id"
                 ng-change="calculateAllTicketPrices()"
                 class="span3" dirty-on-blur required>
