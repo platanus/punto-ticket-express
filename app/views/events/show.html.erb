@@ -33,9 +33,15 @@
   				<%= t(".titles.when") %>
   			</div>
         <p><%= l(@event.start_time, format: :pte) if @event.start_time %></p>
-        <p><%= @event.address %></p>
-  			<p><%= @event.enclosure if @event.enclosure %></p>
   		</div>
+      <div class="panel">
+        <div class="panel-heading panel-title">
+          <i class="icon-map-marker"></i>
+          <%= t(".titles.where") %>
+        </div>
+        <p><%= @event.address %></p>
+        <p><%= @event.enclosure if @event.enclosure %></p>
+      </div>
   	</div>
   	<div class="span8">
   		<%= render :partial => "shared/message", :locals => { :message => t(".not_tickets_msg.message"), :title => t(".not_tickets_msg.title"), :modal_name => "notTicketsModal"} %>

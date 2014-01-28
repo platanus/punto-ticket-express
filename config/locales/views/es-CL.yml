@@ -245,7 +245,8 @@ es-CL:
         title: Mensaje
         message: La fecha de publicación ha expirado
       titles:
-        when: Cuándo y Dónde?
+        when: Cuándo?
+        where: Dónde?
         producer: Productora
         tickets: Tickets
         information: Información
