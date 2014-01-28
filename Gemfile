@@ -48,7 +48,7 @@ end
 group :development, :test do
   gem 'thin'
   gem 'hpricot'
-  gem 'debugger'
+  gem 'byebug'
   gem 'faker'
   gem 'letter_opener'
   gem 'zeus'
