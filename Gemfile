@@ -47,9 +47,8 @@ end
 
 group :development, :test do
   gem 'thin'
-  gem 'haml-rails'
   gem 'hpricot'
-  gem 'html2haml'
+  gem 'debugger'
   gem 'faker'
   gem 'letter_opener'
   gem 'zeus'
