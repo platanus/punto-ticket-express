@@ -312,6 +312,7 @@ es-CL:
     promotions:
       title: Promociones
       promo_title: "Para el evento \"%{event_name}\""
+      load_codes: Cargar códigos
     data_to_collect:
       title: Formulario
       subtitle: Información a Recolectar

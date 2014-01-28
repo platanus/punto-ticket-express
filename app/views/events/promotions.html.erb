@@ -17,6 +17,7 @@
               <th class="center"><%= Promotion.human_attribute_name :promotion_type %></th>
               <th class="center"><%= Promotion.human_attribute_name :available %></th>
               <th class="center"></th>
+              <th class="center" style="width: 20%;"></th>
             </tr>
             <tbody></tbody>
             <% @promotions.each do |promo| %>
@@ -33,6 +34,10 @@
                 <td>
                   <%= enable_promo_link(promo) %>
                 </td>
+                <td>
+                  <%= link_to t('.load_codes'), new_promo_codes_load_path(promo) %>
+                </td>
+
               </tr>
             <% end %>
           </thead>
