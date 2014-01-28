@@ -26,6 +26,9 @@ class PromotionsController < ApplicationController
         format.json { render json: @promotion, status: :created, location: @promotion }
 
       else
+        logger.info "ERRRRRROOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR!!!!"
+        logger.info @promotion.errors.to_json
+
         format.html { render action: "new" }
         format.json { render json: @promotion.errors, status: :unprocessable_entity }
       end
