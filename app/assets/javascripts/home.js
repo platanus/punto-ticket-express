@@ -4,7 +4,8 @@ $().ready(function(){
     $(this).prettyCheckable({color: 'yellow'});
   });
 
-	$(':file').filestyle({buttonText: 'Subir logo'});
+  $('.logo-container :file').filestyle({buttonText: 'Subir logo'});
+	$('.xls-container :file').filestyle({buttonText: 'Subir xls'});
 
 	if($('.persistent-header').is('*'))
 		$(window).scroll(function() {

@@ -81,4 +81,8 @@ module PromotionsHelper
         value: number_with_delimiter(promo.promotion_type_config)))
     end
   end
+
+  def promo_template_link
+    link_to(t('.instructions.step_1.link'), '/files/codes.xls', class: 'action-link')
+  end
 end

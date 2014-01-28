@@ -55,6 +55,7 @@ class PromotionsController < ApplicationController
   def new_codes_load
     @promotion = Promotion.find_by_id params[:id]
     authorize! :new_codes_load, @promotion
+    @event = @promotion.event
   end
 
   def upload_codes
