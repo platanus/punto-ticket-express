@@ -91,29 +91,49 @@ angular.module('puntoTicketApp.controllers')
     var buildStartDatetime = function() {
       if(!$scope.dates.startDate || !$scope.dates.startTime)
         $scope.dates.startDateTime = null;
+
       $scope.dates.startDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
+        DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.startDate),
+          $scope.dates.startTime
+        )
+      );
     };
 
     var buildEndDatetime = function() {
       if(!$scope.dates.endDateTime || !$scope.dates.endTime)
         $scope.dates.endDateTime = null;
+
       $scope.dates.endDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
+        DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.endDate),
+          $scope.dates.endTime
+        )
+      );
     };
 
 		var buildStartPublishDatetime = function() {
 			if(!$scope.dates.startPublishDate || !$scope.dates.startPublishTime)
 				$scope.dates.startPublishDateTime = null;
-			$scope.dates.startPublishDateTime = DateUtils.toRailsDate(
-				DateUtils.addSeconds($scope.dates.startPublishDate, $scope.dates.startPublishTime));
+
+      $scope.dates.startPublishDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.startPublishDate),
+          $scope.dates.startPublishTime
+        )
+      );
 		};
 
 		var buildEndPublishDatetime = function() {
 			if(!$scope.dates.endPublishDateTime || !$scope.dates.endPublishTime)
 				$scope.dates.endPublishDateTime = null;
-			$scope.dates.endPublishDateTime = DateUtils.toRailsDate(
-				DateUtils.addSeconds($scope.dates.endPublishDate, $scope.dates.endPublishTime));
+
+      $scope.dates.endPublishDateTime = DateUtils.toRailsDate(
+				DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.endPublishDate),
+          $scope.dates.endPublishTime
+        )
+      );
 		};
 
 		var watchEventDates = function() {
