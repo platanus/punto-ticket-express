@@ -12,7 +12,7 @@
           <legend>
             <%= t(".promo_title", event_name: @event.name) %>
           </legend>
-          <%= form_for(@promotion, :html => {:class => 'form-horizontal', novalidate: true}) do |f| %>
+          <%= form_for(@promotion, :html => {:name => 'form', :class => 'form-horizontal', novalidate: true}) do |f| %>
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :name %>">
               <input type="text" name="promotion[name]" ng-model="promotion.name" class="span4"
                 dirty-on-blur required placeholder="<%= pholder(Promotion, :name) %>"/>
@@ -54,7 +54,9 @@
             </bs:control-group>
 
             <div class="form-actions">
-              <%= f.submit t('buttons.save'), :class => 'btn btn-success btn-primary btn-large' %>
+              <input name="commit" type="submit" value="<%= t('buttons.save') %>"
+                class="btn btn-success btn-primary btn-large"
+                ng-disabled="form.$invalid" />
               <%= link_to t('buttons.back'), promotions_path(id: @event.id), :method => :get, :class => 'btn btn-large' %>
             </div>
           <% end %>
