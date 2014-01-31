@@ -1,4 +1,4 @@
-<div ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>, <%= @event.is_expired_publish_date? %>, <%= @event.in_publish_range? %>, <%= tickets_limit %>, <%= raw PTE::Theme::types_to_a.to_json %>, "<%= @event.theme %>")'>
+<div ng-controller="EventShowCtrl" ng-init='init(<%= raw @event.ticket_types_for_table.to_json %>, <%= !@event.is_published %>, <%= @event.is_past_event? %>, <%= @event.is_expired_publish_date? %>, <%= tickets_limit %>, <%= raw PTE::Theme::types_to_a.to_json %>, "<%= @event.theme %>")'>
   <!-- load theme -->
   <!-- if there is no associated theme, load the default css -->
   <%= stylesheet_link_tag "themes/#{@event.theme || PTE::Theme::default}", :id => 'theme_css' %>
