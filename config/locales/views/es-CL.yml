@@ -243,7 +243,7 @@ es-CL:
         message: Esto es sólo la vista previa de su evento. No puede comprar desde aquí.
       publish_range_msg:
         title: Mensaje
-        message: La fecha de publicación ha expirado
+        message: Los ticket no se encuentran disponibles para la venta
       titles:
         when: Cuándo?
         where: Dónde?
