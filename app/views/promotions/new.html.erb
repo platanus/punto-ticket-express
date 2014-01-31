@@ -53,12 +53,12 @@
                 dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
             </bs:control-group>
 
-            <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotable_id %>"
+            <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :promotable_id %>"
               help="<%= t('.help.scope') %>">
               <select name="promotion[promotable_id]" ng-model="promotion.promotable"
                 ng-options="p.name for p in promotables track by p.id"
                 ng-change="calculateAllTicketPrices()"
-                class="span3" dirty-on-blur required>
+                class="span3" dirty-on-blur>
               </select>
             </bs:control-group>
 

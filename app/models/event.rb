@@ -194,17 +194,7 @@ class Event < ActiveRecord::Base
   # @return [Boolean]
   def in_publish_range?
     return false if !publish_start_time or !publish_end_time
-    (publish_start_time <= DateTime.now && publish_end_time >= DateTime.now)
-  end
-
-  def is_expired_publish_date?
-    return false if !publish_start_time or !publish_end_time
-    (publish_end_time <= DateTime.now)
-  end
-
-  def is_past_event?
-    return false unless self.start_time
-    self.start_time <= DateTime.now
+    (DateTime.now >= publish_start_time && DateTime.now <= publish_end_time)
   end
 
   def is_past_event?
