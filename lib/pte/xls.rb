@@ -15,9 +15,9 @@ module PTE
     def self.validate_file_to_read file
       raise PTE::Exceptions::XlsNoFileError unless file
 
-      if file.content_type != "application/vnd.ms-excel"
-        raise PTE::Exceptions::InvalidXlsFileError
-      end
+      # if file.content_type != "application/vnd.ms-excel"
+      #   raise PTE::Exceptions::InvalidXlsFileError
+      # end
     end
 
     def self.read file_path
