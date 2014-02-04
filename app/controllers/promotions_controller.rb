@@ -8,9 +8,9 @@ class PromotionsController < ApplicationController
   def create
     @event = Event.find_by_id(params[:id])
     @promotion = Promotion.new(params[:promotion])
-    scope_id = params[:promotion][:promotable_id].to_s
+    scope_id = params[:promotion][:promotable_id]
 
-    if scope_id.empty?
+    if scope_id.blank?
       @promotion.promotable = @event
 
     else
