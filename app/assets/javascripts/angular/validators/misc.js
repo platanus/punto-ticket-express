@@ -29,6 +29,15 @@ angular.module('puntoTicketApp.validators')
 			return compare(_date, _other, _criteria);
 		};
 	})
+  .factory('PromoConfigValidator', function() {
+    return function(_config, _promotionType) {
+      if(!_promotionType) return true;
+      if(_promotionType.id == 'nx1' && _config < 2) return false;
+      if(_promotionType.id == 'percent_discount' && (_config <= 0 || _config > 100)) return false;
+      if(_promotionType.id == 'amount_discount' && _config <= 0) return false;
+      return true;
+    };
+  })
 	.factory('TimeCompareValidator', function(DateUtils) {
 		return function(_time, _otherTime, _date, _otherDate, _criteria) {
 			_time = parseInt(_time);

@@ -67,13 +67,20 @@
               <select name="promotion[promotion_type]" ng-model="promotion.promotionType"
                 ng-options="p.name for p in promotionTypes track by p.id"
                 ng-change="calculateAllTicketPrices()"
-                class="span3" dirty-on-blur required>
+                validation-group="promotionTypeGroup"
+                model-as="promotionTypeModel"
+                validate="required"
+                class="span3" dirty-on-blur>
               </select>
             </bs:control-group>
 
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :promotion_type_config %>"  help="<%= t('.help.promotion_type_config') %>">
-              <input type="number" name="promotion[promotion_type_config]" ng-model="promotion.promotionTypeConfig" class="span2"
-                dirty-on-blur required placeholder="<%= pholder(Promotion, :promotion_type_config) %>"/>
+              <input type="number" name="promotion[promotion_type_config]"
+                ng-model="promotion.promotionTypeConfig"
+                validation-group="promotionTypeGroup"
+                placeholder="<%= pholder(Promotion, :promotion_type_config) %>"
+                validate="required, promo-config: [promotionTypeModel.$modelValue] as invalidPromoConfig"
+                class="span2" dirty-on-blur />
             </bs:control-group>
 
             <div class="form-actions">
