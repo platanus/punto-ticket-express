@@ -181,19 +181,10 @@ es-CL:
         description: Descripción
         custom_url: Dirección Web Personalizada
         is_published: ¿Publicado?
-        start_time: Fecha Inicio
-        end_time: Fecha Fin
-        publish_start_time: Fecha inicio publicación
-        publish_end_time: Fecha fin publicación
-        start_time: Inicio
-        start_part_date: Fecha inicio evento
-        start_part_time: Hora inicio evento
-        end_part_date: Fecha fin evento
-        end_part_time: Hora fin evento
-        start_publish_date: Fecha inicio publicación
-        start_publish_time: Hora inicio publicación
-        end_publish_date: Fecha fin publicación
-        end_publish_time: Hora fin publicación
+        start_time: Fecha inicio evento
+        end_time: Fecha fin evento
+        publish_start_time: Inicio venta tickets
+        publish_end_time: Fin venta tickets
         producer_id: Productora
         producer: Productora
         user: Usuario

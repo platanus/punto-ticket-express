@@ -58,7 +58,7 @@
     <input type="text" style="display: none" name="event[start_time]" ng-model="dates.startDateTime" />
     <input type="text" style="display: none" name="event[end_time]" ng-model="dates.endDateTime" />
 
-    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :start_part_date %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :start_time %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.startDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [endDateModel.$modelValue, 'LE'] as eventEndAfterStart" />
@@ -69,7 +69,7 @@
         ng-model="dates.startTime" model-as="startTimeModel" dirty-on-blur/>
     </bs:control-group>
 
-    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :end_part_date %>">
+    <bs:control-group bound-cg required label="<%= Event.human_attribute_name :end_time %>">
       <input type="text" class="input-small" validation-group="eventDates" ng-model="dates.endDate"
         data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="endDateModel" ng-disabled="{{disabled}}"
         validate="required, date-greater-than-today, date-compare: [startDateModel.$modelValue, 'GE'] as eventEndAfterStart" />
