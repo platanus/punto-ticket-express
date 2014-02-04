@@ -24,7 +24,7 @@
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :start_date %>" help="<%= t('.help.start_date') %>">
               <input type="text" class="input-small" validation-group="promotionDates" ng-model="dates.startDate"
                 data-date-format="dd/mm/yyyy" dirty-on-blur bs-datepicker model-as="startDateModel" ng-change="buildStartDatetime()"
-                validate="required, date-greater-than-today, date-compare: [endDateModel.$modelValue, 'LE'] as eventEndAfterStart" />
+                validate="required, date-compare: [endDateModel.$modelValue, 'LE'] as eventEndAfterStart" />
               <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
 
               <pte-time-picker validation-group="promotionDates" ng-disabled="{{disabled}}"
