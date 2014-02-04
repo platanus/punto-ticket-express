@@ -59,6 +59,7 @@
                 ng-options="p.name for p in promotables track by p.id"
                 ng-change="calculateAllTicketPrices()"
                 class="span3" dirty-on-blur>
+                <option value=""></option>
               </select>
             </bs:control-group>
 
