@@ -31,9 +31,8 @@ angular.module('puntoTicketApp.validators')
 	})
 	.factory('TimeCompareValidator', function(DateUtils) {
 		return function(_time, _otherTime, _date, _otherDate, _criteria) {
-      console.log(_time, _otherTime, _date, _otherDate);
-      _time = parseInt(_time);
-      _otherTime = parseInt(_otherTime);
+			_time = parseInt(_time);
+			_otherTime = parseInt(_otherTime);
 			if(!moment(_date).isSame(moment(_otherDate), 'day')) return true;
 			return compare(_time, _otherTime, _criteria);
 		};
