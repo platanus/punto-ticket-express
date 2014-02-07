@@ -1,5 +1,5 @@
 class Promotion < ActiveRecord::Base
-  extend PTE::Promotion::Xls
+  include PTE::Promotion::Xls
 
   attr_accessible :name,
   :promotion_type, :promotion_type_config,

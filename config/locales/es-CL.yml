@@ -211,6 +211,10 @@ es-CL:
       models:
         promotion:
           attributes:
+            codes_file:
+              row_error: "Se produjeron errores en la fila %{row_number} del Excel"
+              no_file_given: Debe seleccionar un archivo .xls antes de guardar
+              must_be_xls: El archivo a subir debe ser de tipo Microsoft Excel 97/2000/XP/2003 (.xls)
             start_date:
               not_a_date: debe ser una fecha válida
             end_date:

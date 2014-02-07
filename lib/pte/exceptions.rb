@@ -6,6 +6,8 @@ module PTE
     class RowStatusError < Exception; end
     class XlsNoFileError < Exception; end
     class InvalidXlsFileError < Exception; end
-    class PromotionXlsError < Exception; end
+    class PromotionXlsError < Exception
+      attr_accessor :row_number, :message
+    end
   end
 end

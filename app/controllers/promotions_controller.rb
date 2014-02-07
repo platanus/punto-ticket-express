@@ -21,11 +21,12 @@ class PromotionsController < ApplicationController
     authorize! :create, @promotion
 
     respond_to do |format|
-      if @promotion.save
+      if @promotion.create_with_codes
         format.html { redirect_to promotions_url(@event), notice: I18n.t("controller.messages.create_success") }
         format.json { render json: @promotion, status: :created, location: @promotion }
 
       else
+        load_codes_xls_errors
         format.html { render action: "new" }
         format.json { render json: @promotion.errors, status: :unprocessable_entity }
       end
@@ -51,4 +52,12 @@ class PromotionsController < ApplicationController
     @promotion.disable
     redirect_to promotions_url(id: @promotion.event.id)
   end
+
+  private
+
+    def load_codes_xls_errors
+      if @promotion.errors.include?(:codes_file)
+        flash[:error] = @promotion.errors[:codes_file].join(", ")
+      end
+    end
 end
