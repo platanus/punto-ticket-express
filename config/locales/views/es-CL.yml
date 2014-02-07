@@ -135,15 +135,6 @@ es-CL:
         total: Total
         subtotal: Sub Total
   promotions:
-    new_codes_load:
-      title: Subiendo Codigos
-      new_code_title: "Para la promoción \"%{promo_name}\""
-      instructions:
-        step_1:
-          text_html: "1 -  %{link} para descarga la plantilla"
-          link: Presiona aqui
-        step_2: 2 - rellena los datos necesarios en la plantilla
-        step_3: 3 - sube el archivo XLS que deseas importar
     new:
       title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""

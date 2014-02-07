@@ -51,29 +51,4 @@ class PromotionsController < ApplicationController
     @promotion.disable
     redirect_to promotions_url(id: @promotion.event.id)
   end
-
-  def new_codes_load
-    @promotion = Promotion.find_by_id params[:id]
-    authorize! :new_codes_load, @promotion
-    @event = @promotion.event
-  end
-
-  def upload_codes
-    @promotion = Promotion.find_by_id params[:id]
-    authorize! :upload_codes, @promotion
-    xls_file = params[:promotion][:xls_file] rescue nil
-
-    begin
-      xls_directory = Promotion.save_temp_xls_codes_file xls_file
-      Promotion.delay.load_codes_into_promotion @promotion.id, xls_directory
-      redirect_to promotion_url(@promotion),
-      notice: I18n.t("controller.messages.upload_promotion")
-    rescue PTE::Exceptions::XlsNoFileError
-      redirect_to new_promo_codes_load_url(@promotion),
-      alert: I18n.t("controller.messages.missing_file")
-    rescue PTE::Exceptions::InvalidXlsFileError
-      redirect_to new_promo_codes_load_url(@promotion),
-      alert: I18n.t("controller.messages.invalid_xls_file_type")
-    end
-  end
 end

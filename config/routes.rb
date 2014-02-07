@@ -6,8 +6,6 @@ PuntoTicketExpress::Application.routes.draw do
   get "promotions/:id", to: 'promotions#show', as: :promotion
   put "promotions/:id/enable", to: 'promotions#enable', as: :enable_promotion
   put "promotions/:id/disable", to: 'promotions#disable', as: :disable_promotion
-  get "promotions/:id/new_codes_load", to: 'promotions#new_codes_load', as: :new_promo_codes_load
-  post "promotions/:id/upload_codes", to: 'promotions#upload_codes', as: :upload_promo_codes
 
   get "configuration/account"
   put "configuration/update_account"
