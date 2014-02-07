@@ -48,7 +48,6 @@ module EventsHelper
 
   def facebook_like_button event
     url = request.original_url
-    url = event.custom_url unless event.custom_url.to_s.empty?
     src = "//www.facebook.com/plugins/like.php?href=#{url}&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=35"
     content_tag(:iframe, nil, src: src, scrolling: "no", frameborder: "0", style: "border:none; overflow:hidden; height:62px; width: 600px;", allowTransparency: "true")
   end
