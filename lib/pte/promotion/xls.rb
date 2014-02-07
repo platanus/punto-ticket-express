@@ -22,12 +22,9 @@ module PTE
             raise PTE::Exceptions::PromotionXlsError.new unless errors.size.zero?
           end
 
-          PromotionMailer.sucessfully_codes_load(promotion).deliver
-
         rescue PTE::Exceptions::PromotionXlsError => e
           puts e.message
           puts errors.inspect
-          PromotionMailer.failed_codes_load(promotion, errors).deliver
         end
       end
     end

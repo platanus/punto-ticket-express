@@ -15,6 +15,7 @@ module PTE
     def self.validate_file_to_read file
       raise PTE::Exceptions::XlsNoFileError unless file
 
+      # This is not working on mac
       # if file.content_type != "application/vnd.ms-excel"
       #   raise PTE::Exceptions::InvalidXlsFileError
       # end

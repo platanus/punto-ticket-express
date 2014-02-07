@@ -1,8 +1,0 @@
-<%= t(".body", promotion: @promotion.name) %>
-<% @errors.each do |error| %>
-  <% errors = "" %>
-  <% error[:errors].keys.each do |attribute| %>
-    <% errors = error[:errors][attribute.to_sym].join(", ") %>
-  <% end %>
-<%= t(".code_error_label", row_idx: error[:row].to_s, errors: errors) %>
-<% end %>
