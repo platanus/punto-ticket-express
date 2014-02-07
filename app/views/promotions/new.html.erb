@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1><%= t(".title") %></h1>
 </div>
-<div class="row" ng-controller="PromotionNewCtrl" ng-init='init(<%= raw @promotion.to_json %>,<%= raw promo_scopes_for_select(@event).to_json %>, <%= raw promo_types_for_select.to_json %>)'>
+<div class="row" ng-controller="PromotionNewCtrl" ng-init='init(<%= raw @promotion.to_json %>,<%= raw promo_scopes_for_select(@event).to_json %>, <%= raw promo_types_for_select.to_json %>, "<%= @promotion.code_type %>")'>
   <div class="span3">
     <%= render 'events/sidebar' %>
   </div>
@@ -81,11 +81,31 @@
               <%= t(".activation_codes_title") %>
             </legend>
 
-            <bs:control-group bound-cg>
-              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4" dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
+            <table style="margin-bottom: 20px;">
+              <tr>
+                <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="none"></td>
+                <td>No se necesita código de activación para acceder a esta promoción</td>
+              </tr>
+              <tr>
+                <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="single"></td>
+                <td>Ingresar un único código de activación</td>
+              </tr>
+              <tr>
+                <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="multiple"></td>
+                <td>Subir un listado de códigos de activación</td>
+              </tr>
+            </table>
+
+            <bs:control-group bound-cg ng-if="promotion.codeType == 'single'"
+              style="margin-left: -30px;" >
+                <input type="text" name="promotion[activation_code]"
+                ng-model="promotion.activation_code" class="span4"
+                dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
             </bs:control-group>
 
-            <bs:control-group bound-cg class="xls-container" help="<%= t('.xls_file_help', xls_example_link: promo_template_link) %>">
+            <bs:control-group bound-cg ng-show="promotion.codeType == 'multiple'"
+              class="xls-container" help="<%= t('.xls_file_help', xls_example_link: promo_template_link) %>"
+              style="margin-left: -80px;">
               <input type="file" name="promotion[codes_file]" />
             </bs:control-group>
 

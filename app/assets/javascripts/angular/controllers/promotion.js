@@ -5,7 +5,8 @@ angular.module('puntoTicketApp.controllers')
     // ----------------------
     // PRIVATE METHODS
     // ----------------------
-    var loadPromationObject = function(_promotion) {
+    var loadPromationObject = function(_promotion, _codeType) {
+      if(!_codeType) _codeType = 'none';
       // set attrs on edit
       $scope.promotion = {
         id: _promotion.id,
@@ -16,7 +17,8 @@ angular.module('puntoTicketApp.controllers')
         activation_code: _promotion.activation_code,
         promotable: _.findWhere($scope.promotables, {id: _promotion.promotable_id}),
         promotionType: _.findWhere($scope.promotionTypes, {id: _promotion.promotion_type}),
-        promotionTypeConfig: _promotion.promotion_type_config
+        promotionTypeConfig: _promotion.promotion_type_config,
+        codeType: _codeType
       };
 
       loadPromotionDates();
@@ -42,10 +44,10 @@ angular.module('puntoTicketApp.controllers')
     // ----------------------
     // INIT
     // ----------------------
-    $scope.init = function(_promotion, _promotable, _promoTypes) {
+    $scope.init = function(_promotion, _promotable, _promoTypes, _codeType) {
       $scope.promotables = _promotable;
       $scope.promotionTypes = _promoTypes;
-      loadPromationObject(_promotion);
+      loadPromationObject(_promotion, _codeType);
       $scope.buildStartDatetime();
       $scope.buildEndDatetime();
     };
@@ -58,18 +60,14 @@ angular.module('puntoTicketApp.controllers')
       if(!$scope.dates.startDate || !$scope.dates.startTime)
         $scope.dates.startDateTime = null;
       $scope.dates.startDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds(
-          DateUtils.adjustDatepickerOffsetBug($scope.dates.startDate),
-          $scope.dates.startTime));
+        DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
     };
     // called when the time or date change
     $scope.buildEndDatetime = function() {
       if(!$scope.dates.endDateTime || !$scope.dates.endTime)
         $scope.dates.endDateTime = null;
       $scope.dates.endDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds(
-          DateUtils.adjustDatepickerOffsetBug($scope.dates.endDate),
-          $scope.dates.endTime));
+        DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
     };
   }
 ]);

@@ -1,4 +1,5 @@
 class PromotionsController < ApplicationController
+  before_filter :prepare_code_param, only: :create
 
   def new
     @event = Event.find_by_id params[:id]
@@ -59,5 +60,10 @@ class PromotionsController < ApplicationController
       if @promotion.errors.include?(:codes_file)
         flash[:error] = @promotion.errors[:codes_file].join(", ")
       end
+    end
+
+    def prepare_code_param
+      params.delete :codes_file if params[:code_type] == 'single'
+      params.delete :validation_code if params[:code_type] == 'multiple'
     end
 end

@@ -5,9 +5,9 @@ class Promotion < ActiveRecord::Base
   :promotion_type, :promotion_type_config,
   :start_date, :end_date, :limit, :enabled,
   :promotable_id, :promotable_type, :promotable,
-  :activation_code, :codes_file
+  :activation_code, :codes_file, :code_type
 
-  attr_accessor :validation_code, :codes_file
+  attr_accessor :validation_code, :codes_file, :code_type
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets

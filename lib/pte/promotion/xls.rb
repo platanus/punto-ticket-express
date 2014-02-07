@@ -14,8 +14,12 @@ module PTE
           begin
             ActiveRecord::Base.transaction do
               self.save!
-              xls_directory = self.save_temp_xls_codes_file
-              self.load_codes_into_promotion xls_directory
+              if codes_file
+                xls_directory = self.save_temp_xls_codes_file
+                self.load_codes_into_promotion xls_directory
+              end
+
+              return true
             end
 
           rescue ActiveRecord::RecordInvalid => e
