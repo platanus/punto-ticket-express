@@ -12,7 +12,7 @@
           <legend>
             <%= t(".promo_title", event_name: @event.name) %>
           </legend>
-          <%= form_for(@promotion, :html => {:name => 'form', :class => 'form-horizontal', novalidate: true, enctype: 'multipart/form-data'}) do |f| %>
+          <%= form_for(@promotion, :html => {:name => 'promoForm', :class => 'form-horizontal', novalidate: true, enctype: 'multipart/form-data'}) do |f| %>
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :name %>">
               <input type="text" name="promotion[name]" ng-model="promotion.name" class="span4"
                 dirty-on-blur required placeholder="<%= pholder(Promotion, :name) %>"/>
@@ -71,8 +71,7 @@
                 ng-options="p.name for p in promotionTypes track by p.id"
                 ng-change="calculateAllTicketPrices()"
                 validation-group="promotionTypeGroup"
-                model-as="promotionTypeModel"
-                validate="required"
+                model-as="promotionTypeModel" required
                 class="span3" dirty-on-blur>
               </select>
             </bs:control-group>
@@ -82,14 +81,14 @@
                 ng-model="promotion.promotionTypeConfig"
                 validation-group="promotionTypeGroup"
                 placeholder="<%= pholder(Promotion, :promotion_type_config) %>"
-                validate="required, promo-config: [promotionTypeModel.$modelValue] as invalidPromoConfig"
-                class="span2" dirty-on-blur />
+                validate="promo-config: [promotionTypeModel.$modelValue] as invalidPromoConfig"
+                class="span2" dirty-on-blur required />
             </bs:control-group>
 
             <div class="form-actions">
-              <input name="commit" type="submit" value="<%= t('buttons.save') %>"
+              <input type="submit" value="<%= t('buttons.save') %>"
                 class="btn btn-success btn-primary btn-large"
-                ng-disabled="form.$invalid" />
+                ng-disabled="promoForm.$pristine || promoForm.$invalid" />
               <%= link_to t('buttons.back'), promotions_path(id: @event.id), :method => :get, :class => 'btn btn-large' %>
             </div>
           <% end %>
