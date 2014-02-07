@@ -84,6 +84,6 @@ module PromotionsHelper
   end
 
   def promo_template_link
-    link_to(t('.instructions.step_1.link'), '/files/codes.xls', class: 'action-link')
+    link_to(t('promotions.new.xls_file_link'), '/files/codes.xls', class: 'action-link')
   end
 end

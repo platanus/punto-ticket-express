@@ -144,14 +144,18 @@ es-CL:
           link: Presiona aqui
         step_2: 2 - rellena los datos necesarios en la plantilla
         step_3: 3 - sube el archivo XLS que deseas importar
-      help:
-        xls_file_html: |
-          <li>La carga de datos se interrumpe al momento de encontrarse la primer columna vacía en una fila del Excel.
-          <li>Los códigos no se pueden repetir en una misma promoción.
-          <li>Los códigos deben estar compuestos por letras y número sin espacios.
     new:
       title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""
+      xls_file_link: plantilla de ejemplo
+      xls_file_help: |
+        <ul>
+          <li>El archivo a subir debe ser de tipo <b>Microsoft Excel 97/2000/XP/2003 (.xls)</b></li>
+          <li>La carga de datos se interrumpe al momento de encontrarse la primer columna vacía en una fila del Excel.
+          <li>Los códigos no se pueden repetir en una misma promoción.
+          <li>Los códigos deben estar compuestos por letras y número sin espacios.<br/>Ejemplo: <b>XUV698AB</b>
+          <li>Puede descargar una %{xls_example_link}
+        </ul>
       help:
         start_date: |
           Fecha a partir de la cual el descuento<br/>

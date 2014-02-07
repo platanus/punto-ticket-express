@@ -1,10 +1,13 @@
 class Promotion < ActiveRecord::Base
   extend PTE::Promotion::Xls
 
-  attr_accessible :activation_code, :end_date, :limit, :name, :enabled,
-  :promotion_type, :promotion_type_config, :start_date, :promotable_id, :promotable_type, :promotable
+  attr_accessible :name,
+  :promotion_type, :promotion_type_config,
+  :start_date, :end_date, :limit, :enabled,
+  :promotable_id, :promotable_type, :promotable,
+  :activation_code, :codes_file
 
-  attr_accessor :validation_code
+  attr_accessor :validation_code, :codes_file
 
   belongs_to :promotable, polymorphic: true
   has_many :tickets

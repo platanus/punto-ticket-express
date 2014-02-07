@@ -12,7 +12,7 @@
           <legend>
             <%= t(".promo_title", event_name: @event.name) %>
           </legend>
-          <%= form_for(@promotion, :html => {:name => 'form', :class => 'form-horizontal', novalidate: true}) do |f| %>
+          <%= form_for(@promotion, :html => {:name => 'form', :class => 'form-horizontal', novalidate: true, enctype: 'multipart/form-data'}) do |f| %>
             <bs:control-group bound-cg required label="<%= Promotion.human_attribute_name :name %>">
               <input type="text" name="promotion[name]" ng-model="promotion.name" class="span4"
                 dirty-on-blur required placeholder="<%= pholder(Promotion, :name) %>"/>
@@ -49,8 +49,11 @@
             </bs:control-group>
 
             <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :activation_code %>">
-              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4"
-                dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
+              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4" dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
+            </bs:control-group>
+
+            <bs:control-group bound-cg class="xls-container" help="<%= t('.xls_file_help', xls_example_link: promo_template_link) %>">
+              <input type="file" name="promotion[codes_file]" />
             </bs:control-group>
 
             <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :promotable_id %>"
