@@ -138,6 +138,7 @@ es-CL:
     new:
       title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""
+      activation_codes_title: "Códigos de activación"
       xls_file_link: plantilla de ejemplo
       xls_file_help: |
         <ul>

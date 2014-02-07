@@ -48,14 +48,6 @@
                 dirty-on-blur placeholder="<%= pholder(Promotion, :limit) %>"/>
             </bs:control-group>
 
-            <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :activation_code %>">
-              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4" dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
-            </bs:control-group>
-
-            <bs:control-group bound-cg class="xls-container" help="<%= t('.xls_file_help', xls_example_link: promo_template_link) %>">
-              <input type="file" name="promotion[codes_file]" />
-            </bs:control-group>
-
             <bs:control-group bound-cg label="<%= Promotion.human_attribute_name :promotable_id %>"
               help="<%= t('.help.scope') %>">
               <select name="promotion[promotable_id]" ng-model="promotion.promotable"
@@ -83,6 +75,18 @@
                 placeholder="<%= pholder(Promotion, :promotion_type_config) %>"
                 validate="promo-config: [promotionTypeModel.$modelValue] as invalidPromoConfig"
                 class="span2" dirty-on-blur required />
+            </bs:control-group>
+
+            <legend>
+              <%= t(".activation_codes_title") %>
+            </legend>
+
+            <bs:control-group bound-cg>
+              <input type="text" name="promotion[activation_code]" ng-model="promotion.activation_code" class="span4" dirty-on-blur placeholder="<%= pholder(Promotion, :activation_code) %>"/>
+            </bs:control-group>
+
+            <bs:control-group bound-cg class="xls-container" help="<%= t('.xls_file_help', xls_example_link: promo_template_link) %>">
+              <input type="file" name="promotion[codes_file]" />
             </bs:control-group>
 
             <div class="form-actions">
