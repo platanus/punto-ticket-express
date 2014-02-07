@@ -58,14 +58,18 @@ angular.module('puntoTicketApp.controllers')
       if(!$scope.dates.startDate || !$scope.dates.startTime)
         $scope.dates.startDateTime = null;
       $scope.dates.startDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds($scope.dates.startDate, $scope.dates.startTime));
+        DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.startDate),
+          $scope.dates.startTime));
     };
     // called when the time or date change
     $scope.buildEndDatetime = function() {
       if(!$scope.dates.endDateTime || !$scope.dates.endTime)
         $scope.dates.endDateTime = null;
       $scope.dates.endDateTime = DateUtils.toRailsDate(
-        DateUtils.addSeconds($scope.dates.endDate, $scope.dates.endTime));
+        DateUtils.addSeconds(
+          DateUtils.adjustDatepickerOffsetBug($scope.dates.endDate),
+          $scope.dates.endTime));
     };
   }
 ]);
