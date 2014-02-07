@@ -139,6 +139,10 @@ es-CL:
       title: "Creando promoción"
       promo_title: "Para el evento \"%{event_name}\""
       activation_codes_title: "Códigos de activación"
+      activation_codes_options:
+        no_code: No se necesita código de activación para acceder a esta promoción.
+        single: Ingresar un único código de activación.
+        xls: Subir un listado de códigos de activación.
       xls_file_link: plantilla de ejemplo
       xls_file_help: |
         <ul>

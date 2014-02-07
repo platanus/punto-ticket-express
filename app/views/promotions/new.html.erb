@@ -83,16 +83,16 @@
 
             <table style="margin-bottom: 20px;">
               <tr>
-                <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="none"></td>
-                <td>No se necesita código de activación para acceder a esta promoción</td>
+                <td><input style="margin-right: 5px;" name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="none"></td>
+                <td><%= t('.activation_codes_options.no_code') %></td>
               </tr>
               <tr>
                 <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="single"></td>
-                <td>Ingresar un único código de activación</td>
+                <td><%= t('.activation_codes_options.single') %></td>
               </tr>
               <tr>
                 <td><input name="promotion[code_type]" type="radio" ng-model="promotion.codeType" value="multiple"></td>
-                <td>Subir un listado de códigos de activación</td>
+                <td><%= t('.activation_codes_options.xls') %></td>
               </tr>
             </table>
 
