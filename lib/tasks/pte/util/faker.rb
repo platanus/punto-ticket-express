@@ -214,7 +214,7 @@ module PTE
           raise Exception.new("Invalid promo type")
         end
 
-        promo = Promotion.create!(data)
+        promo = ::Promotion.create!(data)
         create_promotion_codes(promo) if random_boolean
       end
 
