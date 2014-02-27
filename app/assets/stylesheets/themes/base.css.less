@@ -1,0 +1,101 @@
+body {
+  background-color: @background;
+  h1 {
+    color: @color-headings;
+  }
+}
+
+.navbar.persistent-header .persistent-header-inner{
+  background-image: -moz-linear-gradient(top, @gradient, @gradient);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@gradient), to(@gradient));
+  background-image: -webkit-linear-gradient(top, @gradient, @gradient);
+  background-image: -o-linear-gradient(top, @gradient, @gradient);
+  background-image: linear-gradient(to bottom, @gradient, @gradient);
+  background-color: @background-fixed !important;
+  border-top: 1px @border-top solid;
+  border-bottom: 1px @border-bottom solid;
+    .container{
+      .page-header{
+        background-color: @background-header;
+          .btn{
+            color: @color-button-header;
+            border-color: @border-button-header;
+            background-color: @background-button-header;
+          }
+          .btn:hover{
+            color: @color-button-header-hover;
+            border-color: @border-button-header-hover;
+            background-color: @background-button-header-hover;
+          }
+      }
+    }
+}
+
+.page-header{
+  border-bottom: 1px solid @border-bottom-sub-header;
+}
+
+.row{
+  .panel{
+    background-color: @background-panel;
+  }
+    .panel-primary{
+      .panel-heading.panel-title{
+        background-color: @background-panel-primary;
+          .table-colored{
+            tbody{
+              tr{
+                border-left: 5px solid #2C3E50;
+              }
+            }
+          }
+      }
+      .btn-success{
+        color: @color-button-panel;
+        background-color: @background-button-panel;
+        border-color: @border-button-panel;
+      }
+      .btn-success:hover{
+        color: @color-button-panel-hover;
+        background-color: @background-button-panel-hover;
+        border-color: @border-button-panel-hover;
+      }
+    }
+}
+
+.container {
+  color: @color-container !important;
+  .panel {
+    border-color: @border-panel;
+    color: @color-panel;
+    .panel-heading {
+      color: @color-heading-panel;
+      border-color: @border-heading-panel;
+      background-color: @background-heading-panel;
+    }
+  }
+}
+
+.table-colored {
+  tbody{
+    tr:nth-child(1n){
+      border-color: @border-event;
+    }
+  }
+}
+
+footer{
+  .container{
+    p{
+      a{
+        color: @color-platanus-link;
+      }
+      a:hover{
+        color: @color-platanus-link-hover;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+

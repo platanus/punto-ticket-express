@@ -1,3 +1,47 @@
-.container {
-	color: #EDE2C0 !important;
-}
+@background: #EDE2C0;
+
+/*HEADER*/
+@background-fixed: @background;
+@background-header: @background;
+@gradient: @background;
+@color-headings: #D14D4D;
+@border-top: @color-headings;
+@border-bottom: @color-headings;
+@border-bottom-sub-header: @color-headings;
+
+/*HEADER BUTTONS*/
+@color-button-header: white;
+@border-button-header: @color-headings;
+@background-button-header: @color-headings;
+@color-button-header-hover: @color-button-header;
+@border-button-header-hover: rgba(209,77,77,0.7);
+@background-button-header-hover: @border-button-header-hover;
+
+/*PRIMARY PANEL*/
+@background-panel-primary: @border-bottom-sub-header;
+
+/*SIDE PANELS*/
+@background-heading-panel: @border-button-header-hover;
+
+/*PANELS*/
+@background-panel: @color-button-header;
+@color-heading-panel: @color-button-header;
+@color-panel: #666;
+@color-container: @color-headings;
+@border-heading-panel: @color-headings;
+@border-panel: @color-headings;
+@border-event: @color-headings;
+
+/*PANEL BUTTON*/
+@color-button-panel: @color-button-header;
+@background-button-panel: @color-headings;
+@border-button-panel: @color-headings;
+@color-button-panel-hover: @color-button-header;
+@background-button-panel-hover: @border-button-header-hover;
+@border-button-panel-hover: @border-button-header-hover;
+
+/* FOOTER */
+@color-platanus-link: @background;
+@color-platanus-link-hover: @border-button-header-hover;
+
+@import "themes/base.css.less";

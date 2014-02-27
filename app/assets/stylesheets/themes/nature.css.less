@@ -1,19 +1,50 @@
-body {
-	background-color: #108A93;
-	h1 {
-		color: #FFF !important;
-	}
-}
+@background: #108A93;
 
-.container {
-	color: #FFF !important;
-	.panel {
-		border-color: #0B7736;
-		color: #666666;
-		.panel-heading {
-			color: #666666;
-			border-color: #09B354;
-			background-color: #89E570;
-		}
-	}
-}
+/*HEADER*/
+@background-fixed: @background;
+@background-header: @background;
+@gradient: @background;
+@color-headings: #FFF;
+@border-top: #09B354;
+@border-bottom: @border-top;
+@border-bottom-sub-header: #89E570;
+
+/*HEADER BUTTONS*/
+@color-button-header: white;
+@border-button-header: #e48a17;
+@background-button-header: @border-button-header;
+@color-button-header-hover: @color-button-header;
+@border-button-header-hover: #e5603b;
+@background-button-header-hover: @border-button-header-hover;
+
+/*PRIMARY PANEL*/
+@background-panel-primary: @border-bottom-sub-header;
+
+/*SIDE PANELS*/
+@background-heading-panel: rgba(137,229,112,0.5);
+
+/*PANELS*/
+@background-panel: @color-button-header;
+@color-heading-panel: #666666;
+@color-panel: @color-heading-panel;
+@color-container: @color-headings;
+@border-heading-panel: @border-top;
+@border-panel: #0B7736;
+@border-event: @border-button-header-hover;
+
+/*PANEL BUTTON*/
+@color-button-panel: @color-button-header;
+@background-button-panel: #f1ad4b;
+@border-button-panel: #d5882a;
+@color-button-panel-hover: @color-button-header;
+@background-button-panel-hover: @border-button-panel;
+@border-button-panel-hover: @border-button-panel;
+
+/* FOOTER */
+@color-platanus-link: @background;
+@color-platanus-link-hover: @border-button-header;
+
+@import "themes/base.css.less";
+
+
+
