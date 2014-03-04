@@ -46,7 +46,15 @@ PuntoTicketExpress::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += ['themes/*']
+  config.assets.precompile += [
+    'themes/default.css',
+    'themes/azul.css',
+    'themes/burnout.css',
+    'themes/dark.css',
+    'themes/jelly.css',
+    'themes/nature.css'
+  ]
+
 
   # Mailer configuration
   config.action_mailer.delivery_method = :ses
