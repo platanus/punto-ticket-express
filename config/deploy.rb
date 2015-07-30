@@ -1,33 +1,40 @@
-# Set server stages
-set :stages, %w(production staging)
-set :default_stage, "staging"
-require 'capistrano/ext/multistage'
+#########################################
+# Negroku deploy.rb configuration file
+#
+# There are three types of settings here
+#  * Capistrano settings
+#  * Gem specific settings
+#  * Negroku settings
 
-# Server-side information.
-set :application, "punto-ticket-express"
-set :user,        "deploy"
-set :deploy_to,   "/home/#{user}/applications/#{application}"
+######################
+# Capistrano settings
+# You can customize this settings at your will.
+# Here you can find information about capistrano settings
+# http://capistranorb.com/documentation/getting-started/preparing-your-application/
+#
+# Also Negroku sets some defaults that you can override
+# here you can learn what are those defaults
+# https://github.com/platanus/negroku/blob/master/lib/negroku/deploy.rb
 
-# Repository (if any) configuration.
-set :deploy_via, :remote_cache
-set :repository, "git@github.com:platanus/punto-ticket-express.git"
-# set :git_enable_submodules, 1
+set :application,   'punto-ticket-express'
+set :repo_url,      'git@github.com:platanus/punto-ticket-express.git'
+set :deploy_to,     "/home/deploy/applications/#{fetch(:application)}"
 
-# Delayed jobs
-require "delayed/recipes"
-after "deploy:stop",    "delayed_job:stop"
-after "deploy:start",   "delayed_job:start"
-after "deploy:restart", "delayed_job:restart"
+# Default value for :linked_files is []
+# set :linked_files, fetch(:linked_files, []) + %w{}
 
-# Database
-# set :migrate_env,    "migration"
+# Default value for linked_dirs is []
+# set :linked_dirs, fetch(:linked_dirs, []) + %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
+######################
 # Unicorn
-set :unicorn_workers, 1
+# You can find the default setting here
+# https://github.com/tablexi/capistrano3-unicorn
+#
+# Also negroku adds some unicorn settings, here are the defaults
+# https://github.com/platanus/negroku/blob/master/lib/negroku/deploy/unicorn.rb
+# This are some example you might want to change that will not brake anything
 
-set :use_ssl, true
-
-set :whenever_roles, [:web, :app]
-require "whenever/capistrano"
-
-after "deploy", "whenever:update_crontab"
+# set :unicorn_template_type, "rails_activerecord"
+# set :unicorn_workers, 1
+# set :unicorn_workers_timeout, 30

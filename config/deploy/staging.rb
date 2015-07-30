@@ -7,7 +7,7 @@ server "kross.platan.us", :web, :app, :db, primary: true
 set :domains, 		"pt-express-staging.platan.us"
 
 # Source
-set :branch,     	"staging"		# Optional, defaults to master
+set :branch,     	"master"		# Optional, defaults to master
 # set :remote,   	"origin"			# Optional, defaults to origin
 
 # Rails
