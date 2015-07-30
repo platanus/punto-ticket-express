@@ -38,3 +38,5 @@ set :deploy_to,     "/home/deploy/applications/#{fetch(:application)}"
 # set :unicorn_template_type, "rails_activerecord"
 # set :unicorn_workers, 1
 # set :unicorn_workers_timeout, 30
+
+set :delayed_job_bin_path, 'script'

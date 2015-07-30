@@ -11,7 +11,7 @@ set :nginx_domains, 'pte-staging.platan.us'
 set :branch,        'master'    # Optional, defaults to master
 
 # Rails configuration
-# set :rails_env,   'production'
+set :rails_env,   'production'
 
 # Eye monitoring notifications
 # set :eye_notification_contact, :dev_team      # Optional, defaults to :monitor
