@@ -18,7 +18,7 @@ gem 'validates_email_format_of'
 gem 'colorize'
 gem 'puntopagos'
 gem 'yard'
-gem 'whenever', :require => false
+gem 'whenever'
 gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
 gem 'daemons'
@@ -62,7 +62,7 @@ group :test do
 end
 
 group :development do
-  gem 'negroku', '~> 1.1.4'
+  gem 'negroku', '~> 2.6.0'
 end
 
 
