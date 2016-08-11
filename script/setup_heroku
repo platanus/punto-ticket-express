@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Setup heroku application remotes
+if heroku auth:whoami &> /dev/null; then
+  if heroku apps:info --app punto-ticket-staging &> /dev/null; then
+    git remote add staging git@heroku.com punto-ticket-staging.git || true
+    git config heroku.remote staging
+    echo 'You are a collaborator on the  punto-ticket-staging" Heroku app'
+  else
+    echo 'Ask for access to the  punto-ticket-staging" Heroku app'
+  fi
+
+  if heroku apps:info --app punto-ticket-production &> /dev/null; then
+    git remote add production git@heroku.com punto-ticket-production.git || true
+    echo 'You are a collaborator on the  punto-ticket-production" Heroku app'
+  else
+    echo 'Ask for access to the  punto-ticket-production" Heroku app'
+  fi
+else
+  echo 'You need to login to heroku. Run "heroku login"'
+fi

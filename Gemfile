@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
-gem 'mysql2'
+gem 'pg'
 gem 'devise'
 gem 'chronic'
 gem 'activeadmin', '0.6.1'
@@ -27,6 +27,8 @@ gem 'aws-sdk', "~> 1.22.1"
 gem 'will_paginate', '~> 3.0'
 gem 'active_decorator'
 gem 'date_validator'
+gem 'puma'
+gem 'clockwork'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -42,7 +44,7 @@ group :assets do
 end
 
 group :production do
-  gem 'unicorn'
+  gem 'rack-timeout'
 end
 
 group :development, :test do
@@ -55,37 +57,13 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'guard-rspec'
-end
-
-group :test do
-  gem 'shoulda-matchers'
-end
-
-group :development do
-end
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-gem 'puma'
-gem 'clockwork'
-
-group :production do
-  gem 'rack-timeout'
-end
-
-group :development, :test do
-  gem 'pry-rails'
-  gem 'pry-byebug'
   gem 'dotenv-rails'
 end
 
 group :test do
+  gem 'shoulda-matchers'
   gem 'rspec_junit_formatter', '0.2.2'
+end
+
+group :production do
 end

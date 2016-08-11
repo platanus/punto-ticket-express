@@ -58,7 +58,7 @@ module PTE
             address: complete_address,
             contact_email: ::Faker::Internet.email,
             contact_name: ::Faker::Name.name,
-            description: ::Faker::Lorem.paragraphs([*2..6].sample),
+            description: ::Faker::Name.name,
             phone: ::Faker::PhoneNumber.phone_number,
             rut: valid_ruts.sample,
             website: ::Faker::Internet.url,

@@ -1,10 +1,10 @@
 development: &default
-  adapter: mysql2
-  database: p_ticket_ex_development
+  adapter: postgresql
+  database: punto_ticket_development
   encoding: utf8
-  username: root
-  host: <%= ENV["BOXEN_MYSQL_HOST"] || ENV["MYSQL_HOST"] || "127.0.0.1" %>
-  port: <%= ENV["BOXEN_MYSQL_PORT"] || ENV["MYSQL_PORT"] || 3306 %>
+  host: <%= ENV["BOXEN_POSTGRESQL_HOST"] || ENV["POSTGRESQL_HOST"] || "127.0.0.1" %>
+  port: <%= ENV["BOXEN_POSTGRESQL_PORT"] || ENV["POSTGRESQL_PORT"] || 5432 %>
+  username: <%= ENV["POSTGRESQL_USER"] %>
   min_messages: warning
   pool: <%= Integer(ENV.fetch("DB_POOL", 5)) %>
   reaping_frequency: <%= Integer(ENV.fetch("DB_REAPING_FREQUENCY", 10)) %>
@@ -12,7 +12,7 @@ development: &default
 
 test:
   <<: *default
-  database: p_ticket_ex_test
+  database: punto_ticket_test
 
 production: &deploy
   adapter: mysql2
