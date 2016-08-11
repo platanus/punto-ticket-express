@@ -31,6 +31,7 @@ gem 'active_decorator'
 gem 'date_validator'
 gem 'puma'
 gem 'clockwork'
+gem 'faker'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -53,7 +54,6 @@ group :development, :test do
   gem 'thin'
   gem 'hpricot'
   gem 'byebug'
-  gem 'faker'
   gem 'letter_opener'
   gem 'zeus'
   gem 'rspec-rails'
