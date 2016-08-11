@@ -84,3 +84,4 @@ PuntoTicketExpress::Application.configure do
   config.action_mailer.default_url_options = { host: 'platan.us' }
 
 end
+Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i

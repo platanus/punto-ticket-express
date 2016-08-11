@@ -18,7 +18,6 @@ gem 'validates_email_format_of'
 gem 'colorize'
 gem 'puntopagos'
 gem 'yard'
-gem 'whenever'
 gem 'rqrcode'
 gem 'paperclip', "~> 3.0"
 gem 'daemons'
@@ -31,6 +30,7 @@ gem 'date_validator'
 
 # Gems used only for assets and not required
 # in production environments by default.
+
 group :assets do
   gem "therubyracer"
   gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
@@ -62,9 +62,7 @@ group :test do
 end
 
 group :development do
-  gem 'negroku', '~> 2.6.0'
 end
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -74,3 +72,20 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
+
+gem 'puma'
+gem 'clockwork'
+
+group :production do
+  gem 'rack-timeout'
+end
+
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'dotenv-rails'
+end
+
+group :test do
+  gem 'rspec_junit_formatter', '0.2.2'
+end

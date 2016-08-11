@@ -22,3 +22,8 @@
 /doc
 .yardoc
 
+.rubocop-http*
+vendor/assets/bower_components
+/public/system/*
+.env.local
+.env
