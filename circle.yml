@@ -6,13 +6,13 @@ dependencies:
   override:
     - docker-compose -f docker-compose.ci.yml pull
     - docker-compose -f docker-compose.ci.yml build test
-    - bin/cibuild services
-    - bin/cibuild deps
+    - script/cibuild services
+    - script/cibuild deps
 
 database:
   override:
-    - bin/cibuild db
+    - script/cibuild db
 
 test:
   override:
-    - bin/cibuild tests
+    - script/cibuild tests
