@@ -7,7 +7,7 @@ This is a Rails application, initially generated using [Potassium](https://githu
 Assuming you've just cloned the repo, run this script to setup the project in your
 machine:
 
-    $ ./bin/setup
+    $ ./script/setup
 
 It assumes you have a machine equipped with Ruby, Mysql, etc. If not, set up
 your machine with [boxen].

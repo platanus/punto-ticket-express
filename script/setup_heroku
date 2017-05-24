@@ -2,19 +2,19 @@
 
 # Setup heroku application remotes
 if heroku auth:whoami &> /dev/null; then
-  if heroku apps:info --app pl-punto-ticket-staging &> /dev/null; then
-    git remote add staging git@heroku.com:pl-punto-ticket-staging.git || true
+  if heroku apps:info --app pl-ptexpress-staging &> /dev/null; then
+    git remote add staging git@heroku.com:pl-ptexpress-staging.git || true
     git config heroku.remote staging
-    echo 'You are a collaborator on the "pl-punto-ticket-staging" Heroku app'
+    echo 'You are a collaborator on the "pl-ptexpress-staging" Heroku app'
   else
-    echo 'Ask for access to the "pl-punto-ticket-staging" Heroku app'
+    echo 'Ask for access to the "pl-ptexpress-staging" Heroku app'
   fi
 
-  if heroku apps:info --app pl-punto-ticket-production &> /dev/null; then
-    git remote add production git@heroku.com:pl-punto-ticket-production.git || true
-    echo 'You are a collaborator on the "pl-punto-ticket-production" Heroku app'
+  if heroku apps:info --app pl-ptexpress-production &> /dev/null; then
+    git remote add production git@heroku.com:pl-ptexpress-production.git || true
+    echo 'You are a collaborator on the "pl-ptexpress-production" Heroku app'
   else
-    echo 'Ask for access to the "pl-punto-ticket-production" Heroku app'
+    echo 'Ask for access to the "pl-ptexpress-production" Heroku app'
   fi
 else
   echo 'You need to login to heroku. Run "heroku login"'
